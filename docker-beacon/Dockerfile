@@ -49,6 +49,7 @@ COPY ./target/profile/default/kafka-producer.properties /kafka-producer.properti
 COPY ./target/profile/default/kafka-consumer.properties /kafka-consumer.properties_default
 COPY ./target/profile/default/common-db.properties /common-db.properties_default
 COPY ./target/profile/default/elasticsearch.properties /elasticsearch.properties_default
+COPY ./target/profile/default/kafka2es.properties /kafka2es.properties
 
 
 COPY ./target/profile/cat/kafka-producer.properties_cat /kafka-producer.properties_cat
