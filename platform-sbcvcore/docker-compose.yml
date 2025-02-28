@@ -1,0 +1,5 @@
+version: "3.1"
+services:
+  beacon-sbcv:
+    image: dk-reg.mas:5000/beacon-sbcv:2.0       
+    build: .

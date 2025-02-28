@@ -1,0 +1,14 @@
+:host { display: contents; }
+/* ::ng-deep .ng-select .ng-select-container , ::ng-deep .ng-select.ng-select-single .ng-select-container{
+  background-color:  #f5f8fa !important;
+  
+  
+} */
+
+/* ::ng-deep .ng-select .ng-control{
+    height: 20 px !important; 
+} */
+
+::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+	border-color: lightcoral;
+}

@@ -1,0 +1,520 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 pt-2 bg-white h-14">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r">
+				Campaign Details</h3>
+			<div class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400">
+				<span routerLink='/dashboard' (keydown.enter)="routing('/dashboard')"
+					class="hover:text-blue-500 cursor-pointer  focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50 rounded">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-3.w-3.5 w-3.5 inline-flex" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+					</svg>
+				</span>
+				<span class="text-xxs font-mono">/</span>
+				<span
+					class="hover:text-blue-500 cursor-pointer  focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50 rounded"
+					routerLink='/campaigns' (keydown.enter)="routing('/campaigns')">Campaigns List</span>
+			</div>
+		</div>
+		<div class="relative mr-4">
+			<!-- back button -->
+			<div tabindex="0" (click)="back()" (keydown.enter)="enterBack($event)"
+				class="flex items-center justify-center space-x-2 px-3 py-1.5 mb-3 group cursor-pointer bg-blue-100 rounded shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50">
+				<div class="text-blue-600 group-hover:text-blue-500">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd"
+							d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z"
+							clip-rule="evenodd" />
+					</svg>
+				</div>
+				<span class="text-xs text-blue-600 font-semibold group-hover:text-blue-500">Back</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-4">
+			<!-- Replace with your content -->
+			<!-- card section -->
+			<div class="container mx-auto">
+				<div class="flex flex-wrap space-y-4 lg:space-y-0">
+					<div class="lg:w-2/3 w-full pb-6 md:pb-0 md:pr-6">
+
+						<div class="rounded border-gray-300 shadow-sm">
+							<div class="flex items-center justify-between w-full">
+								<div class="w-full rounded h-full space-y-5">
+									<!-- left card 1 -->
+									<div *ngIf="!showSkeleton" class="flex flex-col lg:flex-row w-full items-center bg-white">
+										<div class="w-full lg:w-2/3 rounded-l relative">
+											<!-- campaign details -->
+											<app-campaigncard-detail [campaign]="campaignDetail">
+											</app-campaigncard-detail>
+										</div>
+										<div
+											class="w-full lg:w-1/3 h-64 border-t lg:border-t-0 lg:border-l dark:border-gray-500 lg:rounded-r">
+											<!-- count card -->
+											<div class="mx-auto bg-white flex flex-col items-start px-6 lg:px-2.5 py-0 pb-8 w-full">
+												<div class="mt-4 flex justify-between flex-col gap-y-4 w-full">
+													<div class="flex flex-col gap-y-1 items-start">
+														<span
+															class="text-xxs text-gray-500 tracking-wide font-thin uppercase border-gray-300">Entity
+															Id</span>
+														<span class="text-xs text-gray-600 tracking-wide font-bold">{{campaignDetail?.dlt_entity_id
+															!='' ? campaignDetail?.dlt_entity_id:'N/A' }}</span>
+													</div>
+													<div class="flex flex-col gap-y-1 items-start">
+														<span class="text-xxs text-gray-500 tracking-wide font-thin uppercase border-gray-300">DLT
+															Template Id</span>
+														<span
+															class="text-xs text-gray-600 tracking-wide font-bold">{{campaignDetail?.dlt_template_id
+															!=''?campaignDetail?.dlt_template_id:'N/A' }}</span>
+													</div>
+													<div class="flex flex-col gap-y-1 items-start">
+														<span
+															class="text-xxs text-gray-500 tracking-wide font-thin uppercase border-gray-300">Remove
+															Duplicate</span>
+														<span
+															class="text-xs text-gray-600 tracking-wide font-bold">{{campaignDetail?.remove_dupe_yn}}</span>
+													</div>
+													<div class="flex flex-col gap-y-1 items-start">
+														<span
+															class="text-xxs text-gray-500 tracking-wide font-thin uppercase border-gray-300">Shorten
+															URL</span>
+														<span
+															class="text-xs text-gray-600 tracking-wide font-bold">{{campaignDetail?.shorten_url}}</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- skeleton campaign card -->
+									<div *ngIf="showSkeleton" class="rounded shadow p-4 relative bg-white">
+										<div class="sm:flex items-start">
+											<div class="ml-4 w-full">
+												<div class="sm:pt-0 pt-4">
+													<div class="bg-gray-200 h-5 w-1/2 animate-pulse"></div>
+													<!-- <p tabindex="0" class="focus:outline-none text-xl font-semibold leading-5 pt-1 text-gray-800 dark:text-gray-100">Campaign Name 1</p> -->
+													<div class="flex space-x-1 items-center mt-2">
+														<div class="bg-gray-200 h-4 w-1/5 animate-pulse"></div>
+													</div>
+												</div>
+
+												<div class="mt-4 pr-4 sm:pr-0 space-y-1">
+													<div class="bg-gray-200 h-5 animate-pulse"></div>
+													<div class="bg-gray-200 w-1/3 h-5 animate-pulse"></div>
+												</div>
+
+												<div class="sm:flex items-center mt-6 space-x-0 md:space-x-4">
+													<div tabindex="0" class="focus:outline-none flex items-center w-full space-x-2">
+														<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+														<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									<div *ngIf="isFile()=='file' && !showSkeleton"
+										class="px-4 rounded sm:px-6 lg:px-6 pt-5 pb-11 sm:border-r bg-white">
+										<div class="sm:flex items-center justify-between">
+											<div>
+												<p class="text-base font-bold leading-none text-gray-800">File Progress
+												</p>
+												<p class="text-xs leading-3 text-gray-600 mt-2">as of
+													{{campaignFileDeatil?.asof_ts}}</p>
+											</div>
+											<div
+												class="w-40 sm:w-auto mt-4 sm:mt-0 py-2 px-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-100 rounded">
+												<div class="py-1 px-2 bg-gray-100 flex items-center justify-center rounded-tl-sm rounded-bl-sm">
+													<p tabindex="0" class="focus:outline-none text-xxs font-bold text-center text-gray-500">
+														{{campaignFileDeatil?.processed_count_human}} processed</p>
+												</div>
+											</div>
+										</div>
+										<div class="mt-9">
+											<div class="flex justify-between">
+												<p class="text-sm font-normal tracking-wide leading-none text-gray-600">
+													{{campaignFileDeatil?.completed_count}} file completed out of
+													{{campaignFileDeatil?.count}}</p>
+												<p class="text-sm font-semibold tracking-wide leading-none text-green-600">
+													{{percentageConvertor(campaignFileDeatil?.completion_percentage)}}</p>
+											</div>
+											<div class="w-full bg-gray-200 rounded-full h-1 mt-4">
+												<div class="bg-green-500 w-3/4 rounded-full h-1"
+													[style.width]="percentageConvertor(campaignFileDeatil?.completion_percentage)">
+												</div>
+											</div>
+										</div>
+
+										<div class="mt-8">
+											<!--files-->
+											<div *ngFor="let file of campaignFiles" class="lg:flex justify-between items-end w-full mt-10">
+												<div class="w-full">
+													<div class="flex space-x-2 items-center">
+														<!-- icon for xls -->
+														<svg *ngIf="file.filetype=='.xls'" class="w-5 h-5" version="1.1" id="Layer_1" x="0px"
+															y="0px" viewBox="0 0 512 512" style="enable-background: new 0 0 512 512"
+															xml:space="preserve">
+															<path style="fill: #e2e5e7"
+																d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+															<path style="fill: #b0b7bd" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+															<polygon style="fill: #cad1d8" points="480,224 384,128 480,128 " />
+															<path style="fill: #84bd5a"
+																d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16  V416z" />
+															<g>
+																<path style="fill: #ffffff"
+																	d="M144.336,326.192l22.256-27.888c6.656-8.704,19.584,2.416,12.288,10.736   c-7.664,9.088-15.728,18.944-23.408,29.04l26.096,32.496c7.04,9.6-7.024,18.8-13.936,9.328l-23.552-30.192l-23.152,30.848   c-6.528,9.328-20.992-1.152-13.696-9.856l25.712-32.624c-8.064-10.112-15.872-19.952-23.664-29.04   c-8.048-9.6,6.912-19.44,12.8-10.464L144.336,326.192z" />
+																<path style="fill: #ffffff"
+																	d="M197.36,303.152c0-4.224,3.584-7.808,8.064-7.808c4.096,0,7.552,3.6,7.552,7.808v64.096h34.8   c12.528,0,12.8,16.752,0,16.752H205.44c-4.48,0-8.064-3.184-8.064-7.792v-73.056H197.36z" />
+																<path style="fill: #ffffff"
+																	d="M272.032,314.672c2.944-24.832,40.416-29.296,58.08-15.728c8.704,7.024-0.512,18.16-8.192,12.528   c-9.472-6-30.96-8.816-33.648,4.464c-3.456,20.992,52.192,8.976,51.296,43.008c-0.896,32.496-47.968,33.248-65.632,18.672   c-4.24-3.456-4.096-9.072-1.792-12.544c3.328-3.312,7.024-4.464,11.392-0.88c10.48,7.152,37.488,12.528,39.392-5.648   C321.28,339.632,268.064,351.008,272.032,314.672z" />
+															</g>
+															<path style="fill: #cad1d8"
+																d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+															<g></g>
+														</svg>
+														<!-- icon for xlsx -->
+														<svg *ngIf="file.filetype=='.xlsx'" class="w-5 h-5" viewBox="0 0 96 96" fill="#FFF"
+															stroke-miterlimit="10" stroke-width="2">
+															<path stroke="#979593"
+																d="M67.1716,7H27c-1.1046,0-2,0.8954-2,2v78 c0,1.1046,0.8954,2,2,2h58c1.1046,0,2-0.8954,2-2V26.8284c0-0.5304-0.2107-1.0391-0.5858-1.4142L68.5858,7.5858 C68.2107,7.2107,67.702,7,67.1716,7z" />
+															<path fill="none" stroke="#979593" d="M67,7v18c0,1.1046,0.8954,2,2,2h18" />
+															<path fill="#C8C6C4"
+																d="M51 61H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 60.5523 51.5523 61 51 61zM51 55H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 54.5523 51.5523 55 51 55zM51 49H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 48.5523 51.5523 49 51 49zM51 43H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 42.5523 51.5523 43 51 43zM51 67H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 66.5523 51.5523 67 51 67zM79 61H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 60.5523 79.5523 61 79 61zM79 67H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 66.5523 79.5523 67 79 67zM79 55H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 54.5523 79.5523 55 79 55zM79 49H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 48.5523 79.5523 49 79 49zM79 43H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 42.5523 79.5523 43 79 43zM65 61H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 60.5523 65.5523 61 65 61zM65 67H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 66.5523 65.5523 67 65 67zM65 55H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 54.5523 65.5523 55 65 55zM65 49H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 48.5523 65.5523 49 65 49zM65 43H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 42.5523 65.5523 43 65 43z" />
+															<path fill="#107C41"
+																d="M12,74h32c2.2091,0,4-1.7909,4-4V38c0-2.2091-1.7909-4-4-4H12c-2.2091,0-4,1.7909-4,4v32 C8,72.2091,9.7909,74,12,74z" />
+															<path
+																d="M16.9492,66l7.8848-12.0337L17.6123,42h5.8115l3.9424,7.6486c0.3623,0.7252,0.6113,1.2668,0.7471,1.6236 h0.0508c0.2617-0.58,0.5332-1.1436,0.8164-1.69L33.1943,42h5.335l-7.4082,11.9L38.7168,66H33.041l-4.5537-8.4017 c-0.1924-0.3116-0.374-0.6858-0.5439-1.1215H27.876c-0.0791,0.2684-0.2549,0.631-0.5264,1.0878L22.6592,66H16.9492z" />
+														</svg>
+														<!-- icon for csv -->
+														<svg *ngIf="file.filetype=='.csv'" class="h-6 w-6 text-purple-500" data-name="Layer 1"
+															viewBox="0 0 64 64">
+															<path fill="#eee"
+																d="M55,18H42V5a1,1,0,0,0-1-1H13a1,1,0,0,0-1,1V33a1,1,0,0,0,1,1H40V50H13a1,1,0,0,0-1,1v8a1,1,0,0,0,1,1H55a1,1,0,0,0,1-1V19A1,1,0,0,0,55,18Z" />
+															<rect width="34" height="20" x="8" y="32" fill="currentColor" rx="1" ry="1" />
+															<path fill="#e0e0e0"
+																d="M55.71,18.29l-14-14A1,1,0,0,0,40,5V19a1,1,0,0,0,1,1H55a1,1,0,0,0,.71-1.71Z" />
+															<path fill="#fff"
+																d="M19 43.32h1.8a3.15 3.15 0 0 1-.6 1.52A3.22 3.22 0 0 1 19 45.8a3.86 3.86 0 0 1-1.61.35A3.58 3.58 0 0 1 14.62 45a4.19 4.19 0 0 1-1.08-3 4.29 4.29 0 0 1 1.06-3 3.47 3.47 0 0 1 2.69-1.18A3.52 3.52 0 0 1 20 39a3.43 3.43 0 0 1 .79 1.76H19a1.57 1.57 0 0 0-.59-.88 1.91 1.91 0 0 0-1.1-.31 1.86 1.86 0 0 0-1.49.68A2.66 2.66 0 0 0 15.26 42a2.6 2.6 0 0 0 .58 1.75 1.88 1.88 0 0 0 1.5.67A1.66 1.66 0 0 0 19 43.32zM22.35 43.62H24a1.37 1.37 0 0 0 1.49 1.08 1.42 1.42 0 0 0 .88-.25.8.8 0 0 0 .33-.67.77.77 0 0 0-.55-.78q-.11 0-1-.3a5.89 5.89 0 0 1-1.78-.7 2 2 0 0 1-.82-1.7 2.27 2.27 0 0 1 .75-1.78 2.85 2.85 0 0 1 2-.67 3.15 3.15 0 0 1 2 .62 2 2 0 0 1 .82 1.6H26.45a1 1 0 0 0-1.13-.78 1.25 1.25 0 0 0-.77.22.71.71 0 0 0-.29.59.65.65 0 0 0 .36.62 5.64 5.64 0 0 0 1.25.36 4.82 4.82 0 0 1 1.58.56 2.17 2.17 0 0 1 1 1.91 2.38 2.38 0 0 1-1.13 2.12 3.41 3.41 0 0 1-1.87.46A3 3 0 0 1 22.83 45 2.9 2.9 0 0 1 22.35 43.62zM32.26 46l-3-8h1.79L33 43.4 34.67 38h1.75l-2.65 8z" />
+														</svg>
+
+														<p class="text-base font-medium leading-none text-gray-700 whitespace-wrap truncate "
+															tooltip="{{file.filename_ori}}" [options]="myOptions">{{file.filename_ori}}</p>
+													</div>
+													<div class="lg:flex lg:flex-row flex-col items-center mt-4 justify-between">
+														<div class="flex space-x-1.5">
+															<div class="flex items-center">
+																<div class="focus:outline-none">
+																	<!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+																		<path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+																	</svg> -->
+																</div>
+																<p class="text-xs leading-none text-gray-600 ml-1">
+																	{{file.total_human}} total uploaded</p>
+															</div>
+															<div class="flex items-center">
+																<span tabindex="0"
+																	class="focus:outline-none text-sm font-medium leading-1 text-gray-500 mt-1 pb-1">•</span>
+															</div>
+															<div class="flex items-center">
+																<p class="text-xs leading-none text-gray-600 ml-0.5">
+																	{{file.valid_human}} submitted</p>
+															</div>
+															<div class="flex items-center">
+																<span tabindex="0"
+																	class="focus:outline-none text-sm font-medium leading-1 text-gray-500 mt-1 pb-1">•</span>
+															</div>
+															<div class="flex items-center">
+																<p class="text-xs leading-none text-gray-600 ml-0.5">
+																	{{file.invalid_human}} rejected</p>
+															</div>
+															<div class="flex items-center">
+																<span tabindex="0"
+																	class="focus:outline-none text-sm font-medium leading-1 text-gray-500 mt-1 pb-1">•</span>
+															</div>
+															<div class="flex items-center">
+
+																<p class="text-xs leading-none ml-0.5 text-gray-600">
+																	<span
+																		[ngClass]="file.failed > 1 ? 'text-rose-600' : 'text-gray-600'">{{file.failed_human}}</span>
+																	failed
+																</p>
+															</div>
+														</div>
+														<div>
+															<span
+																[ngClass]="file.status=='completed' ? 'bg-green-50 text-green-600 ': file.status =='inprocess' ? 'bg-yellow-50 text-yellow-600':'bg-red-50 text-red-600' "
+																class="mt-4 inline-flex lg:mt-0 focus:outline-none px-2.5 py-1.5   rounded text-xs leading-none font-semibold">{{file.status
+																| titlecase}}</span>
+
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<!-- skeleton for file progress card -->
+									<div *ngIf="showSkeleton" class="px-4 rounded sm:px-6 lg:px-6 pt-5 pb-11 sm:border-r bg-white mt-6 ">
+										<app-campaign-file-progress-skeleton></app-campaign-file-progress-skeleton>
+									</div>
+
+
+									<!--group Progress-->
+									<div *ngIf="isFile()=='group' && !showSkeleton"
+										class="px-4 rounded sm:px-6 lg:px-6 pt-5 pb-11 sm:border-r bg-white">
+										<div class="sm:flex items-center justify-between">
+											<div>
+												<p class="text-base font-bold leading-none text-gray-800">Group Progress
+												</p>
+												<p class="text-xs leading-3 text-gray-600 mt-2">as of
+													{{campaignFileDeatil?.asof_ts}}</p>
+											</div>
+											<div
+												class="w-40 sm:w-auto mt-4 sm:mt-0 py-2 px-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-100 rounded">
+												<div class="py-1 px-2 bg-gray-100 flex items-center justify-center rounded-tl-sm rounded-bl-sm">
+													<p tabindex="0" class="focus:outline-none text-xxs font-bold text-center text-gray-500">
+														{{campaignFileDeatil?.processed_count_human}} processed</p>
+												</div>
+											</div>
+										</div>
+										<div class="mt-9">
+											<div class="flex justify-between">
+												<p class="text-sm font-normal tracking-wide leading-none text-gray-600">
+													{{campaignFileDeatil?.completed_count}} Group completed out of
+													{{campaignFileDeatil?.count}}</p>
+												<p class="text-sm font-semibold tracking-wide leading-none text-green-600">
+													{{percentageConvertor(campaignFileDeatil?.completion_percentage)}}
+												</p>
+											</div>
+											<div class="w-full bg-gray-200 rounded-sm h-2 mt-4">
+												<div class="bg-green-500 w-3/4 rounded-sm h-2"
+													[style.width]="percentageConvertor(campaignFileDeatil?.completion_percentage)">
+												</div>
+											</div>
+										</div>
+										<!--groups-->
+										<div class="mt-8">
+											<div *ngFor="let group of campaignFiles" class="lg:flex justify-between items-end w-full mt-10">
+												<div class="w-full">
+													<div class="flex space-x-2 items-center">
+														<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20"
+															fill="currentColor">
+															<path
+																d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+														</svg>
+														<p class="text-base font-medium leading-none text-gray-700 whitespace-wrap   "
+															tooltip="{{group.g_name}}" [options]="myOptions">{{group.g_name}}</p>
+													</div>
+													<div class="lg:flex lg:flex-row flex-col items-center mt-4 justify-between">
+														<div class="flex space-x-1.5">
+															<div class="flex items-center">
+																<div class="focus:outline-none">
+
+																</div>
+																<p class="text-xs leading-none text-gray-600 ml-1">
+																	{{group.total_human}} total uploaded</p>
+															</div>
+															<div class="flex items-center">
+																<span tabindex="0"
+																	class="focus:outline-none text-sm font-medium leading-1 text-gray-500 mt-1 pb-1">•</span>
+															</div>
+															<div class="flex items-center">
+																<p class="text-xs leading-none text-gray-600 ml-0.5">
+																	{{group.valid_human}} submitted</p>
+															</div>
+															<div class="flex items-center">
+																<span tabindex="0"
+																	class="focus:outline-none text-sm font-medium leading-1 text-gray-500 mt-1 pb-1">•</span>
+															</div>
+															<div class="flex items-center">
+																<p class="text-xs leading-none text-gray-600 ml-0.5">
+																	{{group.invalid_human}} rejected</p>
+															</div>
+															<div class="flex items-center">
+																<span tabindex="0"
+																	class="focus:outline-none text-sm font-medium leading-1 text-gray-500 mt-1 pb-1">•</span>
+															</div>
+															<div class="flex items-center">
+																<p [ngClass]="group.failed > 1 ? 'text-rose-600' : 'text-gray-600'"
+																	class="text-xs leading-none  ml-0.5">
+																	{{group.failed_human}} failed</p>
+															</div>
+															<div class="flex items-center">
+																<span tabindex="0"
+																	class="focus:outline-none text-sm font-medium leading-1 text-gray-500 mt-1 pb-1">•</span>
+															</div>
+															<div class="flex items-center">
+																<p class="text-xs leading-none text-gray-600 ml-0.5">
+																	{{group.excluded_human}} excluded</p>
+															</div>
+														</div>
+														<div>
+															<span
+																[ngClass]="group.status=='completed' ? 'bg-green-100 text-green-700 ': group.status =='inprocess' ? 'bg-yellow-100 text-yellow-700':'bg-red-100 text-red-700' "
+																class="mt-4 inline-flex lg:mt-0 focus:outline-none px-2.5 py-1.5  rounded text-xs leading-none">{{group.status
+																| titlecase}}</span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="lg:w-1/3 w-full md:pr-6">
+						<!-- Remove class [ h-24 ] when adding a card block -->
+						<!-- Remove class [ border-gray-300 dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
+						<div class="rounded border-gray-300 relative">
+							<div class="flex items-center justify-center py-0 px-0">
+								<div *ngIf="!showSkeleton" class="lg:w-96 rounded shadow-sm p-5 bg-white w-full dark:bg-gray-800">
+									<div
+										[ngClass]="progressStats?.status == 'completed'? 'bg-green-100': progressStats?.status == 'inprocess'? 'bg-yellow-100': 'bg-rose-100' "
+										class="py-1 px-2 sm:top-1 top-1 absolute right-0  flex items-center justify-center rounded-tl-sm rounded-bl-sm">
+										<p tabindex="0"
+											[ngClass]="progressStats?.status=='completed' ? 'text-green-600 ': progressStats?.status=='inprocess' ? 'text-yellow-600':'text-red-600' "
+											class="focus:outline-none text-xxs font-semibold text-center ">
+											{{progressStats?.status | titlecase}}</p>
+									</div>
+
+									<div class="flex flex-col space-y-0.5 pb-2">
+										<h1 class="text-lg font-bold leading-7 text-gray-600 dark:text-gray-100 mt-2">
+											Progress</h1>
+										<div tabindex="0" class="focus:outline-none text-xxs flex space-x-1"><span
+												class="font-bold text-gray-500">{{progressStats?.total_processed_human}}</span><span
+												class="text-gray-500"> ({{progressStats?.total_processed}})</span></div>
+									</div>
+									<div class="flex items-end justify-between pt-7">
+										<div class="flex flex-col">
+											<a href="javascript:void(0)"
+												class="focus:outline-none focus:underline focus:text-gray-600 hover:text-gray-600 text-gray-700 dark:text-gray-100">
+												<h1 class="text-base font-medium leading-4">Submission</h1>
+											</a>
+											<p class="pt-1 text-xs leading-3 dark:text-gray-400 text-gray-600">
+												{{progressStats?.mtsuccess}} ({{progressStats?.mtsuccess_human}})</p>
+										</div>
+										<div>
+											<p class="text-sm font-semibold leading-4 text-indigo-700">
+												{{percentageConvertor(progressStats?.mtsuccesspercentage)}}</p>
+										</div>
+									</div>
+									<div class="w-full bg-indigo-50 h-1.5 mr-1 relative rounded-sm mt-3">
+										<div class="h-1.5 bg-indigo-500 rounded-sm"
+											[style.width]="percentageConvertor(progressStats?.mtsuccesspercentage)">
+										</div>
+									</div>
+									<div class="flex items-end justify-between pt-6">
+										<div class="flex flex-col">
+											<a href="javascript:void(0)"
+												class="focus:outline-none focus:underline focus:text-gray-600 hover:text-gray-600 text-gray-700 dark:text-gray-100">
+												<h1 class="text-base font-medium leading-4">Platform Rejections</h1>
+											</a>
+											<p class="pt-1 text-xs leading-3 dark:text-gray-400 text-gray-600">
+												{{progressStats?.mtrejected}} ({{progressStats?.mtrejected_human}})</p>
+										</div>
+										<div>
+
+											<p class="text-sm font-semibold leading-4 text-pink-700">
+												{{percentageConvertor(progressStats?.mtrejectedpercentage)}}
+											</p>
+										</div>
+									</div>
+									<div class="w-full bg-pink-50 h-1.5 mr-1 relative rounded-sm mt-3">
+										<div class="h-1.5 bg-pink-600 rounded-sm"
+											[style.width]="percentageConvertor(progressStats?.mtrejectedpercentage)">
+										</div>
+									</div>
+									<div class="flex items-end justify-between pt-6">
+										<div class="flex flex-col">
+											<a href="javascript:void(0)"
+												class="focus:outline-none focus:underline focus:text-gray-600 hover:text-gray-600 text-gray-700 dark:text-gray-100">
+												<h1 class="text-base font-medium leading-4">DN Success</h1>
+											</a>
+											<p class="pt-1 text-xs leading-3 dark:text-gray-400 text-gray-600">
+												{{progressStats?.dnsuccess}} ({{progressStats?.dnsuccess_human}})</p>
+										</div>
+										<div>
+											<p class="text-sm font-semibold leading-4 text-green-700">
+												{{percentageConvertor(progressStats?.dnsuccesspercentage)}}</p>
+										</div>
+									</div>
+									<div class="w-full bg-green-50 h-1.5 mr-1 relative rounded-sm mt-3">
+										<div class="h-1.5 bg-green-500 rounded-sm"
+											[style.width]="percentageConvertor(progressStats?.dnsuccesspercentage)"></div>
+									</div>
+									<div class="flex items-end justify-between pt-6">
+										<div class="flex flex-col">
+											<a href="javascript:void(0)"
+												class="focus:outline-none focus:underline focus:text-gray-600 hover:text-gray-600 text-gray-700 dark:text-gray-100">
+												<h1 class="text-base font-medium leading-4">DN Failure</h1>
+											</a>
+											<p class="pt-1 text-xs leading-3 dark:text-gray-400 text-gray-600">
+												{{progressStats?.dnfailed}} ({{progressStats?.dnfailed_human}})</p>
+										</div>
+										<div>
+											<p class="text-sm font-semibold leading-4 text-pink-700">
+												{{percentageConvertor(progressStats?.dnfailedpercentage)}}</p>
+										</div>
+									</div>
+									<div class="w-full bg-pink-50 h-1.5 mr-1 relative rounded-sm mt-3">
+										<div class="h-1.5 bg-pink-600 rounded-sm"
+											[style.width]="percentageConvertor(progressStats?.dnfailedpercentage)"></div>
+									</div>
+									<div class="flex items-end justify-between pt-6">
+										<div class="flex flex-col">
+											<a href="javascript:void(0)"
+												class="focus:outline-none focus:underline focus:text-gray-600 hover:text-gray-600 text-gray-700 dark:text-gray-100">
+												<h1 class="text-base font-medium leading-4">DN Pending</h1>
+											</a>
+											<p class="pt-1 text-xs leading-3 dark:text-gray-400 text-gray-600">
+												{{progressStats?.dnpending}} ({{progressStats?.dnpending_human}})</p>
+										</div>
+										<div>
+											<p class="text-sm font-semibold leading-4 text-yellow-600">
+												{{percentageConvertor(progressStats?.dnpendingpercentage)}}</p>
+										</div>
+									</div>
+									<div class="w-full bg-yellow-50 h-1.5 mr-1 relative rounded-sm mt-3">
+										<div class="h-1.5 bg-yellow-500 rounded-sm"
+											[style.width]="percentageConvertor(progressStats?.dnpendingpercentage)"></div>
+									</div>
+								</div>
+
+								<!-- skleton for progress card -->
+								<div *ngIf="showSkeleton" class="lg:w-96 rounded shadow-sm p-5 bg-white w-full dark:bg-gray-800">
+									<app-campaign-progress-skeleton></app-campaign-progress-skeleton>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- /End replace -->
+		</div>
+	</div>
+</main>

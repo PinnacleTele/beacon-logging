@@ -1,0 +1,10 @@
+version: '3'
+services:
+  # Angular Application
+  api:
+    image: dk-reg.mas:5000/njs:04feb2024
+    build: .
+    ports:
+      - "3000:3000"
+    volumes: ['./logs:/logs']
+  

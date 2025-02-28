@@ -1,0 +1,29 @@
+<form  *ngIf="selectDLTFormGroup" [formGroup]="selectDLTFormGroup">
+    <label for="mobile" class="block font-semibold text-gray-700">DLT Template <span class="text-red-600">*</span> </label>
+    <p class="mt-1 text-xxs sm:text-xs text-gray-500">Choose the DLT template to be used</p>
+    <div class="my-2 block w-full sm:w-1/2">
+        <ng-select
+		id="dlt"
+		placeholder="select DLT template"
+		name="dlt"
+		formControlName="dlt"
+		[items]="itemList"
+		[hideSelected]="true"
+		(change)="changeDLT($event)"
+		[editableSearchTerm]="true"	
+		autocomplete="off"
+		class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full  border-gray-300 rounded-md"
+		>
+		</ng-select>
+		<p
+			class="mt-2 text-xxs sm:text-xs text-red-600"
+			*ngIf="dlt.touched && dlt.errors?.required"
+		>DLT is required
+		</p>
+		<p
+			class="mt-2 text-xxs sm:text-xs text-gray-500"
+			*ngIf="(!dlt.touched && dlt.errors?.required) || (dlt.touched && !dlt.errors)"
+		>some info text
+		</p>
+    </div>
+</form>

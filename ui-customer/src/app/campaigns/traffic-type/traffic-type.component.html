@@ -1,0 +1,134 @@
+<app-campaign-header [pageTitle]="pageTitle"></app-campaign-header>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+
+			<!-- Replace with your content -->
+			<div class="bg-white p-5 md:p-10 rounded">
+				<div class="lg:px-8 xl:px-20 2xl:px-20 xl:mx-24 mt-2 mb-10">
+					<!-- 1. camp pref section -->
+					<div>
+						<div class="text-lg font-semibold text-gray-700">Choose Campaign Preference</div>
+						<!-- info section -->
+						<div class="rounded-md bg-yellow-50 p-2 mt-4 border border-yellow-400 border-dashed">
+							<div class="flex items-center">
+								<div class="flex-shrink-0"></div>
+								<div class="ml-3 flex-1 md:flex md:justify-between">
+									<p class="text-xs text-gray-500 font-medium">Please note that the <span
+											class="italic font-semibold">country code</span> is required in the mobile number</p>
+								</div>
+							</div>
+						</div>
+						<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-y-6 gap-x-3 mt-12">
+							<!-- india -->
+							<div (click)="toggleTrafficType('india')"
+								[ngClass]="trafficType == 'india' ? 'bg-blue-100' : 'bg-blue-50'"
+								class="rounded-lg hover:bg-blue-100 border-2 border-blue-400 border-dashed shadow cursor-pointer">
+								<div>
+									<div class="flex py-4 px-2 md:py-3">
+										<div class="flex items-center justify-center">
+											<div aria-label="tuk logo" role="img" tabindex="0"
+												class="focus:outline-none w-10 h-20 rounded-full flex items-center justify-center">
+												<svg class="w-32 h-32 lg:w-10 lg:h-10 text-blue-400" viewBox="0 0 24 24" version="1.1">
+													<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+														<rect x="0" y="0" width="24" height="24" />
+														<path
+															d="M3.95709826,8.41510662 L11.47855,3.81866389 C11.7986624,3.62303967 12.2013376,3.62303967 12.52145,3.81866389 L20.0429,8.41510557 C20.6374094,8.77841684 21,9.42493654 21,10.1216692 L21,19.0000642 C21,20.1046337 20.1045695,21.0000642 19,21.0000642 L4.99998155,21.0000673 C3.89541205,21.0000673 2.99998155,20.1046368 2.99998155,19.0000673 L2.99999828,10.1216672 C2.99999935,9.42493561 3.36258984,8.77841732 3.95709826,8.41510662 Z M10,13 C9.44771525,13 9,13.4477153 9,14 L9,17 C9,17.5522847 9.44771525,18 10,18 L14,18 C14.5522847,18 15,17.5522847 15,17 L15,14 C15,13.4477153 14.5522847,13 14,13 L10,13 Z"
+															fill="currentColor" />
+													</g>
+												</svg>
+											</div>
+											<div class="sm:ml-5 ml-3">
+												<p tabindex="0"
+													class="focus:outline-none text-base lg:text-sm font-semibold text-gray-800 dark:text-gray-100">
+													India</p>
+												<div class="flex items-center mt-1">
+													<p tabindex="0" class="focus:outline-none text-sm lg:text-xs font-medium text-gray-400">Send
+														campaign to users in india</p>
+												</div>
+											</div>
+											<div class="ml-6"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- other coutries -->
+							<div (click)="toggleTrafficType('other')"
+								[ngClass]="trafficType == 'other' ? 'bg-blue-100' : 'bg-blue-50'"
+								class="rounded-lg hover:bg-blue-100 border-2 border-blue-400 border-dashed shadow cursor-pointer">
+								<div>
+									<div class="flex py-4 px-2 md:py-3">
+										<div class="flex items-center justify-center">
+											<div aria-label="tuk logo" role="img" tabindex="0"
+												class="focus:outline-none w-10 h-20 rounded-full flex items-center justify-center">
+												<svg class="w-32 h-32 lg:w-32 lg:h-32 text-blue-400" viewBox="0 0 24 24" version="1.1">
+													<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+														<rect x="0" y="0" width="24" height="24" />
+														<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="9" />
+														<path
+															d="M11.7357634,20.9961946 C6.88740052,20.8563914 3,16.8821712 3,12 C3,11.9168367 3.00112797,11.8339369 3.00336944,11.751315 C3.66233009,11.8143341 4.85636818,11.9573854 4.91262842,12.4204038 C4.9904938,13.0609191 4.91262842,13.8615942 5.45804656,14.101772 C6.00346469,14.3419498 6.15931561,13.1409372 6.6267482,13.4612567 C7.09418079,13.7815761 8.34086797,14.0899175 8.34086797,14.6562185 C8.34086797,15.222396 8.10715168,16.1034596 8.34086797,16.2636193 C8.57458427,16.423779 9.5089688,17.54465 9.50920913,17.7048097 C9.50956962,17.8649694 9.83857487,18.6793513 9.74040201,18.9906563 C9.65905192,19.2487394 9.24857641,20.0501554 8.85059781,20.4145589 C9.75315358,20.7620621 10.7235846,20.9657742 11.7357634,20.9960544 L11.7357634,20.9961946 Z M8.28272988,3.80112099 C9.4158415,3.28656421 10.6744554,3 12,3 C15.5114513,3 18.5532143,5.01097452 20.0364482,7.94408274 C20.069657,8.72412177 20.0638332,9.39135321 20.2361262,9.6327358 C21.1131932,10.8600506 18.0995147,11.7043158 18.5573343,13.5605384 C18.7589671,14.3794892 16.5527814,14.1196773 16.0139722,14.886394 C15.4748026,15.6527403 14.1574598,15.137809 13.8520064,14.9904917 C13.546553,14.8431744 12.3766497,15.3341497 12.4789081,14.4995164 C12.5805657,13.664636 13.2922889,13.6156126 14.0555619,13.2719546 C14.8184743,12.928667 15.9189236,11.7871741 15.3781918,11.6380045 C12.8323064,10.9362407 11.963771,8.47852395 11.963771,8.47852395 C11.8110443,8.44901109 11.8493762,6.74109366 11.1883616,6.69207022 C10.5267462,6.64279981 10.170464,6.88841096 9.20435656,6.69207022 C8.23764828,6.49572949 8.44144409,5.85743687 8.2887174,4.48255778 C8.25453994,4.17415686 8.25619136,3.95717082 8.28272988,3.80112099 Z M20.9991771,11.8770357 C20.9997251,11.9179585 21,11.9589471 21,12 C21,16.9406923 17.0188468,20.9515364 12.0895088,20.9995641 C16.970233,20.9503326 20.9337111,16.888438 20.9991771,11.8770357 Z"
+															fill="currentColor" opacity="1" />
+													</g>
+												</svg>
+											</div>
+											<div class="sm:ml-5 ml-3">
+												<p tabindex="0"
+													class="focus:outline-none text-base lg:text-sm font-semibold text-gray-800 dark:text-gray-100">
+													Other Countries</p>
+												<div class="flex items-center mt-1">
+													<p tabindex="0" class="focus:outline-none text-sm lg:text-xs font-medium text-gray-400">Send
+														campaign to users other than india</p>
+												</div>
+											</div>
+											<div class="ml-6"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- both -->
+							<div (click)="toggleTrafficType('both')" [ngClass]="trafficType == 'both' ? 'bg-blue-100' : 'bg-blue-50'"
+								class="rounded-lg  hover:bg-blue-100 border-2 border-blue-400 border-dashed shadow cursor-pointer">
+								<div>
+									<div class="flex py-4 px-2 md:py-3">
+										<div class="flex items-center justify-center">
+											<div aria-label="tuk logo" role="img" tabindex="0"
+												class="focus:outline-none w-10 h-20 rounded-full flex items-center justify-center">
+												<svg class="w-32 h-32 text-blue-400" viewBox="0 0 24 24" version="1.1">
+													<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+														<polygon points="0 0 24 0 24 24 0 24" />
+														<path
+															d="M10.5857864,12 L5.46446609,6.87867966 C5.0739418,6.48815536 5.0739418,5.85499039 5.46446609,5.46446609 C5.85499039,5.0739418 6.48815536,5.0739418 6.87867966,5.46446609 L12,10.5857864 L18.1923882,4.39339828 C18.5829124,4.00287399 19.2160774,4.00287399 19.6066017,4.39339828 C19.997126,4.78392257 19.997126,5.41708755 19.6066017,5.80761184 L13.4142136,12 L19.6066017,18.1923882 C19.997126,18.5829124 19.997126,19.2160774 19.6066017,19.6066017 C19.2160774,19.997126 18.5829124,19.997126 18.1923882,19.6066017 L12,13.4142136 L6.87867966,18.5355339 C6.48815536,18.9260582 5.85499039,18.9260582 5.46446609,18.5355339 C5.0739418,18.1450096 5.0739418,17.5118446 5.46446609,17.1213203 L10.5857864,12 Z"
+															fill="currentColor" opacity="0.3"
+															transform="translate(12.535534, 12.000000) rotate(-360.000000) translate(-12.535534, -12.000000) " />
+														<path
+															d="M6,18 L9,18 C9.66666667,18.1143819 10,18.4477153 10,19 C10,19.5522847 9.66666667,19.8856181 9,20 L4,20 L4,15 C4,14.3333333 4.33333333,14 5,14 C5.66666667,14 6,14.3333333 6,15 L6,18 Z M18,18 L18,15 C18.1143819,14.3333333 18.4477153,14 19,14 C19.5522847,14 19.8856181,14.3333333 20,15 L20,20 L15,20 C14.3333333,20 14,19.6666667 14,19 C14,18.3333333 14.3333333,18 15,18 L18,18 Z M18,6 L15,6 C14.3333333,5.88561808 14,5.55228475 14,5 C14,4.44771525 14.3333333,4.11438192 15,4 L20,4 L20,9 C20,9.66666667 19.6666667,10 19,10 C18.3333333,10 18,9.66666667 18,9 L18,6 Z M6,6 L6,9 C5.88561808,9.66666667 5.55228475,10 5,10 C4.44771525,10 4.11438192,9.66666667 4,9 L4,4 L9,4 C9.66666667,4 10,4.33333333 10,5 C10,5.66666667 9.66666667,6 9,6 L6,6 Z"
+															fill="currentColor" fill-rule="nonzero" />
+													</g>
+												</svg>
+											</div>
+											<div class="sm:ml-5 ml-3">
+												<p tabindex="0"
+													class="focus:outline-none text-base lg:text-sm font-semibold text-gray-800 dark:text-gray-100">
+													Both</p>
+												<div class="flex items-center mt-1">
+													<p tabindex="0" class="focus:outline-none text-sm lg:text-xs font-medium text-gray-400">Send
+														campaign to users worldwide</p>
+												</div>
+											</div>
+											<div class="ml-6"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</main>

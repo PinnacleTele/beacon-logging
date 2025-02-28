@@ -1,0 +1,14 @@
+<ejs-datepicker
+[format]="'dd MMM yyyy'"
+	placeholder="DD MMM YYYY"
+	[allowEdit]="false"
+	(renderDayCell)="pinDates($event)"
+	cssClass="e-customStyle"
+	(change)="onDateSelection($event)"
+	[min]="minDate"
+	[max]="maxDate"
+	[(value)]="zoneDate"
+	[showClearButton]="false"
+></ejs-datepicker>
+
+

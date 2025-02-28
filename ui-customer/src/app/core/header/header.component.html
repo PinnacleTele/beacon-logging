@@ -1,0 +1,1528 @@
+<!-- header -->
+<div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+	<!-- hamburger icon to toggle side nav panel (hidden on md) -->
+	<button (click)="openSideNav()"
+		class="md:hidden px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+		<span class="sr-only">Open sidebar</span>
+		<!-- Heroicon name: outline/menu-alt-2 -->
+		<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+			aria-hidden="true">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+		</svg>
+	</button>
+
+	<div class="flex-1 px-4 flex justify-between">
+		<div class="flex items-center space-x-2 lg:space-x-3 relative">
+			<button (click)="showBillingDropDown()" id="billing"
+				[ngClass]="[activeLink=='/billing' || showBillingDropDown() ? 'text-blue-500 bg-gray-100':'bg-gray-0 text-gray-400']"
+				class="hidden md:flex items-center text-xs lg:text-xs  font-semibold px-1.5 py-2 mt-0 border-transparent border  hover:bg-gray-100 hover:text-blue-500 cursor-pointer rounded focus:outline-none tracking-wide">Billing
+				Rate</button>
+			<ul v-show="isShowRates" *ngIf="showBillingDropDown()"
+				class=" md:visible z-10 transition duration-300 opacity-100 bg-white shadow border border-gray-200 rounded px-0 mt-0.5 top-14 -left-2.5 pt-2 pb-5 w-56 absolute">
+				<!-- <li tabindex="0" (click)="routetoDown('myrate')"
+					class="focus:outline-none cursor-pointer text-gray-500 text-xs leading-3 tracking-wide py-3 mt-2 group hover:bg-gray-100 px-3 flex items-center">
+					<svg class="w-4 h-4 ml-3 text-gray-400 group-hover:text-blue-500" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24" />
+							<path
+								d="M3.52270623,14.028695 C2.82576459,13.3275941 2.82576459,12.19529 3.52270623,11.4941891 L11.6127629,3.54050571 C11.9489429,3.20999263 12.401513,3.0247814 12.8729533,3.0247814 L19.3274172,3.0247814 C20.3201611,3.0247814 21.124939,3.82955935 21.124939,4.82230326 L21.124939,11.2583059 C21.124939,11.7406659 20.9310733,12.2027862 20.5869271,12.5407722 L12.5103155,20.4728108 C12.1731575,20.8103442 11.7156477,21 11.2385688,21 C10.7614899,21 10.3039801,20.8103442 9.9668221,20.4728108 L3.52270623,14.028695 Z M16.9307214,9.01652093 C17.9234653,9.01652093 18.7282432,8.21174298 18.7282432,7.21899907 C18.7282432,6.22625516 17.9234653,5.42147721 16.9307214,5.42147721 C15.9379775,5.42147721 15.1331995,6.22625516 15.1331995,7.21899907 C15.1331995,8.21174298 15.9379775,9.01652093 16.9307214,9.01652093 Z"
+								fill="currentColor" fill-rule="nonzero" opacity="0.9" />
+						</g>
+					</svg>
+					<span class="ml-3 group-hover:text-blue-500">View My Rates</span>
+				</li> -->
+				<li tabindex="0" *ngIf="userType!=2" (click)="routetoDown('billing')"
+					class="focus:outline-none cursor-pointer text-gray-500 text-xs leading-3 tracking-wide py-3 group hover:bg-gray-100 px-3 flex items-center">
+					<svg class="w-4 h-4 ml-3 text-gray-400 group-hover:text-blue-500" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<path
+								d="M6.5,16 L7.5,16 C8.32842712,16 9,16.6715729 9,17.5 L9,19.5 C9,20.3284271 8.32842712,21 7.5,21 L6.5,21 C5.67157288,21 5,20.3284271 5,19.5 L5,17.5 C5,16.6715729 5.67157288,16 6.5,16 Z M16.5,16 L17.5,16 C18.3284271,16 19,16.6715729 19,17.5 L19,19.5 C19,20.3284271 18.3284271,21 17.5,21 L16.5,21 C15.6715729,21 15,20.3284271 15,19.5 L15,17.5 C15,16.6715729 15.6715729,16 16.5,16 Z"
+								fill="currentColor" opacity="0.3" />
+							<path
+								d="M5,4 L19,4 C20.1045695,4 21,4.8954305 21,6 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6 C3,4.8954305 3.8954305,4 5,4 Z M15.5,15 C17.4329966,15 19,13.4329966 19,11.5 C19,9.56700338 17.4329966,8 15.5,8 C13.5670034,8 12,9.56700338 12,11.5 C12,13.4329966 13.5670034,15 15.5,15 Z M15.5,13 C16.3284271,13 17,12.3284271 17,11.5 C17,10.6715729 16.3284271,10 15.5,10 C14.6715729,10 14,10.6715729 14,11.5 C14,12.3284271 14.6715729,13 15.5,13 Z M7,8 L7,8 C7.55228475,8 8,8.44771525 8,9 L8,11 C8,11.5522847 7.55228475,12 7,12 L7,12 C6.44771525,12 6,11.5522847 6,11 L6,9 C6,8.44771525 6.44771525,8 7,8 Z"
+								fill="currentColor" />
+						</g>
+					</svg>
+					<span class="ml-3 group-hover:text-blue-500">Modify User Rate</span>
+				</li>
+				<li tabindex="0" (click)="routetoDown('billing/brclist')"
+					class="focus:outline-none cursor-pointer text-gray-500 text-xs leading-3 tracking-wide py-3 group hover:bg-gray-100 focus:bg-gray-200 px-3 flex items-center">
+					<svg class="w-4 h-4 ml-3 text-gray-400 group-hover:text-blue-500" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<path
+								d="M16.0322024,5.68722152 L5.75790403,15.945742 C5.12139076,16.5812778 5.12059836,17.6124773 5.75613416,18.2489906 C5.75642891,18.2492858 5.75672377,18.2495809 5.75701875,18.2498759 L5.75701875,18.2498759 C6.39304347,18.8859006 7.42424328,18.8859006 8.060268,18.2498759 C8.06056298,18.2495809 8.06085784,18.2492858 8.0611526,18.2489906 L18.3196731,7.9746922 C18.9505124,7.34288268 18.9501191,6.31942463 18.3187946,5.68810005 L18.3187946,5.68810005 C17.68747,5.05677547 16.6640119,5.05638225 16.0322024,5.68722152 Z"
+								fill="currentColor" fill-rule="nonzero" />
+							<path
+								d="M9.85714286,6.92857143 C9.85714286,8.54730513 8.5469533,9.85714286 6.93006028,9.85714286 C5.31316726,9.85714286 4,8.54730513 4,6.92857143 C4,5.30983773 5.31316726,4 6.93006028,4 C8.5469533,4 9.85714286,5.30983773 9.85714286,6.92857143 Z M20,17.0714286 C20,18.6901623 18.6898104,20 17.0729174,20 C15.4560244,20 14.1428571,18.6901623 14.1428571,17.0714286 C14.1428571,15.4497247 15.4560244,14.1428571 17.0729174,14.1428571 C18.6898104,14.1428571 20,15.4497247 20,17.0714286 Z"
+								fill="currentColor" opacity="0.3" />
+						</g>
+					</svg>
+					<span class="ml-3 group-hover:text-blue-500">Rate Change Report</span>
+				</li>
+			</ul>
+
+			<!-- <div *ngIf="showList" (click)="overlayClick()" class="overlay"></div> -->
+			<button (click)="showReportsDropDown()" id="reportsdropdown"
+				[ngClass]="[activeLink=='/reports' || showReportsDropDown() ? 'text-blue-500 bg-gray-100':'bg-gray-0 text-gray-400']"
+				class="hidden md:flex items-center text-xs lg:text-xs  font-semibold px-1.5 py-2 mt-0 border-transparent border  hover:bg-gray-100 hover:text-blue-500 cursor-pointer rounded focus:outline-none tracking-wide">Reports</button>
+			<!-- menu for Reports dropdown -->
+			<ul *ngIf="showReportsDropDown()"
+				class="invisible md:visible z-10 transition duration-300 opacity-100 bg-white shadow border border-gray-200 rounded px-0 mt-0.5 top-14 left-[5rem] pt-2 pb-5 w-56 absolute">
+				<li tabindex="0" routerLink="/reports/summary"
+					class="focus:outline-none cursor-pointer text-gray-500 text-xs leading-3 tracking-wide py-3 mt-2 group hover:bg-gray-100 px-3 flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-3 text-gray-500 group-hover:text-blue-500"
+						fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+					</svg>
+					<span class="ml-3 group-hover:text-blue-500">Summary Report</span>
+				</li>
+				<li tabindex="0" routerLink="/reports/detailed"
+					class="focus:outline-none cursor-pointer text-gray-500 text-xs leading-3 tracking-wide py-3 group hover:bg-gray-100 px-3 flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-3 text-gray-500 group-hover:text-blue-500"
+						fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+					</svg>
+					<span class="ml-3 group-hover:text-blue-500">Detailed Report</span>
+				</li>
+				<li tabindex="0" routerLink="/reports/search"
+					class="focus:outline-none cursor-pointer text-gray-500 text-xs leading-3 tracking-wide py-3 group hover:bg-gray-100 focus:bg-gray-200 px-3 flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-3 text-gray-500 group-hover:text-blue-500"
+						fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+					</svg>
+					<span class="ml-3 group-hover:text-blue-500">Search</span>
+				</li>
+			</ul>
+		</div>
+		<div class="flex-1 flex"></div>
+		<div class="ml-3 flex items-center lg:ml-6">
+			<!-- wallet dropdown -->
+			<!-- wallet dropdown -->
+			<div class="ml-2 relative">
+				<div id="walletsIcon" (click)="walletApiCalls()"
+					class="hover:bg-gray-100 flex items-center justify-center p-1">
+					<button id="walletsIcon" class="p-1 text-blue-500 focus:outline-none" tooltip="{{tooltipcontent}}"
+						[options]="myOptions">
+						<!-- <span id="walletsIcon" class="sr-only">Rates and Wallet</span> -->
+						<svg id="walletsIcon" class="text-blue-500 group-hover:text-blue-500 h-5 w-5"
+							viewBox="0 0 24 24" version="1.1">
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<rect id="walletsIcon" x="0" y="0" width="24" height="24" />
+								<path id="walletsIcon"
+									d="M4,4 L20,4 C21.1045695,4 22,4.8954305 22,6 L22,18 C22,19.1045695 21.1045695,20 20,20 L4,20 C2.8954305,20 2,19.1045695 2,18 L2,6 C2,4.8954305 2.8954305,4 4,4 Z"
+									fill="currentColor" opacity="0.3" />
+								<path id="walletsIcon"
+									d="M18.5,11 L5.5,11 C4.67157288,11 4,11.6715729 4,12.5 L4,13 L8.58578644,13 C8.85100293,13 9.10535684,13.1053568 9.29289322,13.2928932 L10.2928932,14.2928932 C10.7456461,14.7456461 11.3597108,15 12,15 C12.6402892,15 13.2543539,14.7456461 13.7071068,14.2928932 L14.7071068,13.2928932 C14.8946432,13.1053568 15.1489971,13 15.4142136,13 L20,13 L20,12.5 C20,11.6715729 19.3284271,11 18.5,11 Z"
+									fill="currentColor" />
+								<path id="walletsIcon"
+									d="M5.5,6 C4.67157288,6 4,6.67157288 4,7.5 L4,8 L20,8 L20,7.5 C20,6.67157288 19.3284271,6 18.5,6 L5.5,6 Z"
+									fill="currentColor" />
+							</g>
+						</svg>
+					</button>
+				</div>
+
+				<!--
+		  Dropdown menu, show/hide based on menu state.
+
+		  Entering: "transition ease-out duration-100"
+			From: "transform opacity-0 scale-95"
+			To: "transform opacity-100 scale-100"
+		  Leaving: "transition ease-in duration-75"
+			From: "transform opacity-100 scale-100"
+			To: "transform opacity-0 scale-95"
+		-->
+				<div *ngIf="balanceListDropdown()" @enterExitTop
+					class="origin-top-right absolute w-[18rem] -right-40 sm:-right-20 md:right-0 mt-2 rounded-md py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+					role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+					<div class="flex items-center justify-center">
+						<div
+							class="w-[18rem] md:w-full rounded bg-white dark:bg-gray-800 sm:py-4 py-3 space-y-3 sm:px-0">
+							<div *ngIf="loggedInUser == 1" class="border-b pb-3 px-0">
+								<div class="px-4">
+									<div class="flex items-center w-full">
+										<p tabindex="0"
+											class="focus:outline-none text-xxs uppercase font-semibold leading-4 text-gray-400 dark:text-gray-100 tracking-wider">
+											Your Wallet Balance</p>
+									</div>
+									<!-- wallet balance  -->
+									<div *ngIf="walletBalSpinner && !logUserBalRetrievalErr"
+										class="px-0 sm:px-2 h-auto">
+										<div class="bg-gray-200 h-4 my-1 w-24 animate-pulse"></div>
+
+									</div>
+									<!-- api error section -->
+
+									<div *ngIf="logUserBalRetrievalErr && !walletBalSpinner"
+										class=" mt-2 px-0 sm:px-2 ">
+										<app-dropdownfieldapierror (Emitter)="retryGetBal()">
+
+
+										</app-dropdownfieldapierror>
+
+
+									</div>
+
+									<div *ngIf="!walletBalSpinner && !logUserBalRetrievalErr" class="mt-2 w-full">
+										<div class="flex items-center justify-start w-auto">
+											<div class="flex flex-col items-center rounded-sm bg-green-50 px-1 py-0.5">
+												<div class="flex items-center space-x-0.5">
+													<!-- <svg class="text-green-500 w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+														<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+														<path d="M18 5h-11h3a4 4 0 0 1 0 8h-3l6 6"></path>
+														<line x1="7" y1="9" x2="18" y2="9"></line>
+													</svg> -->
+
+													<span class="text-green-500 text-xs font-semibold tracking-wider">
+														{{loggedInUserWalletBal
+														| currency:currencyType : 'symbol':currencyFormat}}
+														<span
+															class="text-gray-500 font-thin text-xs">{{currencyType}}</span></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- billing rate india -->
+							<div class="mt-2 w-full border-b pb-3">
+								<div class="px-4">
+									<div class="flex items-center w-full mt-0">
+										<p tabindex="0"
+											class="focus:outline-none text-xxs uppercase font-semibold leading-4 text-gray-400 dark:text-gray-100 tracking-wider">
+											Billing Rate (India)</p>
+									</div>
+									<!-- sms left -->
+									<div *ngIf="!billingRateLoading  && !billingRateApiError" class="mt-2.5 w-full">
+										<div class="flex items-center justify-start w-auto">
+											<div
+												class="flex flex-col items-center border-dashed border-0 border-gray-300 px-1.5 bg-indigo-0 py-0.5">
+												<div class="flex items-center space-x-0.5">
+													<span *ngIf="loggedInUser == 1"
+														class="text-indigo-500 text-xxs font-semibold tracking-wider">{{loggedInUserSmsBal
+														| number}} <span class="text-gray-400 font-normal">sms
+															left</span></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div *ngIf="billingRateLoading" class="px-0 sm:px-2 h-auto">
+										<div class="bg-gray-200 h-3 my-1 w-9 animate-pulse"></div>
+										<div class="bg-gray-200 h-3 my-1 w-full animate-pulse"></div>
+										<div class="bg-gray-200 h-3 my-1 w-full animate-pulse"></div>
+									</div>
+									<div *ngIf="billingRateApiError && !billingRateLoading"
+										class=" mt-2 px-0 sm:px-2 h-auto">
+										<app-dropdownfieldapierror (Emitter)="retryBillingRates()">
+
+
+										</app-dropdownfieldapierror>
+
+
+									</div>
+									<div *ngIf="!billingRateLoading && !billingRateApiError">
+										<div class="pt-4">
+											<div class="flex items-center justify-between">
+												<div class="flex items-center">
+													<div class="pl-2">
+														<p tabindex="0"
+															class="focus:outline-none text-xxs font-semibold leading-none text-gray-500 tracking-wide dark:text-gray-100">
+															SMS Rate</p>
+													</div>
+												</div>
+												<p tabindex="0"
+													class="focus:outline-none text-xxs font-semibold leading-none text-right text-gray-500 tracking-widest">
+													{{getC_Symbol(billingCurrency)}}{{smsRate}} <span
+														class="text-gray-400 text-xxs">{{billingCurrency}}</span></p>
+											</div>
+										</div>
+										<div class="pt-2.5">
+											<div class="flex items-center justify-between">
+												<div class="flex items-center">
+													<div class="pl-2">
+														<p tabindex="0"
+															class="focus:outline-none text-xxs font-semibold leading-none text-gray-500 tracking-wide dark:text-gray-100">
+															DLT Rate</p>
+													</div>
+												</div>
+												<p tabindex="0"
+													class="focus:outline-none text-xxs font-semibold leading-none text-right text-gray-500 tracking-widest">
+													{{getC_Symbol(billingCurrency)}}{{dltRate}} <span
+														class="text-gray-400 text-xxs">{{billingCurrency}}</span></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- billing rate others -->
+							<div class="mt-2 w-full">
+								<div class="px-4">
+									<div class="flex items-center w-full mt-0 justify-between">
+										<div class="flex space-x-1">
+											<p tabindex="0"
+												class="focus:outline-none text-xxs uppercase font-semibold leading-4 text-gray-400 dark:text-gray-100 tracking-wider">
+												Billing Rate (Others)</p>
+
+										</div>
+										<span *ngIf="!walletLoading && !walletApiError"
+											class="text-xxs p-0.5 px-1 bg-gray-100 text-blue-500 font-semibold"
+											tooltip="Total countries with custom rates"
+											[options]="myOptions">{{totalCountry}}</span>
+									</div>
+
+									<div *ngIf="walletLoading" class="pt-4 flex-col space-y-3.5">
+										<div class="px-0 sm:px-2 h-auto">
+											<div class="bg-gray-200 h-3 my-1 w-full animate-pulse"></div>
+											<div class="bg-gray-200 h-2 my-1 w-9 animate-pulse"></div>
+										</div>
+									</div>
+									<div *ngIf="walletApiError && !walletLoading" class=" mt-2 flex-col space-y-3.5">
+										<app-dropdownfieldapierror (Emitter)="retryOtherCountryRates()">
+
+
+										</app-dropdownfieldapierror>
+
+
+									</div>
+
+									<div *ngIf="!walletLoading && !walletApiError" class="pt-4 flex-col space-y-3.5">
+
+										<div *ngFor="let countryList of otherCountryBillingRate"
+											class="flex items-center justify-between">
+											<div class="flex items-center">
+												<div class="pl-2">
+													<p tabindex="0"
+														class="focus:outline-none text-xxs font-semibold leading-none text-gray-500 tracking-wide dark:text-gray-100">
+														{{countryList.country}}</p>
+													<p *ngIf="loggedInUser == 1" tabindex="0"
+														class="focus:outline-none text-xxs leading-3 pt-2 text-gray-500 dark:text-gray-400">
+														<span class="text-indigo-500 font-semibold tracking-wide">
+															{{countryList.sms_left | number}} &nbsp;</span>sms left
+													</p>
+												</div>
+											</div>
+											<p tabindex="0"
+												class="focus:outline-none text-xxs font-semibold leading-none text-right text-gray-500 tracking-widest">
+												{{getC_Symbol(billingCurrency)}}{{countryList.smsrate}} <span
+													class="text-gray-400 text-xxs">{{billingCurrency}}</span></p>
+										</div>
+
+										<!-- <div class="flex items-center justify-between">
+											<div class="flex items-center">
+												<div class="pl-2">
+													<p tabindex="0" class="focus:outline-none text-xxs font-semibold leading-none text-gray-500 tracking-wide dark:text-gray-100">Japan</p>
+													<p tabindex="0" class="focus:outline-none text-xxs leading-3 pt-2 text-gray-500 dark:text-gray-400"><span class="text-indigo-500 font-semibold tracking-wide">5,624</span> sms left</p>
+												</div>
+											</div>
+											<p tabindex="0" class="focus:outline-none text-xxs font-semibold leading-none text-right text-gray-500 tracking-widest">$0.01567 <span class="text-gray-400 text-xxs">USD</span></p>
+										</div>
+
+										<div class="flex items-center justify-between">
+											<div class="flex items-center">
+												<div class="pl-2">
+													<p tabindex="0" class="focus:outline-none text-xxs font-semibold leading-none text-gray-500 tracking-wide dark:text-gray-100">ROW</p>
+													<p tabindex="0" class="focus:outline-none text-xxs leading-3 pt-2 text-gray-500 dark:text-gray-400"><span class="text-indigo-500 font-semibold tracking-wide">624</span> sms left</p>
+												</div>
+											</div>
+											<p tabindex="0" class="focus:outline-none text-xxs font-semibold leading-none text-right text-gray-500 tracking-widest">$0.1567 <span class="text-gray-400 text-xxs">USD</span></p>
+										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Downloads button -->
+			<div class="ml-2 relative">
+				<div id="downloadsIcon" (click)="downloadTab()"
+					class="hover:bg-gray-100 flex items-center justify-center p-1">
+					<button id="downloadsIcon" class="p-1 text-blue-500 focus:outline-none" tooltip="View Downloads"
+						[options]="myOptions">
+						<span id="downloadsIcon" class="sr-only">View Downloads</span>
+						<svg id="downloadsIcon" class="text-blue-500 group-hover:text-blue-500 h-5 w-5"
+							viewBox="0 0 24 24" version="1.1">
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<rect id="downloadsIcon" x="0" y="0" width="24" height="24" />
+								<path id="downloadsIcon"
+									d="M2,13 C2,12.5 2.5,12 3,12 C3.5,12 4,12.5 4,13 C4,13.3333333 4,15 4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 C2,15 2,13.3333333 2,13 Z"
+									fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+								<rect id="downloadsIcon" fill="currentColor" opacity="0.3"
+									transform="translate(12.000000, 8.000000) rotate(-180.000000) translate(-12.000000, -8.000000) "
+									x="11" y="1" width="2" height="14" rx="1" />
+								<path id="downloadsIcon"
+									d="M7.70710678,15.7071068 C7.31658249,16.0976311 6.68341751,16.0976311 6.29289322,15.7071068 C5.90236893,15.3165825 5.90236893,14.6834175 6.29289322,14.2928932 L11.2928932,9.29289322 C11.6689749,8.91681153 12.2736364,8.90091039 12.6689647,9.25670585 L17.6689647,13.7567059 C18.0794748,14.1261649 18.1127532,14.7584547 17.7432941,15.1689647 C17.3738351,15.5794748 16.7415453,15.6127532 16.3310353,15.2432941 L12.0362375,11.3779761 L7.70710678,15.7071068 Z"
+									fill="currentColor" fill-rule="nonzero"
+									transform="translate(12.000004, 12.499999) rotate(-180.000000) translate(-12.000004, -12.499999) " />
+							</g>
+						</svg>
+					</button>
+				</div>
+
+				<!--
+              Dropdown menu, show/hide based on menu state.
+
+              Entering: "transition ease-out duration-100"
+                From: "transform opacity-0 scale-95"
+                To: "transform opacity-100 scale-100"
+              Leaving: "transition ease-in duration-75"
+                From: "transform opacity-100 scale-100"
+                To: "transform opacity-0 scale-95"
+            -->
+				<div *ngIf="showNewCampaignsDropdown()" @enterExitTop
+					class="origin-top-right absolute w-[22rem] -right-36 sm:-right-20 md:right-0 mt-2 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+					role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+					<div class="flex items-center justify-center">
+						<div class="bg-white dark:bg-gray-800 py-1 mb-2 text-xxs w-auto">
+							<div class="flex items-center justify-between border-b pb-2 px-4">
+								<!-- <div aria-label="message icon" role="img" tabindex="0" class="focus:outline-none w-10 h-10 bg-indigo-700 rounded-full flex items-center justify-center">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
+									<path d="M1 0H19C19.2652 0 19.5196 0.105357 19.7071 0.292893C19.8946 0.48043 20 0.734784 20 1V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0ZM18 4.238L10.072 11.338L2 4.216V16H18V4.238ZM2.511 2L10.061 8.662L17.502 2H2.511Z" fill="white"></path>
+								</svg>
+							</div> -->
+								<div>
+									<span class="text-gray-800 text-sm font-bold">Recent Downloads
+									</span>
+								</div>
+								<div class="flex flex-col items-center">
+									<p
+										class="focus:outline-none text-xl font-semibold leading-9 text-gray-800 dark:text-gray-100">
+										{{noOfDownloads}}
+									</p>
+									<p tabindex="0"
+										class="focus:outline-none text-xxs font-semibold leading-3 mt-0 text-gray-500 dark:text-gray-400">
+										this week
+									</p>
+								</div>
+							</div>
+							<!-- section to show when no data -->
+							<div *ngIf="nodata && !downloadsAPIerror"
+								class="flex flex-col h-60 px-2 sm:px-6 items-center justify-center">
+								<div class="mt-0">
+									<svg class="w-20 h-20 text-gray-400" viewBox="0 0 24 24" version="1.1">
+										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+											<polygon points="0 0 24 0 24 24 0 24" />
+											<path
+												d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z"
+												fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+											<path
+												d="M14.8875071,11.8306874 L12.9310336,11.8306874 L12.9310336,9.82301606 C12.9310336,9.54687369 12.707176,9.32301606 12.4310336,9.32301606 L11.4077349,9.32301606 C11.1315925,9.32301606 10.9077349,9.54687369 10.9077349,9.82301606 L10.9077349,11.8306874 L8.9512614,11.8306874 C8.67511903,11.8306874 8.4512614,12.054545 8.4512614,12.3306874 C8.4512614,12.448999 8.49321518,12.5634776 8.56966458,12.6537723 L11.5377874,16.1594334 C11.7162223,16.3701835 12.0317191,16.3963802 12.2424692,16.2179453 C12.2635563,16.2000915 12.2831273,16.1805206 12.3009811,16.1594334 L15.2691039,12.6537723 C15.4475388,12.4430222 15.4213421,12.1275254 15.210592,11.9490905 C15.1202973,11.8726411 15.0058187,11.8306874 14.8875071,11.8306874 Z"
+												fill="currentColor" />
+										</g>
+									</svg>
+								</div>
+								<div class="mt-2">
+									<p class="text-sm text-gray-500 font-semibold">
+										No Downloads
+									</p>
+								</div>
+								<div class="mt-2 text-center">
+									<p class="text-xs text-gray-400 font-medium">
+										You do not have any downloads for this
+										week
+									</p>
+								</div>
+								<div routerLink="/downloads/log"
+									class="flex justify-between items-center cursor-pointer">
+									<div tabindex="0"
+										class="focus:outline-none text-xs mt-8 font-semibold leading-none text-indigo-700 flex justify-start space-x-1">
+										<span>Download Center</span>
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20"
+											fill="currentColor">
+											<path fill-rule="evenodd"
+												d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+												clip-rule="evenodd" />
+										</svg>
+									</div>
+								</div>
+							</div>
+							<!-- section to show on error -->
+							<div *ngIf="downloadsAPIerror"
+								class="flex flex-col h-60 px-2 sm:px-6 items-center justify-center">
+								<div class="mt-0">
+									<svg class="w-24 h-24 text-rose-300" viewBox="0 0 1120.59226 777.91584">
+										<circle cx="212.59226" cy="103" r="64" fill="currentColor" />
+										<path
+											d="M563.68016,404.16381c0,151.01141-89.77389,203.73895-200.51559,203.73895S162.649,555.17522,162.649,404.16381,363.16457,61.04208,363.16457,61.04208,563.68016,253.1524,563.68016,404.16381Z"
+											transform="translate(-39.70387 -61.04208)" fill="#f2f2f2" />
+										<polygon
+											points="316.156 523.761 318.21 397.378 403.674 241.024 318.532 377.552 319.455 320.725 378.357 207.605 319.699 305.687 319.699 305.687 321.359 203.481 384.433 113.423 321.621 187.409 322.658 0 316.138 248.096 316.674 237.861 252.547 139.704 315.646 257.508 309.671 371.654 309.493 368.625 235.565 265.329 309.269 379.328 308.522 393.603 308.388 393.818 308.449 394.99 293.29 684.589 313.544 684.589 315.974 535.005 389.496 421.285 316.156 523.761"
+											fill="#3f3d56" />
+										<path
+											d="M1160.29613,466.01367c0,123.61-73.4842,166.77-164.13156,166.77s-164.13156-43.16-164.13156-166.77S996.16457,185.15218,996.16457,185.15218,1160.29613,342.40364,1160.29613,466.01367Z"
+											transform="translate(-39.70387 -61.04208)" fill="#f2f2f2" />
+										<polygon
+											points="950.482 552.833 952.162 449.383 1022.119 321.4 952.426 433.154 953.182 386.639 1001.396 294.044 953.382 374.329 953.382 374.329 954.741 290.669 1006.369 216.952 954.954 277.514 955.804 124.11 950.467 327.188 950.906 318.811 898.414 238.464 950.064 334.893 945.173 428.327 945.027 425.847 884.514 341.294 944.844 434.608 944.232 446.293 944.123 446.469 944.173 447.428 931.764 684.478 948.343 684.478 950.332 562.037 1010.514 468.952 950.482 552.833"
+											fill="#3f3d56" />
+										<ellipse cx="554.59226" cy="680.47903" rx="554.59226" ry="28.03433"
+											fill="#3f3d56" />
+										<ellipse cx="892.44491" cy="726.79663" rx="94.98858" ry="4.80162"
+											fill="#3f3d56" />
+										<ellipse cx="548.71959" cy="773.11422" rx="94.98858" ry="4.80162"
+											fill="#3f3d56" />
+										<ellipse cx="287.94432" cy="734.27887" rx="217.01436" ry="10.96996"
+											fill="#3f3d56" />
+										<circle cx="97.08375" cy="566.26982" r="79" fill="#2f2e41" />
+										<rect x="99.80546" y="689.02332" width="24" height="43"
+											transform="translate(-31.32451 -62.31008) rotate(0.67509)" fill="#2f2e41" />
+										<rect x="147.80213" y="689.58887" width="24" height="43"
+											transform="translate(-31.31452 -62.87555) rotate(0.67509)" fill="#2f2e41" />
+										<ellipse cx="119.54569" cy="732.61606" rx="7.5" ry="20"
+											transform="translate(-654.1319 782.47948) rotate(-89.32491)"
+											fill="#2f2e41" />
+										<ellipse cx="167.55414" cy="732.18168" rx="7.5" ry="20"
+											transform="translate(-606.25475 830.05533) rotate(-89.32491)"
+											fill="#2f2e41" />
+										<circle cx="99.31925" cy="546.29477" r="27" fill="#fff" />
+										<circle cx="99.31925" cy="546.29477" r="9" fill="#3f3d56" />
+										<path
+											d="M61.02588,552.94636c-6.04185-28.64075,14.68758-57.26483,46.30049-63.93367s62.13813,11.14292,68.18,39.78367-14.97834,38.93-46.59124,45.59886S67.06774,581.58712,61.02588,552.94636Z"
+											transform="translate(-39.70387 -61.04208)" fill="currentColor" />
+										<path
+											d="M257.29613,671.38411c0,55.07585-32.73985,74.3063-73.13,74.3063q-1.40351,0-2.80255-.0312c-1.87139-.04011-3.72494-.1292-5.55619-.254-36.45135-2.57979-64.77127-22.79937-64.77127-74.02113,0-53.00843,67.73872-119.89612,72.827-124.84633l.00892-.00889c.19608-.19159.29409-.28516.29409-.28516S257.29613,616.30827,257.29613,671.38411Z"
+											transform="translate(-39.70387 -61.04208)" fill="currentColor" />
+										<path
+											d="M181.50168,737.26482l26.747-37.37367-26.81386,41.4773-.07125,4.29076c-1.87139-.04011-3.72494-.1292-5.55619-.254l2.88282-55.10258-.0223-.42775.049-.0802.27179-5.20415-26.88076-41.5798,26.96539,37.67668.06244,1.105,2.17874-41.63324-23.0132-42.96551,23.29391,35.6583,2.26789-86.31419.00892-.294v.28516l-.37871,68.064,22.91079-26.98321-23.00435,32.84678-.60595,37.27566L204.18523,621.958l-21.4805,41.259-.33863,20.723,31.05561-49.79149-31.17146,57.023Z"
+											transform="translate(-39.70387 -61.04208)" fill="#3f3d56" />
+										<circle cx="712.48505" cy="565.41532" r="79" fill="#2f2e41" />
+										<rect x="741.77716" y="691.82355" width="24" height="43"
+											transform="translate(-215.99457 191.86399) rotate(-17.08345)"
+											fill="#2f2e41" />
+										<rect x="787.6593" y="677.72286" width="24" height="43"
+											transform="matrix(0.95588, -0.29376, 0.29376, 0.95588, -209.82788, 204.72037)"
+											fill="#2f2e41" />
+										<ellipse cx="767.887" cy="732.00275" rx="20" ry="7.5"
+											transform="translate(-220.8593 196.83312) rotate(-17.08345)"
+											fill="#2f2e41" />
+										<ellipse cx="813.47537" cy="716.94619" rx="20" ry="7.5"
+											transform="translate(-214.42477 209.56103) rotate(-17.08345)"
+											fill="#2f2e41" />
+										<circle cx="708.52153" cy="545.71023" r="27" fill="#fff" />
+										<circle cx="708.52153" cy="545.71023" r="9" fill="#3f3d56" />
+										<path
+											d="M657.35526,578.74316c-14.48957-25.43323-3.47841-59.016,24.59412-75.0092s62.57592-8.34055,77.06549,17.09268-2.39072,41.6435-30.46325,57.63671S671.84483,604.17639,657.35526,578.74316Z"
+											transform="translate(-39.70387 -61.04208)" fill="currentColor" />
+										<path
+											d="M611.29613,661.29875c0,50.55711-30.05368,68.20979-67.13,68.20979q-1.28835,0-2.57261-.02864c-1.71785-.03682-3.41933-.1186-5.10033-.23313-33.46068-2.36813-59.45707-20.92878-59.45707-67.948,0-48.65932,62.18106-110.05916,66.85186-114.60322l.00819-.00817c.18-.17587.27-.26177.27-.26177S611.29613,610.74164,611.29613,661.29875Z"
+											transform="translate(-39.70387 -61.04208)" fill="currentColor" />
+										<path
+											d="M541.72029,721.77424l24.55253-34.30732-24.6139,38.07426-.0654,3.93872c-1.71785-.03682-3.41933-.1186-5.10033-.23313l2.6463-50.58165-.02047-.39266.045-.07361.24949-4.77718-24.67531-38.16836,24.753,34.58547.05731,1.01433,2-38.21741-21.12507-39.44039L541.80616,625.928l2.08182-79.23247.00819-.26994v.26177l-.34764,62.47962,21.031-24.76934-21.11693,30.15184-.55624,34.21735,19.63634-32.839-19.71812,37.87389-.31085,19.0228,28.50763-45.70631-28.614,52.34448Z"
+											transform="translate(-39.70387 -61.04208)" fill="#3f3d56" />
+										<path
+											d="M875.29613,682.38411c0,55.07585-32.73985,74.3063-73.13,74.3063q-1.4035,0-2.80255-.0312c-1.87139-.04011-3.72494-.1292-5.55619-.254-36.45135-2.57979-64.77127-22.79937-64.77127-74.02113,0-53.00843,67.73872-119.89612,72.827-124.84633l.00892-.00889c.19608-.19159.29409-.28516.29409-.28516S875.29613,627.30827,875.29613,682.38411Z"
+											transform="translate(-39.70387 -61.04208)" fill="currentColor" />
+										<path
+											d="M799.50168,748.26482l26.747-37.37367-26.81386,41.4773-.07125,4.29076c-1.87139-.04011-3.72494-.1292-5.55619-.254l2.88282-55.10258-.0223-.42775.049-.0802.27179-5.20415L770.108,654.01076l26.96539,37.67668.06244,1.105,2.17874-41.63324-23.0132-42.96551,23.29391,35.6583,2.26789-86.31419.00892-.294v.28516l-.37871,68.064,22.91079-26.98321-23.00435,32.84678-.606,37.27566L822.18523,632.958l-21.4805,41.259-.33863,20.723,31.05561-49.79149-31.17146,57.023Z"
+											transform="translate(-39.70387 -61.04208)" fill="#3f3d56" />
+										<ellipse cx="721.51694" cy="656.82212" rx="12.40027" ry="39.5"
+											transform="translate(-220.83517 966.22323) rotate(-64.62574)"
+											fill="#2f2e41" />
+										<ellipse cx="112.51694" cy="651.82212" rx="12.40027" ry="39.5"
+											transform="translate(-574.07936 452.71367) rotate(-68.15829)"
+											fill="#2f2e41" />
+									</svg>
+								</div>
+								<div class="mt-2">
+									<p class="text-sm text-gray-500 font-semibold">
+										Oops!
+									</p>
+								</div>
+								<div class="mt-2 text-center">
+									<p class="text-xs text-gray-400 font-medium">
+										It seems something went wrong...
+									</p>
+								</div>
+								<div (click)="tryagain()" class="mt-3">
+									<button
+										class="mx-1.5 my-1.5 transition duration-150 ease-in-out focus:outline-none bg-red-50 hover:bg-red-100 rounded text-rose-700 font-medium px-6 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700">
+										Try Again
+									</button>
+								</div>
+								<div routerLink="/downloads/log"
+									class="flex justify-between items-center cursor-pointer">
+									<div tabindex="0"
+										class="focus:outline-none text-xs mt-4 font-semibold leading-none text-indigo-700 flex justify-start space-x-1">
+										<span>Download Center</span>
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20"
+											fill="currentColor">
+											<path fill-rule="evenodd"
+												d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+												clip-rule="evenodd" />
+										</svg>
+									</div>
+								</div>
+							</div>
+							<div>
+								<div *ngIf="skeletonloading && !downloadsAPIerror && !nodata"
+									class="px-2 sm:px-6 h-auto">
+									<div class="bg-gray-200 h-10 my-3 w-full animate-pulse"></div>
+									<!-- <div class="bg-gray-200 h-10 my-3 w-full animate-pulse"></div>
+								<div class="bg-gray-200 h-10 my-3 w-full animate-pulse"></div>
+								<div class="bg-gray-200 h-10 my-3 w-full animate-pulse"></div> -->
+									<div routerLink="/downloads/log"
+										class="flex justify-between items-center cursor-pointer">
+										<div tabindex="0"
+											class="focus:outline-none text-xs mt-4 font-semibold leading-none text-indigo-700 flex justify-start space-x-1 cursor-pointer">
+											<span>Download Center</span>
+											<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20"
+												fill="currentColor">
+												<path fill-rule="evenodd"
+													d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+													clip-rule="evenodd" />
+											</svg>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- download data section -->
+
+							<div *ngIf="!(nodata || downloadsAPIerror || skeletonloading) " class="px-2 sm:px-6">
+								<div *ngFor="let download of downloads">
+									<div [ngClass]="download.status=='completed' ? 'border-green-400' : download.status=='failed'? 'border-red-400' : 'border-yellow-400' "
+										class="pb-1 mt-4 border-b-0 border-solid border-l-4">
+										<div class="ml-2.5">
+											<div class="flex justify-between items-center mt-0">
+												<p tabindex="0"
+													class="focus:outline-none text-xs font-semibold leading-3 text-gray-800 dark:text-gray-100">
+													<span>{{download.from}}</span>
+													-
+													<span>{{download.to}}</span>
+												</p>
+												<div class="cursor-pointer" tooltip="{{download.filters}}"
+													[options]="myOptions">
+													<svg xmlns="http://www.w3.org/2000/svg"
+														class="h-3.5 w-3.5 text-indigo-600" fill="none"
+														viewBox="0 0 24 24" stroke="currentColor">
+														<path stroke-linecap="round" stroke-linejoin="round"
+															stroke-width="2"
+															d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+													</svg>
+													<!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                                    </svg> -->
+												</div>
+											</div>
+											<div id="downloads" class="flex justify-between items-center mt-2">
+												<div class="flex space-x-1 items-center">
+													<span *ngIf="!download.downloadStatus" id="downloads"
+														(click)="onDownloadClick(download,download.from,download.to,download.status)"
+														[ngClass]="download.status=='completed' ? 'text-green-600 hover:underline cursor-pointer ;' : download.status=='failed'? 'text-red-600' : 'text-yellow-600' "
+														tabindex="0"
+														class="focus:outline-none text-xxs font-medium leading-4 pt-1"><a
+															class="" href=""></a>{{download.status}}</span>
+													<span *ngIf="download.downloadStatus" id="downloads"
+														[ngClass]="download.downloadStatus == 'true' ? 'text-green-600 hover:underline cursor-pointer ;' : download.status=='failed'? 'text-red-600' : 'text-yellow-600' "
+														tabindex="0"
+														class="focus:outline-none text-xxs font-medium leading-4 pt-1"><a
+															class="" href=""></a>{{download.downloadStatus == true ?
+														'downloading...' :
+														download.status}}</span>
+													<span *ngIf="download.status=='completed'" tabindex="0"
+														class="focus:outline-none text-xxs font-medium leading-4 text-gray-500 pt-1">•</span>
+													<span *ngIf="download.status=='completed'" tabindex="0"
+														class="focus:outline-none text-xxs font-medium leading-4 text-gray-600 mt-1">{{download.total}}
+														({{download.total_human}})</span>
+												</div>
+												<p tabindex="0"                          
+													class="focus:outline-none text-xs font-semibold leading-3 text-right dark:text-gray-400 text-gray-500">
+													                        {{download.time_from_now}} </p>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<div *ngIf="!(nodata)" routerLink="/downloads/log"
+									class="flex justify-between items-center">
+									<div tabindex="0"
+										class="focus:outline-none text-xs mt-4 font-semibold leading-none text-indigo-700 flex justify-start space-x-1 cursor-pointer">
+										<span>Download Center</span>
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20"
+											fill="currentColor">
+											<path fill-rule="evenodd"
+												d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+												clip-rule="evenodd" />
+										</svg>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- quick actions button -->
+			<div class="ml-2 relative">
+				<div id="quicklinks" (click)="quickLinkCall()"
+					class="p-1 hover:bg-gray-100 flex items-center justify-center tabindex-0 cursor-pointer" data-menu
+					tooltip="Quick Actions" [options]="myOptions">
+					<button id="quicklinks" class="p-1 rounded-md text-blue-500 focus:outline-none">
+						<span id="quicklinks" class="sr-only">Quick Actions</span>
+						<!-- Heroicon name: outline/bell -->
+						<svg id="quicklinks" class="w-5 h-5" viewBox="0 0 24 24" version="1.1">
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<rect id="quicklinks" x="0" y="0" width="24" height="24"></rect>
+								<rect id="quicklinks" fill="currentColor" x="4" y="4" width="7" height="7" rx="1.5">
+								</rect>
+								<path id="quicklinks"
+									d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+									fill="currentColor" opacity="0.3"></path>
+							</g>
+						</svg>
+					</button>
+				</div>
+
+				<!--
+              Dropdown menu, show/hide based on menu state.
+
+              Entering: "transition ease-out duration-100"
+                From: "transform opacity-0 scale-95"
+                To: "transform opacity-100 scale-100"
+              Leaving: "transition ease-in duration-75"
+                From: "transform opacity-100 scale-100"
+                To: "transform opacity-0 scale-95"
+            -->
+
+				<div *ngIf="  showNewQuickLinksDropdown()" @enterExitTop
+					class="origin-top-right absolute right-0 mt-2 w-60 z-50 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+					role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+					<div *ngIf="!quickLinkApiError" class="grid grid-cols-2 divide-x divide-y">
+
+						<div *ngIf="quickLinks.createnew?.account==true" (click)="routing('/accounts/new')"
+							(keydown.enter)="routing('/accounts/new')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<polygon points="0 0 24 0 24 24 0 24" />
+										<path
+											d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+										<path
+											d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+											fill="currentColor" fill-rule="nonzero" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">New Account</span>
+							<span class="text-center text-xs text-gray-400">Account</span>
+						</div>
+						<div *ngIf="quickLinks.createnew?.template==true && clusterType != 'otp'"
+							(click)="routing('/templates/new')" (keydown.enter)="routing('/templates/new')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M6,9 L6,15 C6,16.6568542 7.34314575,18 9,18 L15,18 L15,18.8181818 C15,20.2324881 14.2324881,21 12.8181818,21 L5.18181818,21 C3.76751186,21 3,20.2324881 3,18.8181818 L3,11.1818182 C3,9.76751186 3.76751186,9 5.18181818,9 L6,9 Z"
+											fill="currentColor" fill-rule="nonzero" />
+										<path
+											d="M10.1818182,4 L17.8181818,4 C19.2324881,4 20,4.76751186 20,6.18181818 L20,13.8181818 C20,15.2324881 19.2324881,16 17.8181818,16 L10.1818182,16 C8.76751186,16 8,15.2324881 8,13.8181818 L8,6.18181818 C8,4.76751186 8.76751186,4 10.1818182,4 Z"
+											fill="currentColor" opacity="0.3" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">New Template</span>
+							<span class="text-center text-xs text-gray-400">Template</span>
+						</div>
+						<div *ngIf="quickLinks.createnew?.group==true && clusterType != 'otp'"
+							(click)="routing('/groups/new')" (keydown.enter)="routing('/groups/new')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<polygon points="0 0 24 0 24 24 0 24" />
+										<path
+											d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+										<path
+											d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+											fill="currentColor" fill-rule="nonzero" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">New Group</span>
+							<span class="text-center text-xs text-gray-400">Groups</span>
+						</div>
+						<div *ngIf="quickLinks.campaign?.cq==true && clusterType != 'otp'"
+							(click)="routing('/campaigns/cq')" (keydown.enter)="routing('/campaigns/cq')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M3,13.5 L19,12 L3,10.5 L3,3.7732928 C3,3.70255344 3.01501031,3.63261921 3.04403925,3.56811047 C3.15735832,3.3162903 3.45336217,3.20401298 3.70518234,3.31733205 L21.9867539,11.5440392 C22.098181,11.5941815 22.1873901,11.6833905 22.2375323,11.7948177 C22.3508514,12.0466378 22.2385741,12.3426417 21.9867539,12.4559608 L3.70518234,20.6826679 C3.64067359,20.7116969 3.57073936,20.7267072 3.5,20.7267072 C3.22385763,20.7267072 3,20.5028496 3,20.2267072 L3,13.5 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Quick Messaging</span>
+							<span class="text-center text-xs text-gray-400">Campaigns</span>
+						</div>
+						<div *ngIf="quickLinks.campaign?.cotm==true && clusterType != 'otp'"
+							(click)="routing('/campaigns/otm')" (keydown.enter)="routing('/campaigns/otm')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M3,13.5 L19,12 L3,10.5 L3,3.7732928 C3,3.70255344 3.01501031,3.63261921 3.04403925,3.56811047 C3.15735832,3.3162903 3.45336217,3.20401298 3.70518234,3.31733205 L21.9867539,11.5440392 C22.098181,11.5941815 22.1873901,11.6833905 22.2375323,11.7948177 C22.3508514,12.0466378 22.2385741,12.3426417 21.9867539,12.4559608 L3.70518234,20.6826679 C3.64067359,20.7116969 3.57073936,20.7267072 3.5,20.7267072 C3.22385763,20.7267072 3,20.5028496 3,20.2267072 L3,13.5 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">OTM Messaging</span>
+							<span class="text-center text-xs text-gray-400">Campaigns</span>
+						</div>
+						<div *ngIf="quickLinks.campaign?.cmtm==true && clusterType != 'otp'"
+							(click)="routing('/campaigns/mtm')" (keydown.enter)="routing('/campaigns/mtm')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M3,13.5 L19,12 L3,10.5 L3,3.7732928 C3,3.70255344 3.01501031,3.63261921 3.04403925,3.56811047 C3.15735832,3.3162903 3.45336217,3.20401298 3.70518234,3.31733205 L21.9867539,11.5440392 C22.098181,11.5941815 22.1873901,11.6833905 22.2375323,11.7948177 C22.3508514,12.0466378 22.2385741,12.3426417 21.9867539,12.4559608 L3.70518234,20.6826679 C3.64067359,20.7116969 3.57073936,20.7267072 3.5,20.7267072 C3.22385763,20.7267072 3,20.5028496 3,20.2267072 L3,13.5 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">MTM Messaging</span>
+							<span class="text-center text-xs text-gray-400">Campaigns</span>
+						</div>
+						<div *ngIf="quickLinks.campaign?.cg==true && clusterType != 'otp'"
+							(click)="routing('/campaigns/cg')" (keydown.enter)="routing('/campaigns/cg')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M3,13.5 L19,12 L3,10.5 L3,3.7732928 C3,3.70255344 3.01501031,3.63261921 3.04403925,3.56811047 C3.15735832,3.3162903 3.45336217,3.20401298 3.70518234,3.31733205 L21.9867539,11.5440392 C22.098181,11.5941815 22.1873901,11.6833905 22.2375323,11.7948177 C22.3508514,12.0466378 22.2385741,12.3426417 21.9867539,12.4559608 L3.70518234,20.6826679 C3.64067359,20.7116969 3.57073936,20.7267072 3.5,20.7267072 C3.22385763,20.7267072 3,20.5028496 3,20.2267072 L3,13.5 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Group Messaging</span>
+							<span class="text-center text-xs text-gray-400">Campaigns</span>
+						</div>
+						<div *ngIf="quickLinks.campaign?.ct==true && clusterType != 'otp'"
+							(click)="routing('/campaigns/ct')" (keydown.enter)="routing('/campaigns/ct')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M3,13.5 L19,12 L3,10.5 L3,3.7732928 C3,3.70255344 3.01501031,3.63261921 3.04403925,3.56811047 C3.15735832,3.3162903 3.45336217,3.20401298 3.70518234,3.31733205 L21.9867539,11.5440392 C22.098181,11.5941815 22.1873901,11.6833905 22.2375323,11.7948177 C22.3508514,12.0466378 22.2385741,12.3426417 21.9867539,12.4559608 L3.70518234,20.6826679 C3.64067359,20.7116969 3.57073936,20.7267072 3.5,20.7267072 C3.22385763,20.7267072 3,20.5028496 3,20.2267072 L3,13.5 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Template Messaging</span>
+							<span class="text-center text-xs text-gray-400">Campaigns</span>
+						</div>
+						<div *ngIf="quickLinks.report?.summary==true " (click)="routing('/reports/summary')"
+							(keydown.enter)="routing('/reports/summary')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M4.00246329,12.2004927 L13,14 L13,4.06189375 C16.9463116,4.55399184 20,7.92038235 20,12 C20,16.418278 16.418278,20 12,20 C7.64874861,20 4.10886412,16.5261253 4.00246329,12.2004927 Z"
+											fill="currentColor" opacity="0.3" />
+										<path
+											d="M3.0603968,10.0120794 C3.54712466,6.05992157 6.91622084,3 11,3 L11,11.6 L3.0603968,10.0120794 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Summary</span>
+							<span class="text-center text-xs text-gray-400">Reports</span>
+						</div>
+						<div *ngIf="quickLinks.report?.detailed==true " (click)="routing('/reports/detailed')"
+							(keydown.enter)="routing('/reports/detailed')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M4.00246329,12.2004927 L13,14 L13,4.06189375 C16.9463116,4.55399184 20,7.92038235 20,12 C20,16.418278 16.418278,20 12,20 C7.64874861,20 4.10886412,16.5261253 4.00246329,12.2004927 Z"
+											fill="currentColor" opacity="0.3" />
+										<path
+											d="M3.0603968,10.0120794 C3.54712466,6.05992157 6.91622084,3 11,3 L11,11.6 L3.0603968,10.0120794 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Detailed Log</span>
+							<span class="text-center text-xs text-gray-400">Reports</span>
+						</div>
+						<div *ngIf="quickLinks.myaccount?.mysettings==true" (click)="settings(2)"
+							(keydown.enter)="settings(2)"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Settings</span>
+							<span class="text-center text-xs text-gray-400">My Account</span>
+						</div>
+						<div *ngIf="quickLinks.myaccount?.wallet==true" (click)="settings(3)"
+							(keydown.enter)="settings(3)"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<rect fill="currentColor" opacity="0.3" x="2" y="2" width="10" height="12"
+											rx="2" />
+										<path
+											d="M4,6 L20,6 C21.1045695,6 22,6.8954305 22,8 L22,20 C22,21.1045695 21.1045695,22 20,22 L4,22 C2.8954305,22 2,21.1045695 2,20 L2,8 C2,6.8954305 2.8954305,6 4,6 Z M18,16 C19.1045695,16 20,15.1045695 20,14 C20,12.8954305 19.1045695,12 18,12 C16.8954305,12 16,12.8954305 16,14 C16,15.1045695 16.8954305,16 18,16 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Manage Wallet</span>
+							<span class="text-center text-xs text-gray-400">My Account</span>
+						</div>
+						<div *ngIf="quickLinks.report?.search==true " (click)="routing('/reports/search')"
+							(keydown.enter)="routing('/reports/search')"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 hover:bg-gray-50 cursor-pointer">
+							<span class="text-indigo-500">
+								<svg class="h-5 w-5" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24" />
+										<path
+											d="M4.00246329,12.2004927 L13,14 L13,4.06189375 C16.9463116,4.55399184 20,7.92038235 20,12 C20,16.418278 16.418278,20 12,20 C7.64874861,20 4.10886412,16.5261253 4.00246329,12.2004927 Z"
+											fill="currentColor" opacity="0.3" />
+										<path
+											d="M3.0603968,10.0120794 C3.54712466,6.05992157 6.91622084,3 11,3 L11,11.6 L3.0603968,10.0120794 Z"
+											fill="currentColor" />
+									</g>
+								</svg>
+							</span>
+							<span class="text-center text-xs font-semibold text-gray-600">Search</span>
+							<span class="text-center text-xs text-gray-400">Reports</span>
+						</div>
+						<div *ngFor="let ql of QLlink" (click)="settings(5)" (keydown.enter)="settings(5)"
+							class="flex flex-col items-center justify-center px-3 py-3 space-y-2 h-28 hover:bg-gray-50 cursor-pointer">
+							<span *ngIf="!quickLinkSpinner" class="text-gray-200 text-2xl">+</span>
+							<svg *ngIf="quickLinkSpinner" class="animate-spin text-green-900"
+								xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+								width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<g>
+										<polygon points="0 0 24 0 24 24 0 24" />
+									</g>
+									<path class="opacity-25"
+										d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+										fill="currentColor" fill-rule="nonzero"
+										transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+								</g>
+							</svg>
+						</div>
+
+
+					</div>
+					<app-apierror *ngIf="quickLinkApiError" (Emitter)="quickLinkCall()"></app-apierror>
+
+				</div>
+
+			</div>
+
+			<!-- alert dropdown
+				<div class="ml-2 relative">
+					<div class="hover:bg-gray-100 flex items-center justify-center p-1">
+						<button (click)="isShowDownload=false" class="p-1 text-blue-500 focus:outline-none">
+							<span class="sr-only">View Alerts</span>
+							<svg class="w-5 h-5" viewBox="0 0 24 24" version="1.1">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<path d="M17,12 L18.5,12 C19.3284271,12 20,12.6715729 20,13.5 C20,14.3284271 19.3284271,15 18.5,15 L5.5,15 C4.67157288,15 4,14.3284271 4,13.5 C4,12.6715729 4.67157288,12 5.5,12 L7,12 L7.5582739,6.97553494 C7.80974924,4.71225688 9.72279394,3 12,3 C14.2772061,3 16.1902508,4.71225688 16.4417261,6.97553494 L17,12 Z" fill="currentColor" />
+									<rect fill="currentColor" opacity="0.3" x="10" y="16" width="4" height="4" rx="2" />
+								</g>
+							</svg>
+						</button>
+					</div> -->
+
+			<!--
+              Dropdown menu, show/hide based on menu state.
+
+              Entering: "transition ease-out duration-100"
+                From: "transform opacity-0 scale-95"
+                To: "transform opacity-100 scale-100"
+              Leaving: "transition ease-in duration-75"
+                From: "transform opacity-100 scale-100"
+                To: "transform opacity-0 scale-95"
+            -->
+			<!--	<div class="invisible origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+						<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Alert 1</a>
+
+						<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Alert 2</a>
+
+						<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Alert 3</a>
+					</div>
+				</div> -->
+
+			<!-- Profile dropdown -->
+			<div class="ml-3 relative">
+				<div>
+					<button (click)="toggleProfileSlider();isShowDownload=false" type="button"
+						class="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none uppercase"
+						id="user-menu" aria-expanded="false" aria-haspopup="true" tooltip="User Profile"
+						[options]="myOptions">
+						<span class="sr-only">Open user menu</span>
+
+						<div
+							class="rounded-md bg-green-100 hover:bg-green-200 text-green-600 font-semibold w-9 h-9 justify-center items-center flex text-lg">
+							{{firstNameInitial}}
+						</div>
+					</button>
+				</div>
+
+				<!-- slideover menu for User Profile -->
+				<section *ngIf="isShowUP" @container1 class="fixed inset-0 overflow-hidden"
+					aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+					<div class="absolute inset-0 overflow-hidden">
+						<!-- Background overlay, show/hide based on slide-over state. -->
+						<div (click)="toggleProfileSlider()" class="absolute inset-0 bg-gray-300 opacity-50"
+							aria-hidden="true">
+						</div>
+
+						<div class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
+							<!--
+        Slide-over panel, show/hide based on slide-over state.
+
+        Entering: "transform transition ease-in-out duration-500 sm:duration-700"
+          From: "translate-x-full"
+          To: "translate-x-0"
+        Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
+          From: "translate-x-0"
+          To: "translate-x-full"
+      -->
+							<div @enterExitRight class="w-screen max-w-md">
+								<div class="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
+									<div class="px-4 sm:px-6">
+										<div class="flex items-start justify-between">
+											<div class="">
+												<div class="text-lg font-medium text-gray-800 items-center flex space-x-1"
+													id="slide-over-title">
+													<span> User Profile </span>
+												</div>
+												<div class="flex flex-row items-center space-x-1"
+													*ngIf="!acctSpinner && !statError">
+													<div class="flex items-center text-xs leading-none text-gray-600 ml-0.5"
+														*ngIf="userType == 0">
+														<p class="text-xs leading-none text-gray-600 ml-0.5"
+															*ngIf="totalCount > 1 ;else zeroOneTotal">
+															{{totalCount}}
+															Accounts
+														</p>
+														<ng-template #zeroOneTotal>{{totalCount}}
+															Account</ng-template>
+													</div>
+													<div class="flex items-center" *ngIf="userType == 0">
+														<span tabindex="0"
+															class="focus:outline-none text-sm font-medium leading-1 text-gray-500 pb-1">•</span>
+													</div>
+													<div class="flex items-center text-xs leading-none text-gray-600 ml-0.5"
+														*ngIf="userType == 0">
+														<p class="text-xs leading-none text-gray-600 ml-0.5"
+															*ngIf="adminsCount > 1 ;else zeroOneAdmin">
+															{{adminsCount}}
+															Admins
+														</p>
+														<ng-template #zeroOneAdmin>{{adminsCount}}
+															Admin</ng-template>
+													</div>
+													<div class="flex items-center" *ngIf="userType == 0">
+														<span tabindex="0"
+															class="focus:outline-none text-sm font-medium leading-1 text-gray-500 pb-1">•</span>
+													</div>
+													<div class="flex items-center text-xs leading-none text-gray-600 ml-0.5"
+														*ngIf="userType != 2">
+														<p class="text-xs leading-none text-gray-600 ml-0.5"
+															*ngIf="usersCount > 1 ;else zeroOneUser">
+															{{usersCount}} Users
+														</p>
+														<ng-template #zeroOneUser>{{usersCount}}
+															User</ng-template>
+													</div>
+												</div>
+												<div>
+													<svg class="animate-spin text-green-900"
+														xmlns="http://www.w3.org/2000/svg"
+														xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+														height="24px" viewBox="0 0 24 24" version="1.1"
+														*ngIf="acctSpinner">
+														<g stroke="none" stroke-width="1" fill="none"
+															fill-rule="evenodd">
+															<g>
+																<polygon points="0 0 24 0 24 24 0 24" />
+															</g>
+															<path class="opacity-25"
+																d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+																fill="currentColor" fill-rule="nonzero"
+																transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+														</g>
+													</svg>
+												</div>
+												<div class="flex items-center justify-start w-auto" *ngIf="statError">
+													<p class="text-xs text-rose-600 font-normal">
+														Error in getting account counts
+													</p>
+													<p
+														class="mt-3 text-xs md:mt-0 md:ml-6 cursor-pointer text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+														<a (click)="getAcctStatistics()"
+															class="whitespace-nowrap font-medium uppercase">Retry</a>
+													</p>
+												</div>
+											</div>
+
+											<div class="ml-3 h-7 flex items-center">
+												<button (click)="toggleProfileSlider()"
+													class="bg-gray-100 p-0.5 rounded-sm text-gray-400 hover:text-gray-500 focus:outline-none focus:bg-blue-500 focus:text-white">
+													<span class="sr-only">Close panel</span>
+													<!-- Heroicon name: outline/x -->
+													<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+														viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+														<path stroke-linecap="round" stroke-linejoin="round"
+															stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+													</svg>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="mt-4 relative flex-1 px-4 sm:px-6">
+										<!-- Replace with your content -->
+										<div class="absolute inset-0 px-4 sm:px-6">
+											<div class="h-full space-y-8 divide-y-2 divide-gray-50 divide-solid"
+												aria-hidden="true">
+												<!-- first div -->
+												<div>
+													<div class="flex space-x-2.5">
+														<!-- avatar -->
+														<span class="inline-block relative bg-gray-100">
+															<!-- <img
+                                  class="h-28 w-28 rounded-md"
+                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixqx=StFMInN1Cg&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  alt=""
+                                /> -->
+															<svg class="h-28 w-28 rounded-md"
+																xmlns="http://www.w3.org/2000/svg"
+																xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+																id="Layer_1" x="0px" y="0px"
+																viewBox="0 0 464.001 464.001" style="
+																	enable-background: new
+																		0 0
+																		464.001
+																		464.001;
+																" xml:space="preserve">
+																<g>
+																	<path style="
+																			fill: #ffd7a3;
+																		" d="M388.628,437.023l-10.126-81.012c-1.529-12.228-9.943-22.492-21.633-26.389l-39.047-13.016   c-5.362-1.788-11.244-0.649-15.379,2.874l-11.502-3.834c-6.533-2.178-10.94-8.292-10.94-15.179v-25.802l34.461-14.359   C332.349,252.855,344,235.378,344,216v-8c13.255,0,24-10.745,24-24c0-5.979-2.191-11.443-5.808-15.645   C368.983,143.637,388.07,65.449,368,32l8-32c0,0-84,2-128,16l16-16c0,0-112.5,0-135.993,39.993L128,40c0,0-40-0.333-40,48   c0,17.69,9.867,61.862,14.103,80.015C98.31,172.259,96,177.859,96,184c0,13.255,10.745,24,24,24v8   c0,19.377,11.651,36.854,29.538,44.308L184,274.667v25.801c0,6.887-4.407,13.001-10.94,15.179l-11.502,3.834   c-4.135-3.523-10.017-4.662-15.379-2.874l-39.047,13.016c-11.691,3.897-20.105,14.161-21.633,26.389l-10.126,81.012   C73.582,451.348,84.751,464,99.187,464h0.225h265.176h0.225C379.249,464,390.419,451.348,388.628,437.023z" />
+																	<g>
+																		<path style="
+																				fill: #fdc88e;
+																			" d="M280,274.667l-96,0.001v25.801c0,5.759-3.186,10.831-8.017,13.659    C243.077,325.871,280,274.667,280,274.667z" />
+																	</g>
+																	<g>
+																		<path style="
+																				fill: #734a3e;
+																			" d="M104,176c0,0-16-65.474-16-88c0-48.333,40-48,40-48l0.007-0.007C151.5,0,264,0,264,0l-16,16    C292,2,376,0,376,0l-8,32c24,40-8,144-8,144H104z" />
+																	</g>
+																	<g>
+																		<path style="
+																				fill: #623f33;
+																			" d="M264,0c0,0-112.5,0-135.993,39.993L128,40c0,0-40-0.333-40,48c0,22.526,16,88,16,88    S270.334,101.667,376,0c0,0-84,2-128,16L264,0z" />
+																	</g>
+																	<path style="
+																			fill: #ffe1b2;
+																		" d="M344,160v-16c0-22.091-17.909-40-40-40H160c-22.091,0-40,17.909-40,40v16c-13.255,0-24,10.745-24,24   s10.745,24,24,24v8c0,19.377,11.651,36.854,29.538,44.308l51.691,21.538c9.75,4.063,20.208,6.154,30.77,6.154l0,0   c10.562,0,21.019-2.092,30.769-6.154l51.694-21.539C332.349,252.855,344,235.378,344,216v-8c13.255,0,24-10.745,24-24   S357.255,160,344,160z" />
+																	<g>
+																		<path style="
+																				fill: #623f33;
+																			" d="M176,192L176,192c-4.4,0-8-3.6-8-8v-8c0-4.4,3.6-8,8-8l0,0c4.4,0,8,3.6,8,8v8    C184,188.4,180.4,192,176,192z" />
+																	</g>
+																	<g>
+																		<path style="
+																				fill: #623f33;
+																			" d="M288,192L288,192c-4.4,0-8-3.6-8-8v-8c0-4.4,3.6-8,8-8l0,0c4.4,0,8,3.6,8,8v8    C296,188.4,292.4,192,288,192z" />
+																	</g>
+																	<g>
+																		<g>
+																			<path style="
+																					fill: #e4b07b;
+																				" d="M232,248.219c-14.223,0-27.527-3.5-36.5-9.605c-3.652-2.484-4.602-7.461-2.113-11.113     c2.48-3.648,7.461-4.598,11.113-2.113c6.289,4.277,16.57,6.832,27.5,6.832s21.211-2.555,27.5-6.832     c3.66-2.492,8.629-1.539,11.113,2.113c2.488,3.652,1.539,8.629-2.113,11.113C259.528,244.719,246.223,248.219,232,248.219z" />
+																		</g>
+																	</g>
+																	<g>
+																		<path style="
+																				fill: #00bea4;
+																			" d="M388.628,437.024l-10.126-81.012c-1.528-12.228-9.943-22.492-21.633-26.389l-39.047-13.016    c-6.8-2.267-14.45,0.154-18.291,6.206C285.349,345.157,260.424,360,232,360s-53.349-14.844-67.53-37.187    c-3.841-6.052-11.491-8.473-18.291-6.206l-39.047,13.016c-11.691,3.897-20.105,14.161-21.633,26.389l-10.126,81.012    c-1.791,14.324,9.379,26.977,23.815,26.977h265.626C379.249,464.001,390.419,451.348,388.628,437.024z" />
+																	</g>
+																	<g>
+																		<path style="
+																				fill: #00ab9a;
+																			" d="M92.168,340.168c-3.552,4.497-5.93,9.93-6.669,15.843l-10.126,81.012    C73.582,451.348,84.752,464,99.188,464H144v-52.067c0-7.697-2.774-15.135-7.813-20.953L92.168,340.168z" />
+																	</g>
+																	<g>
+																		<path style="
+																				fill: #00ab9a;
+																			" d="M371.832,340.168c3.552,4.497,5.93,9.93,6.669,15.843l10.126,81.012    c1.791,14.325-9.379,26.977-23.815,26.977H320v-52.067c0-7.697,2.774-15.135,7.813-20.953L371.832,340.168z" />
+																	</g>
+																	<path style="
+																			fill: #ffd7a3;
+																		" d="M161.996,243.723c-6.482-6.95-9.995-16.121-9.995-25.625v-90.66   c25.463-1.909,105.744-8.852,152-23.438H160c-2.754,0-5.421,0.321-8,0.881v-0.075c-18.257,3.707-32,19.843-32,39.194v16   c-13.255,0-24,10.745-24,24s10.745,24,24,24v8c0,19.378,11.651,36.855,29.538,44.308l51.69,21.538   c2.53,1.054,5.112,1.962,7.727,2.749C186.111,267.883,170.905,253.274,161.996,243.723z" />
+																</g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+																<g></g>
+															</svg>
+															<span
+																class="absolute top-0 right-0 block h-2 w-2 transform -translate-y-1/2 translate-x-1/2 rounded-full ring-2 ring-white bg-green-400"></span>
+														</span>
+														<!-- user info -->
+														<div class="">
+															<div
+																class="flex flex-col text-gray-400 space-y-1 lg:space-y-2">
+																<span
+																	class="text-gray-600 font-semibold tracking-wide">{{userName}}
+																	<span class="text-gray-400 text-xs">
+																		({{firstName}})</span>
+
+																</span>
+
+																<div>
+																	<span
+																		class="text-xs text-purple-500 bg-purple-50 py-1 px-1 rounded">{{userTypeDesc}}
+																	</span>
+																	<span
+																		class="text-xs text-yellow-500 bg-yellow-50 py-1 px-1 ml-2 rounded">{{billTypeDesc}}
+																	</span>
+																</div>
+																<div class="flex flex-row space-x-1 items-center mr-2">
+																	<span class="text-blue-400">
+																		<svg class="h-4 w-4" viewBox="0 0 24 24"
+																			version="1.1"
+																			xmlns="http://www.w3.org/2000/svg"
+																			xmlns:xlink="http://www.w3.org/1999/xlink">
+																			<defs></defs>
+																			<g id="Stockholm-icons-/-Communication-/-Mail-notification"
+																				stroke="none" stroke-width="1"
+																				fill="none" fill-rule="evenodd">
+																				<rect id="bound" x="0" y="0" width="24"
+																					height="24"></rect>
+																				<path
+																					d="M21,12.0829584 C20.6747915,12.0283988 20.3407122,12 20,12 C16.6862915,12 14,14.6862915 14,18 C14,18.3407122 14.0283988,18.6747915 14.0829584,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,12.0829584 Z M18.1444251,7.83964668 L12,11.1481833 L5.85557487,7.83964668 C5.4908718,7.6432681 5.03602525,7.77972206 4.83964668,8.14442513 C4.6432681,8.5091282 4.77972206,8.96397475 5.14442513,9.16035332 L11.6444251,12.6603533 C11.8664074,12.7798822 12.1335926,12.7798822 12.3555749,12.6603533 L18.8555749,9.16035332 C19.2202779,8.96397475 19.3567319,8.5091282 19.1603533,8.14442513 C18.9639747,7.77972206 18.5091282,7.6432681 18.1444251,7.83964668 Z"
+																					id="Combined-Shape"
+																					fill="currentColor"></path>
+																				<circle id="Oval" fill="lightgray"
+																					opacity="0.5" cx="19.5" cy="17.5"
+																					r="2.5">
+																				</circle>
+																			</g>
+																		</svg>
+																	</span>
+																	<span class="text-xs">
+																		{{email}}</span>
+																</div>
+																<div class="pt-1">
+																	<button type="button" (click)="onClickSignOut()"
+																		[ngClass]="signOutspinner? 'bg-red-500 text-white' : 'text-red-500 bg-red-100' "
+																		class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium shadow-sm rounded hover:bg-red-200 focus:outline-none focus:bg-red-500 focus:text-white tracking-wide">
+																		<span *ngIf="!signOutspinner">Sign
+																			Out</span>
+																		<span *ngIf="signOutspinner">Signing
+																			Out</span>
+
+																		<app-loading-icon-button *ngIf="signOutspinner">
+																		</app-loading-icon-button>
+																	</button>
+																</div>
+															</div>
+															<app-create-popup *ngIf="popup" [Responce]="response"
+																[status]="status" (closePopUp)="modalClose($event)"
+																(successPopUp)="modalcontinue($event)"
+																(tryAgainPopUp)="tryAgain($event)"></app-create-popup>
+														</div>
+													</div>
+
+													<div class="mt-4 w-1/2">
+														<div>
+															<svg class="animate-spin text-green-900"
+																xmlns="http://www.w3.org/2000/svg"
+																xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+																height="24px" viewBox="0 0 24 24" version="1.1"
+																*ngIf="walletBalSpinner">
+																<g stroke="none" stroke-width="1" fill="none"
+																	fill-rule="evenodd">
+																	<g>
+																		<polygon points="0 0 24 0 24 24 0 24" />
+																	</g>
+																	<path class="opacity-25"
+																		d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+																		fill="currentColor" fill-rule="nonzero"
+																		transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+																</g>
+															</svg>
+														</div>
+														<div class="flex items-center justify-start w-auto"
+															*ngIf="logUserBalRetrievalErr">
+															<p class="text-xs text-rose-600 font-normal">
+																Something went
+																wrong.
+															</p>
+															<p
+																class="mt-3 text-xs md:mt-0 md:ml-6 cursor-pointer text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+																<a (click)="getLoggedInUserBal()"
+																	class="whitespace-nowrap font-medium uppercase">Retry</a>
+															</p>
+														</div>
+														<div class="flex justify-start space-x-2"
+															*ngIf="billType == 1 && !walletBalSpinner && !logUserBalRetrievalErr">
+															<div class="mt-4">
+																<div class="flex items-center justify-start w-auto">
+																	<div
+																		class="flex flex-col items-center border border-dashed border-gray-300 px-2 py-1">
+																		<div class="flex items-center space-x-0.5">
+
+																			<span
+																				class="text-green-500 text-sm font-semibold whitespace-nowrap tracking-wide">{{loggedInUserWalletBal
+																				| currency:currencyType :
+																				'symbol':currencyFormat}}
+																				&nbsp;{{currencyType}}</span>
+
+																		</div>
+																		<span class="text-gray-400 text-xxs">Your
+																			balance</span>
+
+																	</div>
+																</div>
+															</div>
+															<!-- <div class="mt-4"
+																tooltip="Total number of sms you can sent for the amount"
+																[options]="myOptions">
+																<div class="flex items-center justify-start w-auto">
+																	<div
+																		class="flex flex-col items-center border border-dashed border-gray-300 px-2 py-1">
+																		<div class="flex items-center space-x-0.5">
+																			<span
+																				class="text-green-500 text-sm font-semibold tracking-widest">{{loggedInUserSmsBal}}</span>
+																		</div>
+																		<span class="text-gray-400 text-xxs">SMS
+																			Left</span>
+																	</div>
+																</div>
+															</div> -->
+														</div>
+													</div>
+												</div>
+
+												<!-- second div  -->
+												<div class="space-y-5 pt-6">
+													<div (click)="settings(1)"
+														class="flex items-center text-gray-600 hover:text-blue-500 cursor-pointer">
+														<div
+															class="flex h-10 w-10 bg-green-50 items-center justify-center">
+															<svg class="h-5 w-5 rounded-md" viewBox="0 0 24 24"
+																version="1.1" xmlns="http://www.w3.org/2000/svg"
+																xmlns:xlink="http://www.w3.org/1999/xlink">
+																<defs></defs>
+																<g id="Stockholm-icons-/-General-/-Notification2"
+																	stroke="none" stroke-width="1" fill="none"
+																	fill-rule="evenodd">
+																	<rect id="bound" x="0" y="0" width="24" height="24">
+																	</rect>
+																	<path
+																		d="M13.2070325,4 C13.0721672,4.47683179 13,4.97998812 13,5.5 C13,8.53756612 15.4624339,11 18.5,11 C19.0200119,11 19.5231682,10.9278328 20,10.7929675 L20,17 C20,18.6568542 18.6568542,20 17,20 L7,20 C5.34314575,20 4,18.6568542 4,17 L4,7 C4,5.34314575 5.34314575,4 7,4 L13.2070325,4 Z"
+																		id="Combined-Shape" fill="#20c997"></path>
+																	<circle id="Oval" fill="#20c997" opacity="0.3"
+																		cx="18.5" cy="5.5" r="2.5"></circle>
+																</g>
+															</svg>
+														</div>
+														<div class="ml-4">
+															<div class="text-xs font-semibold">
+																My Account
+															</div>
+															<div class="flex space-x-1 align-middle items-center">
+																<div class="text-xs text-gray-400">
+																	Account
+																	settings and
+																	more
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- My Report -->
+													<div (click)="toReports()"
+														class="flex items-center text-gray-600 hover:text-blue-500 cursor-pointer">
+														<div
+															class="flex h-10 w-10 bg-yellow-100 bg-opacity-80 items-center justify-center">
+															<svg class="h-5 w-5 rounded-md text-yellow-600"
+																viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+																	fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24" />
+																	<path
+																		d="M4.00246329,12.2004927 L13,14 L13,4.06189375 C16.9463116,4.55399184 20,7.92038235 20,12 C20,16.418278 16.418278,20 12,20 C7.64874861,20 4.10886412,16.5261253 4.00246329,12.2004927 Z"
+																		fill="currentColor" opacity="0.3" />
+																	<path
+																		d="M3.0603968,10.0120794 C3.54712466,6.05992157 6.91622084,3 11,3 L11,11.6 L3.0603968,10.0120794 Z"
+																		fill="currentColor" />
+																</g>
+															</svg>
+														</div>
+														<div class="ml-4">
+															<div class="text-xs font-semibold">
+																My Report
+															</div>
+															<div class="flex space-x-1 align-middle items-center">
+																<div class="text-xs text-gray-400">
+																	Summary,
+																	Detailed and
+																	more
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- My activities
+														<div class="flex items-center text-gray-600 hover:text-blue-500 cursor-pointer">
+															<div class="flex h-10 w-10 bg-rose-50 items-center justify-center">
+																<svg class="h-5 w-5 rounded-md" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+																	<defs></defs>
+																	<g id="Stockholm-icons-/-Files-/-Selected-file" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																		<polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+																		<path d="M4.85714286,1 L11.7364114,1 C12.0910962,1 12.4343066,1.12568431 12.7051108,1.35473959 L17.4686994,5.3839416 C17.8056532,5.66894833 18,6.08787823 18,6.52920201 L18,19.0833333 C18,20.8738751 17.9795521,21 16.1428571,21 L4.85714286,21 C3.02044787,21 3,20.8738751 3,19.0833333 L3,2.91666667 C3,1.12612489 3.02044787,1 4.85714286,1 Z M8,12 C7.44771525,12 7,12.4477153 7,13 C7,13.5522847 7.44771525,14 8,14 L15,14 C15.5522847,14 16,13.5522847 16,13 C16,12.4477153 15.5522847,12 15,12 L8,12 Z M8,16 C7.44771525,16 7,16.4477153 7,17 C7,17.5522847 7.44771525,18 8,18 L11,18 C11.5522847,18 12,17.5522847 12,17 C12,16.4477153 11.5522847,16 11,16 L8,16 Z" id="Combined-Shape-Copy" fill="#dc3545" fill-rule="nonzero" opacity="0.3"></path>
+																		<path d="M6.85714286,3 L14.7364114,3 C15.0910962,3 15.4343066,3.12568431 15.7051108,3.35473959 L20.4686994,7.3839416 C20.8056532,7.66894833 21,8.08787823 21,8.52920201 L21,21.0833333 C21,22.8738751 20.9795521,23 19.1428571,23 L6.85714286,23 C5.02044787,23 5,22.8738751 5,21.0833333 L5,4.91666667 C5,3.12612489 5.02044787,3 6.85714286,3 Z M8,12 C7.44771525,12 7,12.4477153 7,13 C7,13.5522847 7.44771525,14 8,14 L15,14 C15.5522847,14 16,13.5522847 16,13 C16,12.4477153 15.5522847,12 15,12 L8,12 Z M8,16 C7.44771525,16 7,16.4477153 7,17 C7,17.5522847 7.44771525,18 8,18 L11,18 C11.5522847,18 12,17.5522847 12,17 C12,16.4477153 11.5522847,16 11,16 L8,16 Z" id="Combined-Shape" fill="#dc3545" fill-rule="nonzero"></path>
+																	</g>
+																</svg>
+															</div>
+															<div class="ml-4">
+																<div class="text-xs font-semibold">My Activities</div>
+																<div class="flex space-x-1 align-middle items-center">
+																	<div class="text-xs text-gray-400">Actions and Logs</div>
+																</div>
+															</div>
+														</div> -->
+													<!-- User's Wallet -->
+													<div (click)="settings(3)"
+														class="flex items-center text-gray-600 hover:text-blue-500 cursor-pointer"
+														*ngIf="billType == 1  && userType != 2">
+														<div
+															class="flex h-10 w-10 bg-purple-50 items-center justify-center">
+															<!-- <svg class="h-5 w-5 rounded-md" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+																	<defs></defs>
+																	<g id="Stockholm-icons-/-Files-/-Selected-file" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																		<polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+																		<path d="M4.85714286,1 L11.7364114,1 C12.0910962,1 12.4343066,1.12568431 12.7051108,1.35473959 L17.4686994,5.3839416 C17.8056532,5.66894833 18,6.08787823 18,6.52920201 L18,19.0833333 C18,20.8738751 17.9795521,21 16.1428571,21 L4.85714286,21 C3.02044787,21 3,20.8738751 3,19.0833333 L3,2.91666667 C3,1.12612489 3.02044787,1 4.85714286,1 Z M8,12 C7.44771525,12 7,12.4477153 7,13 C7,13.5522847 7.44771525,14 8,14 L15,14 C15.5522847,14 16,13.5522847 16,13 C16,12.4477153 15.5522847,12 15,12 L8,12 Z M8,16 C7.44771525,16 7,16.4477153 7,17 C7,17.5522847 7.44771525,18 8,18 L11,18 C11.5522847,18 12,17.5522847 12,17 C12,16.4477153 11.5522847,16 11,16 L8,16 Z" id="Combined-Shape-Copy" fill="#dc3545" fill-rule="nonzero" opacity="0.3"></path>
+																		<path d="M6.85714286,3 L14.7364114,3 C15.0910962,3 15.4343066,3.12568431 15.7051108,3.35473959 L20.4686994,7.3839416 C20.8056532,7.66894833 21,8.08787823 21,8.52920201 L21,21.0833333 C21,22.8738751 20.9795521,23 19.1428571,23 L6.85714286,23 C5.02044787,23 5,22.8738751 5,21.0833333 L5,4.91666667 C5,3.12612489 5.02044787,3 6.85714286,3 Z M8,12 C7.44771525,12 7,12.4477153 7,13 C7,13.5522847 7.44771525,14 8,14 L15,14 C15.5522847,14 16,13.5522847 16,13 C16,12.4477153 15.5522847,12 15,12 L8,12 Z M8,16 C7.44771525,16 7,16.4477153 7,17 C7,17.5522847 7.44771525,18 8,18 L11,18 C11.5522847,18 12,17.5522847 12,17 C12,16.4477153 11.5522847,16 11,16 L8,16 Z" id="Combined-Shape" fill="#dc3545" fill-rule="nonzero"></path>
+																	</g>
+																</svg> -->
+															<svg class="h-5 w-5 rounded-md text-purple-500"
+																viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+																	fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24" />
+																	<rect fill="currentColor" opacity="0.3" x="2" y="2"
+																		width="10" height="12" rx="2" />
+																	<path
+																		d="M4,6 L20,6 C21.1045695,6 22,6.8954305 22,8 L22,20 C22,21.1045695 21.1045695,22 20,22 L4,22 C2.8954305,22 2,21.1045695 2,20 L2,8 C2,6.8954305 2.8954305,6 4,6 Z M18,16 C19.1045695,16 20,15.1045695 20,14 C20,12.8954305 19.1045695,12 18,12 C16.8954305,12 16,12.8954305 16,14 C16,15.1045695 16.8954305,16 18,16 Z"
+																		fill="currentColor" />
+																</g>
+															</svg>
+														</div>
+														<div class="ml-4">
+															<div class="text-xs font-semibold">
+																Manage Wallet
+															</div>
+															<div class="flex space-x-1 align-middle items-center">
+																<div class="text-xs text-gray-400">
+																	Add or
+																	Deduct
+																	wallet
+																	amount for
+																	users
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<!-- third div
+													<div class="flex flex-col space-y-5 pt-6">
+														<div>Recent Notifications</div>
+														<div class="flex flex-shrink-0 overflow-auto">
+															<div class="flex flex-row justify-between items-center mb-9 bg-yellow-100 rounded p-5">
+
+																<span class="text-yellow-400 mr-5">
+																	<span class="">
+
+																		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																			<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																				<rect x="0" y="0" width="24" height="24"></rect>
+																				<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z" fill="currentColor"></path>
+																				<rect fill="currentColor" opacity="0.3" transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)" x="16.3255682" y="2.94551858" width="3" height="18" rx="1"></rect>
+																			</g>
+																		</svg>
+
+																	</span>
+																</span>
+
+
+																<div class="flex flex-col justify-between mr-2 text-xs">
+																	<a href="#" class="font-bold text-gray-600 hover:text-blue-400 mb-1">Upcoming Campaign #Campaign 1 </a>
+																	<span class="text-gray-300 font-bold">Due in 2 Days</span>
+																</div>
+
+
+																<span class="font-semibold text-yellow-400 py-1">+28%</span>
+
+															</div>
+															<div></div>
+														</div>
+													</div> -->
+											</div>
+										</div>
+										<!-- /End replace -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+<app-toast></app-toast>

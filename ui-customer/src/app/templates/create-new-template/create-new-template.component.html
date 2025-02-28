@@ -1,0 +1,267 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 pt-2 bg-white">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3
+				class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r"
+			>
+				New Template
+			</h3>
+			<div
+				class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400"
+			>
+				<span
+					routerLink="/templates"
+					(keydown.enter)="routing('/templates')"
+					class="hover:text-blue-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50 rounded"
+					>Template</span
+				>
+				<span class="text-xxs font-mono">/</span>
+				<span class="hover:text-blue-500 cursor-pointer"
+					>Create Template</span
+				>
+			</div>
+		</div>
+		<div></div>
+	</div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+			<!-- <div class="absolute z-10 inset-px bg-gray-100 opacity-70"></div> -->
+
+			<div class="bg-white p-5 md:p-10 rounded z-0">
+				<div class="text-lg font-medium text-gray-800">
+					Create Template
+				</div>
+				<div class="border-b-0 mt-4 border-gray-200"></div>
+				<form
+					class="space-y-8 divide-y divide-gray-200"
+					[formGroup]="newTemplateForm"
+				>
+					<div>
+						<div>
+							<div
+								class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 divide-y divide-gray-100"
+							>
+								<!-- template name section -->
+								<div class="sm:col-span-6 text-xs">
+									<div>
+										<label
+											for="name"
+											class="block font-semibold text-gray-700"
+											>Template Name
+											<span class="text-red-600">*</span>
+										</label>
+
+										<div
+											class="mt-2 relative rounded-md w-full sm:w-1/2"
+										>
+											<app-template-name>
+											</app-template-name>
+										</div>
+									</div>
+								</div>
+
+								<div class="sm:col-span-6 text-xs pt-4">
+									<app-entity-id
+										(entityIdEmitter)="receivedEntityId($event)"
+									></app-entity-id>
+								</div>
+								<!-- dlt template id column section  -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<app-select-dlt-template
+										[entityId]="entityId"
+										[templateMsg]="templateMsg"
+										[inTemplate]="'createTemp'"
+										
+										[campaignType]="'DLT'"
+										(choosenDltTemplate)="findMatchingDLTMsg($event)"
+										(noEntityId)="EntityIdRequired($event)"
+									></app-select-dlt-template>
+
+									<div
+										class="sm:col-span-6 text-xs pt-4"
+										*ngIf="showMessage"
+									>
+										<app-create-new-template-message
+											[entityId]="entityId"
+											[templateMsg]="templateMsg"
+											[SelectedMsg]="selectedMsg"
+											[apiIsStaticFlag] = "staticTemplate"
+											[fileUploaded]="showMobileColSection"
+											(templateMsgChg)="msgTextAreaChanged($event)"
+										>
+										</app-create-new-template-message>
+									</div>
+								</div>
+
+								<!-- template type section -->
+								<div
+									class="sm:col-span-6 text-xs pt-4"
+									*ngIf="showFileUploadSection "
+								>
+									<app-file-based-on></app-file-based-on>
+								</div>
+
+								<!-- file upload section -->
+								<div
+									class="sm:col-span-6 text-xs pt-4"
+									*ngIf="showFileUploadSection"
+								>
+									<div
+										class="flex justify-between items-center"
+									>
+										<label
+											for="mobile"
+											class="block font-semibold text-gray-700"
+											>Template data file
+											<span class="text-red-600">*</span>
+										</label>
+									</div>
+									<div
+										class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3 items-center"
+									>
+										<app-single-file-upload
+											[fileUpload]="singleFileUploaded"
+											(responseEmitter)="onClickFileUpload($event)"
+										>
+										</app-single-file-upload>
+										<p
+											class="text-xxs sm:text-xs text-red-600 whitespace-nowrap"
+											*ngIf="file1.touched && file1.errors?.required"
+										>
+											Atleast 1 file should be
+											successfully uploaded
+										</p>
+									</div>
+									<div
+										class="relative sm:col-span-6 p-3 bg-blue-50 bg-opacity-40 mt-5 border-dashed border-gray-300 rounded border-4"
+										*ngIf="( showPreview && newMsg.length >0)  "
+									>
+										<span
+											class="absolute right-1 -top-3 text-xxs text-green-600 mr-1.5 bg-green-100 p-0.5 px-1 uppercase border-dashed rounded"
+											>Preview</span
+										>
+
+										<div class="mt-4 space-y-2">
+											<p class="text-gray-400">
+												Message content based on
+												uploaded file and template
+											</p>
+											<div
+												class="bg-blue-50 text-blue-500 p-2 whitespace-pre-wrap"
+											>
+												{{newMsg}}
+											</div>
+										</div>
+										<!-- warning section -->
+										<div
+											class="p-4 mt-4 bg-yellow-50 flex border border-dashed border-yellow-300 rounded-lg"
+											*ngIf="showWarning"
+										>
+											<div class="">
+												<div
+													class="flex space-x-2 items-center justify-center"
+												>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="w-6 h-6 text-yellow-500"
+														viewBox="0 0 24 24"
+														version="1.1"
+													>
+														<circle
+															fill="currentColor"
+															opacity="0.4"
+															cx="12"
+															cy="12"
+															r="10"
+														></circle>
+														<rect
+															fill="currentColor"
+															x="11"
+															y="7"
+															width="2"
+															height="8"
+															rx="1"
+														></rect>
+														<rect
+															fill="currentColor"
+															x="11"
+															y="16"
+															width="2"
+															height="2"
+															rx="1"
+														></rect>
+													</svg>
+													<div>
+														<span
+															class="text-gray-700 text-sm font-semibold"
+															>Attention</span
+														>
+														<div
+															class="text-gray-600"
+														>
+															You may not have the
+															matching values in
+															the upload file for
+															the selected
+															template. Please
+															check your file or
+															the template chosen
+															before continuing
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								
+								<!-- mobile column section  -->
+								<div
+									class="sm:col-span-6 text-xs pt-4"
+									*ngIf="showFileUploadSection && showMobileColSection"
+								>
+									<app-select-mobile-column
+										(mobileColumnResponse)="onChangeMobileColumn($event)"
+									></app-select-mobile-column>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- button section -->
+					<div class="pt-5">
+						<div
+							class="md:flex md:justify-between grid grid-rows-1 gap-y-2"
+						>
+							<div class="grid grid-rows-1">
+								<app-campaign-cancel-button
+									[routePath]="'/templates'"
+									[cancelMessage]="cancelMessage"
+								></app-campaign-cancel-button>
+							</div>
+							<div class="md:flex md:justify-end">
+								<div
+									class="grid grid-rows-1 gap-y-2 md:grid-flow-col"
+								>
+									<app-template-create-button
+										[newTemplateForm]="newTemplateForm"
+										[enableButton]="enableCreateButton"
+										[title]="'Create'"
+									>
+									</app-template-create-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- /End replace -->
+		</div>
+	</div>
+</main>

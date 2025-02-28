@@ -1,0 +1,11 @@
+initial.stage.properties.loc =/fileprocessor/224/initialstage.properties
+split.stage.properties.loc = /fileprocessor/224/splitstage.properties
+jndi.properties.loc = /fileprocessor/224/jndi-list.properties
+utils.properties.loc = /fileprocessor/224/utils.properties
+handover.stage.properties.loc = /fileprocessor/224/handoverstage.properties
+campaign.finisher.properties.loc = /fileprocessor/224/campaignfinisher.properties
+schedule.processor.properties.loc = /fileprocessor/224/scheduleprocessor.properties
+groups.processor.properties.loc = /fileprocessor/224/groupsprocessor.properties
+exclude.properties.loc=/fileprocessor/224/excludeprocessor.properties
+dlt.file.processor.properties.loc=/fileprocessor/224/dltprocessor.properties
+download.handler.properties.loc=/fileprocessor/224/downloadhandler.properties

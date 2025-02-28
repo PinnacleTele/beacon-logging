@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+        <Properties>
+                <Property name="basePath">/opt/jboss/wildfly/logs/application</Property>
+<Property name="sp">sp</Property>
+                <Property name="mainLog">application</Property>
+                <Property name="commonlibLog">commonlib</Property>
+                <Property name="inmemoryLog">inmemory</Property>
+                <Property name="prometheusLog">prometheus</Property>
+                <Property name="templatefinder">templatefinder</Property>
+                <Property name="messagePattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5.5p] [%-25.25t] [%-30.30c{1.1}] [%-25.25M] %m%n</Property>
+        </Properties>
+
+        <Appenders>
+
+            <RollingFile name="sp"
+                        fileName="${basePath}/${sp}.log"
+                        filePattern="${basePath}/$sp}-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="mainLogger"
+                        fileName="${basePath}/${mainLog}.log"
+                        filePattern="${basePath}/${mainLog}-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="templatefinder"
+                        fileName="${basePath}/${templatefinder}.log"
+                        filePattern="${basePath}/${templatefinder}-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+
+                <RollingFile name="commonlibLog"
+                        fileName="${basePath}/${commonlibLog}.log"
+                        filePattern="${basePath}/${commonlibLog}-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="inmemoryLog"
+                        fileName="${basePath}/${inmemoryLog}.log"
+                        filePattern="${basePath}/${inmemoryLog}-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="timeadjustlog"
+                        fileName="${basePath}/timeadjustlog.log"
+                        filePattern="${basePath}/timeadjustlog-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="topic2table"
+                        fileName="${basePath}/topic2table.log"
+                        filePattern="${basePath}/topic2table-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="prometheusLog"
+                        fileName="${basePath}/prometheusLog.log"
+                        filePattern="${basePath}/prometheusLog-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="kafkaservice"
+                        fileName="${basePath}/kafkaservice.log"
+                        filePattern="${basePath}/kafkaservice-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+                </RollingFile>
+
+                <RollingFile name="templatefinder"
+                        fileName="${basePath}/templatefinder.log"
+                        filePattern="${basePath}/templatefinder-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+            </RollingFile>
+
+                        <RollingFile name="kafkaconsumer"
+                        fileName="${basePath}/kafkaconsumer.log"
+                        filePattern="${basePath}/kafkaconsumer-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="20MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+            </RollingFile>
+
+            <RollingFile name="ic"
+                        fileName="${basePath}/ic.log"
+                        filePattern="${basePath}/ic-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="20MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="3" />
+            </RollingFile>
+
+
+
+
+                <Console name="console" target="SYSTEM_OUT">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                </Console>
+        </Appenders>
+
+        <Loggers>
+
+
+          <logger name="com.itextos.beacon.splog" level="ERROR">
+                        <AppenderRef ref="sp" />
+                </logger>
+
+                <Root level="ERROR" additivity="true">
+                        <appender-ref ref="mainLogger" />
+                </Root>
+
+                <logger name="com.itextos.beacon.commonlib" level="ERROR">
+                        <AppenderRef ref="commonlibLog" />
+                </logger>
+
+                <logger name="com.itextos.beacon.inmemory" level="ERROR">
+                        <AppenderRef ref="inmemoryLog" />
+                </logger>
+
+                <logger name="com.itextos.beacon.platform.dnprocess.common.TimeAdjustmentUtility" level="ERROR">
+                        <AppenderRef ref="timeadjustlog" />
+                </logger>
+
+                <logger name="com.itextos.beacon.commonlib.prometheus" level="ERROR">
+                        <AppenderRef ref="prometheusLog" />
+                </logger>
+
+                <logger name="com.itextos.beacon.commonlib.kafka.service" level="ERROR">
+                        <AppenderRef ref="kafkaservice" />
+                </logger>
+
+                <logger name="com.itextos.beacon.platform.templatefinder" level="ERROR">
+                        <AppenderRef ref="templatefinder" />
+                </logger>
+
+                <logger name="com.itextos.beacon.commonlib.kafka.service.consumer" level="ERROR">
+                        <AppenderRef ref="kafkaconsumer" />
+                </logger>
+
+        </Loggers>
+</Configuration>
+

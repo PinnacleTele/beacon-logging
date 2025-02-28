@@ -1,0 +1,204 @@
+<div class="sm:col-span-6 text-xs pt-4">
+	<form *ngIf="campaignMsgFormGroup" [formGroup]="campaignMsgFormGroup">
+		<div class="flex justify-between items-center" *ngIf="cType != 'MTM' ">
+			<label for="message" class="block font-semibold text-gray-700">Message <span class="text-red-600">*</span>
+			</label>
+			<nav class="flex space-x-1">
+				<button *ngIf="showPreview " type="button" (click)="clearTemplate()"
+					class="inline-flex items-center px-1 py-1.5 text-xs leading-4 font-medium tracking-wide rounded-md text-red-600 bg-white hover:underline focus:outline-none">
+					<!-- Heroicon name: solid/mail -->
+					<svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+						stroke="none">
+						<path fill-rule="evenodd"
+							d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+							clip-rule="evenodd" />
+					</svg>
+					Remove Template
+				</button>
+				<button *ngIf="(trafficType == 'india' || trafficType == 'both') && !showPreview" type="button"
+					(click)="openTemplateSlider()"
+					class="inline-flex items-center px-1 py-1.5 text-xs leading-4 font-medium tracking-wide rounded-md text-blue-600 bg-white hover:underline focus:outline-none">
+					<!-- Heroicon name: solid/mail -->
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+						stroke="none">
+						<path fill-rule="evenodd"
+							d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+							clip-rule="evenodd" />
+					</svg>
+					Add Template
+				</button>
+			</nav>
+		</div>
+
+		<nav *ngIf="! showPreview" class="flex justify-end space-x-1">
+			<label
+				class="inline-flex items-center px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded text-green-600 bg-gray-100 focus:outline-none"
+				*ngIf="!isUnicode1">
+				Text
+			</label>
+
+			<label
+				class="inline-flex items-center px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded text-green-600 bg-gray-100 focus:outline-none"
+				*ngIf="isUnicode1">
+				Unicode
+			</label>
+		</nav>
+		<div *ngIf="! showPreview">
+			<div class="mt-1">
+				<textarea tabindex="0" id="message" name="message" formControlName="message" (blur)="resetOnBlur()"
+					[ngClass]="{'border-red-300': message.touched && message.errors}" rows="5"
+					placeholder="Enter recipient message"
+					class="shadow-sm placeholder-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md"></textarea>
+			</div>
+		</div>
+		<app-preview-template *ngIf="showPreview" [selectedTemplate]="selectedTemplate" [campaignType]="campaignType"
+			[langType]="langType" (changeOrEdit)="changeOrEditResponse()">
+		</app-preview-template>
+		<div class="flex flex-col md:flex-row items-center w-full lg:w-2/3 justify-between space-y-1 md:space-y-0">
+			<div class="mt-2 flex items-center justify-center">
+				<div>
+					<svg class="animate-spin text-green-900" xmlns="http://www.w3.org/2000/svg"
+						xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24"
+						version="1.1" *ngIf="msgSpinner">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<g>
+								<polygon points="0 0 24 0 24 24 0 24" />
+							</g>
+							<path class="opacity-25"
+								d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+								fill="currentColor" fill-rule="nonzero"
+								transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+						</g>
+					</svg>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="!showRetry && !msgSpinner"
+			class="flex justify-between items-center space-x-2 mt-2 text-xxs sm:text-xs text-gray-600 lowercase tracking-wide">
+			<div class="space-x-2 text-gray-600 px-1 lowercase tracking-wide">
+				<span><span class="font-semibold font-mono">{{ totalCharCount }}</span>
+					Chars</span>
+				<span>
+					<span class="font-semibold">{{ partsCount }}</span>
+					part(s)
+				</span>
+			</div>
+
+			<div class="h-7">
+				<button type="button" (click)="openModal()"
+					class="inline-flex items-center px-1 py-1.5 text-xs leading-4 font-medium tracking-wide rounded-md text-red-400 hover:underline focus:outline-none"
+					*ngIf="totalCharCount > 0 && msgType != 'template'">
+					<!-- Heroicon name: solid/mail -->
+					<svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd"
+							d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+							clip-rule="evenodd" />
+					</svg>
+
+					Clear
+				</button>
+			</div>
+		</div>
+
+		<!-- {{message.errors | json}} {{template.errors | json}} -->
+		<p class="mt-2 text-xxs sm:text-xs text-red-600" id="message-error"
+			*ngIf="message.errors?.required && message.touched && !(template.errors?.apiRequestError || message.errors?.apiRequestError)">
+			Message is required
+		</p>
+	</form>
+
+	<app-clear-modal [title]="'Clear Message'"
+		[confirmationMessage]="'Are you sure you want to clear out message area?'" [confirmLable]="'Clear'"
+		(clearModalResponse)="clearModalResponse($event)" *ngIf="openClearModal">
+	</app-clear-modal>
+
+	<app-existing-templates-slider *ngIf="isShowTemplateSlider" (closeSlider)="closeSlider()"
+		(emitSelectedTemplate)="emittedTemplate($event)" [inTemplate]="camptype" [sender_Id]="sender_Id"
+		[entity_Id]="entity_Id" [choosen_dlt_id]="Dlt_template_ID">
+	</app-existing-templates-slider>
+
+
+	<!-- api error -->
+	<div class="sm:col-span-6 text-xs pt-4">
+		<div class="flex justify-between items-center">
+			<div *ngIf="!msgSpinner && showRetry" class="rounded-md bg-red-50 p-1.5 w-full lg:w-1/2">
+				<div class="flex">
+					<div class="flex-shrink-0 mt-1">
+						<svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<rect x="0" y="0" width="24" height="24" />
+								<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+								<path
+									d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+									fill="currentColor" />
+							</g>
+						</svg>
+					</div>
+					<div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+						<p class="text-xs text-rose-600 font-normal">
+							Something went wrong. Please try again
+						</p>
+						<p
+							class="mt-3 text-xs md:mt-0 md:ml-6 text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+							<a (click)="retryApi()"
+								class="cursor-pointer whitespace-nowrap font-medium uppercase">Retry</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- mobile preview -->
+	<div *ngIf="totalCharCount > 0"
+		class="relative sm:col-span-6 p-3 bg-blue-50 bg-opacity-40 mt-5 border-dashed border-blue-300 rounded border-2">
+		<span
+			class="flex space-x-2 absolute right-1 -top-3 text-xxs text-white mr-1.5 bg-blue-500 p-0.5 px-1 uppercase border-dashed rounded">
+			<svg class="text-blue-200 w-4 h-4" viewBox="0 0 24 24" version="1.1">
+				<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+					<rect x="0" y="0" width="24" height="24" />
+					<path
+						d="M7.13888889,4 L7.13888889,19 L16.8611111,19 L16.8611111,4 L7.13888889,4 Z M7.83333333,1 L16.1666667,1 C17.5729473,1 18.25,1.98121694 18.25,3.5 L18.25,20.5 C18.25,22.0187831 17.5729473,23 16.1666667,23 L7.83333333,23 C6.42705272,23 5.75,22.0187831 5.75,20.5 L5.75,3.5 C5.75,1.98121694 6.42705272,1 7.83333333,1 Z"
+						fill="currentColor" fill-rule="nonzero" />
+					<polygon fill="currentColor" opacity="0.3" points="7 4 7 19 17 19 17 4" />
+					<circle fill="currentColor" cx="12" cy="21" r="1" />
+				</g>
+			</svg>
+			<span> Mobile Preview </span>
+		</span>
+
+		<div class="mx-2 my-2 space-y-2">
+			<!-- <p class="text-gray-400">The message that you see on your mobile</p> -->
+			<div *ngIf="!handsetapiError"
+				class="bg-gray-50 text-blue-500 text-xs font-semibold tracking-wide p-2 whitespace-pre-wrap">
+				{{mobileHandsetMessage}}
+			</div>
+			<div *ngIf="handsetapiError" class="ml-2 flex-1 md:flex md:justify-between mt-1">
+				<p class="text-xs text-rose-600 font-small">
+					Sorry, we couldn't show preview.. please try again
+				</p>
+				<p
+					class="mt-3 text-xs md:mt-0 md:ml-6 text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+					<a (click)="retryApi()" class="whitespace-nowrap font-medium uppercase cursor-pointer">Retry</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<form [formGroup]="vlForm">
+		<div class="relative flex items-center mt-3 bg-gray-50 px-2 py-1" *ngIf="shortner.vl_shortner === 1">
+			<div class="flex items-center h-5">
+				<input id="shortner" name="shortner" type="checkbox" formControlName="vlShortner"
+					(change)="onChange($event)"
+					class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+			</div>
+			<div class="ml-3 text-xs">
+				<label for="shortner" class="font-medium text-gray-700">Shorten URL</label>
+				<p class="text-gray-500 text-xxs">
+					Enabling this will convert all the URL's in the message to a
+					shortned URL
+				</p>
+			</div>
+		</div>
+	</form>
+</div>

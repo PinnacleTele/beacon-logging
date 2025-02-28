@@ -1,0 +1,26 @@
+{
+  "pricing": [
+    {
+      "country": "Aruba",
+      "country_code_iso_3": "ABW",
+      "price": 12
+    },
+    {
+      "country": "Afghanistan",
+      "country_code_iso_3": "AFG",
+      "price": 14
+    },
+    {
+      "country": "Angola",
+      "country_code_iso_3": "AGO",
+      "price": 16
+    }
+  ],
+  "indianRates": {
+    "smsRate": 1.75,
+    "dltRate": 1.80
+  },
+  "rowRate": {
+    "rowSmsRate": 3.75
+  }
+}

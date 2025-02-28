@@ -1,0 +1,304 @@
+import sys
+import mysql.connector
+import psycopg2
+import pandas as pd
+
+from datetime import datetime, timedelta
+from dateutil.rrule import *
+from dateutil.relativedelta import *
+
+import configobj
+import logging
+
+def df_insert_data(pg_cursor, pg_tbl_name, pg_col_lst, df_data, null_value):
+    pg_val_str = "(" + ",".join(["%s" for _ in pg_col_lst.split(',')]) + ")"
+    pg_sql = "insert into " + pg_tbl_name + "(" + pg_col_lst + ") values "
+
+    row_ins_lst = []
+    for rpt_row in df_data.itertuples(index=False):
+        row = [rpt_row[0].strftime("%Y-%m-%d %H:%M:%S")]
+        for cval in rpt_row[1:]:
+            if cval == null_value:
+                row.append(None)
+            else:
+                row.append(cval)
+        row_ins_lst.append(tuple(row))
+
+    val_txt = b",".join(pg_cursor.mogrify(pg_val_str, r) for r in row_ins_lst).decode("utf-8")
+    pg_cursor.execute(pg_sql + val_txt)
+
+def proc_date(date_val,cfg_val, my_conn, pg_conn, df_err_cd):
+    date_str = date_val.strftime("%Y-%m-%d")
+    date_tbl_str = date_val.strftime("%Y%m%d")
+    null_value = "~~NULL~~"
+
+    sql = """select recv_date, cli_id, sub_cli_hdr, sub_msg_tag, 
+            sub_msg_tag1, sub_msg_tag2, sub_msg_tag3, sub_msg_tag4, sub_msg_tag5, 
+            sub_campaign_id, sub_campaign_name, sub_file_id, sub_file_name, sub_intf_type, 
+            sub_country, sub_msg_type, sub_sub_ori_sts_code, del_dn_ori_sts_code"""
+
+    sql += " from smslog.sub_del_log_" + date_tbl_str + " where sub_intf_type = 'gui'"""
+
+    pg_cursor = pg_conn.cursor()
+    pg_cursor.execute(sql)
+    rlst = pg_cursor.fetchall()
+    if len(rlst) == 0:
+        return
+    
+    cols = [c[0] for c in pg_cursor.description]
+    pg_cursor.close()
+
+    ui_camp_rpt_group_cols = ['recv_date', 'cli_id', 'sub_cli_hdr', 'sub_msg_tag', 'sub_msg_tag1', 'sub_msg_tag2',
+                              'sub_msg_tag3', 'sub_msg_tag4', 'sub_msg_tag5', 'sub_campaign_id', 'sub_campaign_name',
+                              'sub_file_id', 'sub_file_name', 'sub_intf_type', 'sub_country']
+
+    df_ui_camp = pd.DataFrame.from_records(rlst, columns=cols)
+    df_ui_camp.fillna(null_value, inplace=True)
+
+
+
+    df_ui_camp_total_group = df_ui_camp.groupby(by=ui_camp_rpt_group_cols)
+    df_ui_camp_total_count = df_ui_camp_total_group["sub_sub_ori_sts_code"].agg(["count"]).reset_index()
+    df_ui_camp_total_count["count"] = df_ui_camp_total_count["count"].astype(int)
+
+    df_ui_camp_submit_group = df_ui_camp[df_ui_camp["sub_sub_ori_sts_code"]=="400"].groupby(by=ui_camp_rpt_group_cols)
+    df_ui_camp_submit_count = df_ui_camp_submit_group["sub_sub_ori_sts_code"].agg(["count"]).reset_index()
+    df_ui_camp_submit_count["count"] = df_ui_camp_submit_count["count"].astype(int)
+
+    df_ui_camp_delivery_group = df_ui_camp[(df_ui_camp["del_dn_ori_sts_code"] != null_value) &
+                                           (df_ui_camp["del_dn_ori_sts_code"] == "600")].\
+                                            groupby(by=ui_camp_rpt_group_cols)
+    df_ui_camp_delivery_count = df_ui_camp_delivery_group["del_dn_ori_sts_code"].agg(["count"]).reset_index()
+    df_ui_camp_delivery_count["count"] = df_ui_camp_delivery_count["count"].astype(int)
+
+    dn_fail_err_cd = df_err_cd[(df_err_cd["category"] == "OPERATOR") &
+                               (df_err_cd["status_flag"] == "Failed")]["error_code"]
+    df_ui_camp_fail_group = df_ui_camp[(df_ui_camp["del_dn_ori_sts_code"] != null_value) &
+                                       (df_ui_camp["del_dn_ori_sts_code"].isin(dn_fail_err_cd))].\
+                                        groupby(by=ui_camp_rpt_group_cols)
+    df_ui_camp_fail_count = df_ui_camp_fail_group["del_dn_ori_sts_code"].agg(["count"]).reset_index()
+    df_ui_camp_fail_count["count"] = df_ui_camp_fail_count["count"].astype(int)
+
+    dn_expire_err_cd = df_err_cd[(df_err_cd["category"] == "OPERATOR") &
+                                 (df_err_cd["status_flag"] == "Expired")]["error_code"]
+    df_ui_camp_expire_group = df_ui_camp[(df_ui_camp["del_dn_ori_sts_code"] != null_value) &
+                                         (df_ui_camp["del_dn_ori_sts_code"].isin(dn_expire_err_cd))].\
+                                        groupby(by=ui_camp_rpt_group_cols)
+
+    df_ui_camp_expire_count = df_ui_camp_expire_group["del_dn_ori_sts_code"].agg(["count"]).reset_index()
+    df_ui_camp_expire_count["count"] = df_ui_camp_expire_count["count"].astype(int)
+
+    sub_reject_err_cd = df_err_cd[df_err_cd["category"].isin(["PLATFORM", "INTERFACE"])]["error_code"]
+    df_ui_camp_reject_group = df_ui_camp[(df_ui_camp["sub_sub_ori_sts_code"] != "400") &
+                                         (df_ui_camp["sub_sub_ori_sts_code"].isin(sub_reject_err_cd))].\
+                                        groupby(by=ui_camp_rpt_group_cols)
+    df_ui_camp_reject_count = df_ui_camp_reject_group["sub_sub_ori_sts_code"].agg(["count"]).reset_index()
+    df_ui_camp_reject_count["count"] = df_ui_camp_reject_count["count"].astype(int)
+
+    df_ui_camp_oocredit_group = df_ui_camp[df_ui_camp["sub_sub_ori_sts_code"] == "445"].\
+                                groupby(by=ui_camp_rpt_group_cols)
+    df_ui_camp_oocredit_count = df_ui_camp_oocredit_group["sub_sub_ori_sts_code"].agg(["count"]).reset_index()
+    df_ui_camp_oocredit_count["count"] = df_ui_camp_oocredit_count["count"].astype(int)
+
+    df_dn_pending = df_ui_camp[(df_ui_camp["sub_msg_type"] != 0) &
+                               (df_ui_camp["sub_sub_ori_sts_code"] == "400")].copy()
+
+    df_dn_pending["dn_check"] = df_dn_pending["del_dn_ori_sts_code"].apply(lambda x: 0 if x == null_value else 1)
+
+    df_ui_camp_dn_pending_group = df_dn_pending.groupby(by=ui_camp_rpt_group_cols)
+    df_ui_camp_dn_pending_count = df_ui_camp_dn_pending_group.agg(
+        {"sub_sub_ori_sts_code": "count", "dn_check": "sum"}).reset_index()
+
+
+    df_ui_camp_dn_pending_count["dn_pending_count"] = df_ui_camp_dn_pending_count["sub_sub_ori_sts_code"] - \
+                                                      df_ui_camp_dn_pending_count["dn_check"]
+    df_ui_camp_dn_pending_count["dn_pending_count"] = df_ui_camp_dn_pending_count["dn_pending_count"].astype(int)
+    df_ui_camp_dn_pending_count.drop(["sub_sub_ori_sts_code", "dn_check"], axis=1, inplace=True)
+
+    df_ui_camp_rpt = pd.merge(df_ui_camp_total_count, df_ui_camp_submit_count,
+                              how='left',
+                              on=ui_camp_rpt_group_cols,
+                              left_index=False,
+                              right_index=False,
+                              suffixes=["_total", "_submit"]).reset_index(drop=True)
+    df_ui_camp_rpt["count_submit"].fillna(0, inplace=True)
+    df_ui_camp_rpt["count_submit"] = df_ui_camp_rpt["count_submit"].astype(int)
+
+    df_ui_camp_rpt = pd.merge(df_ui_camp_rpt, df_ui_camp_delivery_count,
+                              how='left',
+                              on=ui_camp_rpt_group_cols,
+                              left_index=False,
+                              right_index=False).reset_index(drop=True).rename(columns={"count": "count_delivery"})
+    df_ui_camp_rpt["count_delivery"].fillna(0, inplace=True)
+    df_ui_camp_rpt["count_delivery"] = df_ui_camp_rpt["count_delivery"].astype(int)
+
+    df_ui_camp_rpt = pd.merge(df_ui_camp_rpt, df_ui_camp_fail_count,
+                              how='left',
+                              on=ui_camp_rpt_group_cols,
+                              left_index=False,
+                              right_index=False).reset_index(drop=True).rename(columns={"count": "count_dn_failed"})
+    df_ui_camp_rpt["count_dn_failed"].fillna(0, inplace=True)
+    df_ui_camp_rpt["count_dn_failed"] = df_ui_camp_rpt["count_dn_failed"].astype(int)
+
+    df_ui_camp_rpt = pd.merge(df_ui_camp_rpt, df_ui_camp_expire_count,
+                              how='left',
+                              on=ui_camp_rpt_group_cols,
+                              left_index=False,
+                              right_index=False).reset_index(drop=True).rename(columns={"count": "count_dn_expired"})
+    df_ui_camp_rpt["count_dn_expired"].fillna(0, inplace=True)
+    df_ui_camp_rpt["count_dn_expired"] = df_ui_camp_rpt["count_dn_expired"].astype(int)
+
+    df_ui_camp_rpt = pd.merge(df_ui_camp_rpt, df_ui_camp_reject_count,
+                              how='left',
+                              on=ui_camp_rpt_group_cols,
+                              left_index=False,
+                              right_index=False).reset_index(drop=True).rename(columns={"count": "count_rejected"})
+    df_ui_camp_rpt["count_rejected"].fillna(0, inplace=True)
+    df_ui_camp_rpt["count_rejected"] = df_ui_camp_rpt["count_rejected"].astype(int)
+
+    df_ui_camp_rpt = pd.merge(df_ui_camp_rpt, df_ui_camp_oocredit_count,
+                              how='left',
+                              on=ui_camp_rpt_group_cols,
+                              left_index=False,
+                              right_index=False).reset_index(drop=True).rename(columns={"count": "count_out_of_credit"})
+    df_ui_camp_rpt["count_out_of_credit"].fillna(0, inplace=True)
+    df_ui_camp_rpt["count_out_of_credit"] = df_ui_camp_rpt["count_out_of_credit"].astype(int)
+
+    df_ui_camp_rpt = pd.merge(df_ui_camp_rpt, df_ui_camp_dn_pending_count,
+                              how='left',
+                              on=ui_camp_rpt_group_cols,
+                              left_index=False,
+                              right_index=False).reset_index(drop=True).rename(
+        columns={"dn_pending_count": "count_dn_pending"})
+    df_ui_camp_rpt["count_dn_pending"].fillna(0, inplace=True)
+    df_ui_camp_rpt["count_dn_pending"] = df_ui_camp_rpt["count_dn_pending"].astype(int)
+
+    pg_con_tmplt = "host='{host}' port='{port}' dbname='{db}' user='{user}' password='{password}'"
+    pg_con_str = pg_con_tmplt.format(host="192.168.1.191", port="5510", db="billing", user="devuser",
+                                     password="devuser@123")
+
+    pg_conn = psycopg2.connect(pg_con_str)
+    pg_cursor = pg_conn.cursor()
+
+    pg_col_lst = "recv_date, cli_id, cli_hdr, msg_tag, msg_tag1, msg_tag2, msg_tag3, msg_tag4, msg_tag5, " + \
+                 "campaign_id, campaign_name, file_id, file_name, intf_type, country, tot_cnt, " + \
+                 "submitted_cnt, delivered_cnt, dn_failed_cnt, dn_expired_cnt, rejected_cnt, " + \
+                 "out_of_credits_cnt, dn_pending_cnt"
+
+    df_insert_data(pg_cursor, "summary.ui_camp_report", pg_col_lst, df_ui_camp_rpt, null_value)
+
+    pg_conn.commit()
+
+    ui_traffic_mix_rpt_group_cols = ['recv_date', 'cli_id', 'sub_cli_hdr', 'sub_campaign_id', 'sub_campaign_name',
+                                     'sub_intf_type', 'sub_country']
+    df_ui_traffic_mix_rpt = df_ui_camp_rpt.groupby(ui_traffic_mix_rpt_group_cols).agg({
+        'count_total': 'sum',
+        'count_submit': 'sum',
+        'count_delivery': 'sum',
+        'count_dn_failed': 'sum',
+        'count_dn_expired': 'sum',
+        'count_rejected': 'sum',
+        'count_out_of_credit': 'sum',
+        'count_dn_pending': 'sum'
+    }).reset_index()
+
+    pg_col_lst = "recv_date, cli_id, cli_hdr, campaign_id, campaign_name, intf_type, country, " + \
+                 "tot_cnt, submitted_cnt, delivered_cnt, dn_failed_cnt, dn_expired_cnt, " + \
+                 "rejected_cnt, out_of_credits_cnt, dn_pending_cnt"
+
+    df_insert_data(pg_cursor, "summary.ui_traffic_mix_report", pg_col_lst, df_ui_traffic_mix_rpt, null_value)
+
+    pg_conn.commit()
+
+    pg_col_lst = "recv_date, cli_id, cli_hdr, intf_type, country, " + \
+                 "tot_cnt, submitted_cnt, delivered_cnt, dn_failed_cnt, dn_expired_cnt, " + \
+                 "rejected_cnt, out_of_credits_cnt, dn_pending_cnt"
+
+
+    ui_traffic_rpt_group_cols = ['recv_date', 'cli_id', 'sub_cli_hdr', 'sub_intf_type', 'sub_country']
+    df_ui_traffic_rpt = df_ui_camp_rpt.groupby(ui_traffic_rpt_group_cols).agg({
+        'count_total': 'sum',
+        'count_submit': 'sum',
+        'count_delivery': 'sum',
+        'count_dn_failed': 'sum',
+        'count_dn_expired': 'sum',
+        'count_rejected': 'sum',
+        'count_out_of_credit': 'sum',
+        'count_dn_pending': 'sum'
+    }).reset_index()
+
+    df_insert_data(pg_cursor, "summary.ui_traffic_report", pg_col_lst, df_ui_traffic_rpt, null_value)
+
+    pg_conn.commit()
+
+
+def main():
+    cfg_fn = sys.argv[1]
+    cfg_val = configobj.ConfigObj(cfg_fn)
+    log_fn_dtsfx = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    log_fn = "./log/pg_ui_summary_report_" + log_fn_dtsfx + ".log"
+    logging.basicConfig(filename=log_fn, level=logging.INFO,
+                        format='%(asctime)s %(levelname)-8s %(funcName)-20s %(message)s')
+    logging.info("UI Summary Report generation started")
+    mysql_host = cfg_val['MYSQL_HOST']
+    mysql_port = int(cfg_val['MYSQL_PORT'])
+    mysql_db = cfg_val['MYSQL_DB']
+    mysql_user = cfg_val['MYSQL_USER']
+    mysql_pass = cfg_val['MYSQL_PASS']
+
+    logging.info("Connecting to MySQL DB: " + mysql_host + "@" + mysql_db)
+    my_conn = mysql.connector.connect(host=mysql_host,
+                              port=mysql_port,
+                              database=mysql_db,
+                              user=mysql_user,
+                              password=mysql_pass)
+    my_cursor = my_conn.cursor()
+    err_cd_sql = "select error_code, category, ui_grouping, status_flag from configuration.error_code_mapping"
+    my_cursor.execute(err_cd_sql)
+    ecd_rlst = my_cursor.fetchall()
+    ecd_cols = [c[0] for c in my_cursor.description]
+    my_cursor.close()
+    my_conn.close()
+
+    df_err_cd = pd.DataFrame.from_records(ecd_rlst, columns=ecd_cols)
+
+    cfg_date_from = cfg_val['RPT_DATE_FROM'].strip().upper()
+    logging.info("Config Date From: " + cfg_date_from)
+    if cfg_date_from == "DEFAULT":
+        date_from = (datetime.now() - timedelta(days=1))
+        date_to = date_from
+    else:
+        date_from = datetime.strptime(cfg_date_from, "%Y-%m-%d")
+        date_to = datetime.strptime(cfg_val['RPT_DATE_TO'].strip(), "%Y-%m-%d")
+
+    logging.info("Date From: " + date_from.strftime("%Y-%m-%d") + ", To: " + date_to.strftime("%Y-%m-%d"))
+
+    pg_host = cfg_val['PG_HOST']
+    pg_port = cfg_val['PG_PORT']
+    pg_db = cfg_val['PG_DB']
+    pg_user = cfg_val['PG_USER']
+    pg_pass = cfg_val['PG_PASS']
+
+    pg_con_tmplt = "host='{host}' port='{port}' dbname='{db}' user='{user}' password='{password}'"
+    pg_con_str = pg_con_tmplt.format(host=pg_host, port=pg_port, db=pg_db, user=pg_user, password=pg_pass)
+    logging.info("Connecting to Postgres DB: " + pg_host + "@" + pg_db)
+    pg_conn = psycopg2.connect(pg_con_str)
+
+    if date_from == date_to:
+        proc_date(date_from, cfg_val, my_conn, pg_conn, df_err_cd)
+    else:
+        dt_lst = list(rrule(DAILY, interval=1, dtstart=date_from, until=date_to))
+        for dt in dt_lst:
+            proc_date(dt, cfg_val, my_conn, pg_conn, df_err_cd)
+
+    pg_conn.close()
+    logging.info("UI Summary Report generation completed")
+    logging.shutdown()
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Config file is missing")
+        print("Usage : " + sys.argv[0] + " <CONFIG file>")
+        sys.exit(1)
+    main()

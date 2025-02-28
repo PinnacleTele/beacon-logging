@@ -1,0 +1,45 @@
+<!-- timezone dropdown -->
+<label for="dtime" class="block font-semibold text-gray-700"
+	>Select Timezone <span class="text-red-600">*</span>
+</label>
+<div class="my-2">
+	<app-single-select-dropdown
+		[itemsList]="tzList"
+		[itemToBeSelected]="selectedTzOffSet"
+		[placeHolder]="'Select Timezone'"
+		(selectedItem)="getSelectedTz($event)"
+		class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-300 rounded-md"
+	>
+	</app-single-select-dropdown>
+</div>
+<p class="mt-2 text-xxs sm:text-xs text-red-600" *ngIf="showError()">
+	Timezone is required
+</p>
+
+<!-- date and time picker -->
+<label for="dtime" class="block font-semibold text-gray-700"
+	>Select Date & Time <span class="text-red-600">*</span>
+</label>
+<div class="grid grid-cols-2 gap-2 my-2">
+	<!-- <app-preview-modal-date></app-preview-modal-date>
+	<app-preview-modal-time></app-preview-modal-time> -->
+	
+		<app-date-picker
+		[minDate]="minDate"
+		[pinPreviousSelections]="true"
+		[dateToBeSelected]="dateAndTimeToBeSelected"
+		[zoneDate]="zoneDate"
+	></app-date-picker>
+	<app-time-picker
+		[timeToBeSelected]="dateAndTimeToBeSelected"
+		[zoneTime]="zoneTime"
+	></app-time-picker>
+	
+
+	
+
+
+</div>
+<p class="mt-2 text-xxs sm:text-xs text-red-600" *ngIf="showError()">
+	Date & Time are required
+</p>

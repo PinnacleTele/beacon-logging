@@ -1,0 +1,109 @@
+<div class="border-b border-gray-200 pt-2 bg-white">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3
+				class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r"
+			>
+				Groups
+			</h3>
+			<div
+				class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400"
+			>
+				<span
+					class="hover:text-blue-500 cursor-pointer"
+					routerLink="/groups"
+					>Groups</span
+				>
+				<span class="text-xxs font-mono">/</span>
+				<span
+					class="hover:text-blue-500 cursor-pointer"
+					routerLink="/groups"
+					>Group List</span
+				>
+				<span class="text-xxs font-mono">/</span>
+				<span
+					class="hover:text-blue-500 cursor-pointer"
+					routerLink="/groups/groupcontacts"
+					>Group Name</span
+				>
+				<span class="text-xxs font-mono">/</span>
+				<span class="hover:text-blue-500 cursor-pointer">Edit</span>
+			</div>
+		</div>
+		<div></div>
+	</div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<div class="bg-white p-5 md:p-10 rounded z-0">
+				<div
+					class="flex text-lg font-medium text-gray-800 justify-between items-center"
+				>
+					<span>Edit Contact</span>
+				</div>
+				<div class="border-b-0 mt-2 border-gray-200">
+					<span
+						class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-light-blue-100 text-light-blue-600"
+					>
+						{{group?.g_name}}
+					</span>
+				</div>
+				<div class="border mt-4 border-gray-200"></div>
+				<form
+					*ngIf="editContactForm"
+					[formGroup]="editContactForm"
+					class="space-y-8 divide-y-2 divide-gray-200"
+				>
+					<div>
+						<div>
+							<div
+								class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 divide-gray-100"
+							>
+								<div
+									class="sm:col-span-6 text-xs pt-4 space-y-4"
+								>
+									<div>
+										<app-mobile-number
+											[enable]="true"
+										></app-mobile-number>
+									</div>
+									<div>
+										<app-contact-name></app-contact-name>
+									</div>
+									<div>
+										<app-contact-email></app-contact-email>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- button section -->
+					<div class="pt-5">
+						<div
+							class="md:flex md:justify-between grid grid-rows-1 gap-y-2"
+						>
+							<div class="grid grid-rows-1">
+								<app-campaign-cancel-button
+									[routePath]="'/groups/groupcontacts'"
+									[cancelMessage]="cancelMessage"
+								></app-campaign-cancel-button>
+							</div>
+							<div class="md:flex md:justify-end">
+								<div
+									class="grid grid-rows-1 gap-y-2 md:grid-flow-col"
+								>
+									<app-group-create-button
+										[newGroupForm]="editContactForm"
+										[title]="'Save Contact'"
+									></app-group-create-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>

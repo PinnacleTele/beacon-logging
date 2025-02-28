@@ -1,0 +1,148 @@
+<div class="border-b border-gray-200 pt-2 bg-white">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r">
+				Groups</h3>
+			<div class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400">
+				<span
+					class="hover:text-blue-500 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+					routerLink="/groups" (keydown.enter)="routing('/groups')">Groups</span>
+				<span class="text-xxs font-mono">/</span>
+				<span
+					class="hover:text-blue-500 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+					routerLink="/groups" (keydown.enter)="routing('/groups')">Group List</span>
+				<span class="text-xxs font-mono">/</span>
+				<span
+					class="hover:text-blue-500 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+					routerLink="/groups/groupcontacts" (keydown.enter)="routing('/groups/groupcontacts')">Group Name</span>
+				<span class="text-xxs font-mono">/</span>
+				<span class="hover:text-blue-500 cursor-pointer">Add</span>
+			</div>
+		</div>
+		<div></div>
+	</div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+			<!-- <div class="absolute z-10 inset-px bg-gray-100 opacity-70"></div> -->
+			<div class="bg-white p-5 md:p-10 rounded z-0">
+				<div class="flex text-lg font-medium text-gray-800 justify-between items-center">
+					<span>Add Contacts</span>
+					<span *ngIf="! skeleton && !apiError "
+						class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-500">
+						{{group.total ? group.total: '0'| number}} Contact(s) </span>
+					<div *ngIf="skeleton" class="bg-gray-200 h-5 my-3 w-14 animate-pulse"></div>
+				</div>
+				<div *ngIf="! skeleton && !apiError" class="border-b-0 mt-2 border-gray-200">
+					<span
+						class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-light-blue-100 text-light-blue-600">
+						{{group?.g_name}} </span>
+					<div *ngIf="skeleton" class="bg-gray-200 h-5 my-3 w-14 animate-pulse"></div>
+				</div>
+				<div class="border mt-4 border-gray-200"></div>
+				<form [formGroup]="addContactForm" class="space-y-8 divide-y-2 divide-gray-200">
+					<div>
+						<div>
+							<div *ngIf="!apiError && !skeleton"
+								class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 divide-gray-100">
+								<!-- preference section -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<div class="">
+										<label for="mobile" class="block font-semibold text-gray-700 uppercase">Choose your preference
+											<span class="text-red-600">*</span>
+										</label>
+										<!-- option buttons -->
+										<div class="mt-2">
+											<div class="flex justify-start space-x-6">
+												<div class="relative flex items-center mt-3 cursor-pointer" (click)="chooseMode('fileUpload')">
+													<div class="flex items-center h-5">
+														<input [checked]="preference=='fileUpload'" id="file" name="templatetypepref" type="radio"
+															value="bycolname"
+															class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1 cursor-pointer" />
+													</div>
+													<div class="ml-3 text-xs">
+														<label for="file" class="font-medium text-gray-700 cursor-pointer">File Upload</label>
+													</div>
+												</div>
+												<div class="relative flex items-center mt-3 cursor-pointer " (click)="chooseMode('manual')">
+													<div class="flex items-center h-5">
+														<input [checked]="preference=='manual'" id="manual" name="templatetypepref" type="radio"
+															value="byindex"
+															class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1 cursor-pointer" />
+													</div>
+													<div class="ml-3 text-xs">
+														<label for="manual" class="font-medium text-gray-700 cursor-pointer">Manual</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div> <!-- file upload section -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<div *ngIf="userDetail.intl_enabled_yn == 1"
+										class="rounded-md bg-yellow-50 p-2 mt-4 border border-yellow-400 border-dashed">
+										<div class="flex items-center">
+											<div class="flex-shrink-0"></div>
+											<div class="ml-3 flex-1 md:flex md:justify-between">
+												<p class="text-xs text-gray-500 font-medium">Please note that the <span
+														class="italic font-semibold">country code</span> is required in the mobile number</p>
+											</div>
+										</div>
+									</div>
+									<app-file-uploader *ngIf="preference=='fileUpload'" [hideDublicate]="true" [fromPage]="'group'"
+										[fileContentOrder]="fileContentOrder" (responseEmitter)="getFileUploadSectionData($event)">
+									</app-file-uploader>
+								</div>
+
+								<div *ngIf="preference=='manual' && !apiError && !skeleton"
+									class="sm:col-span-6 text-xs pt-4 space-y-4">
+									<div>
+										<app-mobile-number [enable]="false"></app-mobile-number>
+									</div>
+									<div>
+										<app-contact-name></app-contact-name>
+									</div>
+									<div>
+										<app-contact-email></app-contact-email>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="apiError && !skeleton">
+							<app-apierror (Emitter)="retry($event)"></app-apierror>
+						</div>
+						<div>
+							<app-edit-skeleton *ngIf="skeleton &&!apiError"></app-edit-skeleton>
+						</div>
+					</div>
+
+
+
+
+
+
+					<!-- button section -->
+					<div *ngIf="!apiError && !skeleton" class="pt-5">
+						<div class="md:flex md:justify-between grid grid-rows-1 gap-y-2">
+							<div class="grid grid-rows-1">
+								<app-campaign-cancel-button [routePath]="'/groups/groupcontacts'" [cancelMessage]="cancelMessage">
+								</app-campaign-cancel-button>
+
+
+							</div>
+							<div class="md:flex md:justify-end">
+								<div class="grid grid-rows-1 gap-y-2 md:grid-flow-col">
+									<app-group-create-button [newGroupForm]="addContactForm" [title]="'Add Contact'">
+									</app-group-create-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>

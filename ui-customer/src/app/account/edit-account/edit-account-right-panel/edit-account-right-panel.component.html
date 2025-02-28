@@ -1,0 +1,104 @@
+<form *ngIf="rightPanelFormGroup" [formGroup]="rightPanelFormGroup">
+    <div class="rounded min-h-screen space-y-4">
+        <div class="w-full flex flex-col items-center">
+            <div class="w-full pb-3 px-2">
+                <div 
+                    class="flex justify-start space-x-6">
+                    <a  (click)="clickLinkIndex(1)"  (keydown.enter)="clickLinkIndex(1)"
+                        [ngClass]=" (linkIndex == 1) ? 'text-blue-500 border-b-2 border-blue-400  pb-2' : 'text-gray-500'"
+                        class="cursor-pointer text-base font-medium focus:outline-none" tabindex="0"
+                        >Account</a>
+                    <a  (click)="clickLinkIndex(2)" (keydown.enter)="clickLinkIndex(2)"
+                        [ngClass]=" (linkIndex == 2) ? 'text-blue-500 border-b-2 border-blue-400  pb-2' : 'text-gray-500'"
+                        class="cursor-pointer text-base font-medium  focus:outline-none" tabindex="0"
+                    >Settings</a>
+                    <a  (click)="clickLinkIndex(3)" (keydown.enter)="clickLinkIndex(3)"
+                        [ngClass]=" (linkIndex == 3) ? 'text-blue-500 border-b-2 border-blue-400  pb-2' : 'text-gray-500'"
+                        class="cursor-pointer text-base font-medium focus:outline-none" tabindex="0"
+                    >Services</a>
+                    <a  (click)="clickLinkIndex(4)" (keydown.enter)="clickLinkIndex(4)"
+                        [ngClass]=" (linkIndex == 4) ? 'text-blue-500 border-b-2 border-blue-400  pb-2' : 'text-gray-500'"
+                        class="cursor-pointer text-base font-medium focus:outline-none" tabindex="0"
+                        *ngIf =" billType == 1">Wallet</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- account info card -->
+        <div *ngIf ="linkIndex == 1" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <!-- account info -->
+                <app-edit-account-info></app-edit-account-info>
+            </div>
+        </div>
+        <!-- dlt card -->
+        <div *ngIf= "linkIndex == 1" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <app-edit-dlt-card></app-edit-dlt-card>
+            </div>
+        </div>
+        
+        <!-- billing rates card -->
+        <div *ngIf="linkIndex == 2" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+               
+                <app-edit-bill-rates></app-edit-bill-rates>
+                
+            </div>
+        </div>
+        <!-- sign-in security settings card 
+        <div *ngIf="linkIndex == 2" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <div>
+                <app-edit-signin-securities></app-edit-signin-securities> 
+                </div>
+            </div>
+        </div> -->
+        <!-- messaging settings card -->
+        <div *ngIf="linkIndex == 2" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <!-- account info -->
+                <div>
+                <app-edit-messaging-settings></app-edit-messaging-settings>
+                </div>
+            </div>
+        </div>
+        <!-- data security settings card 
+        <div *ngIf="linkIndex == 2" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <div>
+                    <app-edit-data-securities-settings>
+
+                    </app-edit-data-securities-settings>
+                </div>
+            </div>
+        </div>-->
+        <!-- assign services card -->
+        <div *ngIf="linkIndex == 3" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <div>
+                    <app-edit-assign-services
+                    [fromPage] = "'editAcct'"></app-edit-assign-services>
+                </div>
+            </div>
+        </div>
+        <!-- shared groups card -->
+        <div  *ngIf="linkIndex == 3" class="w-full flex flex-col items-center">
+            <div *ngIf="clusterType != 'otp'" class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <!-- 5. assign group section -->
+                <div >
+                    <app-edit-shared-groups></app-edit-shared-groups>
+                </div>
+            </div>
+        </div>
+        <!-- wallet card -->
+        <div *ngIf="linkIndex == 4" class="w-full flex flex-col items-center">
+            <div class="w-full bg-white p-6 shadow rounded-md pb-8">
+                <div>
+                <app-edit-wallet></app-edit-wallet>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</form>

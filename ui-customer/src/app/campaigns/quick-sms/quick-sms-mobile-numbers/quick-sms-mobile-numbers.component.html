@@ -1,0 +1,86 @@
+<form *ngIf="mobileNumbersFormGroup" [formGroup]="mobileNumbersFormGroup">
+
+	<!-- mobile number section -->
+	<div class="sm:col-span-6 text-xs pt-4">
+		<div class="flex justify-between items-center">
+			<label for="mobile" class="block font-semibold text-gray-700">Mobile Numbers <span
+					class="text-red-600">*</span> </label>
+
+			<div>
+				<button (click)="openModal()" *ngIf="mobileNumbers.value && mobileNumbers.value.length > 0 "
+					type="button"
+					class="inline-flex items-center px-1 py-0.5 text-xs leading-4 font-semibold tracking-wide rounded-md text-red-400 hover:underline focus:outline-none">
+					<!-- Heroicon name: solid/mail -->
+					<svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd"
+							d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+							clip-rule="evenodd" />
+					</svg>
+
+					Clear
+				</button>
+			</div>
+		</div>
+
+		<p class="mt-2 text-xxs sm:text-xs text-gray-500" id="mobile-error">
+			{{ mobileInfoTxt }}&nbsp;
+			{{ invalidInfoTxt }}
+		</p>
+		<div class="mt-1">
+			<textarea id="mobile" name="mobileNumbers" formControlName="mobileNumbers"
+				(keyup)="mobileNumbersdetails($event)" (blur)="checkValidCount($event)"
+				[ngClass]="{'border-red-300': mobileNumbers.touched && mobileNumbers.errors}" rows="5"
+				placeholder="Enter mobile number(s)"
+				class="shadow-sm placeholder-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md"></textarea>
+		</div>
+		<div class="rounded-md bg-yellow-50 p-2 mt-4 border border-yellow-400 border-dashed">
+			<div class="flex items-center">
+				<div class="flex-shrink-0"></div>
+				<div class="ml-3 flex-1 md:flex md:justify-between">
+					<p class="text-xs text-gray-500 font-medium">Please note that the <span
+							class="italic font-semibold">country code</span> is required in the mobile number</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex justify-between items-center mt-0.5">
+			<div class="text-xxs space-x-1 text-gray-600 px-1 lowercase tracking-wide">
+				<span><span class="text-xxs font-semibold">{{ mobileNumbersCount }}</span> valid</span>
+				<span><span class="text-xxs font-semibold">{{ uniqueCount }}</span> unique</span>
+				<span><span class="text-xxs font-semibold text-red-400">{{ inValidCount }}</span> invalid</span>
+			</div>
+			<div  class="flex items-center h-5 space-x-1">
+				<app-remove-duplicates>
+
+				</app-remove-duplicates>
+			</div>
+		</div>
+		<div class="flex justify-between items-center mt-0.5">
+			<p class="mt-2 text-xxs sm:text-xs text-red-600" id="mobile-error"
+				*ngIf="mobileNumbers.touched && mobileNumbers.errors?.required ;">
+				Mobile Number(s) required
+			</p>
+
+
+			<p class="mt-2 text-xxs sm:text-xs text-red-600" id="mobile-error"
+				*ngIf="mobileNumbers.errors?.maxMobileCountErr;">
+				{{ mobileCountError }} {{maxCount }}
+			</p>
+			<p class="mt-2 text-xxs sm:text-xs text-red-600" id="mobile-error"
+				*ngIf="mobileNumbers.errors?.inValidNumb;">
+				{{invalidCountError}}
+			</p>
+			<p class="mt-2 text-xxs sm:text-xs text-red-600" id="mobile-error"
+				*ngIf="mobileNumbers.errors?.noValidCountError;">
+				{{noValidCountDesc}}
+			</p>
+		</div>
+	</div>
+
+
+</form>
+
+<app-clear-modal [title]="'Remove Mobile Numbers'"
+	[confirmationMessage]="'Are you sure you want to remove all mobile numbers?'" [confirmLable]="'Clear'"
+	(clearModalResponse)="clearModalResponse($event)" *ngIf="openClearModal">
+</app-clear-modal>

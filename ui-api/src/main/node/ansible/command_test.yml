@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: false
+  tasks:
+    - name: Change swagger host to machine ip
+      replace:
+        path: /home/teamwork/nodeapps/cm/config/swagger.js
+        regexp: "host: host: '192.168.1.121:3000'"
+        replace: "host: '192.168.1.121:3000'"
+
+
+#    - name: run command yum -y update
+#      command: "sudo yum -y update"
+#    - name: install remi repo for redis
+#      command: "sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+#    - name: install redis
+#      command: "sudo yum --enablerepo=remi install redis"

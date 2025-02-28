@@ -1,0 +1,25 @@
+
+                    <div class="relative">
+                        <ejs-daterangepicker
+                        [format]="format" 
+                        [max]="maxDate" 
+                        width='180px'  
+                        [startDate]='startDate' 
+                        [endDate]='includeToday == true ? today:endDate' 
+                         (change)="dateFilter($event)" 
+                         [allowEdit]="false"  
+                         [showClearButton] = "false" 
+                        >
+                        <e-presets  >
+                            <e-preset  label="Today"  [start]='today' [end]='today'></e-preset>
+                            <e-preset  label="Last 7 days"  [start]='sevendaysStart' [end]='includeToday == true ? today:yesterday'></e-preset>
+                            <e-preset  label="Last 15 days"  [start]='fifteenDays' [end]='includeToday == true ? today:yesterday'></e-preset>
+                            <e-preset  label="Last 30 days"  [start]='thirtyDays' [end]='includeToday == true ? today:yesterday'></e-preset>
+                            <!-- <e-preset label="last 60 days" [start]='sixtyDays' [end]='today'></e-preset> -->
+                            <e-preset  label="This week"  [start]='weekStart' [end]='today'></e-preset>
+                            <e-preset label="This month" [start]='monthStart' [end]='today'></e-preset>
+                           
+                        </e-presets>
+                        
+                        </ejs-daterangepicker>
+                    </div>

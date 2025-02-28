@@ -1,0 +1,127 @@
+<section class="bg-white h-screen">
+	<div class="mx-auto flex lg:justify-center h-full flex-col lg:flex-row">
+		<div
+			class="w-full lg:w-1/2 px-2 py-20 sm:py-40 sm:px-12 flex flex-col justify-center items-center bg-white opacity-100 relative">
+			<img class="absolute inset-0 h-full w-full object-cover" src="assets/bg-4.jpg" alt="" />
+
+			<div class="absolute left-0 top-0 pl-3 pt-3"></div>
+			<div class="flex relative z-30 flex-col justify-center px-4 md:pr-12">
+				<div class="px-2 flex flex-col items-center justify-center">
+				</div>
+				<h3 class="text-2xl pt-8 leading-tight text-gray-100 text-center">
+					Welcome to Admin Manager!
+				</h3>
+				
+			</div>
+			
+			<div class="absolute md:left-10 left-5 bottom-5 text-xs text-gray-300">
+				<!-- <span>© 2021 Winnovature</span> -->
+			</div>
+		</div>
+		<form id="login" [formGroup]="loginForm" class="w-full lg:w-1/2 flex justify-center bg-white dark:bg-gray-900">
+
+
+			<div
+				class="w-full sm:w-4/6 md:w-3/6 lg:w-2/3 text-gray-600 dark:text-gray-100 flex flex-col justify-center px-2 sm:px-0 py-10 lg:py-14">
+				<div class="flex flex-col  items-center justify-center">
+
+					<!-- <img class="w-80 h-14" src="assets/logo-new.png" alt="" /> -->
+
+
+				</div>
+
+
+				<div class="flex px-2 sm:px-6 items-center mt-6 justify-center">
+					<h3 class="text-2xl lg:text-3xl font-bold leading-tight">
+						Sign In
+					</h3>
+				</div>
+				<div class="flex px-2 sm:px-6 items-center justify-center">
+					<span class="text-sm text-gray-300">Enter your username and password</span>
+				</div>
+
+				<div class="mt-2 lg:mt-4 w-full px-2 sm:px-6">
+					<div class="flex flex-col mt-2">
+						<div class="rounded-md bg-red-50 p-3" *ngIf="showErr">
+							<div class="flex">
+								<div class="flex-shrink-0">
+									<svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+										<path fill-rule="evenodd"
+											d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+											clip-rule="evenodd" />
+									</svg>
+								</div>
+								<div class="ml-3 flex-1 md:flex md:justify-between">
+									<p class="text-sm text-red-700">
+										{{errorMsg}}
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col mt-6">
+						<div class="rounded-md bg-yellow-50 p-3" *ngIf="isSessionTimedOut">
+							<div class="flex">
+								<div class="flex-shrink-0">
+									<svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+										<path fill-rule="evenodd"
+											d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+											clip-rule="evenodd" />
+									</svg>
+								</div>
+								<div class="ml-3 flex-1 md:flex md:justify-between">
+									<p class="text-sm text-yellow-700">
+										Invalid session. Please log in.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col mt-3">
+						<!-- <label for="email" class="text-lg font-semibold leading-tight">Email</label> -->
+						<input type="text" id="username" autocomplete="off" placeholder="username" aria-required="true"
+							name="email" formControlName="email"
+							class="h-12 px-2 w-full rounded mt-2 text-gray-600 placeholder-gray-400 bg-gray-50 focus:outline-none focus:border focus:border-indigo-700 border-gray-200" />
+					</div>
+					<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+						*ngIf="email.touched && email.errors?.required">
+						User Name is required
+					</p>
+					<div class="flex flex-col mt-3">
+						<!-- <label for="password" class="text-lg font-semibold fleading-tight">Password</label> -->
+						<input id="password" aria-required="true" name="password" formControlName="password"
+							type="password" placeholder="password"
+							class="h-12 px-2 w-full placeholder-gray-400 rounded mt-2 text-gray-600 bg-gray-50 focus:outline-none focus:border focus:border-indigo-700 border-gray-200" />
+					</div>
+					<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+						*ngIf="password.touched && password.errors?.required">
+						Password is required
+					</p>
+				</div>
+			
+				<div class="px-2 sm:px-6">
+				
+					<div class="flex justify-end">
+						<button (click)="onClickLogin()" type="submit" [disabled]="spinner"
+							[ngClass]="spinner? 'opacity-50 cursor-not-allowed' : ''"
+							class="focus:ring-2 inline-flex focus:ring-offset-2 bg-indigo-700 focus:bg-indigo-800 w-full sm:w-auto transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6">
+							<span *ngIf="!spinner">Login</span>
+							<span *ngIf="spinner">Logging</span>
+
+							<svg class="animate-spin h-5 w-5 text-white ml-2" xmlns="http://www.w3.org/2000/svg"
+								fill="currentColor" viewBox="0 0 24 24" *ngIf="spinner">
+								<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+									stroke-width="4"></circle>
+								<path class="opacity-75" fill="currentColor"
+									d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+								</path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>

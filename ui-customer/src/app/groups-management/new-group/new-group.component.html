@@ -1,0 +1,215 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 pt-2 bg-white">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r">
+				New Group</h3>
+			<div class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400">
+				<span class="hover:text-blue-500 cursor-pointer focus:outline-none focus:ring-2 rounded"
+					(keydown.enter)="backEnter($event)" routerLink="/groups">Groups</span>
+				<span class="text-xxs font-mono">/</span>
+				<span class="hover:text-blue-500 cursor-pointer">Create Group</span>
+			</div>
+		</div>
+		<div></div>
+	</div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+			<!-- <div class="absolute z-10 inset-px bg-gray-100 opacity-70"></div> -->
+			<div class="bg-white p-5 md:p-10 rounded z-0">
+				<div class="text-lg font-medium text-gray-800">Create Group</div>
+				<div class="border-b-0 mt-4 border-gray-200"></div>
+				<form class="space-y-8 divide-y divide-gray-200" [formGroup]="newGroupForm">
+
+					<div>
+						<div class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 divide-y divide-gray-100">
+							<!-- group name section -->
+							<div class="sm:col-span-6 text-xs">
+								<div>
+									<label for="name2" class="block font-semibold text-gray-700">Group Name <span
+											class="text-red-600">*</span> </label>
+									<div class="mt-2 relative rounded-md w-full sm:w-1/2">
+										<input type="text" name="name" formControlName="name" (blur)="checkUniqeNameExist($event)"
+											[ngClass]="{'border-red-300': name ?.touched && name ?.errors}" id="name" autocomplete="off"
+											tabindex="0" class="block w-full text-xs sm:py-2.5 pr-10 
+														  text-gray-800 placeholder-gray-300
+														  focus:outline-none border-gray-300 
+														  rounded relative -z-0" placeholder="Enter unique name" value="" aria-invalid="true"
+											aria-describedby="name-error" />
+										<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+											<svg class="animate-spin text-gray-900" xmlns="http://www.w3.org/2000/svg"
+												xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24"
+												version="1.1" *ngIf="loading$ | async">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<g>
+														<polygon points="0 0 24 0 24 24 0 24" />
+													</g>
+													<path class="opacity-25"
+														d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+														fill="currentColor" fill-rule="nonzero"
+														transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+												</g>
+											</svg>
+										</div>
+									</div>
+									<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+										*ngIf="name.touched && name.errors?.required">
+										Group Name is required
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-gray-500"
+										*ngIf="(!name.touched && name.errors?.required) ||  !name.errors ">
+										{{ groupNameInfoTxt }}
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+										*ngIf="name.dirty && name.errors?.minLengthInvalid">
+										{{ minLengthError }} {{ minimumLength }}
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+										*ngIf="name.dirty && name.errors?.pattern">
+										{{ splCharsError }} {{ allowedSplChars }}
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-red-500" *ngIf="name.errors?.maxLengthInvalid">
+										{{ maxLengthError }} {{ maximumLength }}
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-red-500" id="uniqueName-error"
+										*ngIf="name.errors?.groupNameExist">
+										{{ uniqueNameError }}
+									</p>
+
+									<app-uniquenamedropdownapierror *ngIf="name.errors?.apiRequestError" (Emitter)="retry()">
+
+									</app-uniquenamedropdownapierror>
+								</div>
+							</div>
+							<!-- group visibility section -->
+							<div *ngIf="accessTokendetail?.user_type != 2" class="sm:col-span-6 text-xs pt-4">
+								<div class="">
+									<label for="name1" class="block font-semibold text-gray-700">Choose Group Visibility
+										<span class="text-red-600">*</span>
+									</label>
+									<p class="text-gray-500 text-xxs md:text-xs mt-1.5">Choose <em class="font-semibold">Shared</em> if
+										you want to share your group with your
+										users.</p>
+									<div class="grid grid-cols-1 gap-y-1">
+										<div class="w-full">
+											<div class="flex justify-start space-x-6">
+												<div class="relative flex items-center mt-3 p-2 cursor-pointer">
+													<div class="flex items-center justify-center h-5">
+														<input id="private" type="radio" value="private" checked formControlName="visibility"
+															name="visibility"
+															class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+													</div>
+													<div class="ml-3 text-xs">
+														<label for="private" class="font-medium text-gray-700 cursor-pointer">Private
+															Group</label>
+													</div>
+												</div>
+												<div class="relative flex items-center mt-3 p-2 cursor-pointer">
+													<div class="flex items-center h-5">
+														<input id="shared" type="radio" value="shared" formControlName="visibility"
+															name="visibility"
+															class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+													</div>
+													<div class="ml-3 text-xs">
+														<label for="shared" class="font-medium text-gray-700 cursor-pointer">Shared
+															Group</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- group type section -->
+							<div class="sm:col-span-6 text-xs pt-4">
+								<div>
+									<label for="name" class="block font-semibold text-gray-700">Choose Group Type
+										<span class="text-red-600">*</span>
+									</label>
+									<!-- <p class="text-gray-500 text-xxs md:text-xs mt-1.5">
+                        Choose <em class="font-semibold">Shared</em> if you want
+                        to share your group with your users.
+                      </p> -->
+									<div class="grid grid-cols-1 gap-y-1">
+										<div class="w-full">
+											<div class="flex justify-start space-x-6">
+												<div class="relative flex items-center mt-3 p-2 cursor-pointer">
+													<div class="flex items-center justify-center h-5">
+														<input formControlName="groupType" id="normal" checked name="groupType" type="radio"
+															value="normal"
+															class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+													</div>
+													<div class="ml-3 text-xs">
+														<label for="normal" class="font-medium text-gray-700 cursor-pointer">Normal
+															Group</label>
+													</div>
+												</div>
+												<div class="relative flex items-center mt-3 p-2 cursor-pointer">
+													<div class="flex items-center h-5">
+														<input formControlName="groupType" id="exclude" name="groupType" type="radio"
+															value="exclude"
+															class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+													</div>
+													<div class="ml-3 text-xs">
+														<label for="exclude" class="font-medium text-gray-700 cursor-pointer">Exclude
+															Group</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<!-- file upload section -->
+							<div class="sm:col-span-6 text-xs pt-4">
+								<div *ngIf="userDetail.intl_enabled_yn == 1"
+									class="rounded-md bg-yellow-50 p-2 mt-4 border border-yellow-400 border-dashed">
+									<div class="flex items-center">
+										<div class="flex-shrink-0"></div>
+										<div class="ml-3 flex-1 md:flex md:justify-between">
+											<p class="text-xs text-gray-500 font-medium">Please note that the <span
+													class="italic font-semibold">country code</span> is required in the mobile number</p>
+										</div>
+									</div>
+								</div>
+								<app-file-uploader [hideDublicate]="true" [fromPage]="'group'" [fileContentOrder]="fileContentOrder"
+									(responseEmitter)="getFileUploadSectionData($event)"></app-file-uploader>
+							</div>
+						</div>
+					</div>
+					<!-- button section -->
+
+					<div class="pt-5">
+						<div class="md:flex md:justify-between grid grid-rows-1 gap-y-2">
+							<div class="grid grid-rows-1">
+								<app-campaign-cancel-button [cancelMessage]="cancelMessage" [routePath]="'/groups'">
+								</app-campaign-cancel-button>
+							</div>
+							<div class="md:flex md:justify-end">
+								<div class="grid grid-rows-1 gap-y-2 md:grid-flow-col">
+									<app-group-create-button [newGroupForm]="newGroupForm" (nameFocus)="focus($event)" [title]="'Create'">
+									</app-group-create-button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+</main>
+
+
+<app-create-popup *ngIf=" popup" [inputForm]="newGroupForm" [Responce]="Responce" [status]="status"
+	(closePopUp)="modalClose($event)" (successPopUp)="modalcontinue($event)" (tryAgainPopUp)="tryAgain($event)">
+</app-create-popup>

@@ -1,0 +1,221 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>beacon</groupId>
+    <artifactId>beacon</artifactId>
+    <version>1.0</version>
+  </parent>
+  <artifactId>docker-fb</artifactId>
+   <packaging>ear</packaging>
+   <dependencies>
+	     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-campaignfinisher</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-cronjobs</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-dltfileprocessor</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+			
+				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-downloadhandler</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+			
+				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-excludeprocessor</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+			
+				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-fileupload</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+ 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-groupsprocessor</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+ 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-handoverstage</artifactId>
+			<version>1.0</version>
+						<type>war</type>
+
+			</dependency>
+ 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-initialstage</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+			
+			 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-inmemoryrefresh</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+			
+						 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-scheduleprocessor</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+						 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-splitstage</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			</dependency>
+			
+									 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-utils</artifactId>
+			<version>1.0</version>
+			</dependency>
+			
+									 				     	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>fb-fileparser</artifactId>
+			<version>1.0</version>
+			</dependency>
+			
+ 
+ 
+ 
+   </dependencies>
+       <build>
+        <plugins>
+            <!-- Maven EAR Plugin Configuration -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <version>8</version> <!-- Use Java EE 8 -->
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <modules>
+                        <!-- Maven WAR Plugin Configuration for Module 1 -->
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-campaignfinisher</artifactId>
+                            <contextRoot>/campaignfinisher</contextRoot>
+                        </webModule>
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-cronjobs</artifactId>
+                            <contextRoot>/cronjobs</contextRoot>
+                        </webModule>
+                        
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-dltfileprocessor</artifactId>
+                            <contextRoot>/dltfileprocessor</contextRoot>
+                        </webModule>
+                        
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-downloadhandler</artifactId>
+                            <contextRoot>/downloadhandler</contextRoot>
+                        </webModule>
+                        
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-excludeprocessor</artifactId>
+                            <contextRoot>/excludeprocessor</contextRoot>
+                        </webModule>
+                        
+  
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-fileupload</artifactId>
+                            <contextRoot>/fileupload</contextRoot>
+                        </webModule>
+                        
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-groupsprocessor</artifactId>
+                            <contextRoot>/groupsprocessor</contextRoot>
+                        </webModule>
+                        
+  
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-initialstage</artifactId>
+                            <contextRoot>/initialstage</contextRoot>
+                        </webModule>
+                        
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-inmemoryrefresh</artifactId>
+                            <contextRoot>/inmemoryrefresh</contextRoot>
+                        </webModule>
+                        
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-scheduleprocessor</artifactId>
+                            <contextRoot>/scheduleprocessor</contextRoot>
+                        </webModule>
+                        
+  
+  
+                          <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>fb-splitstage</artifactId>
+                            <contextRoot>/splitstage</contextRoot>
+                        </webModule>
+                        
+  
+  
+                        
+       
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

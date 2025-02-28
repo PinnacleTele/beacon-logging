@@ -1,0 +1,1305 @@
+### get refresh interval for auth token refresh
+GET http://127.0.0.1:3000/cm/refreshinterval HTTP/1.1
+
+### get all the timezone
+GET http://127.0.0.1:3000/cm/utils/timezones HTTP/1.1
+
+### convert from one currency to another
+GET http://127.0.0.1:3000/cm/utils/convrate?rate=0.1 HTTP/1.1
+
+### 
+# @name login
+
+POST http://127.0.0.1:3000/cm/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "uname": "itextosuser1",
+  "pass": "password"
+
+}
+###
+@authToken = {{login.response.body.$.token}}
+
+### logout
+
+POST http://127.0.0.1:3000/cm/auth/logout HTTP/1.1
+content-type: application/json
+
+{
+}
+
+### verify the password with db
+POST http://127.0.0.1:3000/cm/auth/verifypassword HTTP/1.1
+content-type: application/json
+
+{
+  "pass": "password"
+}
+
+### forgot password $2a$10$3icgOyE0jXCkuZei8kVTCuB/zKCn1At9Br8SAj8I7vZv3kr8q4IL2
+POST http://127.0.0.1:3000/cm/auth/forgotpassword HTTP/1.1
+content-type: application/json
+
+{
+  "username": "chncorp",
+  "email": "am@winnovature.com"
+}
+
+### generate access token
+POST http://127.0.0.1:3000/cm/auth/token HTTP/1.1
+content-type: application/json
+
+{
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGlfaWQiOjYwMDAwMDAyMDAwMDAwMDAsInNlc3Npb25pZCI6InAzcTQ0NGF5M3Q5aTRmenByN2lhMG1pbGxjdDcyYmJwZTlibyIsImlkIjoibjdyYjQyNnowMXhyaDE1aXIyYXFubzI2Zmh6ZzVzOWk3bmt5IiwiaWF0IjoxNjQ0NDc0MjQ5LCJleHAiOjE2NDQ1NjA2NDl9.jv2ePFz5UybF2Fo3MVKfkR7iIqpA_5IxBCjloKEcuIA"
+}
+
+### $2a$10$QZbSGc10EcUdBX9Z00Hmgepw5RK8RFaP4xPbcZX87GEWddoUGHna.
+### check if campaign name is present or not (TODO: cname to be changed to c_name)
+GET http://127.0.0.1:3000/cm/campaigns/cnameunique?cname=Scheduling HTTP/1.1
+
+### get the count 
+GET http://127.0.0.1:3000/cm/campaigns/entityids HTTP/1.1
+Authorization: Bearer {{authToken}}
+
+### get all the matching senderids for this user + entityid
+GET http://127.0.0.1:3000/cm/campaigns/senderids HTTP/1.1
+
+### get all the matching senderids for this user + entityid
+GET http://127.0.0.1:3000/cm/campaigns/intlsenderids HTTP/1.1
+
+######################## dashboard api's ##########################
+
+### get the dash stats
+GET http://127.0.0.1:3000/cm/dash/dstats HTTP/1.1
+
+### hourly trend
+GET http://127.0.0.1:3000/cm/dash/dhtrend HTTP/1.1
+
+### processed count stats
+GET http://127.0.0.1:3000/cm/dash/dprocessedstats?dateselectiontype=this month HTTP/1.1
+
+### trend
+GET http://127.0.0.1:3000/cm/dash/dtrend?dateselectiontype=this year HTTP/1.1
+
+######################## Campaign Quick api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cq/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "cq34",
+  "mobile_list": [
+    "1",
+    "2",
+    "999999999999"
+  ],
+  "remove_dupe_yn": 1,
+  "msg": "this is a smgsdd",
+  "c_type": "quick",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "valid": 1,
+  "template_id": "",
+  "dlt_entity_id": "",
+  "header": "",
+  "shorten_url_yn": 0,
+  "dlt_template_id": "110100001352",
+  "intl_header": "intl12",
+  "traffic_to": "india"
+}
+
+
+### schedule campaign
+POST http://127.0.0.1:3000/cm/campaigns/cq/schedule HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign schedule 12341234",
+  "mobile_list": [
+    1,
+    2,
+    3
+  ],
+  "remove_dupe_yn": 1,
+  "msg": "this is a smgsdd",
+  "c_type": "quick",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "valid": 34,
+  "template_id": "",
+  "dlt_entity_id": "",
+  "header": "icicik",
+  "schedule_list": [
+    {
+      "dt": "2021-08-21",
+      "time": "11:00:00",
+      "zone_name": "Asia/Dubai"
+    }
+  ],
+  "shorten_url_yn": 0,
+  "dlt_template_id": "",
+  "intl_header": "intl12",
+  "traffic_to": "india"
+}
+
+######################## Campaign OTM api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cotm/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 1234",
+  "remove_dupe_yn": 1,
+  "msg": "this is a smgsdd",
+  "c_type": "otm",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ],
+    "shorten_url_yn": 0,
+  "dlt_template_id": "",
+  "intl_header": "intl12",
+  "traffic_to": "india"
+}
+
+### schedule campaign
+POST http://127.0.0.1:3000/cm/campaigns/cotm/schedule HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign sch otm",
+  "remove_dupe_yn": 1,
+  "msg": "this is a smgsdd",
+  "c_type": "otm",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "otm_XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "otm_XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "otm_XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ],
+  "schedule_list": [
+    {
+      "dt": "2021-08-21",
+      "time": "11:00:00",
+      "zone_name": "Asia/Dubai"
+    },
+    {
+      "dt": "2021-09-29",
+      "time": "19:00:00",
+      "zone_name": "America/Los_Angeles"
+    }
+  ],
+    "shorten_url_yn": 0,
+  "dlt_template_id": "",
+  "intl_header": "intl12",
+  "traffic_to": "india"
+}
+
+
+######################## Campaign MTM api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cmtm/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 12345",
+  "remove_dupe_yn": 1,
+  "msg": "this is a mtm",
+  "c_type": "mtm",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "mtm_XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "mtm_XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "mtm_XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ],
+    "shorten_url_yn": 0,
+  "dlt_template_id": "",
+  "intl_header": "intl12",
+  "traffic_to": "india"
+}
+
+### schedule campaign
+POST http://127.0.0.1:3000/cm/campaigns/cmtm/schedule HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign sch mtm",
+  "remove_dupe_yn": 1,
+  "msg": "this is a mtm",
+  "c_type": "mtm",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "mtm_XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "mtm_XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "mtm_XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ],
+  "schedule_list": [
+    {
+      "dt": "2021-08-28",
+      "time": "18:00:00",
+      "zone_name": "America/Los_Angeles"
+    },
+    {
+      "dt": "2021-09-29",
+      "time": "19:00:00",
+      "zone_name": "America/Los_Angeles"
+    }
+  ],
+    "shorten_url_yn": 0,
+  "dlt_template_id": "",
+  "intl_header": "intl12",
+  "traffic_to": "india"
+}
+
+######################## Campaign Template api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/ct/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 12345",
+  "remove_dupe_yn": 1,
+  "c_type": "template",
+  "c_lang_type": "unicode",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "ct_XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "ct_XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "ct_XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ],
+    "shorten_url_yn": 0,
+  "dlt_template_id": "",
+  "intl_header": "intl12",
+  "traffic_to": "india",
+  "save_template_yn": 0,
+  "is_unicode": 0,
+  "msg": "",
+  "t_mobile_column": "",
+  "t_type": "",
+  "t_name": ""
+}
+
+### schedule campaign
+POST http://127.0.0.1:3000/cm/campaigns/ct/schedule HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign ct sch",
+  "remove_dupe_yn": 1,
+  "c_type": "template",
+  "c_lang_type": "unicode",
+  "c_lang": "",
+  "template_id": "0zcqx6jtfjl5koxmqkyeey0hgsri0iu1llda",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "ct_XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "ct_XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "ct_XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ],
+  "schedule_list": [
+    {
+      "dt": "2021-08-28",
+      "time": "18:00:00",
+      "zone_name": "America/Los_Angeles"
+    },
+    {
+      "dt": "2021-09-29",
+      "time": "19:00:00",
+      "zone_name": "America/Los_Angeles"
+    }
+  ],
+    "shorten_url_yn": 0,
+  "dlt_template_id": "",
+  "intl_header": "intl12",
+  "traffic_to": "india",
+  "save_template_yn": 0,
+  "is_unicode": 0,
+  "msg": "",
+  "t_mobile_column": "",
+  "t_type": "",
+  "t_name": ""
+}
+
+######################## Campaign group api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cg/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign group",
+  "remove_dupe_yn": 1,
+  "msg": "医学汉语水平考试",
+  "c_type": "group",
+  "c_lang_type": "unicode",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "group_ids": [
+    "0ralaj5l6yd4c0optn4a09vte3gdqj8cwjlx",
+    "3wnh7xvmzgrj2cudj5veeaxsounkok4oqo3f"
+  ],
+  "exclude_group_ids": [
+    "4214scgn2v3x8hxb3il04jf9vrviin0bq5pp",
+    "5qw7nhr3x9fwvymqrj6ktplfs2v7e0aeuzqo"
+  ]
+}
+
+### schedule campaign
+POST http://127.0.0.1:3000/cm/campaigns/cg/schedule HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign group sch1",
+  "remove_dupe_yn": 1,
+  "msg": "this is a group msg",
+  "c_type": "group",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "group_ids": [
+    "0ralaj5l6yd4c0optn4a09vte3gdqj8cwjlx",
+    "3wnh7xvmzgrj2cudj5veeaxsounkok4oqo3f"
+  ],
+  "schedule_list": [
+    {
+      "dt": "2021-08-19",
+      "time": "11:00:00",
+      "zone_name": "Asia/Dubai"
+    },
+    {
+      "dt": "2021-09-26",
+      "time": "19:00:00",
+      "zone_name": "America/Los_Angeles"
+    }
+  ]
+}
+
+######################## Template api's ##########################
+
+### get all the templates for the user
+GET http://127.0.0.1:3000/cm/template/templates?entity_id=110100001352  HTTP/1.1
+
+
+
+### is template name unique
+GET http://127.0.0.1:3000/cm/template/tnameunique?t_name=template name 2  HTTP/1.1
+
+### new template
+POST http://127.0.0.1:3000/cm/template/tnew  HTTP/1.1
+content-type: application/json
+
+{
+  "t_name": "Template Uni 1",
+  "t_type": "column",
+  "t_mobile_column": "phone or 1",
+  "dlt_entity_id": "110100001352",
+  "dlt_template_id": "1107158092263528722",
+  "pattern_type": 1,
+  "t_content": "TMB வங்கி- உங்கள் ATM, டெபிட் & கிரிடிட் கார்டு எண்,பின் (PIN),CVV எண், Expiry Date, OTP போன்றவற்றை கேட்பதில்லை. மேற்கூறிய தகவல்களை எவரிடமும் தெரிவிக்க வேண்டாம் -TMB",
+  "is_static": 0,
+  "is_unicode": 1
+}
+
+### new template
+POST http://127.0.0.1:3000/cm/template/tnew  HTTP/1.1
+content-type: application/json
+
+{
+  "t_name": "Template Uni 2",
+  "t_type": null,
+  "t_mobile_column": "",
+  "dlt_entity_id": "110100001352",
+  "dlt_template_id": "1107158092263528722",
+  "pattern_type": 1,
+  "t_content": "TMB வங்கி",
+  "is_static": 1,
+  "is_unicode": 1
+}
+
+### get template details
+GET http://127.0.0.1:3000/cm/template/tinfo?id=0bqw7fkzyhc4rfugm8ncrgznhdemlwrsq0ix  HTTP/1.1
+
+### update template details
+POST http://127.0.0.1:3000/cm/template/tupdate  HTTP/1.1
+content-type: application/json
+
+{
+  "t_name": "Template 1",
+  "id": "36uyec87ogsu5kxyif5bh1lgw6med88mi65s"
+}
+
+### delete a template
+POST http://127.0.0.1:3000/cm/template/tdelete  HTTP/1.1
+content-type: application/json
+
+{
+  "ids": [
+    "1",
+    "c87nz5f6ifglpokdptfujyvkf9j7v66q2psm",
+    "w8gqhp63xd4dmdyhgwiyqh2n9ljwvy8uzua0"
+  ]
+}
+
+### get all the templates for campaign
+GET http://127.0.0.1:3000/cm/template/templatesForCampaign?c_type=quick&entity_id=1111111111110001223&header=CHSILKS  HTTP/1.1
+
+### get all the dlt templates for campaign
+GET http://127.0.0.1:3000/cm/template/dlttemplatesForCampaign?c_type=otm&entity_id=1001183738154133134&header=CAMEOC  HTTP/1.1
+
+######################## Group api's ##########################
+
+### Create group
+POST http://127.0.0.1:3000/cm/group/gnew  HTTP/1.1
+content-type: application/json
+
+{
+  "g_name": "EGroup name11",
+  "g_type": "exclude",
+  "g_visibility": "private",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ]
+}
+
+### get all the groups for the user
+GET http://127.0.0.1:3000/cm/group/groups?g_type=all&status=all  HTTP/1.1
+
+### get all the groups (along with assigned groups) for the user
+GET http://127.0.0.1:3000/cm/group/groupsForCampaign?g_type=normal  HTTP/1.1
+
+### get all the shared groups for the user
+GET http://127.0.0.1:3000/cm/group/sharedgroups  HTTP/1.1
+
+### get group details
+GET http://127.0.0.1:3000/cm/group/ginfo?id=irb3tedg358hjr819zn900bxfc8lnqj2rs35  HTTP/1.1
+
+### update group details
+POST http://127.0.0.1:3000/cm/group/gupdate  HTTP/1.1
+content-type: application/json
+
+{
+  "id": "qkunezmq56qaxjsrlschz5e6z2ld3yp9si1c",
+  "g_name": "exc_Group1",
+  "g_visibility": "shared"
+}
+
+### delete group(s)
+POST http://127.0.0.1:3000/cm/group/gdelete  HTTP/1.1
+content-type: application/json
+
+{
+  "ids": [
+    "1",
+    "sdldzeyw0mabwau8srd51qqi6iux3v8o3gsn",
+    "t1d47gk506leas5k39gqlk5lk9snhyssb8fj"
+  ]
+}
+
+######################## Contacts api's ##########################
+
+# get all the contacts under a group
+GET http://127.0.0.1:3000/cm/group/contact/contacts?g_type=normal&match=777&g_id=6hc3xnla4c43p41td6wxneltvfjbjh7hutxf  HTTP/1.1
+
+### delete group(s)
+POST http://127.0.0.1:3000/cm/group/contact/cdelete  HTTP/1.1
+content-type: application/json
+
+{
+  "g_id": "irb3tedg358hjr819zn900bxfc8lnqj2rs35",
+  "g_type": "normal",
+  "mobiles": [
+    "919600018650",
+    "919600035888",
+    "9778768878"
+  ]
+}
+
+### update contact details
+POST http://127.0.0.1:3000/cm/group/contact/cupdate  HTTP/1.1
+content-type: application/json
+
+{
+  "g_id": "irb3tedg358hjr819zn900bxfc8lnqj2rs35",
+  "g_type": "normal",
+  "mobile": "9154856545",
+  "name": "joe",
+  "email": "joe@email.com"
+}
+
+### Create group
+POST http://127.0.0.1:3000/cm/group/contact/cadd  HTTP/1.1
+content-type: application/json
+
+{
+  "g_id": "irb3tedg358hjr819zn900bxfc8lnqj2rs35",
+  "g_type": "normal",
+  "mobile": "9154856545",
+  "name": "joe",
+  "email": "joe@email.com",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ]
+}
+
+######################## Account api's ##########################
+
+### get all users for a user
+GET http://127.0.0.1:3000/cm/account/accounts HTTP/1.1
+
+### get account stats
+GET http://127.0.0.1:3000/cm/account/astats HTTP/1.1
+
+### check if username is unique
+GET http://127.0.0.1:3000/cm/account/unameunique?uname=wintest1 HTTP/1.1
+
+###
+GET http://192.168.1.164:3000/cm/account/unameunique?uname=wintest1 HTTP/1.1
+
+###
+GET http://127.0.0.1:3000/cm/account/countries HTTP/1.1
+
+###
+GET http://127.0.0.1:3000/cm/account/tgroups HTTP/1.1
+
+###
+GET http://127.0.0.1:3000/cm/account/assignedSubServices HTTP/1.1
+
+###
+POST http://127.0.0.1:3000/cm/account/anew  HTTP/1.1
+content-type: application/json
+
+{
+  "user_type": 1,
+  "firstname": "Fname",
+  "lastname": "L",
+  "company": "Inc Ltd",
+  "username": "testuser44",
+  "email": "am@winnovature.com",
+  "mobile": "9176013682",
+  "zone_name": "Asia/Calcutta",
+  "offset": "+05:30",
+  "country_code_iso3": "IND",
+  "allocated_tgroup_ids": [
+    14542255
+  ],
+  "assigned_tgroup_id": 14542255,
+  "smpp_charset": "UTF-8",
+  "address": "address",
+  "twofa_yn": 0,
+  "wallet": 1,
+  "smsrate": 1.0234,
+  "dltrate": 0.0025,
+  "newline_chars": "##",
+  "encrypt_mobile_yn": 0,
+  "encrypt_message_yn": 0,
+  "assigned_groups": [
+    "19qlry9xjzlpblxnhea54obd4aqctu0bqrdv"
+  ],
+  "billing_currency": "INR",
+  "services": [
+    {
+      "service": "sms",
+      "sub_service": "api"
+    }
+  ],
+  "intl_rates": [
+    
+  ]
+}
+
+### get account info
+GET http://127.0.0.1:3000/cm/account/ainfo?cli_id=6000000300000012 HTTP/1.1
+
+### update acc info
+POST http://127.0.0.1:3000/cm/account/aupdatePI  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "firstname": "Firstname",
+  "lastname": "Lastname",
+  "company": "Inc Ltd",
+  "address": "address"
+}
+
+###
+POST http://127.0.0.1:3000/cm/account/aupdateEncryption  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "encrypt_mobile_yn": 0,
+  "encrypt_message_yn": 1
+}
+
+### upate acc dlt template group config
+POST http://127.0.0.1:3000/cm/account/aupdateTGroups  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000001,
+  "assigned_tgroup_id": 1000000000,
+  "allocated_tgroup_ids": [
+    1000000000,
+    1000000001,
+    1000000002
+  ]
+}
+
+### update acc 2fa
+POST http://127.0.0.1:3000/cm/account/aupdate2FA  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "twofa_yn": 1
+}
+
+### update acc password
+POST http://127.0.0.1:3000/cm/account/aupdatepassword  HTTP/1.1
+content-type: application/json
+
+{
+  "newpass": "password"
+}
+
+### update acc messaging settings
+POST http://127.0.0.1:3000/cm/account/aupdateMS  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000001,
+  "newline_chars": "##",
+  "zone_name": "Asia/Calcutta",
+  "offset": "+05:30",
+  "country_code_iso3": "IND"
+}
+
+### update services
+POST http://127.0.0.1:3000/cm/account/aupdateServices  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 3000000300000000,
+  "smpp_charset": "UTF-8",
+  "services": [
+    {
+      "service": "sms",
+      "sub_service": "smpp"
+    },
+    {
+      "service": "sms",
+      "sub_service": "cm"
+    },
+      {
+      "service": "sms",
+      "sub_service": "api"
+    }
+  ],
+  "row_rate": 0
+}
+
+###
+POST http://127.0.0.1:3000/cm/account/aupdateGroups  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000027,
+  "assigned_groups": [
+    "19qlry9xjzlpblxnhea54obd4aqctu0bqrdv"
+  ]
+}
+
+###
+POST http://127.0.0.1:3000/cm/account/aupdateWRates  HTTP/1.1
+content-type: application/json
+
+{
+    "cli_id": 6000000300250000,
+  "smsrate": 1.0234,
+  "dltrate": 0.0025,
+  "smsrate_old": 1.0233,
+  "dltrate_old": 0.0024
+}
+
+### update wallet amount for a cli_id
+POST http://127.0.0.1:3000/cm/account/aupdateWAmount  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000300000000,
+  "amount": 1.00,
+  "action": "add",
+  "comments": "this is a comment"
+}
+
+### get account wallet balance
+POST http://127.0.0.1:3000/cm/account/abal  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000300000000
+}
+
+### update account status (activate / deactivate)
+POST http://127.0.0.1:3000/cm/account/updateaccstatus  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000300000000,
+  "astatus": "activate"
+}
+
+### get all users who has balance wallet matching amount and action (myaccount->Manage wallet)
+POST http://127.0.0.1:3000/cm/account/ausersmw  HTTP/1.1
+content-type: application/json
+
+{
+  "amount": 0.01,
+  "action": "deduct"
+}
+
+### update wallet balance for the selected users (myaccount->Manage wallet)
+POST http://127.0.0.1:3000/cm/account/aupdatewamountmulti  HTTP/1.1
+content-type: application/json
+
+{
+  "amount": 0.010,
+  "action": "add",
+  "cli_ids": [
+    6000000300000013,
+    6000000300000012
+  ],
+  "comments": "add"
+}
+
+### get quick link settings for the user
+GET http://127.0.0.1:3000/cm/account/aquicklinksettings HTTP/1.1
+
+### get configured quick links for the user
+GET http://127.0.0.1:3000/cm/account/aquicklinks HTTP/1.1
+
+### update quick link settings
+POST http://127.0.0.1:3000/cm/account/aupdatequicklinksettings  HTTP/1.1
+content-type: application/json
+
+{
+  "selected_quicklinks": [
+    {
+      "ql": "cotm",
+      "group": "campaign"
+    },
+    {
+      "ql": "template",
+      "group": "createnew"
+    }
+  ]
+}
+
+### get all senderids for the filter
+POST http://127.0.0.1:3000/cm/account/awt HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "this month",
+  "fdate": "2021-07-02",
+  "tdate": "2021-10-06"
+}
+
+### get configured rates for intl countries for the logged in user
+GET http://127.0.0.1:3000/cm/account/aparentbrrateintl HTTP/1.1
+
+
+###
+POST http://127.0.0.1:3000/cm/account/abrratesintl  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": "6000000200000000"
+}
+
+######################## Campaign api's ##########################
+### msginfo
+POST http://127.0.0.1:3000/cm/campaigns/msginfo HTTP/1.1
+content-type: application/json
+
+{
+  "msg": "புர {#var#}"
+}
+
+###
+POST http://192.168.1.170:9280/msgtool/msginfo HTTP/1.1
+content-type: application/json
+
+{
+"message": "புர {#var#}",
+  "cli_id": "8000000200000000",
+  "header": ""
+}
+
+### get all matching campaigns
+POST http://127.0.0.1:3000/cm/campaigns/clist HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "this month",
+  "fdate": "2021-08-20",
+  "tdate": "2021-08-21"
+}
+
+
+### get todays campaigns stats
+GET http://127.0.0.1:3000/cm/campaigns/ctodaysstats HTTP/1.1
+
+### get campaign detail
+GET http://127.0.0.1:3000/cm/campaigns/cdetails?c_id=svq53oifrvg0i0lxs3sl5ys9yq2zofk97pyi HTTP/1.1
+#GET http://127.0.0.1:3000/cm/campaigns/cdetails?c_id=rdh6oki586pexdffvbo7d3328cfvjkk1ntw0 HTTP/1.1
+
+### get campaign details by files/groups
+GET http://127.0.0.1:3000/cm/campaigns/cdetailsbyfile?c_id=qgN3bNK30P6q1vF3eznWeSipyCYk6UwIy5QZ HTTP/1.1
+#GET http://127.0.0.1:3000/cm/campaigns/cdetailsbyfile?c_id=rdh6oki586pexdffvbo7d3328cfvjkk1ntw0 HTTP/1.1
+
+### get campaign processed counts
+GET http://127.0.0.1:3000/cm/campaigns/cprocessedstats?c_id=qgN3bNK30P6q1vF3eznWeSipyCYk6UwIy5QZ HTTP/1.1
+###
+GET http://192.168.1.149:3000/cm/campaigns/cprocessedstats?c_id=axnj2pbeda7oaezjvr3agrjqbrkm530yuigv HTTP/1.1
+
+### get sched campaigns stats
+GET http://127.0.0.1:3000/cm/campaigns/cschedstats HTTP/1.1
+
+### get all matching sched campaigns
+POST http://127.0.0.1:3000/cm/campaigns/cslist HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "this month",
+  "fdate": "2021-08-20",
+  "tdate": "2021-12-20"
+}
+
+### get sched campaign detail
+GET http://127.0.0.1:3000/cm/campaigns/csdetails?c_id=0wcsoy47h92new344e7ipmi26zfzq3ueiylc&at_id=sz2q3fnlfugai7tx9h0ap0ckotcwjtnzkmxq HTTP/1.1
+
+### delete a sched campaign
+POST http://127.0.0.1:3000/cm/campaigns/csdelete  HTTP/1.1
+content-type: application/json
+
+{
+  "c_id": "u09kcrgqc8taedxiwrucx9441wo4upv1wlj",
+  "at_id": "pc1crkhjv1a4cra3cnkere2136e0x2fjx88z"
+}
+
+### update a sched campaign
+POST http://127.0.0.1:3000/cm/campaigns/csupdate  HTTP/1.1
+content-type: application/json
+
+{
+  "c_id": "8t28z62sccbbhkr4y9lf4xctwlaj023tju3e",
+  "at_id": "r1znjbyldi03rvo7tap85uviqe20pn4mr884",
+  "scheduled_date": "2021-08-28",
+  "scheduled_time": "00:00",
+  "scheduled_zone": "Asia/Karachi"
+}
+
+######################## report api's ##########################
+### get all sources for the filter
+POST http://127.0.0.1:3000/cm/report/rsources HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "custom range",
+  "fdate": "2021-10-05",
+  "tdate": "2021-10-07"
+}
+
+### get all campaigns for the filter
+POST http://127.0.0.1:3000/cm/report/rcampaigns HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "custom range",
+  "fdate": "2021-07-02",
+  "tdate": "2021-10-07",
+  "source": "ui"
+}
+
+### get all senderids for the filter
+POST http://127.0.0.1:3000/cm/report/rsenderids HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "custom range",
+  "fdate": "2021-07-02",
+  "tdate": "2021-10-06",
+  "source": "all",
+  "campaign_id": "all"
+}
+
+######################## report api's ##########################
+### get all senderids for the filter
+POST http://127.0.0.1:3000/cm/report/summary/rsummary HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "this week",
+  "fdate": "2021-11-10",
+  "tdate": "2021-11-21",
+  "source": "all",
+  "campaign_id": "all",
+  "senderid": "all",
+  "reportby": "overall"
+}
+
+### summary download
+POST http://127.0.0.1:3000/cm/report/summary/rsummarydownload HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "custom range",
+  "fdate": "2021-08-02",
+  "tdate": "2021-08-30",
+  "source": "all",
+  "campaign_id": "all",
+  "senderid": "all",
+  "reportby": "senderid"
+}
+
+### get detailed logs
+POST http://127.0.0.1:3000/cm/report/log/rlogs HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "this week",
+  "fdate": "2021-10-15",
+  "tdate": "2021-10-25",
+  "source": "all",
+  "campaign_id": "all",
+  "senderid": "all",
+  "status": "all"
+}
+
+######################## dlt api's ##########################
+### get all the dlt telcos
+GET http://127.0.0.1:3000/cm/dlt/dlttelcos HTTP/1.1
+
+### Add dlt templates for processing
+POST http://127.0.0.1:3000/cm/dlt/dltadd  HTTP/1.1
+content-type: application/json
+
+{
+  "entityid": "110100001359",
+  "telco": "Voda",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx"
+    }
+  ]
+}
+
+### get all the dlt templates
+GET http://127.0.0.1:3000/cm/template/dlttemplates?entity_id=110100001352  HTTP/1.1
+
+### get all the unused dlt templates (dlttemplates - templates created)
+GET http://127.0.0.1:3000/cm/template/unuseddlttemplates?entity_id=110100001352  HTTP/1.1
+
+### get dlt stats
+GET http://127.0.0.1:3000/cm/dlt/dltstats HTTP/1.1
+
+### get dlt template list for entityid and templateid
+GET http://127.0.0.1:3000/cm/dlt/dlttemplates?entity_id=all&dlt_template_id=all  HTTP/1.1
+
+### get dlt file uploads
+GET http://127.0.0.1:3000/cm/dlt/dltuploads?dateselectiontype=this month  HTTP/1.1
+
+### get dlt senderids (card)
+GET http://127.0.0.1:3000/cm/dlt/dltsenderids  HTTP/1.1
+
+### get dlt entityid stats (card)
+GET http://127.0.0.1:3000/cm/dlt/dltentityidstats  HTTP/1.1
+
+### get dlt senderids (filter)
+GET http://127.0.0.1:3000/cm/dlt/dltentityidsforfilter  HTTP/1.1
+
+### get dlt templateids (filter)
+GET http://127.0.0.1:3000/cm/dlt/dlttemplateidsforfilter?entity_id=110100001352  HTTP/1.1
+
+######################## downloads api's ##########################
+
+### get log download counts by status
+GET http://127.0.0.1:3000/cm/download/dlogstats  HTTP/1.1
+
+### get list of downloads
+#GET http://127.0.0.1:3000/cm/download/logdownloads?dateselectiontype=this week&fdate=2021-109-01&tdate=2021-09-09  HTTP/1.1
+GET http://127.0.0.1:3000/cm/download/logdownloads?dateselectiontype=this week&fdate=Sun Oct 17 2021 00:00:00 GMT+0530 (India Standard Time)&tdate=Wed Oct 20 2021 00:00:00 GMT+0530 (India Standard Time)  HTTP/1.1
+
+### make log download req
+POST http://127.0.0.1:3000/cm/download/downloadlog HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "today",
+  "fdate": "2021-09-13",
+  "tdate": "2021-09-15",
+  "source": "all",
+  "campaign_id": "all",
+  "campaign_name": "All",
+  "senderid": "all",
+  "status": "Rejected"
+}
+
+### download log file
+GET http://127.0.0.1:3000/cm/download/downloadlogfile?id=sm1fe7hwumnlvpsbxkio7avr195om6ae791x  HTTP/1.1
+
+###
+
+######################## search api's ##########################
+
+# search log
+POST http://127.0.0.1:3000/cm/report/search/rlogsearch HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "this week",
+  "fdate": "2021-09-13",
+  "tdate": "2021-09-15",
+  "input": "919500045053",
+  "search_for": "mobile"
+}
+
+###
+POST http://127.0.0.1:3000/cm/report/search/rlogsearchdownload HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "this week",
+  "fdate": "2021-09-13",
+  "tdate": "2021-09-15",
+  "input": "919500045053",
+  "search_for": "mobile"
+}
+
+######################## billing rate api's ##########################
+
+###
+GET http://127.0.0.1:3000/cm/br/brusers  HTTP/1.1
+
+###
+GET http://127.0.0.1:3000/cm/br/brusersforfilter  HTTP/1.1
+
+###
+POST http://127.0.0.1:3000/cm/br/brupdateOthers HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": "6000000202300000",
+  "add_arr": [    
+    {"country": "United Arab Emirates", "sms_rate": 5.112269}
+  ],
+  "update_arr": [],
+  "delete_arr": []
+}
+
+###
+POST http://127.0.0.1:3000/cm/br/brupdateOthers HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": "6000000202300000",
+  "add_arr": [],
+  "update_arr": [    
+    {"country": "United Arab Emirates", "sms_rate": 5.112269, "sms_rate_old": 5.112269}
+  ],
+  "delete_arr": []
+}
+
+###
+POST http://127.0.0.1:3000/cm/br/brupdateOthers HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": "6000000202300000",
+  "add_arr": [],
+  "update_arr": [],
+  "delete_arr": ["United States", "Japan"]
+}
+
+###
+POST http://127.0.0.1:3000/cm/br/brupdateROW HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": "6000000200000001",
+  "sms_rate": 0.059, 
+  "sms_rate_old": 0.03
+}
+
+### get all the billing rate changes
+POST http://127.0.0.1:3000/cm/br/brchanges HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id_str": "all",
+  "dateselectiontype": "this week",
+   "fdate": "2021-07-02",
+  "tdate": "2021-12-22"
+}

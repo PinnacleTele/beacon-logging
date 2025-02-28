@@ -1,0 +1,276 @@
+<app-reports-header></app-reports-header>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none mt-12 lg:mt-0" >
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-10 lg:mt-8">
+			<div class="flex flex-col space-y-1">
+				<span class="text-lg font-bold text-gray-600">Detailed Report</span>
+
+				<span *ngIf="showTodayIncludeInfo" class="text-xs text-gray-500">Please note that selected {{dateselectionType}}
+					<span *ngIf="includes"> does not </span> includes today</span>
+			</div>
+		</div>
+		<!-- top section -->
+
+		<app-report-calender [fromPage]="'detailed'" [detailedSearch]="true"
+			(selectedDateEmitter)="receivedDateSelection($event)">
+		</app-report-calender>
+
+		<!-- card block -->
+		<app-filtercomponent [showStatus]="true" [defaultSelection]="DefaultSelection" (submitData)="submit($event)"
+			(searchClean)="searchClear($event)" (download)="download($event)">
+		</app-filtercomponent>
+
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+
+			<!-- table list section -->
+			<div *ngIf="showTable" class="bg-white p-5 md:px-10 md:py-2 rounded">
+				<!-- info section -->
+				<div class="rounded-md bg-yellow-0 px-2 py-1.5 mt-1 w-auto lg:w-2/3 mb-4">
+					<div *ngIf=" !( noData  ||apiLoading)" class="flex items-center">
+						<div class="flex-shrink-0">
+							<!-- Heroicon name: solid/information-circle -->
+							<svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" version="1.1">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<rect x="0" y="0" width="24" height="24" />
+									<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+									<rect fill="currentColor" x="11" y="10" width="2" height="7" rx="1" />
+									<rect fill="currentColor" x="11" y="7" width="2" height="2" rx="1" />
+								</g>
+							</svg>
+						</div>
+						<div class="ml-1 flex-1 md:flex md:justify-between">
+							<p class="text-xs text-gray-400 font-medium">
+								Results are restricted to a maximum of 500
+								records.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="space-y-4">
+					<div class="flex flex-col sm:flex-row justify-between pt-1 space-y-2">
+						<!-- search -->
+						<div *ngIf=" !( noData ||apiError)" class="relative sm:w-1/2">
+							<input (keyup)="getcount()" [(ngModel)]="term" type="text" name="name" id="name"
+								class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+								placeholder="Search" value="" aria-invalid="true" aria-describedby="name-error" />
+							<div
+								class="absolute inset-y-0 right-0 pr-2 text-gray-400 hover:text-gray-700 flex items-center cursor-pointer">
+								<svg *ngIf="term" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+									fill="currentColor" (click)="searchBarClear()">
+									<path fill-rule="evenodd"
+										d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+										clip-rule="evenodd" />
+								</svg>
+							</div>
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24"></rect>
+										<path
+											d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+										<path
+											d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+											fill="currentColor" fill-rule="nonzero"></path>
+									</g>
+								</svg>
+							</div>
+						</div>
+					</div>
+					<!-- table section -->
+					<div class="flex flex-col pt-0">
+						<div class="overflow-x-auto">
+							<div class="py-2 align-middle inline-block min-w-full pt-3">
+								<div class="">
+									<table class="min-w-full divide-y-0 divide-gray-200">
+										<thead *ngIf=" !( apiError || noData)" class="bg-gray-50 text-xxs text-gray-400">
+											<tr class="">
+												<th scope="col"
+													class="px-5 py-2 font-bold text-center uppercase tracking-wider whitespace-nowrap">
+													<app-sorter [colTitle]="accept_header" [defaultProperty]="defaultProp"
+														[icon]="acceptedTimeIcon" [sortingProperty]="'recv_unix'" [defaultOrder]="'asc'"
+														(sortingEmitter)="sort($event)" (iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-center uppercase tracking-wider whitespace-nowrap">
+													<app-sorter [colTitle]="submit_header" [defaultProperty]="defaultProp" [icon]="submittedIcon"
+														[sortingProperty]="'sub_unix'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-center uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="del_header" [defaultProperty]="defaultProp" [icon]="deliveredIcon"
+														[sortingProperty]="'del_unix'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Sender Id'" [defaultProperty]="defaultProp" [icon]="senderIdIcon"
+														[sortingProperty]="'sub_cli_hdr'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+
+												<th scope="col"
+													class="px-2 py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+													<app-sorter [colTitle]="'Mobile'" [defaultProperty]="defaultProp" [icon]="mobileIcon"
+														[sortingProperty]="'dest'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Status'" [defaultProperty]="defaultProp" [icon]="statusIcon"
+														[sortingProperty]="'status'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Message'" [defaultProperty]="defaultProp" [icon]="msgIcon"
+														[sortingProperty]="'sub_msg'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+													<app-sorter [colTitle]="SMSRateTitle" [defaultProperty]="defaultProp" [icon]="SMSrateIcon"
+														[sortingProperty]="'sms_price'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="dltRateTitle" [defaultProperty]="defaultProp" [icon]="DLTrateIcon"
+														[sortingProperty]="'dlt_price'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+
+												<th scope="col"
+													class="px-5 py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+													<app-sorter [colTitle]="'ACK ID'" [defaultProperty]="defaultProp" [icon]="ACKidIcon"
+														[sortingProperty]="'sub_file_id'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Reason'" [defaultProperty]="defaultProp" [icon]="reasonIcon"
+														[sortingProperty]="'reason'" [defaultOrder]="'asc'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)">
+													</app-sorter>
+												</th>
+											</tr>
+										</thead>
+
+										<app-list-skeleton *ngIf="apiLoading" [colCount]="11"></app-list-skeleton>
+
+										<tbody *ngIf=" !( noData ||apiError ||apiLoading)" class="bg-white divide-y divide-gray-100">
+											<tr
+												*ngFor="let campaign of campaignReport | ReportListFilter:term | sorter:nameOrder:searchprop | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}">
+												<td class="px-6 py-2 text-xs text-gray-600 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center">
+														<span class="px-2">
+															{{campaign?.recv_time}}
+														</span>
+													</div>
+												</td>
+												<td class="px-6 py-2 text-xs text-gray-600 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center">
+														<span class="px-2">{{campaign?.sub_carrier_sub_time}}
+														</span>
+													</div>
+												</td>
+												<td class="px-6 py-2 text-xs text-gray-600 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center">
+														<span class="px-2">{{campaign?.del_dly_time}}
+														</span>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs tracking-widest text-gray-600 ml-0.5 whitespace-nowrap">
+														{{campaign?.sub_cli_hdr}}
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs tracking-widest text-gray-600 ml-0.5 whitespace-nowrap">
+														{{campaign?.dest}}
+													</div>
+												</td>
+
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="flex space-x-1 align-middle items-center text-xs">
+														<div class="items-center justify-center space-x-1 mt-1.5">
+															<span
+																[ngClass]="campaign?.status == 'Success' ? 'text-green-500' : campaign?.status == 'Delivered' ? 'text-green-500' : 'text-red-500' "
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100">{{campaign?.status}}</span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs tracking-widest text-gray-600 ml-0.5 whitespace-wrap w-72">
+														{{campaign?.sub_msg}}
+													</div>
+												</td>
+												<td class="px-6 py-2 text-xs text-gray-600 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center">
+														<span class="px-2">{{nullHandler(campaign?.sms_rate)}}
+														</span>
+													</div>
+												</td>
+												<td class="px-6 py-2 text-xs text-gray-600 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center">
+														<span class="px-2">{{nullHandler(campaign?.dlt_rate)}}</span>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs tracking-widest text-gray-600 whitespace-nowrap">
+														{{campaign?.sub_file_id}}
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs tracking-widest text-gray-600 whitespace-nowrap">
+														{{campaign?.reason}}
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div *ngIf="noRecords == 0 && !(noData || apiLoading || apiError)">
+						<app-nodataerror [title]="'reports'"> </app-nodataerror>
+					</div>
+
+					<div *ngIf="noData && !(noRecords == 0 || apiLoading || apiError)">
+						<app-nodatafor-range [title]="'report'" [headContent]="NDHeadContent" [messageContent]="NDMessageCOntent">
+						</app-nodatafor-range>
+					</div>
+
+					<div *ngIf="apiError && !(noRecords == 0 || apiLoading || noData)">
+						<app-apierror (Emitter)="retry()"> </app-apierror>
+					</div>
+				</div>
+
+				<app-file-pagination *ngIf=" !(apiLoading || noData ||apiError || noRecords == 0)" [total]="total"
+					[totalRecord]="totalRecord" [p]="p" [pagesize]="pagesize" [itemsPerPage]="itemsPerPage"
+					[perpageCount]="perpageCount" (paginationValueEmit)="ReceivedpaginateValue($event)">
+				</app-file-pagination>
+			</div>
+			<!-- /End replace -->
+		</div>
+	</div>
+</main>
+
+<app-downloaderrorpopup *ngIf="popUp" [Responce]="deleteResponse" (closePopUp)="closeDeletePopup($event)"
+	(successPopUp)="continueDeletePopup($event)" (tryAgainPopUp)="tryAgainOnPopup($event)">
+
+</app-downloaderrorpopup>

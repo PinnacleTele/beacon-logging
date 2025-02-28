@@ -1,0 +1,61 @@
+# https://computingforgeeks.com/how-to-install-latest-redis-on-centos-7/
+# it is required to run install_devtools.yml before this
+---
+- hosts: nodejs
+  vars:
+    remote_app_deploy_dir: /home/teamwork/nodeapps/cm
+    remote_log_dir: "{{remote_app_deploy_dir}}/log"
+    app_port: 3000
+  become: false
+  tasks:
+
+  - name: Stop CM application
+    command: pm2 stop "cm-api"
+    args:
+      chdir: "{{remote_app_deploy_dir}}"
+
+  - name: Delete CM application
+    command: pm2 delete "cm-api"
+    args:
+      chdir: "{{remote_app_deploy_dir}}"
+
+  - name: Delete app directory {{remote_app_deploy_dir}}
+    file:
+      path: "{{remote_app_deploy_dir}}"
+      state: absent
+
+  - name: Create app deploy directory ({{remote_app_deploy_dir}}) if it does not exist
+    file:
+      path: "{{remote_app_deploy_dir}}"
+      state: directory
+
+  - name: Create log directory ({{remote_log_dir}}) if it does not exist
+    file:
+      path: "{{remote_log_dir}}"
+      state: directory
+
+  - name: Copy cm.zip to remote and Extract into into {{remote_app_deploy_dir}}
+    unarchive:
+      src: ../dist/cm.zip
+      dest: "{{remote_app_deploy_dir}}"
+
+  - name: Change swagger host to machine ip
+    replace:
+      path: "{{remote_app_deploy_dir}}/config/swagger.js"
+      regexp: "host: '127.0.0.1:3000'"
+      replace: "host: '{{inventory_hostname}}:{{app_port}}'"
+
+  - name: Rename .env.prod to .env
+    command: mv .env.prod .env
+    args:
+      chdir: "{{remote_app_deploy_dir}}"
+
+  - name: install node dependencies
+    shell: yarn install
+    args:
+      chdir: "{{remote_app_deploy_dir}}"
+
+  - name: Start CM application
+    command: pm2 start app.js --name "cm-api"
+    args:
+      chdir: "{{remote_app_deploy_dir}}"

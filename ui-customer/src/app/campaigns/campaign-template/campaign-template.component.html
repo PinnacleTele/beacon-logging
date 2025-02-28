@@ -1,0 +1,197 @@
+<app-campaign-header [pageTitle]="pageTitle"></app-campaign-header>
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+			<div class="bg-white p-5 md:p-10 rounded">
+				<div class="mt:0 space-y-1 text-center flex flex-col items-center">
+					<app-nobalancestyle></app-nobalancestyle>
+				</div>
+				<form class="space-y-8 divide-y divide-gray-200" [formGroup]="templateForm" (ngSubmit)="onSubmit()">
+					<div>
+						<div>
+							<div class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 divide-y divide-gray-100">
+
+								<!-- traffic type  -->
+								<app-selectedtraffic *ngIf="showTraffic" [campType]="'ct'" (selectedtraffic)="trafficChange($event)">
+
+								</app-selectedtraffic>
+
+								<!-- campaign name section -->
+								<div class="sm:col-span-6 text-xs  pt-4">
+									<app-campaign-name-template> </app-campaign-name-template>
+								</div>
+
+
+								<!-- sender id section -->
+								<div class="sm:col-span-6 text-xs pt-4" *ngIf="trafficType == 'india' || trafficType == 'both'">
+									<app-campaign-sender-id [entityId]="entityId" [enityPopulated]="entityIdprePopulate"
+										[templateId]="dlt_templateId" (focus)="resetFocus($event)"
+										(entity_IdEmitter)="entityIdEmitter($event)" (sender_IdEmitter)="senderIdEmitter($event)"
+										></app-campaign-sender-id>
+								</div>
+
+								<!-- <div class="sm:col-span-6 text-xs pt-4" *ngIf="trafficType == 'india' || trafficType == 'both'">
+									<app-entity-id (populated)="prepopulated($event)" (entityIdEmitter)="receivedEntityId($event)">
+									</app-entity-id>
+
+								</div> -->
+
+
+								<!-- template select Section  -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<app-select-template *ngIf="(trafficType == 'india' || trafficType == 'both')" [cType]="'template'"
+										[trafficType]="trafficType" [entityId]="entityId" [senderId]="senderId" [showSlider]="showTemplateSlider"
+										(noEntityId)="EntityIdRequired($event)" (clickSelect)="onClickSelectTemplate()"
+										(choosenTemplate)="selectedTemplate($event)"></app-select-template>
+
+									<app-template-message [intlMsgBased]="tType" [trafficType]="trafficType" [tempType]="tempType"
+										[showWarning]="TemplateTypeSelection" [columnName]="tempColumn" [templateMsg]="templateMsg"
+										[isUnicode]="isUnicode" [Editable]="dltselected" (MessageType)="messageTypeReceived($event)"
+										(messageIsUnicode)="isUnicodeReceived($event)" (MessageContent)="messageContent($event)"
+										(tempLangType)="receivedLangType($event)" *ngIf="showTempMsgArea">
+									</app-template-message>
+
+
+									<!-- save template -->
+
+									<div class="sm:col-span-6 text-xs pt-4" *ngIf="dltselected && showDropzone && trafficType != 'other'">
+										<div class="relative flex items-center mt-3 bg-gray-50 px-2 py-1">
+											<div class="flex items-center h-7">
+												<input id="saveTemplate" name="saveTemplate"
+													class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1"
+													type="checkbox" (change)="saveTemplate($event)"
+													class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+												<div class="ml-3 text-xs">
+													<label for="saveTemplate" class="font-medium text-gray-700">Save this template</label>
+												</div>
+
+											</div>
+										</div>
+
+
+										<div class="mt-2 relative rounded-md w-full sm:w-1/2" *ngIf="saveTemp">
+											<label for="name" class="block font-semibold text-gray-700">Template Name <span
+													class="text-red-600">*</span>
+											</label>
+											<app-template-name>
+											</app-template-name>
+										</div>
+									</div>
+								</div>
+
+
+
+								<!-- template type section -->
+								<div class="sm:col-span-6 text-xs pt-4" *ngIf="dltselected && showDropzone">
+									<app-file-based-on></app-file-based-on>
+								</div>
+
+								<!-- mobile column section  -->
+								<div class="sm:col-span-6 text-xs pt-4" *ngIf="dltselected && showDropzone">
+
+									<label for="mobile" class="block font-semibold text-gray-700" *ngIf="tType === 'column'">Mobile Column
+										<span class="text-red-600">*</span>
+									</label>
+									<label for="mobile" class="block font-semibold text-gray-700" *ngIf="tType === 'index'">Mobile
+										Position <span class="text-red-600">*</span>
+									</label>
+									<p class="mt-1 text-xxs sm:text-xs text-gray-500">
+										Enter the {{tType}} <span *ngIf="tType === 'index'"> ( starts with 1 ) </span> which represents
+										<i class=""> mobile number</i> in the uploaded file
+
+									</p>
+
+									<div class="my-2  block w-full sm:w-1/2">
+
+										<input type="text" name="mobileColumn" (keyup)="mobileColumnBlur()" [(ngModel)]="columnName"
+											(keyup)="columnNameUpdate()" formControlName="mobileColumn"
+											[ngClass]="{'border-red-300': mobileCol.touched && mobileCol.errors}" id="mobilecolumnId"
+											autocomplete="off" tabindex="0"
+											class="shadow-sm text-xs invalid:text-red-400 text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 w-full border-gray-300 rounded-md"
+											[placeholder]="placeholder" value="" aria-invalid="true" aria-describedby="mobileCol-error" />
+										<p class="mt-2 text-xxs sm:text-xs text-red-600"
+											*ngIf="mobileCol.touched && mobileCol.errors?.required "> Mobile Column is
+											required
+										</p>
+										<p class="mt-2 text-xxs sm:text-xs text-red-600"
+											*ngIf="mobileCol.touched && mobileCol.errors?.pattern "> Please enter numeric value
+
+										</p>
+										<p class="mt-2 text-xxs sm:text-xs text-red-600"
+											*ngIf="mobileCol.touched && mobileCol.errors?.maxlength "> maximum length (50) is reached
+										</p>
+									</div>
+								</div>
+
+
+
+								
+								<div class="sm:col-span-6 text-xs pt-4" *ngIf="trafficType == 'other' || trafficType == 'both'">
+									<div class="my-2">
+										<app-intl-senders></app-intl-senders>
+									</div>
+								</div>
+
+								<!-- file upload section -->
+
+								<!-- <div class="sm:col-span-6 text-xs pt-4" *ngIf="dltselected && showDropzone">
+										<app-ctfileupload [fromPage]="'template'" [reset]="resetFileUploader"
+											[templateId]="templateId" [fileContentOrder]="fileContentOrder"
+											(responseEmitter)="getFileUploadSectionData($event)">
+	
+										</app-ctfileupload>
+									</div> -->
+								<div class="sm:col-span-6 text-xs pt-4" *ngIf="showDropzone">
+									<app-file-uploader [dltForm]="templateForm" [dltTemplateSelectionType]="tType" [isDlt]="dltselected"
+										[dltTemplateSelectionMobileColumn]="columnName" [fromPage]="TemplateTypeSelection"
+										[reset]="resetFileUploader" [setErrorColumn]="setError" [templateId]="templateId"
+										[fileContentOrder]="fileContentOrder" (responseEmitter)="getFileUploadSectionData($event)"
+										(sendDisable)="sendButtonEnable($event)">
+									</app-file-uploader>
+								</div>
+
+
+
+								<!-- <div class="sm:col-span-6 text-xs pt-4">
+									<app-preview-template *ngIf="showPreview" [anyChange]="chkIfFileExists"
+										[selectedTemplate]="chosenTemplate" [campaignType]="campaignType"
+										[handSetMessage]="HandsetMessage" (changeOrEdit)="changeOrEditResponse()">
+									</app-preview-template>
+								</div> -->
+
+							</div>
+						</div>
+					</div>
+
+					<!-- button section -->
+					<div class="pt-5">
+						<div class="md:flex md:justify-between grid grid-rows-1 gap-y-2">
+							<div class="grid grid-rows-1">
+								<app-campaign-cancel-button [routePath]="'/campaigns'" [cancelMessage]="cancelMessage">
+								</app-campaign-cancel-button>
+							</div>
+							<div class="md:flex md:justify-end">
+								<div class="grid grid-rows-1 gap-y-2 md:grid-flow-col">
+									<!-- <app-campaign-save-button 
+				   [campaignForm] = "templateForm"
+				   [campaignType] = "campaignType"
+				 ></app-campaign-save-button> -->
+
+									<app-campaign-schedule-button (click)="reValidate()" [campaignForm]="templateForm"
+										[campaignType]="campaignType">
+									</app-campaign-schedule-button>
+
+									<app-campaign-send-button (click)="reValidate()" [campaignForm]="templateForm"
+										[campaignType]="campaignType">
+									</app-campaign-send-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</main>

@@ -1,0 +1,42 @@
+
+    <form *ngIf="countryFormGroup" [formGroup]="countryFormGroup">	
+        <ng-select
+        
+        [items]="itemList"
+        bindLabel="country"
+        bindValue="country_code_iso_3"
+        [loading]="spinner"
+        formControlName = "country"
+        placeHolder="Select Country"
+        [editableSearchTerm]="true"	
+        (change) = "getSelectedCountry($event)"
+        
+        [ngClass] = "popup ? 'border-red-300' : 'border-gray-300' "
+        class="shadow-sm text-xs text-gray-700 focus:border-indigo-500 block w-full  rounded-md">
+        </ng-select>
+        <p
+        class="mt-2 text-xxs sm:text-xs text-red-600"
+        *ngIf="country.touched && country.errors?.required">
+        Country is required
+        </p>
+        <p
+        class="mt-2 text-xxs sm:text-xs text-gray-400"
+        *ngIf="(!country.touched && country.errors?.required) || (!country.errors)"
+        >{{countryInfoText}}
+        </p>
+        <div class="rounded bg-red-50 p-2 mt-4" 
+        *ngIf = "popup">
+            <app-retry (retry) = "handleRetryClick()"></app-retry>
+        </div>
+    </form>
+<!--
+    <app-create-popup
+    *ngIf=" popup"
+    [inputForm]="countryFormGroup"
+    [Responce]="response"
+    [status]="status"
+    (closePopUp)="modalClose($event)"
+    (successPopUp)="modalcontinue($event)"
+    (tryAgainPopUp)="tryAgain($event)"
+    ></app-create-popup>
+    -->

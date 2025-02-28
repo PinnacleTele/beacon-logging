@@ -1,0 +1,241 @@
+<!-- modal for campaign preview -->
+<section
+	v-show="showPreview"
+	class="fixed z-50 inset-0 overflow-y-auto"
+	aria-labelledby="modal-title"
+	role="dialog"
+	aria-modal="true"
+	*ngIf="showPreviewModal"
+>
+	<div
+		class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+	>
+		<!--
+ Background overlay, show/hide based on modal state.
+
+ Entering: "ease-out duration-300"
+   From: "opacity-0"
+   To: "opacity-100"
+ Leaving: "ease-in duration-200"
+   From: "opacity-100"
+   To: "opacity-0"
+-->
+		<div
+			(click)="closePreview()"
+			class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+			aria-hidden="true"
+		></div>
+
+		<!-- This element is to trick the browser into centering the modal contents. -->
+		<span
+			class="hidden sm:inline-block sm:align-middle sm:h-screen"
+			aria-hidden="true"
+			>&#8203;</span
+		>
+
+		<!--
+ Modal panel, show/hide based on modal state.
+
+ Entering: "ease-out duration-300"
+   From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+   To: "opacity-100 translate-y-0 sm:scale-100"
+ Leaving: "ease-in duration-200"
+   From: "opacity-100 translate-y-0 sm:scale-100"
+   To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+-->
+		<div
+			class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-6 text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-sm sm:w-full divide-y divide-gray-300 divide-dashed space-y-3"
+		>
+			<div
+				class="flex text-blue-700 text-sm font-semibold uppercase justify-center"
+			>
+				<!-- show label as Review & Send when Send is clicked
+             show Review & Save when Save is clciked
+             show Review & Schedule when schedule is clicked
+        -->
+				Review & {{this.action}}
+			</div>
+			<div class="bg-white p-3">
+				<div class="space-y-5 divide-y divide-gray-200">
+					<div>
+						<div class="mt-1 space-y-2 divide-y divide-gray-200">
+							<!-- traffic type -->
+							<div *ngIf="intl_allowed_value" class="flex flex-col space-y-1.5">
+								<span class="text-gray-400 text-xxs uppercase"
+									>Traffic type</span
+								>
+								<span class="text-gray-600 text-sm font-medium  uppercase"
+									>{{traffic}}</span
+								>
+							</div>
+							<!-- campaign name section -->
+							<div class="flex flex-col space-y-1.5">
+								<span class="text-gray-400 text-xxs uppercase"
+									>Campaign Name</span
+								>
+								<span class="text-gray-600 text-sm font-medium"
+									>{{campaignName}}</span
+								>
+							</div>
+
+							
+							<div class="flex flex-col space-y-1.5 pt-2">
+								<!-- mobile number section -->
+								<app-new-preview-modal-mobile-numbers
+									[mobileNumbersFormValue] = "mobileNumbersFormValue"
+									[removeDuplicates] = "removeDuplicates"
+									[vlShortern]="vlShortern"
+									[trafficType] = "trafficType"
+									*ngIf = "showMobNumbersSection"
+								></app-new-preview-modal-mobile-numbers>
+								
+								<!-- File Uploaded Details section -->
+								<app-uploaded-files
+								[files] = "files"
+								[removeDuplicates] = "removeDuplicates"
+								[vlShortern] = "vlShortern"
+								[campaignType] = "campaignType"
+								*ngIf = "showFileSection"
+								></app-uploaded-files>
+								
+								<!-- added groups section -->
+								<app-preview-added-groups
+									[addedGroups] = "addedGroups"
+									[removeDuplicates] = "removeDuplicates"
+									[vlShortern]="vlShortern"
+									*ngIf="showGroupsSection"
+								></app-preview-added-groups>
+								
+								<!-- excluded groups section -->
+								<app-preview-excluded-groups
+									[excludedGroups] = "excludedGroups"
+									*ngIf="showExcGroupsSection"
+								></app-preview-excluded-groups>
+							
+							
+							</div>
+
+							<!-- message section -->
+							<div
+								class="flex flex-col space-y-1 pt-2"
+								*ngIf="showMessage"
+							>
+								<app-new-preview-modal-message
+								
+									[message] = "message"
+                                    [language] = "language"
+									[textToDisplay]="typeOfMsg"
+								></app-new-preview-modal-message>
+							</div>
+							<div
+								class="flex flex-col space-y-1 pt-2"
+								*ngIf="showTemplateMsg"
+							>
+								<app-preview-template-message
+								[campaignType]="campaignType"
+								[campaignForm]="campaignForm">
+								</app-preview-template-message>
+							</div>
+
+							
+
+							<!-- sender id section -->
+							<div *ngIf="(intl_senderId?.length > 0 && senderId?.length > 0) || senderId?.length > 0"
+								 class="flex flex-col space-y-1 pt-2">
+								<span class="text-gray-400 text-xxs uppercase"
+									>Senderid</span
+								>
+								<span class="text-gray-600 text-sm font-medium"
+									>{{senderId}}</span
+								>
+							</div>
+
+							<div *ngIf="intl_senderId?.length > 0" class="flex flex-col space-y-1 pt-2">
+								<span class="text-gray-400 text-xxs uppercase"
+									>Intl Senderid</span
+								>
+								<span class="text-gray-600 text-sm font-medium"
+									>{{intl_senderId}}</span
+								>
+							</div>
+						</div>
+					</div>
+					<div 
+					*ngIf="action=='Schedule' && scheduledTiming"
+					class="pt-5">
+						<div class="flex text-gray-600 text-xxs uppercase justify-center">Dates Scheduled</div>
+						<div class="space-y-1.5 text-xxs md:text-xs mt-1">
+							<div *ngFor="let time of scheduledTiming" class="whitespace-pre-wrap inline-flex" title="">
+								<span class="inline-flex rounded-md items-center px-2 py-0.5 text-xxs font-medium bg-yellow-0 border border-dashed border-gray-300 text-green-500 mr-1.5">{{time }} {{zoneShortName}}</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- <app-preview-schedule
+				*ngIf="action === 'Schedule' "
+			></app-preview-schedule> -->
+			<!-- <div
+			*ngFor="let time of scheduledTiming"
+			class="flex text-indigo-600 text-sm font-semibold uppercase justify-center pt-2"
+		>		{{time}}
+			
+		</div> -->
+			<div class="grid grid-cols-1 gap-y-2">
+				<button
+					(click)="onClick()"
+					[disabled]="disableCancel || disable()"
+					[ngClass]="{'opacity-50 cursor-not-allowed' : disableCancel || disable() }"
+					type="button"
+					class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+				>
+					<span *ngIf="!sending">{{action}}</span>
+					<span *ngIf="sending">{{actionPlusIng}}</span>
+					<svg
+						class="animate-spin h-5 w-5 text-white ml-2"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="currentColor"
+						viewBox="0 0 24 24"
+						*ngIf="sending"
+					>
+						<circle
+							class="opacity-25"
+							cx="12"
+							cy="12"
+							r="10"
+							stroke="currentColor"
+							stroke-width="4"
+						></circle>
+						<path
+							class="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						></path>
+					</svg>
+				</button>
+
+				<button
+					(click)="closePreview()"
+					type="button"
+					[disabled] = "disableCancel"
+					[ngClass]="disableCancel ?'opacity-50 cursor-not-allowed ' : 'hover:bg-gray-100' "
+					class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+				>
+					Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<app-create-popup
+*ngIf="popup"
+[inputForm]="campaignForm"
+[Responce]="Responce"
+[status]="status"
+(closePopUp)="modalClose($event)"
+(successPopUp)="modalcontinue($event)"
+(tryAgainPopUp)="tryAgain($event)"
+></app-create-popup>

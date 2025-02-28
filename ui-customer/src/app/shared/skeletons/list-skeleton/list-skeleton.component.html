@@ -1,0 +1,13 @@
+<!-- table data skeleton loader -->
+<tbody class="bg-white divide-y divide-gray-100 w-full">
+    <!-- generate below content using for loop -->
+    <tr 
+    *ngFor="let item of items"
+    class="w-full pb-2 h-10">
+        <td
+        *ngFor="let col of coloums()"
+        >
+            <div class="bg-gray-200 h-5 my-3 w-full animate-pulse"></div>
+        </td>
+    </tr>
+</tbody>

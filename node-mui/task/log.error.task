@@ -1,0 +1,53 @@
+/* eslint-disable no-restricted-syntax */
+const _ = require('lodash');
+
+const errorQTon = require('../q/errors.q.ton');
+
+const pool = require('../factory/mariadbpool.cmdb');
+
+module.exports = async function (fireDate) {
+    console.log(`This job was supposed to run at ${fireDate}, but actually ran at ${new Date()}`);
+   let itemObjArr = [];
+   try {
+       const valuesArr = [];
+
+       // get the data from q
+       const q = errorQTon.getErrorsQ();
+
+       if (!q.isEmpty()) {
+           console.log('q not empty');
+           itemObjArr = q.remove(0, process.env.ERROR_Q_CONSUMER_INETRVAL_INSEC);
+
+           itemObjArr = _.compact(itemObjArr);
+
+           for (const itemObj of itemObjArr) {
+               if (itemObj) {
+                   console.log('has items', itemObj);
+                   const { url, reqid, sessionid, cliid, username, params, httpcode, errmsg, errstack, ip } = itemObj;
+                   valuesArr.push([cliid, username, httpcode, url, errmsg, params, sessionid, reqid, errstack, ip]);
+               }
+           }
+
+           if (_.flatten(valuesArr).length > 0) {
+               // persist to table
+console.log('if 1 final');
+               const con = await pool.getConnection();
+               console.log('established the connection');
+               try {
+                   con.beginTransaction();
+                   const sql = 'insert into imp.error_log (user_id, username, httpcode, route, err_msg, params, sessionid, req_id, err_stack, ip) values (?,?,?,?,?,?,?,?,?,?)';
+                   await con.batch(sql, valuesArr);
+                   con.commit();
+               } catch (e) {
+                   con.rollback();
+console.log('error in catch ', e);
+                   throw e;
+               } finally {
+                   await con.release();
+               }
+           }
+       }
+   } catch (e) {
+       console.error('log.error.task.js ERROR => ', e);
+   }
+};

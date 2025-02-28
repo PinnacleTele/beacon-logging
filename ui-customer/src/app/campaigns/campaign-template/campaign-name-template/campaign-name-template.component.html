@@ -1,0 +1,57 @@
+<form *ngIf="campaignNameFormGroup" [formGroup]="campaignNameFormGroup">
+  <div>
+    <label for="name" class="block font-semibold text-gray-700">Campaign Name <span class="text-red-600">*</span>
+    </label>
+    <div class="mt-2 relative rounded-md w-full sm:w-1/2">
+      <input type="text" name="name" formControlName="name" (keyup)="chkUniqueCampaignNameExists($event)"
+        [ngClass]="{'border-red-300': name.touched && name.errors}" id="name" autocomplete="off" tabindex="0" class="block w-full text-xs sm:py-2.5 pr-10 
+                  text-gray-800 placeholder-gray-300
+                  focus:outline-none border-gray-300 
+                  rounded relative -z-0" placeholder="Enter unique name" value="" aria-invalid="true"
+        aria-describedby="name-error" />
+      <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+        <svg class="animate-spin text-gray-900" xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+          *ngIf="loading$ | async">
+          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g>
+              <polygon points="0 0 24 0 24 24 0 24" />
+            </g>
+            <path class="opacity-25"
+              d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+              fill="currentColor" fill-rule="nonzero"
+              transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <p class="mt-2 text-xxs sm:text-xs text-gray-500"
+      *ngIf="(!name.touched && name.errors?.required) ||  !name.errors && !campUniqueErr && !apiError">
+      {{ campaignNameInfoTxt }}
+    </p>
+    <p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+      *ngIf="name.touched && name.errors?.required && !campUniqueErr ">
+      Campaign Name is required
+    </p>
+    <p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+      *ngIf="name.dirty && name.errors?.pattern && !campUniqueErr ">
+      {{ splCharsError }} {{ allowedSplChars }}
+    </p>
+    <p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+      *ngIf="name.dirty && name.errors?.minLengthInvalid && !campUniqueErr && !name.errors?.pattern">
+      {{ minLengthError }} {{ minimumLength }}
+    </p>
+    <p class="mt-2 text-xxs sm:text-xs text-red-500"
+      *ngIf="name.errors?.maxLengthInvalid && !campUniqueErr && !name.errors?.pattern">
+      {{ maxLengthError }} {{ maximumLength }}
+    </p>
+    <p class="mt-2 text-xxs sm:text-xs text-red-500" id="uniqueName-error" *ngIf="campUniqueErr">
+      {{ uniqueNameError }}
+    </p>
+
+
+    <app-uniquenamedropdownapierror *ngIf="apiError" (Emitter)="retry()">
+
+    </app-uniquenamedropdownapierror>
+  </div>
+</form>

@@ -1,0 +1,52 @@
+<div class="border-b border-gray-200 pt-2 bg-white h-14">
+    <div  class="flex justify-between">
+        <div  (click)="onCampaignClick()"    class="lg:flex sm:items-baseline">
+            <div class="flex flex-col">
+                <h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 mt-2 lg:text-l">{{title}}</h3>
+                <!-- <div class="mb-0 pb-0 space-x-1 ml-2 lg:ml-4 text-xxs lg:text-xs text-gray-400 flex">
+                    <span class="hover:text-blue-500 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 inline-flex" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                    </span>
+                    <span class="text-xxs font-mono mt-0">/</span>
+                    <span class="hover:text-blue-500 cursor-pointer mt-1">Campaigns</span>
+                </div> -->
+            </div>
+            <div  class="flex mt-6 lg:mt-0 sm:ml-8">
+                <nav   class="-mb-px flex space-x-6">
+                    <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+                    <div   routerLink="/campaigns"  class="flex mt-2.5">
+                        <svg 
+                        [ngClass]= " title == 'Campaign List' ? 'text-indigo-500 cursor-pointer' :  'text-gray-500 cursor-pointer'  "
+                        class="h-4 w-4  ml-0 mt-0.5 font-bold" 
+                        viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24" />
+                                <path d="M14,13.381038 L14,3.47213595 L7.99460483,15.4829263 L14,13.381038 Z M4.88230018,17.2353996 L13.2844582,0.431083506 C13.4820496,0.0359007077 13.9625881,-0.12427877 14.3577709,0.0733126292 C14.5125928,0.15072359 14.6381308,0.276261584 14.7155418,0.431083506 L23.1176998,17.2353996 C23.3152912,17.6305824 23.1551117,18.1111209 22.7599289,18.3087123 C22.5664522,18.4054506 22.3420471,18.4197165 22.1378777,18.3482572 L14,15.5 L5.86212227,18.3482572 C5.44509941,18.4942152 4.98871325,18.2744737 4.84275525,17.8574509 C4.77129597,17.6532815 4.78556182,17.4288764 4.88230018,17.2353996 Z" fill="currentColor" fill-rule="nonzero" transform="translate(14.000087, 9.191034) rotate(-315.000000) translate(-14.000087, -9.191034) " />
+                            </g>
+                        </svg>
+                        <a 
+                      
+                        [ngClass]= " title == 'Campaign List' ? 'border-indigo-500 text-indigo-600' :  'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'  "
+                         class=" whitespace-nowrap pb-2.5 lg:pb-4 px-1 border-b-2 font-medium text-sm cursor-pointer " aria-current="page"> Campaigns </a>
+                    </div>
+                    <div  routerLink="/campaigns/scheduledlist" class="flex mt-2.5">
+                        <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        [ngClass]= " title == 'Campaign List' ?    'text-gray-500 cursor-pointer' :'text-indigo-500 cursor-pointer' "
+                        class="h-4 w-4 ml-0 mt-0.5 font-bold"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <a 
+                       
+                        [ngClass]= " title == 'Campaign List' ? 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' : 'border-indigo-500 text-indigo-600' "
+                        class=" whitespace-nowrap pb-2.5 lg:pb-4 px-1 border-b-2 font-medium text-sm cursor-pointer "> Scheduled</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <app-campaigns-dropdown></app-campaigns-dropdown>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+package com.itextos.beacon.platform.templatefinder;
+
+public enum Result
+{
+    TEMPLATE_FOUND,
+    TEMPLATE_MATCHES_WITH_EXISTING_FAILED_MESSAGES,
+    TEMPLATE_MATCHES_WITH_NO_VAR_MESSAGES,
+    TEMPLATE_INVALID_INPUTS,
+    TEMPLATE_NOT_FOUND;
+}

@@ -1,0 +1,23 @@
+<form *ngIf="smppCharsetFormGroup" [formGroup]="smppCharsetFormGroup">	
+<ng-select
+#smppchar
+[items]="itemList"
+bindLabel="key"
+bindValue="value"
+formControlName = "charset1"
+placeHolder="Select Charset"
+[editableSearchTerm]="true"	
+(change) = "getSelectedSMPP($event)"
+class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-300 rounded-md">
+</ng-select>
+<p
+class="mt-2 text-xxs sm:text-xs text-red-600"
+*ngIf="charsetCtrl.touched && charsetCtrl.errors?.required">
+{{reqdText}}
+</p>
+<p
+class="mt-2 text-xxs sm:text-xs text-gray-400"
+*ngIf="(!charsetCtrl.touched && charsetCtrl.errors?.required) || (charsetCtrl.touched && !charsetCtrl.errors)"
+>{{infoText}}</p>
+
+</form>

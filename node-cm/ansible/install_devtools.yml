@@ -1,0 +1,43 @@
+# https://computingforgeeks.com/how-to-install-latest-redis-on-centos-7/
+# $ ansible-playbook <name>.yml --ask-become-pass
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install the Development tools package group
+      yum:
+        name: "@Development tools"
+        state: present
+
+    - name: Install common software requirements
+      ignore_errors: yes
+      yum:
+        state: present
+        name:
+          - lsof
+          - nc
+          - yum-plugin-fastestmirror
+          - epel-release
+          - git
+          - libyaml-devel
+          - libnet-devel
+          - libnetfilter_queue-devel
+          - libpcap-devel
+          - pcre-devel
+          - file-devel
+          - jansson-devel
+          - nss-devel
+          - libcap-ng-devel
+          - lua-devel
+          - binutils
+          - gmp
+          - gmp-devel
+          - gcc-c++
+          - make
+          - glibc.i686
+          - python-pip
+          - perl-Sys-Syslog
+          - readline-devel
+          - ncurses-devel
+          - openssl-devel
+          - easy-rsa

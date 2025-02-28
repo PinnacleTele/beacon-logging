@@ -1,0 +1,36 @@
+    <form *ngIf="tzFormGroup" [formGroup]="tzFormGroup">	
+        <ng-select
+        [items]="tzList"
+        bindLabel="value"
+        bindValue="value"
+        formControlName = "tz"
+        [loading] = "spinner"
+        placeHolder="Select Timezone"
+        [hideSelected]="true"
+        [editableSearchTerm]="true"	
+        (change) = "getSelectedTz($event)"
+        class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full  rounded-md"
+    >
+    </ng-select>
+    <p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    *ngIf="tz.touched && tz.errors?.required">
+    Timezone is required
+    </p>
+    <p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    *ngIf="spinner">
+    Timezone values are still loading
+    </p>
+    <p
+        class="mt-2 text-xxs sm:text-xs text-gray-400"
+        *ngIf="(!tz.touched && tz.errors?.required) || !tz.errors"
+        >{{tzInfoText}}
+    </p>
+    
+    <div class="rounded bg-red-50 p-2 mt-4" 
+    *ngIf = "popup">
+    <app-retry (retry) = "getAllTZ()"></app-retry>
+    </div>
+</form>
+

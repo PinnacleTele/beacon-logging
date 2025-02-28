@@ -1,0 +1,95 @@
+	<!-- page navigation section -->
+    <!-- <nav class="pagination" class="bg-white px-0.5 py-3 flex items-center justify-between border-t border-gray-200 mt-5" aria-label="Pagination">
+        <div class="hidden sm:block">
+            <p class="text-xs text-gray-500">
+                Showing
+                <span class="font-medium">{{startItem}}</span>
+                to
+                <span class="font-medium">{{endItem}}</span>
+                of
+                <span class="font-medium">{{total}}</span>
+                results
+            </p>
+        </div>
+        <div class="flex-1 flex justify-between items-center sm:justify-end space-x-5">
+            <button
+            [ngClass]=" isFirstPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+            (click)="prev($event)"
+            [disabled]="isFirstPage == true"
+            class="ml-3 relative inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <span class="sr-only">Previous</span>
+            
+            <svg          [ngClass]=" isFirstPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+            class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            </button>
+            <button
+            [ngClass]=" isLastPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+            (click)="next($event)"
+            [disabled]="isLastPage == true"
+            class="ml-3 relative inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <span class="sr-only">Next</span>
+              
+                <svg [ngClass]=" isLastPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+    
+                class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </nav>   -->
+  
+    <nav    
+    aria-label="Pagination"
+    class="bg-white px-2 py-3 flex items-center justify-between border-t border-gray-200 mt-5 " 
+    aria-label="Pagination">
+        <div class="hidden sm:block">
+            <p class="text-xs text-gray-500">
+                Showing
+                <span class="font-medium">{{startItem}}</span>
+                to
+                <span class="font-medium">{{endItem}}</span>
+                of
+                <span class="font-medium">{{total}}</span>
+                results
+            </p>
+        </div>
+        <div class="flex-1 flex justify-between items-center sm:justify-end space-x-5">
+            <button
+    [ngClass]=" isFirstPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+    (click)="prev($event)"
+    [disabled]="isFirstPage == true"
+    class="ml-3 relative inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2">
+    <span class="sr-only">Previous</span>
+    <!-- Heroicon name: solid/chevron-left -->
+    <svg          [ngClass]=" isFirstPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+    class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+    </button>
+    <div class="block sm:hidden">
+        <p class="text-xs text-gray-500">
+            Showing
+            <span class="font-medium">{{startItem}}</span>
+            to
+            <span class="font-medium">{{endItem}}</span>
+            of
+            <span class="font-medium">{{total}}</span>
+        </p>
+    </div>
+    <button
+    [ngClass]=" isLastPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+    (click)="next($event)"
+    [disabled]="isLastPage == true"
+    class="ml-3 relative inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2">
+    <span class="sr-only">Next</span>
+        <!-- Heroicon name: solid/chevron-right -->
+        <svg         [ngClass]=" isLastPage == true ? 'text-gray-300 bg-white cursor-text ' : 'text-gray-700 bg-white hover:bg-gray-50' "
+
+        class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+    </button>
+        </div>
+    </nav>

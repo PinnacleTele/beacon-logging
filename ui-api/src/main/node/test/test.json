@@ -1,0 +1,65 @@
+//http 200 response
+{
+  "total": "56238",
+  "total_human": "56k",
+  "columns": [
+    "name",
+    "mobile",
+    "message"
+  ],
+  "index": [
+    1,
+    2,
+    3
+  ],
+  "file_contents": [
+    [
+      "name1",
+      "8827628",
+      "this is a message"
+    ],
+    [
+      "name1",
+      "8827628",
+      "this is a message"
+    ],
+    [
+      "name1",
+      "8827628",
+      "this is a message"
+    ],
+    [
+      "name1",
+      "8827628",
+      "this is a message"
+    ],
+    [
+      "name1",
+      "8827628",
+      "this is a message"
+    ]
+  ],
+  "uploaded_files": {
+    "sucess": [
+      {
+        "filename": "filename1",
+        "count": 23434,
+        "count_human": "23k",
+        "filesize": "4234",
+        "filesize_human": "4KB"
+      }
+    ],
+    "failed": {
+      "filename": "filename1",
+      "error": "duplicate file"
+    }
+  }
+}
+// http 500 response
+
+{
+  statusCode: 500,
+  code: "some unique id to identify this in the log file",
+  error: "Internal Server Error",
+  message: "Error processing your uploads. Please try again"
+}

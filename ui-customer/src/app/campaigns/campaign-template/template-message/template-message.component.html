@@ -1,0 +1,196 @@
+<!-- template message section -->
+
+<form [formGroup]="newTemplateMsgFormGroup" *ngIf="newTemplateMsgFormGroup  || trafficType == 'other' ">
+
+    <div class="flex justify-between align-baseline">
+        <label for="message" class="block font-normal text-gray-700">Template Message
+            <span *ngIf="trafficType == 'other'" class="text-red-600">*</span>
+        </label>
+
+        <nav class="flex justify-end space-x-1">
+            <label *ngIf="messageType"
+                class="inline-flex items-center px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded text-green-600 bg-gray-100 focus:outline-none">
+                Static
+            </label>
+            <label *ngIf="!messageType "
+                class="inline-flex items-center px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded text-green-600 bg-gray-100 focus:outline-none">
+                Dynamic
+            </label>
+
+            <label
+                Class="inline-flex items-center px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded text-green-600 bg-gray-100 focus:outline-none"
+                *ngIf="!Unicode && !spinner && !apiError">
+                Text
+            </label>
+
+            <label
+                Class="inline-flex items-center px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded text-green-600 bg-gray-100 focus:outline-none"
+                *ngIf="Unicode && !spinner && !apiError">
+                Unicode
+            </label>
+            <div *ngIf="spinner"
+                class="inline-flex items-center px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded text-green-500  focus:outline-none">
+                <svg class="animate-spin text-gray-900" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24"
+                    version="1.1">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g>
+                            <polygon points="0 0 24 0 24 24 0 24" />
+                        </g>
+                        <path class="opacity-25"
+                            d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                            fill="currentColor" fill-rule="nonzero"
+                            transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+                    </g>
+                </svg>
+            </div>
+            <div *ngIf="!spinner && apiError"
+                class="inline-flex align-baseline px-2 py-0.5 text-xs leading-4 font-normal tracking-wide rounded focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 18 18"
+                    fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+        </nav>
+
+    </div>
+    <div *ngIf="Editable" class="mt-3">
+        <div class="mt-0">
+            <textarea id="newmessage" name="newmessage"
+                [ngClass]="{'border-red-300': tempmessage.touched && tempmessage.errors}" formControlName="tempmessage"
+                rows="5" placeholder="Enter template message" [(ngModel)]="dltMsgInfoText" (change)="setValue()"
+                class="shadow-sm bg-white placeholder-gray-300 text-gray-700block w-full text-xs border-gray-300 rounded-md">
+
+            </textarea>
+        </div>
+        <div>
+            <p class="mt-2 text-xxs sm:text-xs text-red-600"
+                *ngIf="tempmessage.touched && tempmessage.errors?.required">
+                Message is required
+            </p>
+        </div>
+    </div>
+
+    <!-- <div *ngIf = "(trafficType == 'other')" class="mt-3">
+        <div class="mt-0">
+            <textarea 
+            
+                id="newmessage"
+                name="newmessage"
+                formControlName = "tempmessage"
+                rows="5" 
+                placeholder="Enter template message" 
+                class="shadow-sm bg-white placeholder-gray-300 text-gray-700block w-full text-xs border-gray-300 rounded-md"
+                >
+                
+            </textarea>
+        </div>
+
+        
+    </div> -->
+    <!-- template final preview section.  -->
+    <div *ngIf="!Editable && trafficType != 'other'" class="relative sm:col-span-6 p-3 mt-2 ">
+
+        <div class="flex justify-start flex-col mt-4 space-y-1.5">
+
+
+            <div class="flex justify-between">
+                <div class="">
+                    <span class="text-xxs text-gray-500">Mobile Column:
+                    </span>
+                    <span class="text-xxs text-indigo-600 ml-1 bg-indigo-100 bg-opacity-60 p-0.5 px-1 rounded">
+                        {{columnName}}</span>
+                </div>
+                <span class="text-xxs text-indigo-600 ml-1 bg-indigo-100 bg-opacity-60 p-0.5 px-1 rounded">
+                    {{ tempType }} based
+                </span>
+            </div>
+        </div>
+        <div class="mt-4 space-y-2 	">
+            <div class="bg-blue-50 text-blue-500 p-2 whitespace-pre-wrap">{{ newmsg }}</div>
+
+        </div>
+        <div class="text-gray-600 mt-2">
+            <span class="text-grey-700">Note* : </span>
+            selected template placeholder's has replaced with matching header values in the upload file.
+            Please check your file before upload.
+        </div>
+    </div>
+</form>
+
+
+<div class="p-4 mt-4 bg-yellow-50 flex border border-dashed border-yellow-300 rounded-lg"
+    *ngIf="showWarning=='dlttemplate' && trafficType != 'other' ">
+    <div class="">
+        <div class="flex space-x-2 items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" version="1.1">
+                <circle fill="currentColor" opacity="0.4" cx="12" cy="12" r="10"></circle>
+                <rect fill="currentColor" x="11" y="7" width="2" height="8" rx="1"></rect>
+                <rect fill="currentColor" x="11" y="16" width="2" height="2" rx="1"></rect>
+            </svg>
+            <div>
+                <span class="text-gray-700 text-sm font-semibold">Attention</span>
+                <div class="text-gray-600">
+                    You may not have the
+                    matching values in
+                    the upload file for
+                    the selected
+                    template. Please
+                    check your file or
+                    the template chosen
+                    before continuing
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- api error -->
+<div class="sm:col-span-6 text-xs pt-4">
+    <div class="flex justify-between items-center">
+        <div *ngIf="!spinner && apiError" class="rounded-md bg-red-50 p-1.5 w-full lg:w-1/2">
+            <div class="flex">
+                <div class="flex-shrink-0 mt-1">
+                    <svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+                            <path
+                                d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+                                fill="currentColor" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+                    <p class="text-xs text-rose-600 font-normal">
+                        Something went wrong. Please try again
+                    </p>
+                    <p
+                        class="mt-3 text-xs md:mt-0 md:ml-6 text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+                        <a (click)="retryApi()" class="cursor-pointer whitespace-nowrap font-medium uppercase">Retry</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- for international only -->
+
+<!-- vl shortner -->
+<form [formGroup]="vlForm">
+    <div class="relative flex items-center mt-3 bg-gray-50 px-2 py-1" *ngIf="shortner.vl_shortner === 1">
+        <div class="flex items-center h-5">
+            <input id="shortner" name="shortner" type="checkbox" formControlName="vlShortner"
+                (change)="onChange($event)"
+                class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+        </div>
+        <div class="ml-3 text-xs">
+            <label for="shortner" class="font-medium text-gray-700">Shorten URL</label>
+            <p class="text-gray-500 text-xxs">Enabling this will convert all the URL's in the message to a shortned URL
+            </p>
+        </div>
+    </div>
+</form>

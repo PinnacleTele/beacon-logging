@@ -1,0 +1,25 @@
+server.port = 8081
+server.min.threads=2
+server.max.threads=8
+
+mysql.host=10.122.0.16
+mysql.port=3306
+mysql.db=configuration
+mysql.user=appuser
+mysql.password=appuser@123
+
+mysql.db.type=mariadb
+mysql.jdbc.driver=org.mariadb.jdbc.Driver
+#mysql.db.type=mysql
+#mysql.jdbc.driver=com.mysql.cj.jdbc.Driver
+
+mysql.cp.test.sql=SELECT 1
+mysql.cp.num_tests_per_evict=3
+mysql.cp.min_evict_idle_tm=1800000
+
+#mdb_billing_jndi=billing_standby
+#pgdb_billing_jndi=pg_billing_standby
+
+db_month_suffix=true
+recordLimit=1000
+maxPastDays=60

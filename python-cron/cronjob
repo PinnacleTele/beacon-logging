@@ -1,0 +1,2 @@
+15 3 * * * /home/teamwork/scripts/python/MariaDB_To_PG/daily_eod_stage.sh
+15 * * * * /home/teamwork/scripts/python/MariaDB_To_PG/hourly_summary_rpt.sh

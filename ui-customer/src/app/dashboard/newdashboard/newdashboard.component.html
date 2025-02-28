@@ -1,0 +1,424 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 pt-2 bg-white">
+    <div class="sm:flex sm:items-baseline">
+        <h3 class="text-lg leading-6 font-bold mb-3 text-gray-900 sm:px-4 md:px-6 pl-1 md:text-xl">Dashboard</h3>
+        <div class="mt-6 sm:mt-0 sm:ml-4">
+            <!--  -->
+        </div>
+    </div>
+</div>
+
+
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <h1 class="text-2xl font-semibold text-gray-900"></h1>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <!-- Replace with your content -->
+            <div class="py-4">
+                <!-- stats -->
+                <div *ngIf="!(dstatLoader && dprocessLoader && mixedChartLoader && columnChartLoader)"
+                    class="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4">
+                    <div class="bg-white dark:bg-gray-800 rounded pt-5 pl-2 pr-2 pb-4 flex items-start shadow">
+                        <div class="text-gray-700 dark:text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-label="dashboard icon" role="img" tabindex="0"
+                                class="focus:outline-none icon icon-tabler icon-tabler-dashboard" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" />
+                                <circle cx="12" cy="13" r="2" />
+                                <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                                <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                            </svg>
+                        </div>
+                        <div class="pl-2 mt-1">
+                            <h3 tabindex="0"
+                                class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">
+                                Total SMS Today</h3>
+                            <div class="flex items-center">
+                                <h2 tabindex="0"
+                                    class="focus:outline-none text-gray-800 dark:text-gray-100 text-lg leading-normal font-bold">
+                                    {{STATSList?.today | number }}</h2>
+
+                                <p tabindex="0"
+                                    class="focus:outline-none text-green-700 text-xs tracking-wide font-bold leading-normal pl-1 ml-2">
+                                    {{STATSList?.today_human}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded pt-5 pl-2 pr-2 pb-4 flex items-start shadow">
+                        <div class="text-gray-700 dark:text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-label="dashboard icon" role="img" tabindex="0"
+                                class="focus:outline-none icon icon-tabler icon-tabler-dashboard" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" />
+                                <circle cx="12" cy="13" r="2" />
+                                <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                                <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                            </svg>
+                        </div>
+                        <div class="pl-2 mt-1">
+                            <h3 tabindex="0"
+                                class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">
+                                This Week</h3>
+                            <div class="flex items-center">
+                                <h2 tabindex="0"
+                                    class="focus:outline-none text-gray-800 dark:text-gray-100 text-lg leading-normal font-bold">
+                                    {{STATSList?.thisweek | number }}</h2>
+
+                                <p tabindex="0"
+                                    class="focus:outline-none text-green-700 text-xs tracking-wide font-bold leading-normal pl-1 ml-2">
+                                    {{STATSList?.thisweek_human}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded pt-5 pl-2 pr-2 pb-4 flex items-start shadow">
+                        <div class="text-gray-700 dark:text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-label="dashboard icon" role="img" tabindex="0"
+                                class="focus:outline-none icon icon-tabler icon-tabler-dashboard" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" />
+                                <circle cx="12" cy="13" r="2" />
+                                <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                                <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                            </svg>
+                        </div>
+                        <div class="pl-2 mt-1">
+                            <h3 tabindex="0"
+                                class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">
+                                This Month</h3>
+                            <div class="flex items-center">
+                                <h2 tabindex="0"
+                                    class="focus:outline-none text-gray-800 dark:text-gray-100 text-lg leading-normal font-bold">
+                                    {{STATSList?.thismonth | number}}</h2>
+
+                                <p tabindex="0"
+                                    class="focus:outline-none text-green-700 text-xs tracking-wide font-bold leading-normal pl-1 ml-2">
+                                    {{STATSList?.thismonth_human}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded pt-5 pl-2 pr-2 pb-4 flex items-start shadow">
+                        <div class="text-gray-700 dark:text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-label="dashboard icon" role="img" tabindex="0"
+                                class="focus:outline-none icon icon-tabler icon-tabler-dashboard" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" />
+                                <circle cx="12" cy="13" r="2" />
+                                <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                                <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                            </svg>
+                        </div>
+                        <div class="pl-2 mt-1">
+                            <h3 tabindex="0"
+                                class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">
+                                Last Month</h3>
+                            <div class="flex items-center">
+                                <h2 tabindex="0"
+                                    class="focus:outline-none text-gray-800 dark:text-gray-100 text-lg leading-normal font-bold">
+                                    {{STATSList?.lastmonth | number }}</h2>
+
+                                <p tabindex="0"
+                                    class="focus:outline-none text-green-700 text-xs tracking-wide font-bold leading-normal pl-1 ml-2">
+                                    {{STATSList?.lastmonth_human}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- skeleton -->
+                <section *ngIf="dstatLoader && dprocessLoader && mixedChartLoader && columnChartLoader">
+                    <app-dloadingskeleton>
+
+                    </app-dloadingskeleton>
+                </section>
+
+
+
+
+                <!-- hourly row -->
+                <div *ngIf="!(dstatLoader && dprocessLoader && mixedChartLoader && columnChartLoader)"
+                    class="container pt-6 mx-auto">
+                    <div class="flex flex-wrap">
+                        <!-- hourly trend -->
+                        <div class="lg:w-2/3 w-full pb-6 md:pb-0 lg:pr-6 ">
+                            <!-- Remove class [ h-24 ] when adding a card block -->
+                            <!-- Remove class [ border-gray-300  dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
+                            <div *ngIf="!hourlyTrend" class="rounded h-96 bg-white shadow">
+                                <div class="p-4">
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 font-semibold">Hourly Trend</span>
+                                        <div class="flex space-x-2.5">
+                                            <div class="flex items-center space-x-1 mt-1">
+                                                <span class="font-bold text-blue-500 w-2 h-2"
+                                                    [style.background-color]="DHsubmittedColor"></span>
+                                                <span class="text-xs text-gray-400 font-semibold">{{DHTotalSubmit |
+                                                    number }}</span>
+                                                <span class="text-xs text-gray-400 font-normal">(submitted to
+                                                    telco)</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1 mt-1">
+                                                <span class="font-bold w-2 h-2"
+                                                    [style.background-color]="DHdeliveredColor"></span>
+                                                <span class="text-xs text-gray-400 font-semibold">{{DHTotaldeliver |
+                                                    number }}</span>
+                                                <span class="text-xs text-gray-400 font-normal">(delivered)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- chart -->
+                                    <div class=" mt-4" id="chart">
+
+                                        <apx-chart *ngIf="columnchartOptions2" [series]="columnchartOptions2?.series"
+                                            [chart]="columnchartOptions2?.chart" [yaxis]="columnchartOptions2?.yaxis"
+                                            [xaxis]="columnchartOptions2?.xaxis" [legend]="columnchartOptions2?.legend"
+                                            [labels]="columnchartOptions2?.labels"
+                                            [stroke]="columnchartOptions2?.stroke"
+                                            [plotOptions]="columnchartOptions2?.plotOptions"
+                                            [markers]="columnchartOptions2?.markers" [fill]="columnchartOptions2?.fill"
+                                            [tooltip]="columnchartOptions2?.tooltip" [grid]="columnchartOptions2?.grid">
+                                        </apx-chart>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="rounded h-full" *ngIf="hourlyTrend">
+                                <div >
+                                        <app-apierror
+                                        (Emitter)="hourlyTrendSubscribe()"
+                                        >
+                                        </app-apierror>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="lg:w-1/3 w-full">
+                            <!-- progress count -->
+                            <div
+                                class="flex items-center justify-center w-full h-full py-0 px-0 mt-4 lg:mt-0">
+                                <div *ngIf="!progressApiError"
+                                    class="w-full bg-white dark:bg-gray-800 shadow rounded px-6 lg:px-4 py-4 pb-6 h-full">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <span
+                                                class="bg-gray-100 p-1 rounded-sm text-xs text-gray-500 font-medium">{{processedData?.total_human}}</span>
+                                        </div>
+                                        <div
+                                            class="py-3 md:px-4 lg:px-0 lg:py-2 flex items-center bg-gray-100 rounded-xl">
+                                            <div class="px-2 sm:px-3.5 border-r border-gray-300 cursor-pointer">
+                                                <p (click)="processStatsFiltr('today')"
+                                                    [ngClass]="pvalue == 'today' ? 'text-blue-500 font-semibold' : 'text-gray-600'"
+                                                    class="focus:outline-none text-xs leading-none hover:text-blue-500">
+                                                    Today</p>
+                                            </div>
+                                            <div class="px-2 sm:px-3.5 cursor-pointer">
+                                                <p (click)="processStatsFiltr('this month')"
+                                                    [ngClass]="pvalue == 'this month' ? 'text-blue-500 font-semibold' : 'text-gray-600'"
+                                                    class="focus:outline-none text-xs leading-none hover:text-blue-500 ">
+                                                    This Month</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8">
+                                        <div>
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex flex-col space-y-1">
+                                                    <p tabindex="0"
+                                                        class="focus:outline-none text-sm leading-3 text-gray-600 dark:text-gray-400">
+                                                        Submitted to Telco</p>
+                                                    <span class="text-xs lg:text-xxs font-light text-gray-400">{{
+                                                        nullHandler(processedData?.mtsuccess ) | number}}</span>
+                                                </div>
+                                                <p tabindex="0"
+                                                    class="focus:outline-none text-base leading-3 text-right text-gray-800 dark:text-gray-100">
+                                                    {{ percentageConvertor(processedData?.mtsuccesspercentage)}}</p>
+                                            </div>
+                                            <div class="w-full h-1 bg-gray-200 rounded-full mt-4">
+                                                <div class=" h-1 bg-green-500 rounded-full"
+                                                    [style.width]="percentageConvertor(processedData?.mtsuccesspercentage)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-6">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex flex-col space-y-1">
+                                                    <p tabindex="0"
+                                                        class="focus:outline-none text-sm leading-3 text-gray-600 dark:text-gray-400">
+                                                        Platform Rejection</p>
+                                                    <span class="text-xs lg:text-xxs font-light text-gray-400">{{
+                                                        nullHandler(processedData?.mtrejected ) | number}}</span>
+                                                </div>
+                                                <p tabindex="0"
+                                                    class="focus:outline-none text-base leading-3 text-right text-gray-800 dark:text-gray-100">
+                                                    {{percentageConvertor(processedData?.mtrejectedpercentage)}}</p>
+                                            </div>
+                                            <div class="w-full h-1 bg-gray-200 rounded-full mt-4">
+                                                <div class=" h-1 bg-pink-500 rounded-full"
+                                                    [style.width]="percentageConvertor(processedData?.mtrejectedpercentage)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-6">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex flex-col space-y-1">
+                                                    <p tabindex="0"
+                                                        class="focus:outline-none text-sm leading-3 text-gray-600 dark:text-gray-400">
+                                                        DN Success</p>
+                                                    <span
+                                                        class="text-xs lg:text-xxs font-light text-gray-400">{{nullHandler(processedData?.dnsuccess
+                                                        ) | number}}</span>
+                                                </div>
+                                                <p tabindex="0"
+                                                    class="focus:outline-none text-base leading-3 text-right text-gray-800 dark:text-gray-100">
+                                                    {{ percentageConvertor(processedData?.dnsuccesspercentage)}}</p>
+                                            </div>
+                                            <div class="w-full h-1 bg-gray-200 rounded-full mt-4">
+                                                <div class=" h-1 bg-green-500 rounded-full"
+                                                    [style.width]="percentageConvertor(processedData?.dnsuccesspercentage)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-6">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex flex-col space-y-1">
+                                                    <p tabindex="0"
+                                                        class="focus:outline-none text-sm leading-3 text-gray-600 dark:text-gray-400">
+                                                        DN Failed</p>
+                                                    <span class="text-xs lg:text-xxs font-light text-gray-400">{{
+                                                        nullHandler(processedData?.dnfailed ) | number}}</span>
+                                                </div>
+                                                <p tabindex="0"
+                                                    class="focus:outline-none text-base leading-3 text-right text-gray-800 dark:text-gray-100">
+                                                    {{ percentageConvertor(processedData?.dnfailedpercentage)}}</p>
+                                            </div>
+                                            <div class="w-full h-1 bg-gray-200 rounded-full mt-4">
+                                                <div class=" h-1 bg-pink-500 rounded-full"
+                                                    [style.width]="percentageConvertor(processedData?.dnfailedpercentage)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div   class="rounded w-full h-96 bg-white shadow"
+                                *ngIf="progressApiError">
+                                    <app-apierror (Emitter)="processDataSubscribe()">
+    
+                                    </app-apierror>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <!-- hourly trend -->
+                <!-- <div  
+                 *ngIf="!(dstatLoader && dprocessLoader && mixedChartLoader && columnChartLoader)" 
+                 class="lg:w-2/3 w-full pb-6 mt-9 md:pb-0 lg:pr-6">
+                    <div class="rounded h-96 bg-white shadow">
+                        <div class="p-4">
+                            <div class="mt-4">
+
+                                <div *ngIf="piechartOptions" id="piechart">
+                                    <apx-chart [series]="piechartOptions?.series"
+                                     [chart]="piechartOptions?.chart"
+                                        [fill]="piechartOptions?.fill" 
+                                        [labels]="piechartOptions?.labels"
+                                        [plotOptions]="piechartOptions?.plotOptions"></apx-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- daywise row -->
+
+                <div *ngIf="!(dstatLoader && dprocessLoader && mixedChartLoader && columnChartLoader)"
+                    class="container pt-6 mx-auto">
+                    <div class="flex flex-wrap">
+                        <div class="w-full">
+                            <!-- Remove class [ h-24 ] when adding a card block -->
+                            <div *ngIf="!daywiseApiError" class="rounded shadow bg-white h-[26rem]">
+                                <div class="p-4">
+                                    <div class="flex flex-row justify-between">
+                                        <div class="flex flex-col">
+                                            <span class="text-gray-700 font-semibold">{{mcTitle}} Trend</span>
+                                            <div class="flex space-x-1">
+                                                <div class="flex items-center ">
+                                                    <span class="font-bold text-blue-500 w-2 h-2 "
+                                                        [style.background-color]="submittedColor"></span>
+                                                    <span class="text-xxs text-gray-400 font-semibold">
+                                                        {{totalSubmitted | number }} </span>
+                                                    <span class="text-xxs text-gray-400 font-normal">(submitted to
+                                                        telco)</span>
+                                                </div>
+                                                <div class="flex items-center ">
+                                                    <span class="font-bold w-2 h-2 bg-gray-300"
+                                                        [style.background-color]="deliveredColor"></span>
+                                                    <span class="text-xxs text-gray-400 font-semibold">{{totalDelivered |
+                                                        number }}</span>
+                                                    <span class="text-xxs text-gray-400 font-medium">(delivered)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="py-3 md:px-4 lg:px-0 lg:py-2 flex items-center bg-gray-100 rounded-xl">
+                                            <div class="px-2 sm:px-3.5 border-r border-gray-300 cursor-pointer">
+                                                <p (click)="year('year')"
+                                                    [ngClass]="mixedChartSort == 'year' ? 'text-blue-500 font-semibold' : 'text-gray-600'"
+                                                    class="focus:outline-none text-xxs leading-none hover:text-blue-500">
+                                                    This Year</p>
+                                            </div>
+                                            <div class="px-2 sm:px-3.5 cursor-pointer">
+                                                <p (click)="year('month')"
+                                                    [ngClass]="mixedChartSort == 'month' ? 'text-blue-500 font-semibold' : 'text-gray-600'"
+                                                    class="focus:outline-none text-xxs  leading-none ">This Month</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- chart -->
+                                    <div class="mt-4">
+
+                                        <div *ngIf="mixedchartOptions" id="chart" class="mt-4">
+                                            <apx-chart [series]="mixedchartOptions?.series"
+                                                [chart]="mixedchartOptions?.chart" [yaxis]="mixedchartOptions?.yaxis"
+                                                [xaxis]="mixedchartOptions?.xaxis" [legend]="mixedchartOptions?.legend"
+                                                [labels]="mixedchartOptions?.labels"
+                                                [stroke]="mixedchartOptions?.stroke"
+                                                [plotOptions]="mixedchartOptions?.plotOptions"
+                                                [markers]="mixedchartOptions?.markers" [fill]="mixedchartOptions?.fill"
+                                                [tooltip]="mixedchartOptions?.tooltip"
+                                                [responsive]="mixedchartOptions?.responsive"
+                                                [grid]="mixedchartOptions?.grid"
+                                                [dataLabels]="mixedchartOptions?.dataLabels"></apx-chart>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4" *ngIf="daywiseApiError">
+                                <app-apierror (Emitter)="monthlyTrendSubscribe()">
+
+                                </app-apierror>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /End replace -->
+        </div>
+    </div>
+
+
+</main>

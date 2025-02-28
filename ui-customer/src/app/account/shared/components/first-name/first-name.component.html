@@ -1,0 +1,16 @@
+<form *ngIf="firstNameFormGroup" [formGroup]="firstNameFormGroup">	
+    <input type="text"  name="firstName" formControlName = "firstName" 
+    id="firstName" 
+    tabindex="0"
+    [ngClass]="{'border-red-300': firstName.touched && firstName.errors}" 
+    class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md" placeholder="" value="" aria-invalid="true" aria-describedby="name-error" />
+    <app-error-display
+        [formGroup]="firstNameFormGroup"
+        [fieldName] = "firstNameFieldName"
+        [controlName]="'firstName'"
+        [fieldInfoText] = "firstNameInfoText"
+        [minimumLength] = "genericMinimalLength"
+        [maximumLength] = "genericMaxLength"
+        [pattern] = "alphabetsOnlyValidation"
+    ></app-error-display>
+</form>

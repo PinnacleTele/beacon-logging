@@ -1,0 +1,34 @@
+<form  *ngIf="page2FormGroup" [formGroup]="page2FormGroup">
+    <div>
+        <div>
+            <div class="text-lg font-semibold text-gray-700">Enter Account Info</div>
+            <!-- first name last name section -->
+            <div class="md:flex mt-8">
+                <div class="md:flex-col md:mr-4 md:w-1/2">
+                    <label class="mb-3 text-sm leading-none text-gray-600 w-full">First name<span class="text-red-500">*</span></label>
+                        <app-first-name></app-first-name>
+                </div>
+                <div class="md:flex-col ml-0 md:ml-4 md:mt-0 md:w-1/2">
+                    <label class="mb-3 text-sm leading-none text-gray-600 w-full">Last name<span class="text-red-500">*</span></label>
+                        <app-last-name></app-last-name>
+                </div>
+            </div>
+        </div>
+         <!-- address section -->
+         <div class="mt-8 md:flex w-full items-center justify-between md:space-x-8">
+            <div class="flex flex-col md:ml-0 md:mt-0 mt-8 w-full">
+                <label class="mb-3 text-sm leading-none text-gray-600 w-full">Address</label>
+                <app-address></app-address>
+            </div>
+        </div>
+        <!-- company name section -->
+        <div class="mt-8 md:flex w-full items-center justify-between md:space-x-8">
+            <div class="flex flex-col md:ml-0 md:mt-0 mt-8 md:w-1/2">
+                <label class="mb-3 text-sm leading-none text-gray-600 w-full">Company<span class="text-red-500">*</span></label>
+               <app-company></app-company>
+            </div>
+        </div>
+
+        <app-currency></app-currency>
+    </div>
+</form>

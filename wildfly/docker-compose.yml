@@ -1,0 +1,5 @@
+version: "3.1"
+services:
+  beaconwebear:
+    image: wildfly:09nov2024
+    build: .

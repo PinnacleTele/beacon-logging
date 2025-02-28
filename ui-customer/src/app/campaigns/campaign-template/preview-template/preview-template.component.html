@@ -1,0 +1,216 @@
+<!-- template final preview section.  -->
+
+<div
+	class="relative sm:col-span-6 p-3 bg-blue-50 bg-opacity-40 mt-5 border-dashed border-gray-300 rounded border-4"
+ >
+	<span
+		class="absolute right-1 -top-3 text-xxs text-green-600 mr-1.5 bg-green-100 p-0.5 px-1 uppercase border-dashed rounded"
+		>Template Content</span
+	>
+
+	<div class="flex justify-start flex-col mt-4 space-y-1.5">
+		<div class="flex justify-between items-center relative">
+			<label
+				for="message"
+				class="block text-xs text-gray-600 font-medium uppercase pl-0 rounded"
+			>
+				{{ template.t_name || template.dlt_template_name }}
+			</label>
+			<button
+				type="button"
+				(click)="clickChangeOrEdit('change')"
+				class="inline-flex items-center px-1 py-1 text-xxs md:text-xs leading-4 underline uppercase font-medium tracking-wide rounded-md text-blue-400 hover:underline focus:outline-none"
+				*ngIf="campaignType != 'CT'"
+			>
+				<!-- Heroicon name: solid/mail -->
+				<!-- <svg class="h-3 w-3 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                </svg> -->
+				Change
+			</button>
+		</div>
+		
+		<div *ngIf="campaignType == 'CT' " class="flex justify-between">
+			<div class="">
+				<span
+					*ngIf="template.t_type === 'column'"
+					class="text-xxs text-gray-500"
+					>Mobile Column:
+				</span>
+				<span
+					class="text-xxs text-indigo-600 ml-1 bg-indigo-100 bg-opacity-60 p-0.5 px-1 rounded"
+					*ngIf="template.t_type === 'column'"
+				>
+					{{template.t_mobile_column}}</span
+				>
+
+				<span
+					*ngIf="template.t_type === 'index'"
+					class="text-xxs text-gray-500"
+					>Mobile Position:
+				</span>
+
+				<span
+					class="text-xxs text-indigo-600 ml-1 bg-indigo-100 bg-opacity-60 p-0.5 px-1 rounded"
+					*ngIf="template.t_type === 'index'"
+				>
+					{{template.t_mobile_column}}</span
+				>
+				<!-- <span
+                    class="text-xxs text-gray-500">Type: </span>
+                
+                <span class="text-xxs text-indigo-600 ml-1 bg-indigo-100 bg-opacity-60 p-0.5 px-1 rounded"
+                >
+                    {{contentType}}</span> -->
+			</div>
+			<span
+				class="text-xxs text-indigo-600 ml-1 bg-indigo-100 bg-opacity-60 p-0.5 px-1 rounded"
+			>
+				{{ template.t_type }} based
+			</span>
+		</div>
+	</div>
+	<span class="text-xxs text-gray-500">Type: </span>
+
+	<span
+		class="text-xxs text-indigo-600 ml-1 bg-indigo-100 bg-opacity-60 p-0.5 px-1 rounded"
+	>
+		{{langType}} </span
+	>
+	<div class="mt-4 space-y-2 	">
+		<p *ngIf="campaignType == 'CT'" class="text-gray-400 ">Message with replaced values (1<sup>st</sup> row)</p>
+		<!-- <p *ngIf="campaignType != 'CT'" class="text-gray-400 ">Template content</p> -->
+		<div  class="bg-blue-50 text-blue-500 p-2 whitespace-pre-wrap">{{ newMsg }}</div>
+		
+	</div>
+	<!-- warning section -->
+	<div
+		class="p-4 mt-4 bg-yellow-50 flex border border-dashed border-yellow-300 rounded-lg"
+		*ngIf="showWarning"
+	>
+		<div class="">
+			<div class="flex space-x-2 items-center justify-center">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="w-6 h-6 text-yellow-500"
+					viewBox="0 0 24 24"
+					version="1.1"
+				>
+					<circle
+						fill="currentColor"
+						opacity="0.4"
+						cx="12"
+						cy="12"
+						r="10"
+					></circle>
+					<rect
+						fill="currentColor"
+						x="11"
+						y="7"
+						width="2"
+						height="8"
+						rx="1"
+					></rect>
+					<rect
+						fill="currentColor"
+						x="11"
+						y="16"
+						width="2"
+						height="2"
+						rx="1"
+					></rect>
+				</svg>
+				<div>
+					<span class="text-gray-700 text-sm font-semibold"
+						>Attention</span
+					>
+					<div class="text-gray-600">
+						You may not have the matching values in the upload file
+						for the selected template. Please check your file or the
+						template chosen before continuing
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div
+		class="p-4 mt-4 bg-yellow-50 flex border border-dashed border-yellow-300 rounded-lg"
+		*ngIf="isStatic"
+	>
+		<div class="">
+			<div class="flex space-x-2 items-center justify-center">
+				<div>
+					<div class="text-gray-600">{{staticTemplate}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div
+class="flex flex-col md:flex-row items-center w-full lg:w-2/3 justify-between space-y-1 md:space-y-0"
+>
+<div class="mt-2 flex items-center justify-center">
+	<div>
+		<svg
+			class="animate-spin text-green-900"
+			xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink"
+			width="24px"
+			height="24px"
+			viewBox="0 0 24 24"
+			version="1.1"
+			*ngIf="campaignType != CTShort && spinner"
+		>
+			<g
+				stroke="none"
+				stroke-width="1"
+				fill="none"
+				fill-rule="evenodd"
+			>
+				<g>
+					<polygon points="0 0 24 0 24 24 0 24" />
+				</g>
+				<path
+					class="opacity-25"
+					d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+					fill="currentColor"
+					fill-rule="nonzero"
+					transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) "
+				/>
+			</g>
+		</svg>
+	</div>
+</div>
+</div>
+
+
+
+
+<!-- mobile preview -->
+<div *ngIf="campaignType == 'CT' " class="relative sm:col-span-6 p-3 bg-blue-50 bg-opacity-40 mt-5 border-dashed border-blue-300 rounded border-2">
+	<span class="flex space-x-2 absolute right-1 -top-3 text-xxs text-white mr-1.5 bg-blue-500 p-0.5 px-1 uppercase border-dashed rounded">
+		<svg class="text-blue-200 w-4 h-4" viewBox="0 0 24 24" version="1.1">
+			<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+				<rect x="0" y="0" width="24" height="24" />
+				<path d="M7.13888889,4 L7.13888889,19 L16.8611111,19 L16.8611111,4 L7.13888889,4 Z M7.83333333,1 L16.1666667,1 C17.5729473,1 18.25,1.98121694 18.25,3.5 L18.25,20.5 C18.25,22.0187831 17.5729473,23 16.1666667,23 L7.83333333,23 C6.42705272,23 5.75,22.0187831 5.75,20.5 L5.75,3.5 C5.75,1.98121694 6.42705272,1 7.83333333,1 Z" fill="currentColor" fill-rule="nonzero" />
+				<polygon fill="currentColor" opacity="0.3" points="7 4 7 19 17 19 17 4" />
+				<circle fill="currentColor" cx="12" cy="21" r="1" />
+			</g>
+		</svg>
+		<span> Mobile Preview </span>
+	</span>
+
+	<div class="mx-2 my-2 space-y-2">
+		<!-- <p class="text-gray-400">The message that you see on your mobile</p> -->
+		<div *ngIf = "!handsetapiError" class="bg-gray-50 text-blue-500 text-xs font-semibold tracking-wide p-2 whitespace-pre-wrap">
+		{{handMessagePreview}}
+		</div>
+		<div *ngIf = "handsetapiError" class="ml-2 flex-1 md:flex md:justify-between mt-1">
+			<p class="text-xs text-rose-600 font-small">Sorry, we couldn't show preview.. please try again</p>
+			<p class="mt-3 text-xs md:mt-0 md:ml-6 text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+			  <a (click) = "retry()" class="whitespace-nowrap font-medium uppercase cursor-pointer">Retry</a>
+			</p>
+		  </div>
+	</div>
+</div>

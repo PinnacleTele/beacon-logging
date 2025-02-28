@@ -1,0 +1,514 @@
+### get all the timezone
+GET http://127.0.0.1:3000/cm/utils/timezones HTTP/1.1
+
+### get all the timezone
+GET http://192.168.1.121:3000/cm/utils/timezones HTTP/1.1
+
+### get all the timezone
+GET http://192.168.1.164:3000/cm/utils/timezones HTTP/1.1
+
+###
+GET http://192.168.1.164/campaigns/api/cm/utils/timezones HTTP/1.1
+
+###
+POST http://192.168.1.164:3000/cm/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "uname": "post_superadmin1",
+  "pass": "password"
+}
+
+### check if campaign name is present or not (TODO: cname to be changed to c_name)
+GET http://192.168.1.164:3000/cm/campaigns/cnameunique?cname=c1 HTTP/1.1
+
+### get the count 
+GET http://192.168.1.164:3000/cm/campaigns/entityids HTTP/1.1
+
+### get all the matching senderids for this user + entityid
+GET http://127.0.0.1:3000/cm/campaigns/senderids?entity_id=110100001352&dlt_template_id=1107160037361671126 HTTP/1.1
+
+######################## Campaign Quick api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cq/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 1234",
+  "mobile_list": [
+    1,
+    2,
+    3
+  ],
+  "remove_dupe_yn": 1,
+  "msg": "this is a smgsdd",
+  "c_type": "quick",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "valid": 34,
+  "template_id": "0bqw7fkzyhc4rfugm8ncrgznhdemlwrsq0ix",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik"
+}
+
+######################## Campaign OTM api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cotm/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 1234",
+  "remove_dupe_yn": 1,
+  "msg": "this is a smgsdd",
+  "c_type": "otm",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ]
+}
+
+###
+
+POST http://192.168.1.121:3000/cm/campaigns/cotm/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 1234",
+  "remove_dupe_yn": 1,
+  "msg": "this is a smgsdd",
+  "c_type": "otm",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ]
+}
+
+######################## Campaign MTM api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cmtm/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 12345",
+  "remove_dupe_yn": 1,
+  "msg": "this is a mtm",
+  "c_type": "mtm",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "mtm_XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "mtm_XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "mtm_XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ]
+}
+
+######################## Campaign Template api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/ct/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign 12345",
+  "remove_dupe_yn": 1,
+  "c_type": "template",
+  "c_lang_type": "unicode",
+  "c_lang": "",
+  "template_id": "h3hwz3m4rwd6uct97w5muf3h7armllsvnom6",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "ct_XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "ct_XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "ct_XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ]
+}
+
+######################## Campaign group api's ##########################
+
+POST http://127.0.0.1:3000/cm/campaigns/cg/send HTTP/1.1
+content-type: application/json
+
+{
+  "c_name": "campaign group",
+  "remove_dupe_yn": 1,
+  "msg": "this is a group msg",
+  "c_type": "group",
+  "c_lang_type": "english",
+  "c_lang": "",
+  "template_id": "",
+  "dlt_entity_id": "110100001352",
+  "header": "icicik",
+  "group_ids": ["0ralaj5l6yd4c0optn4a09vte3gdqj8cwjlx", "3wnh7xvmzgrj2cudj5veeaxsounkok4oqo3f"]
+}
+
+######################## Template api's ##########################
+
+### get all the templates for the user
+GET http://192.168.1.164:3000/cm/template/templates?entity_id= 110100001355  HTTP/1.1
+
+### get all the dlt templates
+GET http://192.168.1.164:3000/cm/template/dlttemplates?entity_id=110100001355  HTTP/1.1
+
+### get all the unused dlt templates (dlttemplates - templates created)
+GET http://192.168.1.164:3000/cm/template/unuseddlttemplates?entity_id=110100001355  HTTP/1.1
+
+### is template name unique
+GET http://127.0.0.1:3000/cm/template/tnameunique?t_name=template name 2  HTTP/1.1
+
+### new template
+POST http://127.0.0.1:3000/cm/template/tnew  HTTP/1.1
+content-type: application/json
+
+{
+  "t_name": "Template Uni 1",
+  "t_type": "column",
+  "t_mobile_column": "phone or 1",
+  "dlt_entity_id": "110100001352",
+  "dlt_template_id": "1107158092263528722",
+  "pattern_type": 1,
+  "t_content": "TMB வங்கி- உங்கள் ATM, டெபிட் & கிரிடிட் கார்டு எண்,பின் (PIN),CVV எண், Expiry Date, OTP போன்றவற்றை கேட்பதில்லை. மேற்கூறிய தகவல்களை எவரிடமும் தெரிவிக்க வேண்டாம் -TMB",
+  "is_unicode": 1
+}
+
+### get template details
+GET http://127.0.0.1:3000/cm/template/tinfo?id=2  HTTP/1.1
+
+### update template details
+POST http://127.0.0.1:3000/cm/template/tupdate  HTTP/1.1
+content-type: application/json
+
+{
+  "t_name": "Template 1",
+  "id": "36uyec87ogsu5kxyif5bh1lgw6med88mi65s"
+}
+
+### delete a template
+POST http://127.0.0.1:3000/cm/template/tdelete  HTTP/1.1
+content-type: application/json
+
+{
+  "ids": ["1", "c87nz5f6ifglpokdptfujyvkf9j7v66q2psm", "w8gqhp63xd4dmdyhgwiyqh2n9ljwvy8uzua0"]
+}
+
+######################## Group api's ##########################
+
+### Create group
+POST http://127.0.0.1:3000/cm/group/gnew  HTTP/1.1
+content-type: application/json
+
+{
+  "g_name": "EGroup name11",
+  "g_type": "exclude",
+  "g_visibility": "private",
+  "files": [
+    {
+      "filename": "XLS 65K fmm.xls",
+      "count": "65536",
+      "r_filename": "XLS 65K fmm_e844068b-8d36-43cd-8cd0-559c86aa1dc8.xls",
+      "count_human": "65.5k"
+    },
+    {
+      "filename": "XLSX 1 million fmm.xlsx",
+      "count": "1000000",
+      "r_filename": "XLSX 1 million fmm_6cbdd0f1-2a7c-46fd-833a-c29192dba12b.xlsx",
+      "count_human": "1M"
+    },
+    {
+      "filename": "XLSX 10K fmm.xlsx",
+      "count": "10000",
+      "r_filename": "XLSX 10K fmm_367d7ec0-38d4-4578-91b4-89333dee01d0.xlsx",
+      "count_human": "10k"
+    }
+  ]
+}
+
+### get all the templates for the user
+GET http://127.0.0.1:3000/cm/group/groups?g_type=all&status=all  HTTP/1.1
+
+### get group details
+GET http://127.0.0.1:3000/cm/group/ginfo?id=dnrq2c0th0x2ge5mvlfhbqcv17g1mclsmqj5  HTTP/1.1
+
+### update group details
+POST http://127.0.0.1:3000/cm/group/gupdate  HTTP/1.1
+content-type: application/json
+
+{
+  "id": "dnrq2c0th0x2ge5mvlfhbqcv17g1mclsmqj5",
+  "g_name": "Group 1",
+  "g_visibility": "shared"
+}
+
+### delete group(s)
+POST http://127.0.0.1:3000/cm/group/gdelete  HTTP/1.1
+content-type: application/json
+
+{
+  "ids": ["1", "c87nz5f6ifglpokdptfujyvkf9j7v66q2psm", "dnrq2c0th0x2ge5mvlfhbqcv17g1mclsmqj5"]
+}
+
+###
+
+######################## Account api's ##########################
+
+### get all users for a user
+GET http://192.168.1.164:3000/cm/account/accounts HTTP/1.1
+
+### get account stats
+GET http://192.168.1.164:3000/cm/account/astats HTTP/1.1
+
+### check if username is unique
+GET http://127.0.0.1:3000/cm/account/unameunique?uname=wintest1 HTTP/1.1
+
+###
+GET http://192.168.1.164:3000/cm/account/unameunique?uname=wintest1 HTTP/1.1
+
+###
+GET http://127.0.0.1:3000/cm/account/countries HTTP/1.1
+
+###
+GET http://127.0.0.1:3000/cm/account/tgroups HTTP/1.1
+
+###
+GET http://127.0.0.1:3000/cm/account/assignedSubServices HTTP/1.1
+
+###
+POST http://127.0.0.1:3000/cm/account/anew  HTTP/1.1
+content-type: application/json
+
+{
+  "user_type": 2,
+  "firstname": "Firstname",
+  "lastname": "Lastname",
+  "company": "Inc Ltd",
+  "username": "wintes1wallet",
+  "email": "user1@mail.com",
+  "mobile": "9465644565",
+  "zone_name": "Asia/Calcutta",
+  "offset": "+05:30",
+  "country_code_iso3": "IND",
+  "allocated_tgroup_ids": [
+    14542255
+  ],
+  "assigned_tgroup_id": 14542255,
+  "smpp_charset": "UTF-8",
+  "address": "address",
+  "twofa_yn": 0,
+  "wallet": 53345.0234,
+  "smsrate": 1.0234,
+  "dltrate": 0.0025,
+  "newline_chars": "##",
+  "encrypt_mobile_yn": 0,
+  "encrypt_message_yn": 0,
+  "assigned_groups": [
+    "19qlry9xjzlpblxnhea54obd4aqctu0bqrdv"
+  ],
+  "services": [
+    {
+      "service": "sms",
+      "sub_service": "api"
+    },
+    {
+      "service": "sms",
+      "sub_service": "cm"
+    }
+  ]
+}
+
+### get account info
+GET http://127.0.0.1:3000/cm/account/ainfo?cli_id=6000000200310000 HTTP/1.1
+
+### update acc info
+POST http://127.0.0.1:3000/cm/account/aupdatePI  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "firstname": "Firstname",
+  "lastname": "Lastname",
+  "company": "Inc Ltd",
+  "address": "address"
+}
+
+###
+POST http://127.0.0.1:3000/cm/account/aupdateEncryption  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "encrypt_mobile_yn": 0,
+  "encrypt_message_yn": 1
+}
+
+### upate acc dlt template group config
+POST http://127.0.0.1:3000/cm/account/aupdateTGroups  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "assigned_tgroup_id": 1000000000,
+  "allocated_tgroup_ids": [
+    1000000000,
+    1000000001,
+    1000000002
+  ]
+}
+
+### update acc 2fa
+POST http://127.0.0.1:3000/cm/account/aupdate2FA  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "twofa_yn": 1
+}
+
+### update acc messaging settings
+POST http://127.0.0.1:3000/cm/account/aupdateMS  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000001,
+  "newline_chars": "##",
+  "zone_name": "Asia/Calcutta",
+  "offset": "+05:30",
+  "country_code_iso3": "IND"
+}
+
+### update services
+POST http://127.0.0.1:3000/cm/account/aupdateServices  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000000,
+  "smpp_charset": "UTF-8",
+  "services": [
+    {
+      "service": "sms",
+      "sub_service": "api"
+    },
+    {
+      "service": "sms",
+      "sub_service": "cm"
+    }
+  ]
+}
+
+###
+POST http://127.0.0.1:3000/cm/account/aupdateGroups  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000027,
+  "assigned_groups": [
+    "19qlry9xjzlpblxnhea54obd4aqctu0bqrdv"
+  ]
+}
+
+###
+POST http://127.0.0.1:3000/cm/account/aupdateWRates  HTTP/1.1
+content-type: application/json
+
+{
+  "cli_id": 6000000200000027,
+  "smsrate": 1.0234,
+  "dltrate": 0.0025
+}
+
+
+######################## Campaign api's ##########################
+### get all matching campaigns
+POST http://192.168.1.164:3000/cm/campaigns/clist HTTP/1.1
+content-type: application/json
+
+{
+  "dateselectiontype": "custom range",
+  "fdate": "2021-08-16",
+  "tdate": "2021-08-16"
+}
+
+### get todays campaigns stats
+GET http://127.0.0.1:3000/cm/campaigns/ctodaysstats HTTP/1.1
+
+### get campaign detail
+GET http://127.0.0.1:3000/cm/campaigns/cdetails?c_id=wpineutx4kef8lb7hkxqevg0lm4wetdme4mv HTTP/1.1
+#GET http://127.0.0.1:3000/cm/campaigns/cdetails?c_id=rdh6oki586pexdffvbo7d3328cfvjkk1ntw0 HTTP/1.1
+
+### get campaign details by files/groups
+GET http://127.0.0.1:3000/cm/campaigns/cdetailsbyfile?c_id=wpineutx4kef8lb7hkxqevg0lm4wetdme4mv HTTP/1.1
+#GET http://127.0.0.1:3000/cm/campaigns/cdetailsbyfile?c_id=rdh6oki586pexdffvbo7d3328cfvjkk1ntw0 HTTP/1.1
+
+###

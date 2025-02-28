@@ -1,0 +1,67 @@
+
+<p
+    class="mt-2 text-xxs sm:text-xs text-gray-500"
+    *ngIf = "(!name.touched && name.errors?.required) ||  !name.errors" >
+    {{ fieldInfoText }} 
+</p> 
+
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = "name.touched && name.errors?.required " >
+    {{fieldName}} is required
+</p> 
+
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = " name.errors?.pattern" >
+    {{ patternError }} {{ allowedPattern }}
+</p> 
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = " name.errors?.decimalInvalid" >
+    {{decimalErrors}}
+</p>
+
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = "!name.errors?.required && name.dirty && name.errors?.lessThanZero" >
+    {{greaterThanZero}}
+</p>
+
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = " name.errors?.negativeNum " >
+    Negative numbers not accepted for this field
+</p>
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = " name.errors?.hasNoSplChar" >
+    {{passwordErrMsg}}
+</p>
+
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = " name.errors?.minLengthInvalid" >
+    {{ minLengthError }}  {{ minimumLength }}
+</p>
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-500"
+    *ngIf = "name.errors?.maxLengthInvalid" >
+    {{ maxLengthError }}  {{ maximumLength }}
+</p>   
+<p
+    class="mt-2 text-xxs sm:text-xs text-red-500"
+    *ngIf = "name.errors?.min && !name.errors?.decimalInvalid && !name.errors?.lessThanZero && !name.errors?.negativeNum" >
+    {{ minimumBillRateError }} ({{name.errors?.min["min"]}})
+</p>   
+
+
+
+        

@@ -1,0 +1,431 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>beacon</groupId>
+  <artifactId>beacon</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+  
+  <properties>
+		<kafka-client-version>2.8.0</kafka-client-version>
+		<commons-logging-version>1.2</commons-logging-version>
+		<commons-configuration-version>1.10</commons-configuration-version>
+		<log4j-2-version>2.17.0</log4j-2-version>
+		<commons-dbcp2-version>2.8.0</commons-dbcp2-version>
+		<mariadb-java-client-version>2.3.0</mariadb-java-client-version>
+		<javax.servlet-api-version>4.0.1</javax.servlet-api-version>
+		<commons-net-version>3.6</commons-net-version>
+		<commons-validator-version>1.6</commons-validator-version>
+		<commons-codec-version>1.10</commons-codec-version>
+		<jetty-servlet-version>9.4.40.v20210413</jetty-servlet-version>
+		<simpleclient_httpserver-version>0.9.0</simpleclient_httpserver-version>
+		<simpleclient_servlet-version>0.9.0</simpleclient_servlet-version>
+		<jedis-version>3.3.0</jedis-version>
+		<kafka-clients-version>2.8.0</kafka-clients-version>
+		<http-client-version>4.5.13</http-client-version>
+		<jackson-databind-version>2.12.1</jackson-databind-version>
+		<commons-text-version>1.9</commons-text-version>
+		<commons-csv-version>1.8</commons-csv-version>
+		<json-simple-version>1.1.1</json-simple-version>
+		<commons-math3-version>3.6.1</commons-math3-version>
+		<drools-version>5.4.0.Final</drools-version>
+		<gson-version>2.8.8</gson-version>
+		<quartz-scheduler-version>2.3.2</quartz-scheduler-version>
+		<ch-smpp-version>5.0.0</ch-smpp-version>
+		<json-simple-version>1.1.1</json-simple-version>
+		<http-client-version>4.5.13</http-client-version>
+		<jaxb-api-version>2.2.11</jaxb-api-version>
+		<jaxb-core-version>2.2.11</jaxb-core-version>
+		<jaxb-impl-version>2.2.11</jaxb-impl-version>
+		<activation-version>1.1.1</activation-version>
+		<eu.bitwalke-version>1.21</eu.bitwalke-version>
+		<elasticsearch-rest-high-level-client-version>7.12.0</elasticsearch-rest-high-level-client-version>
+		<gson-version>2.8.8</gson-version>
+		<commons-csv-version>1.8</commons-csv-version>
+		<quartz-scheduler-version>2.3.2</quartz-scheduler-version>
+		<kafka-clients-version>2.8.0</kafka-clients-version>
+
+		<!-- Build related -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<nexus_url>http://10.0.1.21:8081</nexus_url>
+		<nexus_repository>${nexus_url}/repository</nexus_repository>
+		<itextos_lib>${nexus_repository}/iTexTos_lib/</itextos_lib>
+		<itextos_release>${nexus_repository}/iTexTos_release/</itextos_release>
+
+		<!-- Compiler Related -->
+	<!-- 	<maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version> -->
+		<maven-compiler-plugin-version>3.10.1</maven-compiler-plugin-version> 
+		<maven-war-plugin>3.3.2</maven-war-plugin> 
+
+		<spring-boot-maven-plugin-version>2.6.2</spring-boot-maven-plugin-version>
+		<maven-source-plugin-version>3.2.1</maven-source-plugin-version>
+		<jdk-build-version>21</jdk-build-version>
+
+	</properties>
+
+  <!--
+	<properties>
+		<maven.compiler.fork>true</maven.compiler.fork>
+		<argLine>-Xmx2g</argLine>
+		  <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+		<commons-logging-version>1.2</commons-logging-version>
+		<commons-configuration-version>1.10</commons-configuration-version>
+		<log4j-2-version>2.17.0</log4j-2-version>
+		<commons-dbcp2-version>2.8.0</commons-dbcp2-version>
+		<mariadb-java-client-version>2.3.0</mariadb-java-client-version>
+		<javax.servlet-api-version>4.0.1</javax.servlet-api-version>
+		<commons-net-version>3.6</commons-net-version>
+		<commons-validator-version>1.6</commons-validator-version>
+		<commons-codec-version>1.10</commons-codec-version>
+		<jetty-servlet-version>9.4.40.v20210413</jetty-servlet-version>
+		<simpleclient_httpserver-version>0.9.0</simpleclient_httpserver-version>
+		<simpleclient_servlet-version>0.9.0</simpleclient_servlet-version>
+		<jedis-version>3.3.0</jedis-version>
+		<kafka-clients-version>2.8.0</kafka-clients-version>
+		<http-client-version>4.5.13</http-client-version>
+		<jackson-databind-version>2.12.1</jackson-databind-version>
+		<commons-text-version>1.9</commons-text-version>
+		<commons-csv-version>1.8</commons-csv-version>
+		<json-simple-version>1.1.1</json-simple-version>
+		<commons-math3-version>3.6.1</commons-math3-version>
+		<drools-version>5.4.0.Final</drools-version>
+		<gson-version>2.8.8</gson-version>
+		<quartz-scheduler-version>2.3.2</quartz-scheduler-version>
+		<ch-smpp-version>5.0.0</ch-smpp-version>
+		<json-simple-version>1.1.1</json-simple-version>
+		<http-client-version>4.5.13</http-client-version>
+		<jaxb-api-version>2.2.11</jaxb-api-version>
+		<jaxb-core-version>2.2.11</jaxb-core-version>
+		<jaxb-impl-version>2.2.11</jaxb-impl-version>
+		<activation-version>1.1.1</activation-version>
+		<eu.bitwalke-version>1.21</eu.bitwalke-version>
+		<elasticsearch-rest-high-level-client-version>7.12.0</elasticsearch-rest-high-level-client-version>
+		<gson-version>2.8.8</gson-version>
+		<commons-csv-version>1.8</commons-csv-version>
+		<quartz-scheduler-version>2.3.2</quartz-scheduler-version>
+		<kafka-clients-version>2.8.0</kafka-clients-version>
+
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<nexus_url>http://10.0.1.21:8081</nexus_url>
+		<nexus_repository>${nexus_url}/repository</nexus_repository>
+		<itextos_lib>${nexus_repository}/iTexTos_lib/</itextos_lib>
+		<itextos_release>${nexus_repository}/iTexTos_release/</itextos_release>
+
+
+		<maven-compiler-plugin-version>3.10.1</maven-compiler-plugin-version> 
+		<maven-war-plugin>3.3.2</maven-war-plugin> 
+
+		<spring-boot-maven-plugin-version>2.6.2</spring-boot-maven-plugin-version>
+		<maven-source-plugin-version>3.2.1</maven-source-plugin-version>
+		<jdk-build-version>17</jdk-build-version>
+
+	</properties>
+
+ -->
+  <modules>
+	   	<module>thirdpartyjar</module>
+  	<module>wardependencyjar</module>
+
+  	<module>common-constants</module>
+  	<module>common-commonpropertyloader</module>
+  	<module>common-utility</module>
+  	<module>common-daemonprocess</module>
+  	<module>common-commondbpool</module>
+  	<module>common-apperrorhandler</module>
+  	<module>common-ipvalidationutility</module>
+  	<module>common-pwdencryption</module>
+  	<module>common-prometheusmetricsutil</module>
+  	<module>common-redisconnectionprovider</module>
+  	<module>common-accountsync</module>
+  	<module>common-messageidentifier</module>
+  	<module>common-datarefresher</module>
+  	<module>common-messageobject</module>
+  	<module>common-httpclient</module>
+  	<module>common-redisstatistics</module>
+  	<module>common-accountinitialloader</module>
+  	<module>common-timezoneutility</module>
+  	<module>common-kafkaservice</module>
+  	<module>common-messageprocessor</module>
+  	<module>common-componentconsumer</module>
+  	<module>common-datarefresherweb</module>
+  	<module>common-shortcodeprovider</module>
+  	<module>common-shortcodegenerator</module>
+  	<module>common-shortcodereloader</module>
+  	<module>common-dnddataloader</module>
+  	<module>common-urlhitterthread</module>
+  	<module>common-pwdencryptionapplication</module>
+  	<module>common-dndchecker</module>
+  	<module>common-stringprocessor</module>
+  	<module>common-scheduler</module>
+  	<module>common-pattern</module>
+  <!--
+  	<module>common-unittest</module>
+	<module>common-unittestweb</module>
+
+  		<module>common-modulecheck</module>
+	<module>k8s-namespace</module>
+	<module>thirdpartyjar</module>
+	<module>k8s-web</module>
+
+-->
+
+
+  
+  
+		<module>inmemory-loader</module>
+		<module>inmemory-accountdetails</module>
+		<module>inmemory-appconfigparams</module>
+		<module>inmemory-blocklistnumbers</module>
+		<module>inmemory-carrierhandover</module>
+		<module>inmemory-clientallowedheaders</module>
+		<module>inmemory-clientdlrpreferences</module>
+		<module>inmemory-commonheaders</module>
+		<module>inmemory-customfeatures</module>
+		<module>inmemory-dnpayload</module>
+		<module>inmemory-governmentheaders</module>
+		<module>inmemory-interfacesinfo</module>
+		<module>inmemory-messageutility</module>
+		<module>inmemory-msgtemplates</module>
+		<module>inmemory-msgvalidity</module>
+		<module>inmemory-optout</module>
+		<module>inmemory-errorinfo</module>
+		<module>inmemory-promoheaderpool</module>
+		<module>inmemory-routeinfo</module>
+		<module>inmemory-routeretryinfo</module>
+		<module>inmemory-spamwordcheck</module>
+		<module>inmemory-specificblockoutdata</module>
+		<module>inmemory-userheader</module>
+		<module>inmemory-visualizelink</module>
+		<module>inmemory-whitelistnumbers</module> 
+		<module>inmemory-data</module>
+		<module>inmemory-encryptinfo</module>
+		<module>inmemory-intlrouteinfo</module>
+		<module>inmemory-currencyconversion</module>
+		<module>inmemory-smppaccountdetails</module>
+		<module>inmemory-dlrquery</module>
+		<module>inmemory-otpconfig</module> 
+		<module>inmemory-countryinfo</module>
+		<module>inmemory-optin</module>
+		<module>inmemory-indianp</module>
+		<module>inmemory-intlcredit</module>
+
+		<module>platform-elasticsearchutil</module>
+		<module>platform-decimalutility</module>
+		<module>platform-messageflowutility</module>
+		<module>platform-blockoutprocess</module>
+		<module>platform-iccore</module>
+		<module>platform-intlprice</module>
+		<module>platform-duplicatecheckprocessor</module>
+		<module>platform-msgtimeboundcheck</module>
+		<module>platform-templatefinder</module>
+		<module>platform-sbcvcore</module>
+		<module>platform-vccore</module>
+		<module>platform-faillistutil</module>
+		<module>platform-rccore</module>
+		<module>platform-carrierhandoverutility</module>
+		<module>platform-dnpayloadutil</module>
+		<module>platform-chcore</module>
+		<module>platform-kannelstatusupdater</module>
+		<module>platform-rchcore</module>
+		<module>platform-dchcore</module>
+		<module>platform-sbccore</module>
+		<module>platform-prccore</module>
+		<module>platform-dlrretrycore</module>
+		<module>platform-dnr</module>
+		<module>platform-dnpcore</module>
+		<module>platform-sbpcore</module>
+		<module>platform-dlrpayloadgen</module>
+		<module>platform-billing</module>
+		<module>platform-subbiller</module>
+		<module>platform-t2ecore</module>
+		<module>platform-topic2table</module>
+		<module>platform-dnt2tb</module>
+		<module>platform-subt2tb</module>
+		<module>platform-errorlogt2tb</module>
+		<module>platform-clienthandovert2tbweb</module>
+		<module>platform-r3ccore</module>
+		<module>platform-messagetool</module>
+		<module>platform-messagetoolweb</module>
+		<module>platform-r3r</module>
+		<module>platform-dnnopayloadt2tb</module>
+		<module>platform-duplicatecheckremoval</module>
+		<module>platform-fullmsgt2tb</module>
+		<module>platform-interimfailuerst2tb</module>
+		<module>platform-vcdltcore</module>
+		<module>platform-vcprocess</module>
+		<module>platform-dnrfallback</module>
+		<module>platform-dnrfallbackpoller</module>
+		<module>platform-walletprocess</module>
+		<module>platform-walletconsumer</module>
+		<module>platform-walletbase</module>
+		<module>platform-smpputil</module>
+		<module>platform-smppdlrhandover</module>
+		<module>platform-walletprepaidmigration</module>
+		<module>platform-promokannelrediscleaner</module>
+		<module>platform-blockoutwalletconsumer</module>
+		<module>platform-dnpostlogt2tb</module>
+		<module>platform-prepaiduidata</module>
+		<module>platform-prepaiduIweb</module>
+		<module>platform-pendingpayloadcountexporter</module>
+		<module>platform-walletreminder</module>
+		<module>platform-customkafkaprocessor</module>
+		<module>platform-cappingcheck</module>
+		<module>platform-singledn</module>
+		<module>http-generichttpapidata</module>
+		<module>http-generichttpapiprocessor</module>
+		<module>http-interfaceparameters</module>
+		<module>http-interfacefallback</module>
+		<module>http-interfacefallbackpoller</module>
+		<module>http-interfaceutil</module>
+		<module>http-cloudacceptor</module>
+		<module>http-clouddataprocessor</module>
+		<module>http-cloudutil</module>
+		<module>smpp-concatenate</module>
+		<module>smpp-dboperations</module>
+		<module>smpp-interfaces</module>
+		<module>smpp-objects</module>
+		<module>smpp-redisoperations</module>
+		<module>smpp-utils</module>
+		<module>ch-httpclienthandover</module>
+		<module>ch-clienthandoveracceptproject</module>
+	
+
+		<module>web-generichttpapi</module>
+		<module>web-migrationapi</module>
+<!--
+
+		<module>wildflyhome</module>
+		<module>docker-mw</module>
+		<module>docker-base</module>
+		<module>gw-smppclient</module> 
+	<module>docker-docker</module>  -->
+	<!--   	<module>beaconapi</module> -->
+   	<module>siddhu-k2es</module>
+
+  	<module>mainmodule</module>
+
+  	<module>common-message</module>
+  	<module>docker-beacon</module>
+  	<module>http-japi</module>
+  	<module>commonwardependency</module>
+  	<module>common-splog</module>
+  	<!--
+    	<module>ui-mui</module>
+  	<module>ui-customer</module>
+  	<module>ui-nginx</module> 
+  		
+  	<module>ui-api</module>
+  	
+
+ -->
+  	<module>platform-mccmncload</module>
+
+ 
+ <!--	<module>reactjsadmin</module> -->
+ <module>smpp-concatehandover</module>
+ <module>monitortopics</module>
+ <module>dlrquery-dlrqueryprocess</module>
+ <module>dlrquery-dlrqueryweb</module>
+ <!--  	<module>docker-beaconweb</module> -->
+
+
+ 
+   	<module>fb-initialstage</module>
+   	<module>fb-splitstage</module>
+   	<module>fb-fileparser</module>
+   	<module>fb-utils</module>
+   	<module>fb-inmemoryrefresh</module>
+   	<module>fb-handoverstage</module>
+   	<module>fb-fileupload</module>
+   	<module>fb-scheduleprocessor</module>
+   	<module>fb-campaignfinisher</module>
+   	<module>fb-groupsprocessor</module>
+   	<module>fb-excludeprocessor</module>
+   	<module>fb-dltfileprocessor</module>
+   	<module>fb-downloadhandler</module>
+   	<module>fb-cronjobs</module>
+ <!--   	<module>docker-fb</module>
+  	<module>node-cm</module>
+   	<module>node-cm-jobs</module> -->
+
+   	<module>applicationproperties</module>
+   	<module>platform-asynprocessor</module>
+   	<module>smppsimulator</module>
+<!--   	<module>springbootwarapi</module> -->
+   	<module>wildfly</module>
+   	   	<module>beaconlib</module>
+
+   	<module>tomacatvirtualthreadpool</module>
+   	<module>platform-smppdlrpoller</module>
+   	<module>platform-smppdlrutil</module>
+   	<module>docker-fileprocessor</module>
+   	<module>smsc</module>
+   	<module>platform-dnt2tbbkup</module>
+   	<module>kafka2elasticsearch</module>
+   	<module>subk2e</module>
+   	<module>dnk2e</module>
+   	<module>kafka-stats</module>
+   	<module>platform-topic2elasticsearch</module>
+   	<module>inmemory-elasticsearchcolumn</module>
+   	<module>common-errorlog</module>
+   	<module>node-mui</module>
+   	<module>queryprocessor-databaseconnector</module>
+   	<module>queryprocessor-utils</module>
+   	<module>queryprocessor-parent</module>
+   	<module>queryprocessor-paramvalidator</module>
+   	<module>queryprocessor-threadpoolexecutor</module>
+   	<module>queryprocessor-requestreceiver</module>
+   	<module>siddhu-jar</module>
+   	<module>queryprocessor-requestreceiver-web</module>
+   	<module>python-cron</module>
+   	   	<module>docker-tomacat</module>
+
+   	   	<module>platform-dnsingle</module>
+   	   	<module>platform-dnaging</module>
+   	   	<module>smppclient</module>
+   	   	<module>smppclient2</module>
+  </modules>
+  
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		
+    <plugins>
+ 
+ 
+ 	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin-version}</version>
+				<configuration>
+					<source>${jdk-build-version}</source>
+					<target>${jdk-build-version}</target>
+				</configuration>
+			</plugin>
+
+  
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>3.3.1</version>
+	</plugin>
+		</plugins>
+	</build>
+
+	</project>

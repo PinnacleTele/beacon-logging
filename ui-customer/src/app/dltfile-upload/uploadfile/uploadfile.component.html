@@ -1,0 +1,130 @@
+	<!-- This example requires Tailwind CSS v2.0+ -->
+
+	<app-headertab
+	[routerAction]="'upload'">
+	
+	</app-headertab>
+
+
+
+    <main class="flex-1 relative overflow-y-auto focus:outline-none mt-12 lg:mt-0" tabindex="0">
+				<div class="py-6 relative">
+					<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+						<!-- Replace with your content -->
+						<!-- <div class="absolute z-10 inset-px bg-gray-100 opacity-70"></div> -->
+
+						<div class="bg-white p-5 md:p-10 rounded z-0">
+							<div class="text-lg font-medium text-gray-800">Upload DLT Template</div>
+							<div class="border-b-0 mt-4 border-gray-200"></div>
+							<form [formGroup]="dltFileUploadForm" class="space-y-8 divide-y divide-gray-200">
+								<div>
+									<div>
+								<div class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 divide-y divide-gray-100">
+								<!-- telco section -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<div>
+										<label for="name" class="block font-semibold text-gray-700"
+											>Choose Telco
+											<span class="text-red-600">*</span>
+										</label>
+										<p class="mt-2 text-xxs sm:text-xs text-gray-500">Specify from where the DLT template file was sourced from.</p>
+										<div class="mt-2 relative rounded-md">
+											<fieldset>
+												<legend class="sr-only">Telco</legend>
+												<div class="px-0 flex text-xs flex-wrap" >
+													<span *ngFor="let tlist of telcoList ; index as i">
+														<label (click)="indexValue(i,tlist.telco)" [ngClass] ="indexStyle == i ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600 border-dashed rounded border border-gray-300'" class=" relative flex items-center justify-center  rounded border border-gray-300 px-3 py-2 mt-3 mr-3 cursor-pointer sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2">
+															<input type="radio" checked name="file_delimiter" value="na" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+															<div class="">{{tlist.telco_display_name}}</div>
+														</label>
+													</span>
+													
+													<!-- <label class="bg-gray-100 text-gray-600 border-dashed relative flex items-center justify-center rounded border border-gray-300 px-3 py-2 mt-3 mr-3 cursor-pointer sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2">
+														<input type="radio" checked name="file_delimiter" value="comma" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+														<div class="whitespace-nowrap">Airtel Tanla</div>
+													</label>
+													<label class="bg-gray-100 text-gray-600 border-dashed relative flex items-center justify-center rounded border border-gray-300 px-3 py-2 mt-3 mr-3 cursor-pointer sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2">
+														<input type="radio" checked name="file_delimiter" value="pipe" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+														<div class="whitespace-nowrap">BSNL</div>
+													</label>
+													<label class="bg-gray-100 text-gray-600 border-dashed relative flex items-center justify-center rounded border border-gray-300 px-3 py-2 mt-3 mr-3 cursor-pointer sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2">
+														<input type="radio" checked name="file_delimiter" value="hyphen" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+														<div class="whitespace-nowrap">Videocon</div>
+													</label>
+													<label class="bg-gray-100 text-gray-600 border-dashed relative flex items-center justify-center rounded border border-gray-300 px-3 py-2 mt-3 mr-3 cursor-pointer sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-offset-2">
+														<input type="radio" checked name="file_delimiter" value="hyphen" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+														<div class="whitespace-nowrap">Voda</div>
+													</label> -->
+												</div>
+											</fieldset>
+										</div>
+									</div>
+								</div>
+									<!-- dlt template id column section  -->
+									<div class="sm:col-span-6 text-xs pt-4"   *ngIf="this.dltFileUploadForm.controls.telco.value !== 'Custom'">
+										<label for="mobile" class="block font-semibold text-gray-700">DLT Entity Id<span class="text-red-600">*</span> </label>
+										<p class="mt-1 text-xxs sm:text-xs text-gray-500">Choose / Type Dlt entity id to be used for this upload</p>
+										
+
+										<div class="sm:col-span-6 text-xs ">
+                                            <!-- entityId section -->
+							                                                                       
+									
+                                    <app-dltentityid
+									[title]="false"
+									(entityIdEmitter)="receivedEntityId($event)"
+									
+									(retryEmitter)="retryTelcos()"
+								   ></app-dltentityid>                                       
+								   <!-- <p class="mt-1 text-xxs sm:text-xs text-gray-500">
+									<span  >Note* </span>
+									you can add entityid only numerical value accepted</p> -->
+											<!-- <select id="mobilecolumn" name="mobilecolumn" autocomplete="mobilecolumn" class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 w-full border-gray-300 rounded-md">
+												<option selected>Select Entity Id</option>
+												<option>4223434544</option>
+												<option>1225645634</option>
+										(noEntityIdEmitter)="noEntityid($event)"		<option>86563366756</option>
+											</select> -->
+										</div>
+										<!-- <p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error">Some info text or Error Message</p> -->
+									</div>
+
+
+									<!-- file upload section -->
+									<!-- <div class="sm:col-span-6 text-xs pt-4">
+										<app-file-uploader
+										id="fileupload"
+                                        [hideDublicate]="true"
+                                        [fileContentOrder]="fileContentOrder" 
+                                        [fromPage]="'Telco'"    
+                                        [telcoValue] = "telcoValue"        
+                                        (responseEmitter)="getFileUploadSectionData($event)" 
+                                         ></app-file-uploader>
+									</div> -->
+									<div class="sm:col-span-6 text-xs pt-4">
+										<app-file-uploader
+										[hideDublicate]="true"
+											[fromPage]="'Telco'"
+											[fileContentOrder]="fileContentOrder"
+											[telcoValue] = "telcoValue" 
+											(responseEmitter)="getFileUploadSectionData($event)"
+										></app-file-uploader>                                                                                                                                         
+									</div>   
+								</div>
+							</div>
+						</div>
+
+						<!-- button section -->
+						<div class="pt-5">
+							
+                            <app-save-button
+                            [dltFileFormDetail] = "dltFileUploadForm">
+                                            
+                            </app-save-button>
+						</div>
+					</form>
+				</div>
+				<!-- /End replace -->
+			</div>
+		</div>
+	</main>

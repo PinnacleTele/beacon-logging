@@ -1,0 +1,370 @@
+import sys
+import mysql.connector
+import psycopg2
+import pandas as pd
+
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
+import configobj
+import logging
+import os
+import http.client
+import json
+import base64
+
+def send_rpt_email(cfg_val, rpt_mode, rpt_dt, xls_fn_lst):
+    cfg_email_cc = None
+    if rpt_mode == "date":
+        rpt_dt_str = rpt_dt.strftime("%d/%m/%Y")
+        email_subject = "Traffic Reports for the date: " + rpt_dt_str
+        html_msg = "<html><body>Traffic Report for the date: " + rpt_dt_str + "</body></html>"
+        cfg_email_to = cfg_val["DAILY_EMAIL_TO"]
+        if "DAILY_EMAIL_CC" in cfg_val:
+            cfg_email_cc = cfg_val["DAILY_EMAIL_CC"]
+    elif rpt_mode == "month":
+        rpt_dt_str = rpt_dt.strftime("%B-%Y")
+        email_subject = "Traffic Reports for the month: " + rpt_dt_str
+        html_msg = "<html><body>Traffic Reports for the month: " + rpt_dt_str + "</body></html>"
+        cfg_email_to = cfg_val["MONTHLY_EMAIL_TO"]
+        if "MONTHLY_EMAIL_CC" in cfg_val:
+            cfg_email_cc = cfg_val["MONTHLY_EMAIL_CC"]
+
+    email_to_lst = []
+    for em_d in cfg_email_to:
+        e_name, e_id = em_d.split("|")
+        d_email = {
+                    "email": e_id,
+                    "name": e_name,
+                    "type": "to"
+                    }
+        email_to_lst.append(d_email)
+
+    if cfg_email_cc is not None:
+        for em_d in cfg_email_cc:
+            e_name, e_id = em_d.split("|")
+            d_email = {
+                "email": e_id,
+                "name": e_name,
+                "type": "cc"
+            }
+            email_to_lst.append(d_email)
+
+    attach_lst = []
+    for xls_fn in xls_fn_lst:
+        xls_f = open(xls_fn, 'rb')
+        xls_encode = base64.b64encode(xls_f.read()).decode('UTF-8')
+        xls_f.close()
+        attach_fn = os.path.basename(xls_fn)
+        attach_lst.append(
+        {
+            "type": 'application/octet-stream',
+            "name": attach_fn,
+            "content": xls_encode
+        })
+    conn = http.client.HTTPSConnection("rapidemail.rmlconnect.net")
+    payload = json.dumps({
+        "owner_id": "99141915",
+        "token": "RaDzCbIP63Ctexeco7XqBXXo",
+        "smtp_user_name": "smtp79522111",
+        "message": {
+            "html": html_msg,
+            "subject": email_subject,
+            "from_email": "alerts@winnovature.com",
+            "from_name": "Alerts",
+            "to": email_to_lst,
+            "headers": {
+                "Reply-To": "alerts@winnovature.com",
+                "X-Unique-Id": "fastify.nanoid()"
+            },
+            "attachments": attach_lst,
+            "images": []
+        }
+    })
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    logging.info("Sending Report in email")
+    conn.request("POST", "/v1.0/messages/sendMail", payload, headers)
+    res = conn.getresponse()
+    data = res.read()
+    logging.info(data.decode("utf-8"))
+
+def create_excel(rpt_mode, rpt_dt, pg_conn, cfg_val):
+    pg_cursor = pg_conn.cursor()
+    xls_fn_lst = []
+    logging.info("Report Mode: " + rpt_mode)
+    if rpt_mode == "date":
+        rpt_dt_str = rpt_dt.strftime("%Y-%m-%d")
+        logging.info("Report Date: " + rpt_dt_str)
+        sql = """select cli_id::varchar(20) as cli_id, username, company, 
+                to_char(recv_hour,'09') as recv_hour, carrier_name,
+                total_received, total_submitted, delivery_count, failed_count, platform_reject, 
+                nulldn, delivery_pct
+                from summary.hourly_traffic_report
+                where recv_date = %s
+                and substr(cli_id::varchar(20),1,1) not in  ('1', '2', '5', '6', '7')"""
+
+        logging.info("Executing SQL: " + sql)
+        pg_cursor.execute(sql, (rpt_dt_str,))
+        rlst = pg_cursor.fetchall()
+        if len(rlst) == 0:
+            logging.info("No data found for the date: " + rpt_dt_str)
+            pg_cursor.close()
+            return None
+
+        cols = [c[0] for c in pg_cursor.description]
+        df_data = pd.DataFrame.from_records(rlst, columns=cols)
+        xls_ren_cols = {'recv_hour': 'Hour (Submit)',
+                        'cli_id': 'Client Id',
+                        'username': 'Username',
+                        'company': 'Customer Name',
+                        'carrier_name': 'Operator',
+                        'total_received': 'Total Received Count',
+                        'total_submitted': 'Submitted Count',
+                        'delivery_count': 'Delivery Count',
+                        'failed_count': 'Delivery Failed Count',
+                        'platform_reject': 'Platform Reject Count',
+                        'nulldn': 'Null DN Count',
+                        'delivery_pct': 'Delivery %'
+                        }
+        df_data = df_data.rename(columns=xls_ren_cols)
+        df_data['Total Received Count'] = df_data['Total Received Count'].astype(int)
+        df_data['Submitted Count'] = df_data['Submitted Count'].astype(int)
+        df_data['Delivery Count'] = df_data['Delivery Count'].astype(int)
+        df_data['Delivery Failed Count'] = df_data['Delivery Failed Count'].astype(int)
+        df_data['Platform Reject Count'] = df_data['Platform Reject Count'].astype(int)
+        df_data['Null DN Count'] = df_data['Null DN Count'].astype(int)
+        df_data['Delivery %'] = df_data['Delivery %'].astype(float).round(2)
+        df_data['Date'] = rpt_dt.strftime("%d/%m/%Y")
+        df_data['Month'] = rpt_dt.strftime("%B")
+        sort_cols = ['Date', 'Hour (Submit)', 'Customer Name', 'Username', 'Operator']
+        xls_cols = ['Date', 'Month', 'Hour (Submit)', 'Customer Name', 'Username', 'Client Id',
+                    'Operator', 'Total Received Count', 'Submitted Count', 'Delivery Count',
+                    'Delivery Failed Count', 'Platform Reject Count', 'Null DN Count', 'Delivery %']
+        xls_fn = "./xls_daily/Hourly_Traffic_" + rpt_dt.strftime("%d_%b_%Y") + ".xlsx"
+        df_data[xls_cols].\
+            sort_values(by=sort_cols).\
+            to_excel(xls_fn, index=False, sheet_name=rpt_dt.strftime("%d%b%Y"))
+        xls_fn_lst.append(xls_fn)
+
+        # sql = """select to_char(t.recv_date,'dd/mm/yyyy') as "Date", to_char(t.recv_date,'Month') as "Month",
+        #     t.recv_date, t.cli_id::varchar(20) as cli_id, t.username, t.company, t.carrier_name,
+        # t.total_received, t.total_submitted, t.delivery_count, t.failed_count, t.platform_reject,
+        # t.nulldn, t.delivery_pct, t.non_promo_sub_count
+        # from summary.daily_traffic_report t
+        # where t.recv_date = %s
+        # and substr(t.cli_id::varchar(20),1,1) not in  ('1', '2', '5', '6', '7')"""
+        # pg_cursor.execute(sql, (rpt_dt_str,))
+        # rlst = pg_cursor.fetchall()
+        #
+        # oper_xls_fn = "./xls_daily/Daily_Operator_Traffic_" + rpt_dt.strftime("%d_%b_%Y") + ".xlsx"
+        # user_xls_fn = "./xls_daily/Daily_User_Traffic_" + rpt_dt.strftime("%d_%b_%Y") + ".xlsx"
+
+    elif rpt_mode == "month":
+        rpt_month = rpt_dt.strftime("%m")
+        rpt_year = rpt_dt.strftime("%Y")
+        yy_mm = rpt_year + "-" + rpt_month
+        logging.info("Report Month: " + yy_mm)
+
+        mysql_host = cfg_val['MYSQL_HOST']
+        mysql_port = int(cfg_val['MYSQL_PORT'])
+        mysql_db = cfg_val['MYSQL_DB']
+        mysql_user = cfg_val['MYSQL_USER']
+        mysql_pass = cfg_val['MYSQL_PASS']
+
+        logging.info("Connecting to MySQL DB: " + mysql_host + "@" + mysql_db)
+        my_conn = mysql.connector.connect(host=mysql_host,
+                                          port=mysql_port,
+                                          database=mysql_db,
+                                          user=mysql_user,
+                                          password=mysql_pass)
+        my_cursor = my_conn.cursor()
+
+        cli_inv_sql = """select cast(uc.cli_id as varchar(20)) as cli_id, 
+                uc.invoice_based_on, sm.name as sales_name
+                from accounts.user_config uc
+                     inner join accounts.su_config sc 
+                     on uc.su_id = sc.cli_id 
+                     inner join configuration.sales_master sm 
+                     on sm.id = sc.sales_id """
+
+        my_cursor.execute(cli_inv_sql)
+        my_rlst = my_cursor.fetchall()
+        my_cols = [c[0] for c in my_cursor.description]
+        df_cli_invb = pd.DataFrame.from_records(my_rlst, columns=my_cols)
+        my_cursor.close()
+        my_conn.close()
+
+        sql = """select to_char(t.recv_date,'dd/mm/yyyy') as "Date", 
+                to_char(t.recv_date,'Month') as "Month", 
+                t.recv_date, t.cli_id::varchar(20) as cli_id, t.username, t.company, t.carrier_name,
+                t.total_received, t.total_submitted, t.delivery_count, t.failed_count, t.platform_reject, 
+                t.nulldn, t.delivery_pct, t.non_promo_sub_count
+                from config.calendar_info ci
+                inner join summary.daily_traffic_report t on t.recv_date = ci.date_value 
+                where ci.month = %s and ci.year = %s
+                and substr(t.cli_id::varchar(20),1,1) not in  ('1', '2', '5', '6', '7')
+                order by t.recv_date, t.cli_id"""
+
+        logging.info("Executing SQL: " + sql)
+        pg_cursor.execute(sql, (rpt_month, rpt_year))
+        rlst = pg_cursor.fetchall()
+        if len(rlst) == 0:
+            logging.info("No data found for the month: " + yy_mm)
+            pg_cursor.close()
+            return None
+
+        cols = [c[0] for c in pg_cursor.description]
+        pg_cursor.close()
+
+        oper_xls_fn = "./xls_monthly/Monthly_Operator_Traffic_" + rpt_dt.strftime("%b_%Y") + ".xlsx"
+        user_xls_fn = "./xls_monthly/Monthly_User_Traffic_" + rpt_dt.strftime("%b_%Y") + ".xlsx"
+
+        df_data = pd.DataFrame.from_records(rlst, columns=cols)
+        df_oper = pd.merge(df_data,
+                      df_cli_invb,
+                      left_on='cli_id',
+                      right_on='cli_id',
+                      left_index=False,
+                      right_index=False,
+                      how='inner').reset_index(drop=True)
+
+        df_oper['invoice_based_on'] = df_oper['invoice_based_on'].\
+                                    apply(lambda v: 'Submission' if v == 1 else 'Deliveries')
+
+        xls_ren_cols = {'cli_id': 'Client Id',
+                        'username': 'Username',
+                        'company': 'Customer Name',
+                        'carrier_name': 'Operator',
+                        'total_received': 'Total Received Count',
+                        'total_submitted': 'Submitted Count',
+                        'delivery_count': 'Delivery Count',
+                        'failed_count': 'Delivery Failed Count',
+                        'platform_reject': 'Platform Reject Count',
+                        'nulldn': 'Null DN Count',
+                        'delivery_pct': 'Delivery %',
+                        'invoice_based_on': 'Inventory Based On',
+                        'sales_name': 'Sales Name',
+                        }
+        df_oper = df_oper.rename(columns=xls_ren_cols)
+
+        df_oper['Total Received Count'] = df_oper['Total Received Count'].astype(int)
+        df_oper['Submitted Count'] = df_oper['Submitted Count'].astype(int)
+        df_oper['Delivery Count'] = df_oper['Delivery Count'].astype(int)
+        df_oper['Delivery Failed Count'] = df_oper['Delivery Failed Count'].astype(int)
+        df_oper['Platform Reject Count'] = df_oper['Platform Reject Count'].astype(int)
+        df_oper['Null DN Count'] = df_oper['Null DN Count'].astype(int)
+        df_oper['non_promo_sub_count'] = df_oper['non_promo_sub_count'].astype(int)
+        df_oper['Delivery %'] = df_oper['Delivery %'].astype(float).round(2)
+
+        oper_sort_cols = ['Date', 'Customer Name', 'Username', 'Operator']
+        oper_xls_cols = ['Date', 'Month', 'Customer Name', 'Username', 'Client Id', 'Operator',
+                         'Inventory Based On', 'Sales Name', 'Total Received Count',
+                         'Submitted Count', 'Delivery Count', 'Delivery Failed Count',
+                         'Platform Reject Count', 'Null DN Count', 'Delivery %']
+
+        df_oper[oper_xls_cols].\
+            sort_values(by=oper_sort_cols).\
+            to_excel(oper_xls_fn, index=False, sheet_name=rpt_dt.strftime("%b%Y"))
+        xls_fn_lst.append(oper_xls_fn)
+
+        user_sort_cols = ['Date', 'Customer Name', 'Username']
+        user_group_cols = ['Date', 'Month', 'Customer Name', 'Username', 'Client Id',
+                           'Inventory Based On', 'Sales Name']
+        user_xls_cols = ['Date', 'Month', 'Customer Name', 'Username', 'Client Id',
+                         'Inventory Based On', 'Sales Name', 'Total Received Count',
+                         'Submitted Count', 'Delivery Count', 'Delivery Failed Count',
+                         'Platform Reject Count', 'Null DN Count', 'Delivery %']
+
+        df_user = df_oper.groupby(by=user_group_cols).agg({
+            'Total Received Count': 'sum',
+            'Submitted Count': 'sum',
+            'Delivery Count': 'sum',
+            'Delivery Failed Count': 'sum',
+            'Platform Reject Count': 'sum',
+            'Null DN Count': 'sum',
+            'non_promo_sub_count': 'sum'}).reset_index()
+        df_user['Total Received Count'] = df_user['Total Received Count'].astype(int)
+        df_user['Submitted Count'] = df_user['Submitted Count'].astype(int)
+        df_user['Delivery Count'] = df_user['Delivery Count'].astype(int)
+        df_user['Delivery Failed Count'] = df_user['Delivery Failed Count'].astype(int)
+        df_user['Platform Reject Count'] = df_user['Platform Reject Count'].astype(int)
+        df_user['Null DN Count'] = df_user['Null DN Count'].astype(int)
+        df_user['non_promo_sub_count'] = df_user['non_promo_sub_count'].astype(int)
+        df_user['Delivery %'] = df_user.apply(lambda r:
+                                  (r['Delivery Count'] / r['non_promo_sub_count']) * 100
+                                  if r['non_promo_sub_count'] > 0 else 0.0, axis=1)
+        df_user['Delivery %'] = df_user['Delivery %'].fillna(0.0)
+        df_user['Delivery %'] = df_user['Delivery %'].astype(float).round(2)
+
+        df_user[user_xls_cols].\
+            sort_values(by=user_sort_cols).\
+            to_excel(user_xls_fn, index=False, sheet_name=rpt_dt.strftime("%b%Y"))
+
+        xls_fn_lst.append(user_xls_fn)
+
+    return xls_fn_lst
+
+def main():
+    cfg_fn = sys.argv[1]
+    cfg_val = configobj.ConfigObj(cfg_fn)
+    log_fn_dtsfx = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    log_fn = "./log/daily_summary_email_" + log_fn_dtsfx + ".log"
+    logging.basicConfig(filename=log_fn, level=logging.INFO,
+                        format='%(asctime)s %(levelname)-8s %(funcName)-20s %(message)s')
+    logging.info("Daily Traffic Email started")
+
+    pg_host = cfg_val['PG_HOST']
+    pg_port = cfg_val['PG_PORT']
+    pg_db = cfg_val['PG_DB']
+    pg_user = cfg_val['PG_USER']
+    pg_pass = cfg_val['PG_PASS']
+
+    pg_con_tmplt = "host='{host}' port='{port}' dbname='{db}' user='{user}' password='{password}'"
+    pg_con_str = pg_con_tmplt.format(host=pg_host, port=pg_port, db=pg_db, user=pg_user, password=pg_pass)
+    logging.info("Connecting to Postgres DB: " + pg_host + "@" + pg_db)
+    pg_conn = psycopg2.connect(pg_con_str)
+
+    if 'RPT_MONTH' in cfg_val:
+        rpt_yymm = cfg_val['RPT_MONTH'].lower()
+        logging.info("Report Month: " + rpt_yymm)
+        rpt_mode = "month"
+        rpt_dt = datetime.strptime(rpt_yymm + "-01", "%Y-%m-%d")
+    else:
+        rpt_mode = "date"
+
+    if rpt_mode == "date":
+        dt_cur = datetime.now()
+        rpt_dt = dt_cur - relativedelta(days=1)
+
+        xls_fn_lst = create_excel(rpt_mode, rpt_dt, pg_conn, cfg_val)
+        if xls_fn_lst is not None:
+            send_rpt_email(cfg_val, rpt_mode, rpt_dt, xls_fn_lst)
+        logging.info("Daily Traffic Email completed")
+
+        dt_day = dt_cur.strftime("%d")
+        if dt_day in cfg_val['MONTHLY_RPT_DAYS']:
+            rpt_mode = "month"
+            if dt_day == "02":
+                rpt_dt = dt_cur - relativedelta(months=1)
+            else:
+                rpt_dt = dt_cur - relativedelta(days=1)
+
+    if rpt_mode == "month":
+        logging.info("Monthly Traffic Email started")
+        xls_fn_lst = create_excel(rpt_mode, rpt_dt, pg_conn, cfg_val)
+        if xls_fn_lst is not None:
+            send_rpt_email(cfg_val, rpt_mode, rpt_dt, xls_fn_lst)
+        logging.info("Monthly Traffic Email completed")
+
+    pg_conn.close()
+    logging.shutdown()
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Config file is missing")
+        print("Usage : " + sys.argv[0] + " <CONFIG file>")
+        sys.exit(1)
+    main()

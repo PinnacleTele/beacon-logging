@@ -1,0 +1,8 @@
+version: "3.1"
+
+services:
+  beaconwebear:
+    image: dk-reg.mas:5000/fileprocessorsingleton:31dec2024
+    build:
+      context: .
+      dockerfile: Dockerfile_singleton

@@ -1,0 +1,28 @@
+<form [formGroup]="itemForm">
+	<ng-select
+		
+		[items]="itemsList"
+		bindLabel="value"
+		bindValue="value"
+		[placeholder]="placeHolder"
+		[hideSelected]="true"
+		(change)="onItemChange($event)"
+		[editableSearchTerm]="true"
+		formControlName="ItemSelected"
+		[ngClass]="{ 'border-red-300': itemForm.controls.ItemSelected.invalid && itemForm.controls.ItemSelected.touched }"
+		[(ngModel)]="itemToBeSelected"
+	>
+	</ng-select>
+</form>
+<p
+	class="mt-2 text-xxs sm:text-xs text-red-600"
+	*ngIf="itemForm.controls.ItemSelected.invalid && itemForm.controls.ItemSelected.touched"
+>
+	{{errorMessage}}
+</p>
+<p
+	*ngIf="itemForm.controls.ItemSelected.untouched || (itemForm.controls.ItemSelected.dirty && itemForm.controls.ItemSelected.valid)"
+	class="mt-2 text-xxs sm:text-xs text-gray-500"
+>
+	{{infoMessage}}
+</p>

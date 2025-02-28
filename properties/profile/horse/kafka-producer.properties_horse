@@ -1,0 +1,13 @@
+#bootstrap.servers=192.168.1.115:9092,192.168.1.116:9092,192.168.1.117:9092
+bootstrap.servers=115_Kafka_1:9092,116_Kafka_2:9092,117_Kafka_3:9092
+
+acks=1
+#acks=all
+retries=0
+
+#batch.size=200000
+
+#linger.ms=30
+
+key.serializer=com.itextos.beacon.commonlib.message.serialize.KeySerializer
+value.serializer=com.itextos.beacon.commonlib.message.serialize.ValueSerializer

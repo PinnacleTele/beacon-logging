@@ -1,0 +1,10 @@
+package com.itextos.beacon.platform.topic2table.utils;
+
+public enum ExceptionHandlerType
+{
+    INSERT_INDIVIDUALLY_WITHOUT_TRIM,
+    PUSHBACK_TO_SAME_QUEUE_ALONE,
+    TRIM_DATA_THEN_INSERT_AND_ADD_ERROR_LOG,
+    CREATE_ALERT_AND_PUSHBACK_TO_SAME_QUEUE,
+    CREATE_ALERT_AND_DROP_MESSAGE;
+}

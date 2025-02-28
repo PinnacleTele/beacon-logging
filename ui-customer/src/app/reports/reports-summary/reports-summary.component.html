@@ -1,0 +1,353 @@
+<app-reports-header></app-reports-header>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none mt-12 lg:mt-0" >
+	<div class="py-6 relative">
+		<!-- top section -->
+
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-10 lg:mt-8">
+			<div class="flex flex-col space-y-1">
+				<span class="text-lg font-bold text-gray-600">Summary Report</span>
+
+				<span *ngIf="showTodayIncludeInfo" class="text-xs text-gray-500">Please note that selected {{dateselectionType}}
+					<span *ngIf="includes"> does not </span>includes today</span>
+			</div>
+		</div>
+		<!-- top section -->
+
+		<app-report-calender [fromPage]="'summary'" (selectedDateEmitter)="receivedDateSelection($event)">
+		</app-report-calender>
+
+		<!-- card block -->
+
+		<app-filtercomponent [defaultSelection]="DefaultSelection" (submitData)="submit($event)"
+			(download)="download($event)">
+		</app-filtercomponent>
+
+		<!-- <button (click)="saveAFile()">click here to check</button> -->
+		<!-- <div *ngIf="!showHide"> -->
+
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-4">
+			<span class="text-base font-bold text-gray-600">View Report By</span>
+		</div>
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-2">
+			<!-- Group by links -->
+			<div>
+				<!-- group drop down for smaller devices -->
+				<div class="sm:hidden bg-white p-3">
+					<div class="relative mx-2">
+						<ng-select #ngSelect1
+						class="items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-[#f5f8fa] inline-flex border rounded w-full cursor-pointer justify-between"                        
+					
+                        [items]="viewReportByArray" 
+                        bindLabel="display_name" 
+                        [clearable]="false" 
+                        bindValue="display_name"
+                        [(ngModel)]="reportByToBeSelected"
+                        [hideSelected]="false" 
+						(change)="viewReportSelect($event)"
+                        [editableSearchTerm]="false"
+                        >
+                    </ng-select>
+						<!-- <button
+							class="items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-[#f5f8fa] inline-flex border rounded w-full cursor-pointer justify-between"
+							data-menu>
+							<span class="px-2 py-3 text-gray-600 text-xs leading-3 tracking-normal font-normal">Date</span>
+						</button>
+
+						<ul
+							class="invisible z-10 transition duration-300 opacity-100 bg-white shadow border border-gray-100 rounded mt-1 py-1 w-full absolute">
+							<li (click)="indexFilter(1,'date')"
+								class="focus:outline-none cursor-pointer text-gray-600 dark:text-gray-400 text-xs leading-3 tracking-normal py-3 focus:bg-gray-200 hover:bg-gray-100 px-3 flex items-center">
+								<span class="ml-2 font-normal">Date</span>
+							</li>
+							<li (click)="indexFilter(2,'campaign')"
+								class="focus:outline-none cursor-pointer text-gray-600 dark:text-gray-400 text-xs leading-3 tracking-normal py-3 hover:bg-gray-100 focus:bg-gray-200 px-3 flex items-center">
+								<span class="ml-2 font-normal"> Campaign</span>
+							</li>
+							<li (click)="indexFilter(3,'source')"
+								class="focus:outline-none cursor-pointer text-gray-600 dark:text-gray-400 text-xs leading-3 tracking-normal py-3 hover:bg-gray-100 focus:bg-gray-200 px-3 flex items-center">
+								<span class="ml-2 font-normal">Source</span>
+							</li>
+							<li (click)="indexFilter(4,'senderid')"
+								class="focus:outline-none cursor-pointer text-gray-600 dark:text-gray-400 text-xs leading-3 tracking-normal py-3 hover:bg-gray-100 focus:bg-gray-200 px-3 flex items-center font-normal">
+								<span class="ml-2">Sender Id</span>
+							</li>
+							<li (click)="indexFilter(5,'overall')"
+								class="focus:outline-none cursor-pointer text-gray-600 dark:text-gray-400 text-xs leading-3 tracking-normal py-3 hover:bg-gray-100 focus:bg-gray-200 px-3 flex items-center font-normal">
+								<span class="ml-2">Overall</span>
+							</li>
+						</ul> -->
+					</div>
+				</div>
+				<!-- group links from sm devices -->
+
+				<div class="hidden sm:block">
+					<nav class="relative z-0 rounded-lg shadow flex divide-x divide-gray-200" aria-label="Tabs">
+						<a (click)="indexFilter(1,'date')" (keydown.enter)="backEnter($event,1,'date')"
+							class="text-gray-900 rounded-l-lg cursor-pointer group relative min-w-0 flex-1 overflow-hidden bg-white py-2.5 px-3 text-sm font-medium text-center hover:bg-gray-50 focus:z-10 "
+							aria-current="page">
+							<span [ngClass]="indexTable == 1 ? 'text-blue-500' : 'text-gray-500' ">Date</span>
+							<span aria-hidden="true" [ngClass]="indexTable == 1 ? 'bg-blue-500' : 'bg-transparent' "
+								class="absolute inset-x-0 bottom-0 h-0.5"></span>
+						</a>
+
+						<a (click)="indexFilter(2,'campaign')" (keydown.enter)="backEnter($event,2,'campaign')"
+							class="text-gray-500 cursor-pointer hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-2.5 px-3 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+							<span [ngClass]="indexTable == 2 ? 'text-blue-500' : 'text-gray-500' ">Campaign</span>
+							<span aria-hidden="true" [ngClass]="indexTable == 2 ? 'bg-blue-500' : 'bg-transparent' "
+								class="absolute inset-x-0 bottom-0 h-0.5"></span>
+						</a>
+
+						<a (click)="indexFilter(3,'source')" (keydown.enter)="backEnter($event,3,'source')"
+							class="text-gray-500 cursor-pointer hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-2.5 px-3 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+							<span [ngClass]="indexTable == 3 ? 'text-blue-500' : 'text-gray-500' ">Source</span>
+							<span aria-hidden="true" [ngClass]="indexTable == 3 ? 'bg-blue-500' : 'bg-transparent' "
+								class="absolute inset-x-0 bottom-0 h-0.5"></span>
+						</a>
+
+						<a (click)="indexFilter(4,'senderid')" (keydown.enter)="backEnter($event,4,'senderid')"
+							class="text-gray-500 cursor-pointer hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-2.5 px-3 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+							<span [ngClass]="indexTable == 4 ? 'text-blue-500' : 'text-gray-500' ">Sender Id</span>
+							<span aria-hidden="true" [ngClass]="indexTable == 4 ? 'bg-blue-500' : 'bg-transparent' "
+								class="absolute inset-x-0 bottom-0 h-0.5"></span>
+						</a>
+						<a (click)="indexFilter(5,'overall')" (keydown.enter)="backEnter($event,5,'overall')"
+							class="text-gray-500 cursor-pointer hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-2.5 px-3 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+							<span [ngClass]="indexTable == 5 ? 'text-blue-500' : 'text-gray-500' ">Overall</span>
+							<span aria-hidden="true" [ngClass]="indexTable == 5 ? 'bg-blue-500' : 'bg-transparent' "
+								class="absolute inset-x-0 bottom-0 h-0.5"></span>
+						</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="!showHide" class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+
+			<!-- table list section -->
+			<div class="bg-white p-5 md:px-10 md:py-2 rounded">
+				<div class="space-y-4">
+					<!-- table section -->
+					<div class="flex flex-col pt-1">
+						<div class="overflow-x-auto">
+							<div class="py-2 align-middle inline-block min-w-full pt-3">
+								<div class="">
+									<table class="min-w-full divide-y-0 divide-gray-200">
+										<thead *ngIf="!(apiError  || noData || noRecords==0)" class="bg-gray-50 text-xxs text-gray-400">
+											<tr class="">
+												<th *ngIf="indexTable != 5" scope="col"
+													class="px-5 py-2 font-bold text-center uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Date'" [defaultProperty]="defaultProp" [icon]="dateIcon"
+														[sortingProperty]="'recv_unix'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+												<th *ngIf="indexTable == 2" scope="col"
+													class=" py-2 font-bold text-center uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Campaign'" [defaultProperty]="defaultProp" [icon]="campaignIcon"
+														[sortingProperty]="'campaign_name'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+
+												<th *ngIf="indexTable == 3" scope="col"
+													class=" py-2 font-bold text-center uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Source'" [defaultProperty]="defaultProp" [icon]="sourceIcon"
+														[sortingProperty]="'source'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+												<th *ngIf="indexTable == 4" scope="col"
+													class=" py-2 font-bold text-center uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Sender Id'" [defaultProperty]="defaultProp" [icon]="senderIdIcon"
+														[sortingProperty]="'senderid'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Total'" [defaultProperty]="defaultProp" [icon]="totalIcon"
+														[sortingProperty]="'total'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Submitted'" [defaultProperty]="defaultProp" [icon]="submittedIcon"
+														[sortingProperty]="'mtsuccess'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+
+
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Rejected'" [defaultProperty]="defaultProp" [icon]="rejectedIcon"
+														[sortingProperty]="'mtrejected'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+												<th scope="col" class="py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Delivered'" [defaultProperty]="defaultProp" [icon]="deliveredIcon"
+														[sortingProperty]="'dnsuccess'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Failed'" [defaultProperty]="defaultProp" [icon]="failedIcon"
+														[sortingProperty]="'dnfailed'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+												<th scope="col" class=" py-2 font-bold text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'Pending'" [defaultProperty]="defaultProp" [icon]="pendingIcon"
+														[sortingProperty]="'dnpending'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+											</tr>
+										</thead>
+
+										<app-list-skeleton *ngIf="apiLoading" [colCount]="8"></app-list-skeleton>
+
+										<tbody *ngIf=" !(apiLoading || noData || apiError || apiLoading)"
+											class="bg-white divide-y divide-gray-100">
+											<tr
+												*ngFor="let list of rSummaryList | sorter:nameOrder:searchprop | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}">
+												<td *ngIf="indexTable != 5"
+													class="px-6 py-2 text-xs text-gray-600 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center">
+														<span class="px-2">
+															{{list?.recv_date}}
+														</span>
+														<!-- <span>16:30</span> -->
+													</div>
+												</td>
+												<td *ngIf="indexTable == 2" class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 ml-0.5 whitespace-nowrap">
+														{{list.campaign_name}}
+													</div>
+												</td>
+												<td *ngIf="indexTable == 3" class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 ml-0.5 whitespace-nowrap">
+														{{list.source}}
+													</div>
+												</td>
+												<td *ngIf="indexTable == 4" class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 ml-0.5 whitespace-nowrap">
+														{{list.senderid}}
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 ml-0.5 whitespace-nowrap">
+														{{nullHandler(list.total)
+														| number}}
+														<span class="text-xxs text-gray-400">({{list.total_human
+															}})</span>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 whitespace-nowrap">
+														{{nullHandler(list.mtsuccess)
+														| number}}
+														<span class="text-xxs text-gray-400 tracking-wider">({{list.mtsuccess_human
+															}} )</span>
+													</div>
+													<div class="flex space-x-1 align-middle items-center text-xs">
+														<div class="items-center justify-center space-x-1 mt-1.5">
+															<span
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-green-500">{{percentageConvertor(list.mtsuccesspercentage)}}</span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 whitespace-nowrap">
+														{{nullHandler(list.mtrejected)
+														| number}}
+														<span class="text-xxs text-gray-400 tracking-wider">({{list.mtrejected_human
+															}})
+														</span>
+													</div>
+													<div class="flex space-x-1 align-middle items-center text-xs">
+														<div class="items-center justify-center space-x-1 mt-1.5">
+															<span
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-red-500">{{percentageConvertor(list.mtrejectedpercentage)}}</span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 whitespace-nowrap">
+														{{nullHandler(list.dnsuccess)
+														| number}}
+														<span class="text-xxs text-gray-400 tracking-wider">({{list.dnsuccess_human}})
+														</span>
+													</div>
+													<div class="flex space-x-1 align-middle items-center text-xs">
+														<div class="items-center justify-center space-x-1 mt-1.5">
+															<span
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-green-500">{{percentageConvertor(list.dnsuccesspercentage)}}</span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 whitespace-nowrap">
+														{{nullHandler(list.dnfailed)
+														| number}}
+														<span class="text-xxs text-gray-400 tracking-wider">({{list.dnfailed_human}})
+														</span>
+													</div>
+													<div class="flex space-x-1 align-middle items-center text-xs">
+														<div class="items-center justify-center space-x-1 mt-1.5">
+															<span
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-red-500">{{percentageConvertor(list.dnfailedpercentage)}}</span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-3.5 whitespace-normal">
+													<div class="text-xs font-semibold tracking-widest text-gray-500 whitespace-nowrap">
+														{{
+														nullHandler(list.dnpending)
+														| number}}
+														<span class="text-xxs text-gray-400 tracking-wider">({{list.dnpending_human
+															}})
+														</span>
+													</div>
+													<div class="flex space-x-1 align-middle items-center text-xs">
+														<div class="items-center justify-center space-x-1 mt-1.5">
+															<span
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-yellow-500">{{percentageConvertor(list.dnpendingpercentage)}}</span>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<div *ngIf="noData && !(apiError || apiLoading)">
+										<app-nodatafor-range [title]="'report'" [headContent]="NDHeadContent"
+											[messageContent]="NDMessageCOntent">
+										</app-nodatafor-range>
+									</div>
+
+									<div *ngIf="apiError && !(noData || apiLoading)">
+										<app-apierror (Emitter)="retry()">
+										</app-apierror>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<app-file-pagination *ngIf=" !(apiLoading || noData ||apiError)" [total]="total" [totalRecord]="totalRecord"
+					[p]="p" [pagesize]="pagesize" [itemsPerPage]="itemsPerPage" [perpageCount]="perpageCount"
+					(paginationValueEmit)="ReceivedpaginateValue($event)">
+				</app-file-pagination>
+			</div>
+			<!-- /End replace -->
+		</div>
+		<!-- </div> -->
+	</div>
+</main>
+
+<app-downloaderrorpopup *ngIf="popUp" [Responce]="deleteResponse" (closePopUp)="closeDeletePopup($event)"
+	(successPopUp)="continueDeletePopup($event)" (tryAgainPopUp)="tryAgainOnPopup($event)">
+
+</app-downloaderrorpopup>

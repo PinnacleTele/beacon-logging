@@ -1,0 +1,5 @@
+:host { display: contents; }
+
+::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+	border-color: lightcoral;
+}

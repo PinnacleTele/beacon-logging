@@ -1,0 +1,9 @@
+bootstrap.servers=115_Kafka_1:9092,116_Kafka_2:9092,117_Kafka_3:9092
+#bootstrap.servers=192.168.1.115:9092,192.168.1.116:9092,192.168.1.117:9092
+
+#fetch.min.bytes=100000
+auto.offset.reset=earliest
+enable.auto.commit=false
+
+key.deserializer=com.itextos.beacon.commonlib.message.serialize.KeyDeserializer
+value.deserializer=com.itextos.beacon.commonlib.message.serialize.ValueDeserializer

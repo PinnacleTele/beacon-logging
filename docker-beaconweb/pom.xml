@@ -1,0 +1,311 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>beacon</groupId>
+    <artifactId>beacon</artifactId>
+    <version>1.0</version>
+  </parent>
+  <dependencies>
+	  
+	  		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-apperrorhandler</artifactId>
+			<version>1.0</version>
+							        
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-componentconsumer</artifactId>
+			<version>1.0</version>
+							        
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-prometheusmetricsutil</artifactId>
+			<version>1.0</version>
+							        
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>platform-dnrfallback</artifactId>
+			<version>1.0</version>
+							        
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>platform-messageflowutility</artifactId>
+			<version>1.0</version>
+							        
+
+		</dependency>
+		
+			<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-apperrorhandler</artifactId>
+			<version>1.0</version>
+							         
+
+		</dependency>
+		
+				<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>mainmodule</artifactId>
+			<version>1.0</version>
+							         
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>platform-elasticsearchutil</artifactId>
+			<version>1.0</version>
+							         
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-httpclient</artifactId>
+			<version>1.0</version>
+							         
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-utility</artifactId>
+			<version>1.0</version>
+							         
+
+		</dependency>
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>inmemory-appconfigparams</artifactId>
+			<version>1.0</version>
+							         
+
+		</dependency>
+		
+		
+			<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-apperrorhandler</artifactId>
+			<version>1.0</version>
+
+		</dependency>		
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>http-generichttpapiprocessor</artifactId>
+			<version>1.0</version>
+
+		</dependency>	
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-datarefresher</artifactId>
+			<version>1.0</version>
+
+		</dependency>	
+		
+				<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>dlrquery-dlrqueryprocess</artifactId>
+			<version>1.0</version>
+
+		</dependency>	
+		
+	  	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>web-generichttpapi</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>	
+
+	  	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>web-migrationapi</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>	
+
+		
+			  	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>platform-dnr</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+	
+
+
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-datarefresherweb</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+
+		
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>common-pwdencryptionapplication</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+		
+				  	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>dlrquery-dlrqueryweb</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+
+				  	<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>platform-prepaiduIweb</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>platform-messagetoolweb</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+				
+		<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>ch-clienthandoveracceptproject</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+
+		
+			<dependency>
+			<groupId>beacon</groupId>
+			<artifactId>platform-r3r</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+		
+  </dependencies>
+  <artifactId>docker-beaconweb</artifactId>
+      <packaging>ear</packaging>
+       <build>
+        <plugins>
+                        <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+								
+   								<copy todir="${project.build.directory}/">		
+ 								<fileset dir="../properties/">
+                                    <include name="**/*"/> <!-- Include all files -->
+                                </fileset>
+                                </copy>
+
+                
+                            </target>
+                          
+                        </configuration>
+                    </execution>
+                    
+                 
+                
+                
+          
+                
+                </executions>
+            </plugin>
+            <!-- Maven EAR Plugin Configuration -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <version>8</version> <!-- Use Java EE 8 -->
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <modules>
+                        <!-- Maven WAR Plugin Configuration for Module 1 -->
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>web-generichttpapi</artifactId>
+                            <contextRoot>/genericapi</contextRoot>
+                        </webModule>
+                        
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>web-migrationapi</artifactId>
+                            <contextRoot>/migrationapi</contextRoot>
+                        </webModule>
+
+
+                            <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>platform-dnr</artifactId>
+                            <contextRoot>/dnr</contextRoot>
+                        </webModule> 
+                     
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>common-datarefresherweb</artifactId>
+                            <contextRoot>/datarefresher</contextRoot>
+                        </webModule>
+       
+                        
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>dlrquery-dlrqueryweb</artifactId>
+                            <contextRoot>/dlrquery</contextRoot>
+                        </webModule>
+                        
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>common-pwdencryptionapplication</artifactId>
+                            <contextRoot>/password</contextRoot>
+                        </webModule>
+                        
+                                               <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>platform-prepaiduIweb</artifactId>
+                            <contextRoot>/prepaiddata</contextRoot>
+                        </webModule>
+ 
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>platform-messagetoolweb</artifactId>
+                            <contextRoot>/msgtool</contextRoot>
+                        </webModule>
+
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>ch-clienthandoveracceptproject</artifactId>
+                            <contextRoot>/clienthandoveraccept</contextRoot>
+                        </webModule>
+
+
+
+                        
+                        <webModule>
+                            <groupId>beacon</groupId>
+                            <artifactId>platform-r3r</artifactId>
+                            <contextRoot>/</contextRoot>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+            
+ 
+        </plugins>
+    </build>
+
+</project>

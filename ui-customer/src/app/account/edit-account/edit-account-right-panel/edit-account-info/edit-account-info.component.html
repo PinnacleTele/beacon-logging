@@ -1,0 +1,50 @@
+<form [formGroup]="AcctInfoFormGroup">
+<!-- account info -->
+<div v-show="2 == 2">
+    <div>
+        <div class="text-lg font-semibold text-gray-700">Account Info</div>
+        <!-- first name last name section -->
+        <div class="md:flex mt-8">
+            <div class="md:flex-col md:mr-4 md:w-1/2">
+                <label class="mb-3 text-sm leading-none text-gray-700 font-medium w-full">First name<span class="text-red-500">*</span></label>
+                <app-first-name></app-first-name>
+            </div>
+            <div class="md:flex-col ml-0 md:ml-4 md:mt-0 md:w-1/2">
+                <label class="mb-3 text-sm leading-none text-gray-700 font-medium w-full">Last name<span class="text-red-500">*</span></label>
+                <app-last-name></app-last-name>
+            </div>
+        </div>
+    </div>
+    <!-- address section -->
+    <div class="mt-8 md:flex w-full items-center justify-between md:space-x-8">
+        <div class="flex flex-col md:ml-0 md:mt-0 mt-8 w-full">
+            <label class="mb-3 text-sm leading-none text-gray-700 font-medium w-full">Address</label>
+            <app-address></app-address>
+        </div>
+    </div>
+    <!-- company name section -->
+    <div class="mt-8 md:flex w-full items-center justify-between md:space-x-8">
+        <div class="flex flex-col md:ml-0 md:mt-0 mt-8 md:w-1/2">
+            <label class="mb-3 text-sm leading-none text-gray-700 font-medium w-full">Company<span class="text-red-500">*</span></label>
+            <app-company></app-company>
+        </div>
+    </div>
+
+    <app-currency [fromPage] = "'editAcct'"></app-currency>
+    <!-- button section -->
+    <div class="flex justify-end mt-10 border-t pt-6 border-gray-200">
+        <div class="flex space-x-4">
+            
+            <app-discard-button
+            [formGroup] = "AcctInfoFormGroup"
+            [title] = "'PI'"
+            ></app-discard-button>
+            <app-save-button
+            [formGroup] = "AcctInfoFormGroup"
+            [formChanged] = "formChanged"
+            [title] = "'PI'"
+            ></app-save-button>
+        </div>
+    </div>
+</div>
+</form>

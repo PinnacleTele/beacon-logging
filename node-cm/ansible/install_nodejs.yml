@@ -1,0 +1,27 @@
+# https://computingforgeeks.com/how-to-install-latest-redis-on-centos-7/
+# it is required to run install_devtools.yml before this
+---
+- hosts: nodejs
+  become: true
+  tasks:
+  - name: copy script to remote
+    copy:
+      src: ./install_nodejs.sh
+      dest: /home/teamwork
+      mode: '0777'
+  - name: execute script
+    command: sh /home/teamwork/install_nodejs.sh
+  - name: install nodejs
+    yum:
+      name: nodejs
+      state: present
+  - name: install yarn
+    yum:
+      name: yarn
+      state: present
+  - name: yarn install pm2
+    yarn:
+      name: pm2
+      state: latest
+      global: yes
+

@@ -1,0 +1,136 @@
+<!-- exclude group section -->
+<div class="flex justify-between items-center">
+    <label
+      for="mobile"
+      class="block font-semibold text-gray-700"
+      >Select Exclude Groups
+    </label>
+    <button
+      (click)="onClickAdd()"
+      type="button"
+      class="inline-flex items-center px-1 py-1.5 text-xs leading-4 font-medium tracking-wide rounded-md text-blue-600 bg-white hover:underline focus:outline-none"
+    >
+      <!-- Heroicon name: solid/mail -->
+      <svg
+        class="h-4 w-4"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        stroke="none"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      Exclude
+    </button>
+</div>
+
+
+                    <!-- container for the below items -->
+                    <div *ngIf="selectedSharedGroups.length > 0">
+                        <div
+                          class="flex mt-2 pl-3 pt-2 pb-1 border-2 border-gray-300 border-dashed rounded-md h-28"
+                        >
+                          <!-- selected groups -->
+                          <div class="space-y-2 overflow-auto">
+                            <span
+                              *ngFor="let Egroup of selectedSharedGroups;let i=index"
+                              :key="group.g_name"
+                              class="inline-flex rounded-md items-center py-0.5 pl-2.5 pr-1 text-xs font-medium bg-yellow-100 text-yellow-700 mr-1.5"
+                            >
+                               {{Egroup.g_name }}
+                              <button
+                              (click)="removeGroup(i)"
+                                type="button"
+                                class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-yellow-400 hover:bg-yellow-200 hover:text-yellow-500 focus:outline-none focus:bg-yellow-500 focus:text-white"
+                              >
+                                <span class="sr-only"
+                                  >Remove selected exclude group</span
+                                >
+                                <svg
+                                  class="h-2 w-2"
+                                  stroke="currentColor"
+                                  fill="none"
+                                  viewBox="0 0 8 8"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-width="1.5"
+                                    d="M1 1l6 6m0-6L1 7"
+                                  />
+                                </svg>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                        <p class="mt-2 text-xxs sm:text-xs text-gray-500">
+                          Some info text
+                        </p>
+                        <div
+                          class="flex justify-between items-center mt-2 bg-blue-100 bg-opacity-50 p-1 text-xxs rounded"
+                        >
+                          <div
+                            class="space-x-2 text-gray-600 px-1 lowercase tracking-wide"
+                          >
+                            <span
+                              ><span class="font-semibold">{{noofContactsSelected | number}}</span>
+                              contacts</span
+                            >
+                            <span
+                              ><span class="font-semibold">{{noOfGroups}}</span> groups</span
+                            >
+                          </div>
+                          <div>
+                            <button
+                            (click)="openModal()"
+                              type="button"
+                              class="inline-flex items-center px-1 py-1.5 text-xs leading-4 font-medium tracking-wide rounded-md text-red-400 bg-gray-100 bg-opacity-70 hover:underline focus:outline-none"
+                            >
+                              <!-- Heroicon name: solid/mail -->
+                              <svg
+                                class="h-3 w-3 mr-1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+  
+                              Remove All
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+    <!-- slide in panel for selecting exclude groups -->
+                        
+
+    <app-groups-slider *ngIf ="showSlider"
+    [fromPage]="'campaign'" 
+    
+    [groupList] = "groups"
+    [apiError] = "popup"
+    [noRecords] = "noRecords"
+    [spinner] = "spinner"
+    (addedGroups)="emittedGroupsFromSlider($event)"
+    (closeSlider) = "closeSlider()"
+    (tryAgain) = "tryAgain()"
+></app-groups-slider>
+
+    <!-- modal for Remove All button -->
+
+    <app-clear-modal
+    [title]="'Remove Exclude Groups'"
+    [confirmationMessage]="'Are you sure you want to remove all Exclude Groups ?'"
+    [confirmLable]="'Remove'"
+    (clearModalResponse)="clearModalResponse($event)"
+    [showClearModal]="openClearModal"
+  >
+  </app-clear-modal>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.0"
+	xmlns="http://Java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd">
+	<display-name>ScheduleCampaignServlet</display-name>
+
+	<servlet>
+		<servlet-name>InitializeScheduleCampaignPoller</servlet-name>
+		<servlet-class>com.winnovature.scheduleProcessor.servlets.InitializeScheduleCampaignPoller
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+</web-app>
+

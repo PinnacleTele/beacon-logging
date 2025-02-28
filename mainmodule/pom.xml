@@ -1,0 +1,975 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>beacon</groupId>
+        <artifactId>beacon</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>mainmodule</artifactId>
+    <properties>
+        <main.class>com.itextos.beacon.App</main.class>
+    </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin-version}</version>
+                <configuration>
+                    <classifier>executable</classifier>
+                    <mainClass>${main.class}</mainClass>
+                    <!--					    <excludes>-->
+                    <!--                    &lt;!&ndash; Exclude specific JAR files &ndash;&gt;-->
+                    <!--                    <exclude>-->
+                    <!--                        <groupId>ch.qos.logback</groupId>-->
+                    <!--                        <artifactId>logback-classic</artifactId>-->
+                    <!--                    </exclude>-->
+                    <!--                    <exclude>-->
+                    <!--                        <groupId>ch.qos.logback</groupId>-->
+                    <!--                        <artifactId>logback-core</artifactId>-->
+                    <!--                    </exclude>-->
+                    <!--                    <exclude>-->
+                    <!--                        <groupId>org.apache.logging.log4j</groupId>-->
+                    <!--                        <artifactId>log4j-to-slf4j</artifactId>-->
+                    <!--                    </exclude>-->
+                    <!--                    <exclude>-->
+                    <!--                        <groupId>org.slf4j</groupId>-->
+                    <!--                        <artifactId>jul-to-slf4j</artifactId>-->
+                    <!--                    </exclude>-->
+                    <!--                </excludes>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-billing</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.16</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.5.16</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-sbpcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-prccore</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>tomacatvirtualthreadpool</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-blockoutprocess</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-asynprocessor</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-kannelstatusupdater</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dlrpayloadgen</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-duplicatecheckremoval</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smppsimulator</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-mccmncload</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>siddhu-k2es</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-blockoutwalletconsumer</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>subk2e</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>dnk2e</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-cappingcheck</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-carrierhandoverutility</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-chcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-clienthandovert2tbweb</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dchcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-faillistutil</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-errorlogt2tb</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-duplicatecheckremoval</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-elasticsearchutil</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-duplicatecheckprocessor</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnt2tb</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnt2tbbkup</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnrfallbackpoller</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnrfallback</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnpostlogt2tb</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnpcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnpayloadutil</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dnnopayloadt2tb</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dlrretrycore</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dlrpayloadgen</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-decimalutility</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-dchcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-customkafkaprocessor</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-fullmsgt2tb</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-iccore</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-interimfailuerst2tb</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-intlprice</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-kannelstatusupdater</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-messageflowutility</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-messagetool</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-msgtimeboundcheck</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-pendingpayloadcountexporter</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-prepaiduidata</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-promokannelrediscleaner</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-r3ccore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-rccore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-rchcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-sbccore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-sbcvcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-sbpcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-singledn</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-smppdlrhandover</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-smppdlrpoller</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-smpputil</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-subbiller</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-subt2tb</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-t2ecore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-templatefinder</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-topic2table</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-vccore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-templatefinder</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-vcdltcore</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-vcprocess</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-walletbase</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-walletconsumer</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-walletprepaidmigration</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-walletprocess</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>platform-walletreminder</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smpp-concatenate</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smpp-dboperations</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smpp-interfaces</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smpp-concatehandover</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smpp-objects</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smpp-redisoperations</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>smpp-utils</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>ch-clienthandoveracceptproject</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>ch-httpclienthandover</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-accountinitialloader</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-accountsync</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-apperrorhandler</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-commondbpool</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-commonpropertyloader</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-componentconsumer</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-constants</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-daemonprocess</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-datarefresher</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-dndchecker</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-dnddataloader</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-httpclient</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-ipvalidationutility</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-kafkaservice</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-messageidentifier</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-messageobject</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-messageprocessor</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-pattern</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-prometheusmetricsutil</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-pwdencryption</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-redisconnectionprovider</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-redisstatistics</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-scheduler</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-shortcodegenerator</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-shortcodeprovider</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-shortcodereloader</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-stringprocessor</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-timezoneutility</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-urlhitterthread</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-utility</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-clouddataprocessor</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-cloudutil</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-generichttpapidata</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-generichttpapiprocessor</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-interfacefallback</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-interfacefallbackpoller</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-interfaceparameters</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>http-interfaceutil</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-accountdetails</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-appconfigparams</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-blocklistnumbers</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-carrierhandover</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-clientallowedheaders</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-clientdlrpreferences</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-commonheaders</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-countryinfo</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-currencyconversion</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>common-splog</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-customfeatures</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-data</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-dlrquery</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-dnpayload</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-encryptinfo</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-errorinfo</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-governmentheaders</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-indianp</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-interfacesinfo</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-intlcredit</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-intlrouteinfo</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-loader</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-messageutility</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-msgtemplates</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-msgvalidity</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-optin</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-optout</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-otpconfig</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-promoheaderpool</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-routeinfo</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-routeretryinfo</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-smppaccountdetails</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-spamwordcheck</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-specificblockoutdata</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-userheader</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-visualizelink</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>inmemory-whitelistnumbers</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>fb-fileparser</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>fb-utils</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>queryprocessor-requestreceiver</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>beacon</groupId>
+            <artifactId>queryprocessor-threadpoolexecutor</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

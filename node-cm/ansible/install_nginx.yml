@@ -1,0 +1,29 @@
+# https://www.server-world.info/en/note?os=CentOS_7&p=jdk11&f=2
+---
+- hosts: angular
+  become: true
+  tasks:
+
+  - name: install epel-release
+    yum:
+      name: epel-release
+      state: present
+  - name: install nginx
+    yum:
+      name: nginx
+      state: present
+
+  - name: Enable NGINX server
+    command: "systemctl enable nginx"
+
+  - name: Restart NGINX server
+    command: "systemctl restart nginx"
+
+  - name: Allowing port (80) access in firewall
+    shell: "firewall-cmd --zone=public --add-port=80/tcp --permanent"
+
+  - name: Allowing port (443) access in firewall
+    shell: "firewall-cmd --zone=public --add-port=443/tcp --permanent"
+
+  - name: Reload firewall
+    shell: "firewall-cmd --reload"

@@ -1,0 +1,14 @@
+<form *ngIf="companyFormGroup" [formGroup]="companyFormGroup">
+    <input type="text" name="company" formControlName = "company" id="company"
+    [ngClass]="{'border-red-300': company.touched && company.errors}" 
+    class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md" placeholder="" value="" aria-invalid="true" aria-describedby="name-error" />
+    <app-error-display
+    [formGroup]="companyFormGroup"
+    [fieldName] = "companyFieldName"
+    [controlName]="'company'"
+    [fieldInfoText] = "companyInfoText"
+    [minimumLength] = "genericMinimalLength"
+    [maximumLength] = "genericMaxLength"
+    [pattern] = "allowedSplChars"
+    ></app-error-display>
+</form>

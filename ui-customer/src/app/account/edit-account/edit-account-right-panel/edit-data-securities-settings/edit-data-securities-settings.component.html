@@ -1,0 +1,79 @@
+<form *ngIf="dataSecurityFormGroup" [formGroup]="dataSecurityFormGroup">	
+<div>
+    <!-- data security section -->
+    <div class="text-lg font-semibold text-gray-700 mt-0">Data Security Settings</div>
+    <!-- info section -->
+    <div class="rounded-md bg-light-blue-50 p-4 mt-4 border border-blue-400 border-dashed">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-7 h-7 text-blue-500" viewBox="0 0 24 24" version="1.1">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect x="0" y="0" width="24" height="24" />
+                        <path d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z" fill="currentColor" opacity="0.3" />
+                        <path d="M14.5,11 C15.0522847,11 15.5,11.4477153 15.5,12 L15.5,15 C15.5,15.5522847 15.0522847,16 14.5,16 L9.5,16 C8.94771525,16 8.5,15.5522847 8.5,15 L8.5,12 C8.5,11.4477153 8.94771525,11 9.5,11 L9.5,10.5 C9.5,9.11928813 10.6192881,8 12,8 C13.3807119,8 14.5,9.11928813 14.5,10.5 L14.5,11 Z M12,9 C11.1715729,9 10.5,9.67157288 10.5,10.5 L10.5,11 L13.5,11 L13.5,10.5 C13.5,9.67157288 12.8284271,9 12,9 Z" fill="currentColor" />
+                    </g>
+                </svg>
+            </div>
+            <div class="ml-3 flex-1 md:flex md:justify-between">
+                <p class="text-xs text-gray-500 font-medium">Enabling encryption enhances data security. Please note that the encryped contents will not be decrypted back.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-10 flex w-full items-center justify-between space-x-8">
+        <div class="flex w-full ml-0 mt-0 items-center justify-between">
+            <label class="text-sm leading-none text-gray-700 font-medium w-full">Encrypt Mobile</label>
+            <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+            <button type="button" 
+            (click) = "onClickToggleMob($event)"
+            [ngClass] =  "{'bg-blue-500' : (toggleMob),'bg-gray-200' :  !toggleMob}"
+            
+            class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" role="switch" aria-checked="false">
+                <span class="sr-only">2fa</span>
+                <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                <span aria-hidden="true" 
+                [ngClass] =  "{'translate-x-5' : (toggleMob),'translate-x-0' :  !toggleMob}"
+                class=" pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+            </button>
+        </div>
+    </div>
+    <p class="mt-2 text-xxs sm:text-xs text-gray-400" id="name-error">Enabling this will store the mobile number in encrypted form</p>
+
+    <div class="mt-10 flex w-full items-center justify-between space-x-8">
+        <div class="flex w-full ml-0 mt-0 items-center justify-between">
+            <label class="text-sm leading-none text-gray-700 font-medium w-full">Encrypt Message</label>
+            <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+            <button type="button" 
+                (click) = "onClickToggleMsg($event)"
+                [ngClass] =  "{'bg-blue-500' : (toggleMsg),'bg-gray-200' :  !toggleMsg}"
+                
+                class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" role="switch" aria-checked="false">
+                    <span class="sr-only">2fa</span>
+                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                    <span aria-hidden="true" 
+                    [ngClass] =  "{'translate-x-5' : (toggleMsg),'translate-x-0' :  !toggleMsg}"
+                    class=" pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+                </button>
+        </div>
+    </div>
+    <p class="mt-2 text-xxs sm:text-xs text-gray-400" id="name-error">Enabling this will store the message in encrypted form</p>
+
+    <!-- button section -->
+    <div class="flex justify-end mt-10 border-t pt-6 border-gray-200">
+        <div class="flex space-x-4">
+            <app-discard-button
+            [formGroup] = "dataSecurityFormGroup"
+            [title] = "'encrypt'"
+            [formChanged] = "formChanged"
+            (updated) = "handleUpdate()"
+            ></app-discard-button>
+            <app-save-button
+            [formGroup] = "dataSecurityFormGroup"
+            [title] = "'encrypt'"
+            [formChanged] = "formChanged"
+            (updated) = "handleUpdate()"    
+            ></app-save-button>
+        </div>
+    </div>
+</div>
+</form>

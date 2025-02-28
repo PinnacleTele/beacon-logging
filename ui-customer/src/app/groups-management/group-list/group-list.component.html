@@ -1,0 +1,357 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 pt-2 bg-white">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r">
+				Groups</h3>
+			<div class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400">
+				<span class="hover:text-blue-500 cursor-pointer">Groups</span>
+				<span class="text-xxs font-mono">/</span>
+				<span class="hover:text-blue-500 cursor-pointer">Group List</span>
+			</div>
+		</div>
+		<div></div>
+	</div>
+</div>
+<main class="flex-1 relative overflow-y-auto focus:outline-none" >
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+
+			<div class="bg-white p-5 md:p-10 rounded">
+				<div class="text-lg font-medium text-gray-800">Groups</div>
+				<div class="space-y-4">
+					<div class="flex flex-col sm:flex-row justify-between pt-6 space-y-2">
+						<!-- search -->
+						<div class="relative sm:w-1/2">
+							<input type="text" [(ngModel)]="searchText" (keyup)="getcount()" name="name" id="name"
+								class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+								placeholder="Search Groups" value="" aria-invalid="true" aria-describedby="name-error" />
+
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24"></rect>
+										<path
+											d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+										<path
+											d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+											fill="currentColor" fill-rule="nonzero"></path>
+									</g>
+								</svg>
+							</div>
+						</div>
+						<!-- icons section -->
+						<div class="pt-2 sm:pt-0 w-full flex sm:justify-end">
+							<div class="flex justify-between sm:justify-end space-x-2 text-xs w-full">
+								<div class="">
+									<div class="flex items-center mr-2">
+										<a (click)="onRefresh()"
+											class="relative text-gray-600 mr-2 p-2 border-transparent border bg-gray-100 hover:bg-gray-200 cursor-pointer rounded  focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+											href="javascript: void(0)" tooltip="Refresh" [options]= "myOptions">
+											<svg class="w-5 h-5" viewBox="0 0 24 24" version="1.1">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<rect x="0" y="0" width="24" height="24" />
+													<path
+														d="M8.43296491,7.17429118 L9.40782327,7.85689436 C9.49616631,7.91875282 9.56214077,8.00751728 9.5959027,8.10994332 C9.68235021,8.37220548 9.53982427,8.65489052 9.27756211,8.74133803 L5.89079566,9.85769242 C5.84469033,9.87288977 5.79661753,9.8812917 5.74809064,9.88263369 C5.4720538,9.8902674 5.24209339,9.67268366 5.23445968,9.39664682 L5.13610134,5.83998177 C5.13313425,5.73269078 5.16477113,5.62729274 5.22633424,5.53937151 C5.384723,5.31316892 5.69649589,5.25819495 5.92269848,5.4165837 L6.72910242,5.98123382 C8.16546398,4.72182424 10.0239806,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 L6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,8.6862915 15.3137085,6 12,6 C10.6885336,6 9.44767246,6.42282109 8.43296491,7.17429118 Z"
+														fill="currentColor" fill-rule="nonzero" />
+												</g>
+											</svg>
+										</a>
+										<!-- <a *ngIf="selectAllCount == 0" class="
+											  relative
+											  text-gray-300
+											  mr-2
+											  p-2
+											  border-transparent border
+											  bg-gray-100
+											  rounded
+											" title="Export Selected">
+											<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
+												xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"
+												version="1.1">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<rect x="0" y="0" width="24" height="24"></rect>
+													<path
+														d="M17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L18,6 C20.209139,6 22,7.790861 22,10 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,9.99305689 C2,7.7839179 3.790861,5.99305689 6,5.99305689 L7.00000482,5.99305689 C7.55228957,5.99305689 8.00000482,6.44077214 8.00000482,6.99305689 C8.00000482,7.54534164 7.55228957,7.99305689 7.00000482,7.99305689 L6,7.99305689 C4.8954305,7.99305689 4,8.88848739 4,9.99305689 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,10 C20,8.8954305 19.1045695,8 18,8 L17,8 Z"
+														fill="currentColor" fill-rule="nonzero" opacity="1"></path>
+													<rect fill="currentColor" opacity="0.3"
+														transform="translate(12.000000, 8.000000) scale(1, -1) rotate(-180.000000) translate(-12.000000, -8.000000)"
+														x="11" y="2" width="2" height="12" rx="1"></rect>
+													<path
+														d="M12,2.58578644 L14.2928932,0.292893219 C14.6834175,-0.0976310729 15.3165825,-0.0976310729 15.7071068,0.292893219 C16.0976311,0.683417511 16.0976311,1.31658249 15.7071068,1.70710678 L12.7071068,4.70710678 C12.3165825,5.09763107 11.6834175,5.09763107 11.2928932,4.70710678 L8.29289322,1.70710678 C7.90236893,1.31658249 7.90236893,0.683417511 8.29289322,0.292893219 C8.68341751,-0.0976310729 9.31658249,-0.0976310729 9.70710678,0.292893219 L12,2.58578644 Z"
+														fill="currentColor" fill-rule="nonzero"
+														transform="translate(12.000000, 2.500000) scale(1, -1) translate(-12.000000, -2.500000)">
+													</path>
+												</g>
+											</svg>
+										</a> -->
+										<!-- <a *ngIf="selectAllCount > 0"
+											class="relative text-gray-600 mr-2 p-2 border-transparent border bg-gray-100 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+											href="javascript: void(0)" title="Export Selected">
+											<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
+												xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"
+												version="1.1">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<rect x="0" y="0" width="24" height="24"></rect>
+													<path
+														d="M17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L18,6 C20.209139,6 22,7.790861 22,10 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,9.99305689 C2,7.7839179 3.790861,5.99305689 6,5.99305689 L7.00000482,5.99305689 C7.55228957,5.99305689 8.00000482,6.44077214 8.00000482,6.99305689 C8.00000482,7.54534164 7.55228957,7.99305689 7.00000482,7.99305689 L6,7.99305689 C4.8954305,7.99305689 4,8.88848739 4,9.99305689 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,10 C20,8.8954305 19.1045695,8 18,8 L17,8 Z"
+														fill="currentColor" fill-rule="nonzero" opacity="1"></path>
+													<rect fill="currentColor" opacity="0.3"
+														transform="translate(12.000000, 8.000000) scale(1, -1) rotate(-180.000000) translate(-12.000000, -8.000000)"
+														x="11" y="2" width="2" height="12" rx="1"></rect>
+													<path
+														d="M12,2.58578644 L14.2928932,0.292893219 C14.6834175,-0.0976310729 15.3165825,-0.0976310729 15.7071068,0.292893219 C16.0976311,0.683417511 16.0976311,1.31658249 15.7071068,1.70710678 L12.7071068,4.70710678 C12.3165825,5.09763107 11.6834175,5.09763107 11.2928932,4.70710678 L8.29289322,1.70710678 C7.90236893,1.31658249 7.90236893,0.683417511 8.29289322,0.292893219 C8.68341751,-0.0976310729 9.31658249,-0.0976310729 9.70710678,0.292893219 L12,2.58578644 Z"
+														fill="currentColor" fill-rule="nonzero"
+														transform="translate(12.000000, 2.500000) scale(1, -1) translate(-12.000000, -2.500000)">
+													</path>
+												</g>
+											</svg>
+											<span *ngIf="selectAllCount > 0"
+												class="absolute text-xxs -top-3 -right-0.5 bg-blue-100 p-0.5 rounded-full font-thin text-blue-600">{{selectAllCount}}</span>
+										</a> -->
+
+										<a *ngIf="selectAllCount == 0" class="
+											  relative
+											  text-red-300
+											  p-2
+											  border-transparent border
+											  bg-gray-100
+											  rounded
+											">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20"
+												height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+												stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" />
+												<line x1="4" y1="7" x2="20" y2="7" />
+												<line x1="10" y1="11" x2="10" y2="17" />
+												<line x1="14" y1="11" x2="14" y2="17" />
+												<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+												<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+											</svg>
+										</a>
+
+										<a *ngIf="selectAllCount > 0" class="relative ">
+											<app-common-delete-button [deletingLoader]="deletingSpinner" [hideshow]="showhide"
+												(showModal)="onShowResp($event)" [confirmationMessage]="globalDeleteMessage"
+												(deleteModalResponse)="onDeleteAllPreviewResp($event)">
+											</app-common-delete-button>
+											<span
+												class="absolute text-xxs -top-3 -right-0.5 bg-red-100 p-0.5 rounded-full font-thin text-red-600">{{selectAllCount}}</span>
+										</a>
+									</div>
+								</div>
+								<div class="flex">
+									<button
+										class="text-white md:flex md:items-center p-2 pr-2.5 border-transparent border bg-blue-600 hover:bg-blue-500 cursor-pointer rounded  focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+										routerLink="/groups/new">
+										<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+											viewBox="0 0 24 24" version="1.1">
+											<rect fill="currentColor" x="4" y="11" width="16" height="2" rx="1"></rect>
+											<rect fill="currentColor" opacity="0.5"
+												transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)"
+												x="4" y="11" width="16" height="2" rx="1"></rect>
+										</svg>
+										<span class="ml-1.5 hidden md:flex">New Group</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- table section -->
+				
+					<div class="flex flex-col pt-1">
+						<div class="overflow-x-auto">
+							<div class="py-2 align-middle inline-block min-w-full pt-3">
+								<div class="">
+									<table class="min-w-full divide-y-0 divide-gray-200">
+										<thead *ngIf="!(noRecords || recordCount || apiError )"
+											class="bg-gray-50 text-xxs font-medium text-gray-400">
+											<tr class="">
+												<th scope="col" class="px-2 py-2 flex items-center text-left uppercase tracking-wider">
+													<input [disabled]="recordCount == true || apiError || grouploading " id="selectall"
+														name="selectall" (click)="selectall($event)" [(ngModel)]="masterSelected"
+														[checked]="masterSelected" type="checkbox"
+														class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded cursor-pointer focus:ring-0" />
+													<!-- <span class="px-6 whitespace-nowrap flex items-center">
+														<span>Group Name</span>
+														<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+														</svg>
+													</span> -->
+
+													<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Group Name'" [icon]="groupNameIcon"
+														[defaultOrder]="'dce'" [sortingProperty]="'g_name'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+
+
+												</th>
+
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [colTitle]="'	Total Contacts'" [defaultProperty]="defaultProp" [icon]="totalIcon"
+														[sortingProperty]="'total'" [defaultOrder]="'dce'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap">
+													<app-sorter [colTitle]="'	Group Type'" [defaultProperty]="defaultProp" [icon]="groupTypeIcon"
+														[defaultOrder]="'dce'" [sortingProperty]="'g_type'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-center uppercase tracking-wider whitespace-nowrap">
+													<div class="flex flex-row cursor-pointer">
+														<app-sorter [colTitle]="createdDateCol" [defaultProperty]="defaultProp"
+															[defaultOrder]="'dce'" [icon]="createdTsIcon" [sortingProperty]="'created_ts_unix'"
+															(sortingEmitter)="sort($event)" (iconEmitter)="iconChange($event)"></app-sorter>
+													</div>
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider"></th>
+											</tr>
+										</thead>
+										<app-list-skeleton *ngIf="grouploading" [colCount]=4></app-list-skeleton>
+										<tbody *ngIf="!grouploading && !apiError && !noRecords" class="bg-white divide-y divide-gray-100">
+											<tr
+												*ngFor="let group of collection | Filter : searchText | sorter:nameOrder:searchprop | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}">
+												<td class="px-2 py-2 whitespace-nowrap">
+													<div class="flex items-center">
+														<input id="g1" name="g1" [disabled]="group.status!='completed'" type="checkbox"
+															[checked]="group.checked" (click)="singleSelect(group,$event)"
+															[ngClass]=" [group.status =='completed'? 'bg-opacity-70 border-gray-200  cursor-pointer'  : 'bg-gray-100'] "
+															class="focus:ring-indigo-500  bg-opacity-70 h-4 w-4 text-blue-600 border-gray-200 rounded focus:ring-1" />
+														<div (click)="contactList(group)" (keydown.enter)="backEnter($event,group)"
+															class="ml-6 space-y-0.5">
+															<a tabindex="0"
+																class="text-sm font-semibold text-gray-600 cursor-pointer  focus:outline-none  border-indigo-50 rounded">
+																{{group.g_name}} </a>
+															<div *ngIf="userDetail.user_type != 2"
+																class="flex space-x-1 align-middle items-center text-xs">
+																<div class="items-center justify-center">
+																	<span
+																		[ngClass]="group.g_visibility=='shared' ?  'inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-rose-500':'inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-green-500'">
+																		{{group.g_visibility}} </span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-2 whitespace-normal">
+													<div class="text-xs font-medium tracking-wider text-gray-600 ml-6">
+														{{group.total_human}}</div>
+													<div *ngIf="group.status!='completed'"
+														class="text-xs font-medium tracking-wider text-gray-600 ml-6">
+														<span
+															class="inline-flex items-center px-1.5 py-0.5 justify-center rounded-sm text-xxs font-medium bg-yellow-100 text-yellow-800">
+															processing </span>
+													</div>
+												</td>
+												<td class="px-6 py-2 whitespace-normal ">
+													<div class="text-xs font-medium tracking-wider">
+														<div class="items-center justify-center">
+															<span
+																class="inline-flex px-2 ml-6 rounded-sm text-xxs font-medium bg-gray-100 text-gray-500">
+																{{group.g_type}} </span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-2 text-xs text-gray-700 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center ">
+														<span class="px-2 rounded-full "> {{group.created_ts }} </span>
+
+													</div>
+												</td>
+
+												<td *ngIf="group.status=='completed'"
+													class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
+													<div class="flex items-center">
+														<a (click)="editGroup(group)"
+															class="text-gray-600 dark:text-gray-400 mx-2 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded  focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+															href="javascript: void(0)" tooltip="Edit"  [options]= "myOptions" >
+															<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
+																stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+																stroke-linejoin="round">
+																<path stroke="none" d="M0 0h24v24H0z" />
+																<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+																<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+																<line x1="16" y1="5" x2="19" y2="8" />
+															</svg>
+														</a>
+														<!-- <a  class="text-gray-600 dark:text-gray-400 mx-2 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+															href="javascript: void(0)" title="Export">
+															<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
+																xmlns:xlink="http://www.w3.org/1999/xlink"
+																viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+																	fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path
+																		d="M17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L18,6 C20.209139,6 22,7.790861 22,10 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,9.99305689 C2,7.7839179 3.790861,5.99305689 6,5.99305689 L7.00000482,5.99305689 C7.55228957,5.99305689 8.00000482,6.44077214 8.00000482,6.99305689 C8.00000482,7.54534164 7.55228957,7.99305689 7.00000482,7.99305689 L6,7.99305689 C4.8954305,7.99305689 4,8.88848739 4,9.99305689 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,10 C20,8.8954305 19.1045695,8 18,8 L17,8 Z"
+																		fill="currentColor" fill-rule="nonzero"
+																		opacity="1"></path>
+																	<rect fill="currentColor" opacity="0.3"
+																		transform="translate(12.000000, 8.000000) scale(1, -1) rotate(-180.000000) translate(-12.000000, -8.000000)"
+																		x="11" y="2" width="2" height="12" rx="1">
+																	</rect>
+																	<path
+																		d="M12,2.58578644 L14.2928932,0.292893219 C14.6834175,-0.0976310729 15.3165825,-0.0976310729 15.7071068,0.292893219 C16.0976311,0.683417511 16.0976311,1.31658249 15.7071068,1.70710678 L12.7071068,4.70710678 C12.3165825,5.09763107 11.6834175,5.09763107 11.2928932,4.70710678 L8.29289322,1.70710678 C7.90236893,1.31658249 7.90236893,0.683417511 8.29289322,0.292893219 C8.68341751,-0.0976310729 9.31658249,-0.0976310729 9.70710678,0.292893219 L12,2.58578644 Z"
+																		fill="currentColor" fill-rule="nonzero"
+																		transform="translate(12.000000, 2.500000) scale(1, -1) translate(-12.000000, -2.500000)">
+																	</path>
+																</g>
+															</svg>
+														</a> -->
+														<app-common-delete-button [deletingLoader]="deletingSpinner" [hideshow]="showhide"
+															(showModal)="onShowResp($event)" [confirmationMessage]="deleteMessage"
+															(deleteModalResponse)="onDeletePreviewResp($event,group)">
+														</app-common-delete-button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end of table section -->
+
+					<!-- api error section -->
+					<app-apierror *ngIf="(apiError &&  !noRecords && !grouploading) " (Emitter)="subscribeData()">
+					</app-apierror>
+
+					<!-- nodataerror section -->
+					<app-nodataerror *ngIf="recordCount  && (!noRecords)  && !apiError && !grouploading && searchText"
+						[title]="'groups'">
+					</app-nodataerror>
+
+					<!-- nodata create new section -->
+					<app-nodatacreatenew *ngIf="noRecords" [title]="'groups'" [routePath]="'/groups/new'">
+					</app-nodatacreatenew>
+				</div>
+
+			
+				<!-- page navigation section -->
+				<app-file-pagination 
+				*ngIf="!(noRecords || recordCount || apiError ||grouploading)" 
+				[total]="total"
+					[totalRecord]="total" 
+					[p]="p" 
+					[pagesize]="pagesize" 
+					[itemsPerPage]="itemsPerPage"
+					[perpageCount]="perpageCount" 
+					(paginationValueEmit)="ReceivedpaginateValue($event)">
+				</app-file-pagination>
+			</div>
+			<!--content replace -->
+			<!-- /End replace -->
+		</div>
+	</div>
+
+	<app-delete-res-popup *ngIf="popUp" [Responce]="deleteResponse" (closePopUp)="closeDeletePopup($event)"
+		(successPopUp)="continueDeletePopup($event)" (tryAgainPopUp)="tryAgainOnPopup($event)">
+	</app-delete-res-popup>
+</main>

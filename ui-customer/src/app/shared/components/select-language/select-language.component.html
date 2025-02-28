@@ -1,0 +1,37 @@
+<form  *ngIf="selectLangFormGroup" [formGroup]="selectLangFormGroup">
+    <label for="mobile" class="block font-semibold text-gray-700">Language <span class="text-red-600">*</span> </label>
+    
+    <div class="my-2">
+        <ng-select
+		id="language"
+		[placeholder]="placeHolder"
+		name="language"
+		formControlName="language"
+		[items]="itemList"
+		bindLabel="value"
+		bindValue="key"
+		[hideSelected]="true"
+		(change)="changeLanguage($event)"
+		[editableSearchTerm]="true"	
+		autocomplete="off"
+		class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full  border-gray-300 rounded-md"
+        >
+		</ng-select>
+	  <p
+        class="mt-2 text-xxs sm:text-xs text-red-600"
+        id="language-error"
+        *ngIf="language.touched && language.errors?.required else elseBlock; "
+    >
+        Language is required
+    </p>
+    <ng-template #elseBlock>
+        <p
+            class="mt-2 text-xxs sm:text-xs text-gray-500"
+            id="name-error"
+        >
+        {{campaignLangInfoTxt}}
+        </p>
+    </ng-template>
+
+    </div>
+</form>

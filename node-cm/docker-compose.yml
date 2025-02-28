@@ -1,0 +1,9 @@
+version: '3'
+services:
+  api:
+    image: dk-reg.mas:5000/node-cm:31dec2024
+    build: .
+    ports:
+      - "3000:3000"
+    volumes: ['./logs:/logs']
+  

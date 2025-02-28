@@ -1,0 +1,133 @@
+<app-campaign-header [pageTitle]="'Quick SMS'"></app-campaign-header>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+
+			<div class="bg-white p-5 md:p-10 rounded">
+				<div class="mt:0 space-y-1 text-center flex flex-col items-center">
+					<app-nobalancestyle></app-nobalancestyle>
+				</div>
+
+				<form focusInvalidInput [formGroup]="quickSMSForm" class="space-y-8 divide-y divide-gray-200">
+					<div>
+						<div>
+							<div class="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 divide-y divide-gray-100">
+								<!--Traffic type display-->
+								<!-- <div class="sm:col-span-6 text-xs pt-4">
+									<div
+										class="flex justify-between items-center"
+									>
+										<label
+											class="block font-semibold text-gray-700"
+										>
+											Your selected traffic type
+											<span
+												class="text-blue-700 uppercase"
+												>{{this.trafficType}}
+											</span>
+										</label>
+										<nav class="flex space-x-1">
+											<button
+												(click)="changeTraffic()"
+												class="cursor-pointer text-blue-500"
+											> Change traffic </button>
+										</nav>
+									</div>
+								</div> -->
+								<app-selectedtraffic *ngIf="showTraffic" [campType]="'cq'"
+									(selectedtraffic)="trafficChange($event)">
+
+								</app-selectedtraffic>
+								<!-- campaign name section -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<app-campaign-name [campType]="campaignType"></app-campaign-name>
+								</div>
+
+								<!-- mobile number section -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<app-quick-sms-mobile-numbers [trafficType]="trafficType">
+									</app-quick-sms-mobile-numbers>
+								</div>
+
+								<!-- sender id section -->
+								<div class="sm:col-span-6 text-xs pt-4"
+									*ngIf="trafficType == 'india' || trafficType == 'both'">
+									<div class="my-2">
+										<app-campaign-sender-id [enityPopulated]="entityIdprePopulate"
+											(entity_IdEmitter)="entityIdEmitter($event)"
+											(sender_IdEmitter)="senderIdEmitter($event)" [templateId]="dlt_templateId"
+											[trafficType]="trafficType" (focus)="resetFocus($event)">
+										</app-campaign-sender-id>
+									</div>
+								</div>
+
+								<!-- message section -->
+								<div class="sm:col-span-6 text-xs pt-4">
+									<app-campaign-message [trafficType]="trafficType" [camptype]="'quick'"
+										[sender_Id]="sender_Id" [entity_Id]="entity_Id"
+										(noEntityId)="EntityIdRequired($event)"
+										(choosenTemplate)="selectedTemplate($event)"></app-campaign-message>
+								</div>
+
+								<!-- sender id section -->
+								<!-- <div
+									class="sm:col-span-6 text-xs pt-4"
+									*ngIf="trafficType == 'india' || trafficType == 'both'"
+								>
+									<div class="my-2">
+										<app-campaign-sender-id
+										[enityPopulated]="entityIdprePopulate"
+											[entityId]="entityId"
+											[templateId]="dlt_templateId"
+											[trafficType]="trafficType"
+											(focus)="resetFocus($event)"
+										></app-campaign-sender-id>
+									</div>
+								</div> -->
+
+								<!--Intl senders for intl traffic type -->
+								<div class="sm:col-span-6 text-xs pt-4"
+									*ngIf="trafficType == 'other' || trafficType == 'both'">
+									<div class="my-2">
+										<app-intl-senders></app-intl-senders>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- button section -->
+					<div class="pt-5">
+						<div class="md:flex md:justify-between grid grid-rows-1 gap-y-2">
+							<div class="grid grid-rows-1">
+								<app-campaign-cancel-button [routePath]="'/campaigns'" [cancelMessage]="cancelMessage"
+									[routePath]="'/campaigns'"></app-campaign-cancel-button>
+							</div>
+							<div class="md:flex md:justify-end">
+								<div class="grid grid-rows-1 gap-y-2 md:grid-flow-col">
+									<!-- <app-campaign-save-button 
+                    [campaignForm] = "quickSMSForm"
+                    [campaignType] = "campaignType"
+                  ></app-campaign-save-button> -->
+
+									<app-campaign-schedule-button [campaignForm]="quickSMSForm"
+										[campaignType]="campaignType"></app-campaign-schedule-button>
+
+									<app-campaign-send-button [campaignForm]="quickSMSForm"
+										[campaignType]="campaignType"></app-campaign-send-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- /End replace -->
+		</div>
+	</div>
+</main>
+<app-clear-modal [title]="'Resetting the form values confirmation'"
+	[confirmationMessage]="'Changing the traffic will reset all the form Values, Please confirm'"
+	[confirmLable]="'Confirm'" (clearModalResponse)="confirmModalResp($event)" *ngIf="changeTrafficClicked">
+</app-clear-modal>

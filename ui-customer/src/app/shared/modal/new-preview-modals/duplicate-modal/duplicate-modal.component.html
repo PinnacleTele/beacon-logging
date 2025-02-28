@@ -1,0 +1,12 @@
+<div class="flex justify-between items-center">
+    <div class="flex items-center pt-1">
+        <span class="text-gray-700 text-xs">Remove Duplicate:</span>
+        <span class="ml-2 font-medium text-indigo-500 bg-graytrue-100 p-0.5 rounded">{{ this.wordToDisplay }}</span>
+    </div>
+    
+    <div class="flex items-center pt-1" *ngIf="shortner.vl_shortner === 1 && campaignType != 'MTM'">
+        <span class="text-gray-700 text-xs">Shorten URL:</span>
+        <span class="ml-2 font-medium text-indigo-500 bg-graytrue-100 p-0.5 rounded">{{ this.toDisplay }}</span>
+    </div>
+</div>
+

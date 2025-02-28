@@ -1,0 +1,179 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <!-- quick links settings card -->
+    <div class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-2">
+        <div class="w-full bg-white px-3 py-3 md:px-8 rounded-md pb-8">
+            <div>
+                <!-- data security section -->
+                <div class="text-lg font-semibold text-gray-700 mt-0">Quick Links</div>
+                <!-- info section -->
+                <div class="rounded-md bg-light-blue-50 p-2 mt-4 border border-blue-400 border-dashed">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <svg class="w-5 h-5 text-blue-500" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24"></rect>
+                                    <rect fill="currentColor" x="4" y="4" width="7" height="7" rx="1.5"></rect>
+                                    <path
+                                        d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                        fill="currentColor" opacity="0.3"></path>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="ml-3 flex-1 md:flex md:justify-between">
+                            <p class="text-xs text-gray-500 font-medium">Configure upto 6 shortcut preferences, which
+                                can be used for quicker navigation via Quick Links icon on the header bar</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- preference section -->
+                <div *ngIf="clusterType != 'otp'" class="mt-6 flex w-full items-center justify-between space-x-8">
+                    <label class="mb-0 text-sm leading-none text-gray-400 font-bold w-full">Send Campaign</label>
+                </div>
+                <div *ngIf="clusterType != 'otp'" class="px-0 md:px-6 lg:px-8">
+                    <div *ngFor="let ql of campaignQl ">
+                        <div class="mt-6 flex w-full items-center justify-between space-x-8">
+                            <div class="flex w-full ml-0 mt-0 items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <label
+                                        class="mb-0 text-sm leading-none text-gray-700 font-medium w-full">{{ql.title}}</label>
+                                </div>
+                                <button type="button" (click)="onClickToggle(ql)"
+                                    [ngClass]="{'bg-blue-500' : (ql.value),'bg-gray-200' :  !ql.value}"
+                                    class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    role="switch" aria-checked="false">
+                                    <span class="sr-only">2fa</span>
+                                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                                    <span aria-hidden="true"
+                                        [ngClass]="{'translate-x-5' : (ql.value),'translate-x-0' :  !ql.value}"
+                                        class=" pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <p  
+                        *ngIf="clusterType != 'otp'"
+                        class="mt-0.5 text-xxs sm:text-xs text-gray-400" id="name-error">{{ql.subText}}</p>
+                    </div>
+
+                </div>
+
+                <div class="mt-6 flex w-full items-center justify-between space-x-8">
+                    <label class="mb-0 text-sm leading-none text-gray-400 font-bold w-full">Create New</label>
+                </div>
+                <div class="px-0 md:px-6 lg:px-8">
+                    <div *ngFor="let ql of createQl ">
+                        <div class="mt-6 flex w-full items-center justify-between space-x-8" >
+                            <div class="flex w-full ml-0 mt-0 items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <label
+                                        class="mb-0 text-sm leading-none text-gray-700 font-medium w-full">{{ql.title}}</label>
+                                </div>
+                                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                                <button type="button" (click)="onClickToggle(ql)"
+                                    [ngClass]="{'bg-blue-500' : (ql.value),'bg-gray-200' :  !ql.value}"
+                                    class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    role="switch" aria-checked="false">
+                                    <span class="sr-only">2fa</span>
+                                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                                    <span aria-hidden="true"
+                                        [ngClass]="{'translate-x-5' : (ql.value),'translate-x-0' :  !ql.value}"
+                                        class=" pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="mt-0.5 text-xxs sm:text-xs text-gray-400" id="name-error">{{ql.subText}}</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex w-full items-center justify-between space-x-8">
+                    <label class="mb-0 text-sm leading-none text-gray-400 font-bold w-full">My Account</label>
+                </div>
+                <div class="px-0 md:px-6 lg:px-8">
+                    <div *ngFor="let ql of myAccounts">
+                        <div class="mt-6 flex w-full items-center justify-between space-x-8">
+                            <div class="flex w-full ml-0 mt-0 items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <label
+                                        class="mb-0 text-sm leading-none text-gray-700 font-medium w-full">{{ql.title}}</label>
+                                </div>
+                                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                                <button type="button" (click)="onClickToggle(ql)"
+                                    [ngClass]="{'bg-blue-500' : (ql.value),'bg-gray-200' :  !ql.value}"
+                                    class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    role="switch" aria-checked="false">
+                                    <span class="sr-only">2fa</span>
+                                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                                    <span aria-hidden="true"
+                                        [ngClass]="{'translate-x-5' : (ql.value),'translate-x-0' :  !ql.value}"
+                                        class=" pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="mt-0.5 text-xxs sm:text-xs text-gray-400" id="name-error">{{ql.subText}}</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex w-full items-center justify-between space-x-8">
+                    <label class="mb-0 text-sm leading-none text-gray-400 font-bold w-full">Reports</label>
+                </div>
+                <div class="px-0 md:px-6 lg:px-8">
+                    <div *ngFor="let ql of report">
+                        <div class="mt-6 flex w-full items-center justify-between space-x-8">
+                            <div class="flex w-full ml-0 mt-0 items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <label
+                                        class="mb-0 text-sm leading-none text-gray-700 font-medium w-full">{{ql.title}}</label>
+                                </div>
+                                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                                <button type="button" (click)="onClickToggle(ql)"
+                                    [ngClass]="{'bg-blue-500' : (ql.value),'bg-gray-200' :  !ql.value}"
+                                    class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    role="switch" aria-checked="false">
+                                    <span class="sr-only">2fa</span>
+                                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                                    <span aria-hidden="true"
+                                        [ngClass]="{'translate-x-5' : (ql.value),'translate-x-0' :  !ql.value}"
+                                        class=" pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="mt-0.5 text-xxs sm:text-xs text-gray-400" id="name-error">{{ql.subText}}</p>
+                    </div>
+                </div>
+
+                <!-- button section -->
+                <div class="flex justify-end mt-10 border-t pt-6 border-gray-200">
+                    <div class="flex space-x-4">
+                        <button (click)="getQuiclLinks()" type="button"
+                        [disabled]='!enable'
+                        [ngClass]="!enable ? 'cursor-not-allowed bg-gray-300' :'cursor-pointer bg-gray-500 hover:bg-gray-600'"
+                            class="md:ml-3 inline-flex items-center space-x-2 justify-center py-2 px-4 border border-transparent shadow-sm text-xs font-semibold rounded text-white   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ">
+                            <span class="text-sm">Discard </span>
+                        </button>
+                        <button (click)="onSave()" type="button" [disabled]='!enable'
+                        [ngClass]="!enable ? 'cursor-not-allowed bg-blue-300' :'cursor-pointer bg-blue-500 hover:bg-blue-600'"
+                            class="md:ml-3 inline-flex items-center space-x-2 justify-center py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded text-white   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span class="text-sm">Save Changes</span>
+                            <svg class="animate-spin h-5 w-5 text-white ml-2" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24" *ngIf=spinner>
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-delete-res-popup 
+*ngIf="editPopup"
+[Responce]="editResponse"
+(closePopUp)="closeDeletePopup($event)"
+(successPopUp)="continueDeletePopup($event)"
+(tryAgainPopUp)="tryAgainEditPopup($event)"></app-delete-res-popup>

@@ -1,0 +1,100 @@
+<div class="bg-white rounded-lg shadow-md">
+	<div class="flex flex-col sm:flex-row justify-between pt-6 px-5">
+		<div>
+			<h3 class="text-md tracking-wide font-semibold text-gray-800">
+				Campaign Activities
+			</h3>
+			<div class="flex space-x-2 items-center text-xxs text-gray-400">
+				<div class="">{{activities.data.length}} activities</div>
+			</div>
+		</div>
+		<div class="pt-2 sm:pt-0">
+			<div class="flex space-x-2 text-xs justify-end">
+				<button
+					(click)="onDayChange('yesterday')"
+					[ngClass]="date ==='yesterday'?'bg-blue-500 text-white px-3 py-2 rounded focus:bg-blue-500 focus:outline-none':'text-gray-400 px-3 py-2 rounded hover:text-blue-600 focus:outline-none focus:bg-blue-500 focus:text-white'"
+				>
+					Yesterday
+				</button>
+
+				<button
+					(click)="onDayChange('today')"
+					[ngClass]="date ==='today'? 'bg-blue-500 text-white px-3 py-2 rounded focus:bg-blue-500 focus:outline-none':'text-gray-400 px-3 py-2 rounded hover:text-blue-600 focus:outline-none focus:bg-blue-500 focus:text-white'"
+				>
+					Today
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="pt-3">
+		<div
+			class="flow-root bg-white rounded-lg md:px-2 overflow-auto sm:rounded-lg max-h-64"
+		>
+			<ul class="p-4 pt-5">
+				<li
+					*ngFor="let activity of activities.data;let i = index; let last = last"
+				>
+					<div class="relative" [ngClass]="last?'pb-3':'pb-8'">
+						<span
+							*ngIf="!last"
+							class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+							aria-hidden="true"
+						></span>
+						<div class="relative flex space-x-3">
+							<div>
+								<div
+									class="h-8 w-8 bg-gray-50 rounded-full ring-8 ring-white flex items-center justify-center"
+								>
+									<!-- Heroicon name: solid/user-circle -->
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-3 w-3"
+										[ngClass]="getColour(i)"
+										viewBox="0 0 512 512"
+									>
+										<title>Ellipse</title>
+										<circle
+											cx="256"
+											cy="256"
+											r="192"
+											fill="none"
+											stroke="currentColor"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="124"
+										/>
+									</svg>
+								</div>
+							</div>
+							<div
+								class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4"
+							>
+								<div>
+									<p class="text-sm text-gray-500">
+										{{activity.pretext}}
+										<a
+											href="#"
+											class="relative inline-flex rounded-lg text-sm"
+										>
+											<span
+												class="font-bold text-blue-400"
+												>#{{activity.campaign.name}}</span
+											>
+										</a>
+										{{activity.posttext}}
+									</p>
+								</div>
+								<div
+									class="text-right text-sm whitespace-nowrap text-gray-400 tracking-wider"
+								>
+									{{activity.campaign.time}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

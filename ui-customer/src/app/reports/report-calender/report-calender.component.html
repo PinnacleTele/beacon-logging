@@ -1,0 +1,88 @@
+<!-- filter section -->
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-4">
+	<!-- <span  class=" text-gray-700 ml-1" *ngIf="!includeToday && (label !== 'today')">
+
+
+        Please note that last no.of days does not includes today
+
+        </span> -->
+	<!-- Code block starts -->
+	<div
+		[ngClass]="fromPage=='search' ? 'justify-between' : 'justify-end'"
+		class="py-2 flex flex-col sm:flex-row items-start sm:items-center bg-white"
+	>
+		<div
+			*ngIf="fromPage=='search'"
+			class="flex items-center mb-4 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0"
+		>
+			<div class="ml-4">
+				<h2
+					class="focus:outline-none text-gray-500 text-md font-semibold"
+				>
+					Total
+				</h2>
+				<span class="focus:outline-none text-gray-500 text-lg font-bold"
+					>{{numberOfRows}}</span
+				>
+				<span class="text-xxs text-gray-400 ml-1"
+					>Rows
+					<span class="text-xxs text-indigo-700 ml-1">
+						for {{ label}}
+					</span></span
+				>
+			</div>
+		</div>
+		<div class="flex space-x-3 mr-4 ml-3">
+			<div class="flex justify-between space-x-2">
+				<div class="relative">
+					<ejs-daterangepicker
+						[format]="format"
+						[max]="maxDate"
+						width="180px"
+						[startDate]="startDate"
+						[endDate]="includeToday == true ? today:endDate"
+						(change)="dateFilter($event)"
+						[allowEdit]="false"
+						[showClearButton]="false"
+					>
+						<e-presets>
+							<e-preset
+								label="Today"
+								[start]="today"
+								[end]="today"
+							></e-preset>
+							<e-preset
+								label="Last 7 days"
+								[start]="sevendaysStart"
+								[end]="includeToday == true ? today:yesterday"
+							></e-preset>
+							<e-preset
+								label="Last 15 days"
+								[start]="fifteenDays"
+								[end]="includeToday == true ? today:yesterday"
+							></e-preset>
+							<e-preset
+								label="Last 30 days"
+								[start]="thirtyDays"
+								[end]="includeToday == true ? today:yesterday"
+							></e-preset>
+							<!-- <e-preset label="last 60 days" [start]='sixtyDays' [end]='today'></e-preset> -->
+							<e-preset
+								label="This week"
+								[start]="weekStart"
+								[end]="today"
+							></e-preset>
+							<e-preset
+								label="This month"
+								[start]="monthStart"
+								[end]="today"
+							></e-preset>
+						</e-presets>
+					</ejs-daterangepicker>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Code block ends -->
+</div>

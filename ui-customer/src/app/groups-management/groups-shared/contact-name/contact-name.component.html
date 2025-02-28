@@ -1,0 +1,28 @@
+<!-- <div> -->
+    <form  *ngIf="campaignNameFormGroup" [formGroup]="campaignNameFormGroup">
+
+    <label for="name" class="block font-semibold text-gray-700">Name </label>
+
+    <div  class="mt-2 relative rounded-md">
+        <input (blur)="onBlur($event)"[ngClass]="{'border-red-300': name.touched && name.errors}" formControlName="name" type="text" name="name" id="name" class="block w-full sm:w-1/2 text-xs sm:py-2.5 pr-10 text-gray-800 focus:outline-none border-gray-300 rounded bg-gray-50" value="" aria-invalid="true" aria-describedby="name-error" />
+    </div>
+    <p 
+    *ngIf = "name.touched && name.errors?.required"
+    class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"> name required</p>
+    <p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = "name.dirty && name.errors?.maxlength" >
+    maximun length should be {{ maximumLength }} chars
+  </p>
+  <p 
+  *ngIf = "name.touched && name.errors?.required"
+  class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"> name required</p>
+  <p
+  class="mt-2 text-xxs sm:text-xs text-red-600"
+  id="name-error" 
+  *ngIf = "name.dirty && name.errors?.minlength" >
+  minimum length should be {{minimumLength}} chars
+</p>
+    </form>
+<!-- </div> -->

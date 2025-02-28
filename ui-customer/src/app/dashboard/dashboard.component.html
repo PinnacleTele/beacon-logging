@@ -1,0 +1,47 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 py-2 bg-white">
+	<div class="sm:flex sm:items-baseline">
+		<h3
+			class="text-lg leading-6 font-bold text-gray-900 sm:px-4 md:px-6 pl-1 md:text-xl"
+		>
+			Dashboard
+		</h3>
+	</div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	<div class="py-6">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+			<h1 class="text-2xl font-semibold text-gray-900"></h1>
+		</div>
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+			<!-- Replace with your content -->
+			<div class="py-4">
+				<!-- todays campaign -->
+				<app-summary></app-summary>
+				<!-- end of todays campaign -->
+
+				<!-- campaign table -->
+				<app-campaign-list></app-campaign-list>
+				<!-- end of campaign table -->
+
+				<!-- statistics -->
+				<div class="pt-4">
+					<div
+						class="grid grid-cols-1 lg:grid-cols-2 gap-3 pt-4 gap-y-6"
+					>
+						<!-- account stats cards -->
+						<app-statistics></app-statistics>
+						<!-- campaign activities -->
+						<app-campaign-activities></app-campaign-activities>
+					</div>
+				</div>
+				<!-- end of statistics -->
+
+				<!-- scheduled campaigns list -->
+				<app-scheduled-campaigns></app-scheduled-campaigns>
+			</div>
+			<!-- /End replace -->
+		</div>
+	</div>
+</main>

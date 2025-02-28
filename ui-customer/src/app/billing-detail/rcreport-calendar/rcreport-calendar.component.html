@@ -1,0 +1,76 @@
+<!-- filter section -->
+
+	<!-- <span  class=" text-gray-700 ml-1" *ngIf="!includeToday && (label !== 'today')">
+
+
+        Please note that last no.of days does not includes today
+
+        </span> -->
+	<!-- Code block starts -->
+	<div
+	class="pt-0 sm:pt-0 w-full flex sm:justify-end"
+	>
+		<div class="flex-col md:flex justify-start md:space-x-2 space-y-2 text-xs w-full">
+			<div class="flex-col lg:flex lg:flex-row justify-between lg:justify-end items-center space-x-0 lg:space-x-2 space-y-2 lg:space-y-0 w-full">
+				<div class="">
+					<div class="flex justify-between space-x-3">
+						<div class="relative  w-full">
+							
+							<ejs-daterangepicker					
+								[format]="format"
+								[max]="maxDate"
+								width="180px"
+								[startDate]="startDate"
+								[endDate]="includeToday == true ? today:endDate"
+								(change)="dateFilter($event)"
+								[allowEdit]="false"
+								[showClearButton]="false"
+							>
+								<e-presets>
+									<e-preset
+										label="yesterday"
+										[start]="yesterday"
+										[end]="yesterday"
+									></e-preset>
+									<e-preset
+										label="Today"
+										[start]="today"
+										[end]="today"
+									></e-preset>
+									<e-preset
+										label="Last 7 days"
+										[start]="sevendaysStart"
+										[end]="includeToday == true ? today:yesterday"
+									></e-preset>
+									<e-preset
+										label="Last 15 days"
+										[start]="fifteenDays"
+										[end]="includeToday == true ? today:yesterday"
+									></e-preset>
+									<e-preset
+										label="Last 30 days"
+										[start]="thirtyDays"
+										[end]="includeToday == true ? today:yesterday"
+									></e-preset>
+									<!-- <e-preset label="last 60 days" [start]='sixtyDays' [end]='today'></e-preset> -->
+									<e-preset
+										label="This week"
+										[start]="weekStart"
+										[end]="today"
+									></e-preset>
+									<e-preset
+										label="This month"
+										[start]="monthStart"
+										[end]="today"
+									></e-preset>
+								</e-presets>
+							</ejs-daterangepicker>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+	<!-- Code block ends -->

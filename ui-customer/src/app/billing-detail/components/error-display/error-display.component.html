@@ -1,0 +1,55 @@
+<!-- <p class="mt-2 text-xxs sm:text-xs text-gray-500" *ngIf="(!name.touched && name.errors?.required) ||  !name.errors">
+  {{fieldInfoText}}
+</p>
+
+<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error" *ngIf="name.touched && name.errors?.required">
+  {{fieldName}} is required
+</p>
+
+
+<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error" *ngIf="name.touched && name.errors?.max">
+  maximum 4 Integer Vlaue only allowed
+</p>
+<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error" *ngIf="name.touched && name.errors?.min">
+  entered value must be greater than parent user's value
+</p>
+<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error" *ngIf="name.touched && name.errors?.decimalInvalid">
+  maximum 6 decimal places are allowed
+</p> -->
+
+<p class="mt-2 text-xxs sm:text-xs text-gray-500" *ngIf="(!name.touched && name.errors?.required) ||  !name.errors">
+  {{ fieldInfoText }}
+</p>
+
+<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error" *ngIf="name.touched && name.errors?.required">
+  {{fieldName}} is required
+</p>
+
+<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+  *ngIf="name.errors?.decimalInvalid && !(name.errors?.min || name.errors?.wholenumError)">
+  {{decimalErrors}}
+</p>
+
+
+<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error" *ngIf=" name.errors?.min">
+  Rate cannot be lesser than your rate ({{name.errors.min["min"]}})
+</p>
+<p class="mt-2 text-xxs sm:text-xs text-red-500" *ngIf="name.errors?.wholenumError">
+  {{ maxLengthError }}
+</p>
+<!-- <p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+  *ngIf="name.errors?.lessThanZero && !(name.errors?.decimalInvalid) ">
+  {{greaterThanZero}}
+</p> -->
+
+<!-- <p
+    class="mt-2 text-xxs sm:text-xs text-red-600"
+    id="name-error" 
+    *ngIf = " name.errors?.negativeNum" >
+    Negative numbers not accepted for this field
+</p> -->
+<!-- <p
+    class="mt-2 text-xxs sm:text-xs text-red-500"
+    *ngIf = "name.errors?.min && !name.errors?.lessThanZero" >
+    {{ minimumBillRateError }}
+</p>    -->

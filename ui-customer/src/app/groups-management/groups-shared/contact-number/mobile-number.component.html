@@ -1,0 +1,23 @@
+<!-- <div> -->
+<form *ngIf="contactMobileFormGroup" [formGroup]="contactMobileFormGroup">
+
+	<label for="mobileControl" class="block font-semibold text-gray-700">Mobile Number<span class="text-red-600">*</span>
+	</label>
+	<div class="mt-2 relative rounded-md">
+		<input [ngClass]="{'border-red-300': mobile?.touched && mobile?.errors}" (keyup)="blur()" formControlName="mobile"
+			type="text" name="mobile" id="mobile" [readonly]="enable"
+			class="block w-full sm:w-1/2 text-xs sm:py-2.5 pr-10 text-gray-800 focus:outline-none border-gray-300 rounded bg-gray-50"
+			value="" aria-invalid="true" aria-describedby="name-error" />
+	</div>
+	<p *ngIf="(mobile.valid || !mobile.touched) && !enable" class="mt-2 text-xxs sm:text-xs text-gray-500"
+		id="mobile-error"> enter
+		mobile number with
+		country code ({{minLength}}-{{maxLength}} digits).</p>
+	<p *ngIf="mobile.touched && mobile.errors?.required" class="mt-2 text-xxs sm:text-xs text-red-600" id="mobile-error">
+		mobile number required</p>
+
+	<p *ngIf="mobile.touched && mobile.errors?.pattern" class="mt-2 text-xxs sm:text-xs text-red-600" id="mobile-error">
+		enter valid mobile number</p>
+
+
+</form>

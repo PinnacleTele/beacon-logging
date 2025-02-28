@@ -1,0 +1,236 @@
+{
+  "campaignList": [
+    {
+      "id": "1",
+      "c_Name": "OTM 1",
+      "c_Type": "otm",
+      "c_content":"FESTIVAL WISH EFWBEFIWEFIU EWHIFWIEFHIW WEHFIWEHFIWEF IWEFHIWUEFHIWEF SDHSIVDIVADSV WEUFIUWFIEW WEYDGEWFUYWGFEUYW",
+      "file_group":"4",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"completed",
+      "t_human":"45k",
+      "e_grp":"",
+      "t_total":"4535",
+        "files":[{"file":"this_is_XLSX_file_for_marketing.xlsx","total":"23k","valid":"20k","inValid":"3k","failed":"1","status":"completed"},
+         {"file":"this_is_XLS_file_for_marketing.xls","total":"10k","valid":"9k","inValid":"1k","failed":"0","status":"Inprogress"},
+         {"file":"this_is_CSV_file_for_marketing.csv","total":"5k","valid":"4.9k","inValid":"100","failed":"2","status":"failed"}],
+
+          "progress":[{"total":"2.5m"},
+           {"submission":{"total":"6k","totalHuman":"6000","percentage":65}},
+           {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":1}},
+           {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":23}},
+           {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":97}},
+           {"DNPending":{"total":"3330","totalHuman":"33k","percentage":36}}
+          ],
+       "validContacts":"345",
+       "inValidContacts":"45",
+        "duplicateContacts":"45",
+        "failedContacts":"3",
+        "completedFile":3
+ 
+
+    },
+    {
+      "id": "2",
+      "c_Name": "TEMPLATE 1",
+      "c_Type": "template",
+      "c_content":"BIRTHDAY WISHES",
+      "file_group":"4",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"completed",
+      "t_human":"45k",
+      "e_grp":"2",
+      "t_total":"4535",
+      "files":[{"file":"this_is_XLSX_file_for_marketing.xlsx","total":"23k","valid":"20k","inValid":"3k","failed":"1","status":"completed"},
+       {"file":"this_is_XLS_file_for_marketing.xls","total":"10k","valid":"9k","inValid":"1k","failed":"0","status":"completed"},
+       {"file":"this_is_CSV_file_for_marketing.csv","total":"5k","valid":"4.9k","inValid":"100","failed":"2","status":"completed"}],
+
+        "progress":[{"total":"2.5m"},
+         {"submission":{"total":"6k","totalHuman":"6000","percentage":98}},
+         {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":1}},
+         {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":23}},
+         {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":97}},
+        {"DNPending":{"total":"3330","totalHuman":"33k","percentage":100}}
+        ],
+     "validContacts":"345",
+     "inValidContacts":"45",
+      "duplicateContacts":"45",
+      "failedContacts":"3",
+      "completedFile":3
+
+    },
+    {
+      "id": "3",
+      "c_Name": "QUICK 1",
+      "c_Type": "quick",
+      "c_content":"STRICTLY VIOLENTED",
+      "file_group":"3",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"Inprogress",
+      "t_human":"45k",
+      "e_grp":"2",
+      "t_total":"4535",
+        "progress":[{"total":"2.5m"},
+         {"submission":{"total":"6k","totalHuman":"6000","percentage":98}},
+         {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":1}},
+         {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":23}},
+         {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":97}},
+         {"DNPending":{"total":"3330","totalHuman":"33k","percentage":100}}
+        ],
+      "mobiles":["9988776655","2233444456","6655443377"],
+     "validContacts":"345",
+     "inValidContacts":"45",
+      "duplicateContacts":"45",
+      "failedContacts":"3",
+      "completedFile":3
+
+    },
+    {
+      "id": "4",
+      "c_Name": "TEMPLATE 2",
+      "c_Type": "template",
+      "c_content":"WELCOME WISH MESSAGE",
+      "file_group":"3",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"failed",
+      "t_human":"45k",
+      "e_grp":"2",
+      "t_total":"4535",
+      "files":[{"file":"this_is_XLSX_file_for_marketing.xlsx","total":"23k","valid":"20k","inValid":"3k","failed":"1","status":"failed"},
+       {"file":"this_is_XLS_file_for_marketing.xls","total":"10k","valid":"9k","inValid":"1k","failed":"0","status":"failed"},
+       {"file":"this_is_CSV_file_for_marketing.csv","total":"5k","valid":"4.9k","inValid":"100","failed":"2","status":"failed"}],
+
+        "progress":[{"total":"2.5m"},
+         {"submission":{"total":"6k","totalHuman":"6000","percentage":98}},
+         {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":1}},
+         {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":23}},
+         {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":97}},
+         {"DNPending":{"total":"3330","totalHuman":"33k","percentage":100}}
+        ],
+     "validContacts":"345",
+     "inValidContacts":"45",
+      "duplicateContacts":"45",
+      "failedContacts":"3",
+      "completedFile":3
+
+    },
+    {
+      "id": "5",
+      "c_Name": "MTM 1",
+      "c_Type": "mtm",
+      "c_content":"YOURE WELCOME BY OUR ORGANIZATION",
+      "file_group":"3",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"completed",
+      "t_human":"45k",
+      "e_grp":"2",
+      "t_total":"4535",
+      "files":[{"file":"this_is_XLSX_file_for_marketing.xlsx","total":"23k","valid":"20k","inValid":"3k","failed":"1","status":"Inprogress"},
+       {"file":"this_is_XLS_file_for_marketing.xls","total":"10k","valid":"9k","inValid":"1k","failed":"0","status":"Inprogress"},
+       {"file":"this_is_CSV_file_for_marketing.csv","total":"5k","valid":"4.9k","inValid":"100","failed":"2","status":"Inprogress"}],
+
+        "progress":[{"total":"2.5m"},
+         {"submission":{"total":"6k","totalHuman":"6000","percentage":98}},
+         {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":1}},
+         {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":23}},
+         {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":97}},
+         {"DNPending":{"total":"3330","totalHuman":"33k","percentage":100}}
+        ],
+     "validContacts":"345",
+     "inValidContacts":"45",
+      "duplicateContacts":"45",
+      "failedContacts":"3",
+      "completedFile":3
+
+    },
+    {
+      "id": "6",
+      "c_Name": "QUICK 2",
+      "c_Type": "quick",
+      "c_content":"I AM THERE",
+      "file_group":"3",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"failed",
+      "t_human":"45k",
+      "e_grp":"2",
+      "t_total":"4535",
+      "mobiles":["9988776655","2233444456","6655443377"],       
+       "progress":[{"total":"2.5m"},
+         {"submission":{"total":"6k","totalHuman":"6000","percentage":98}},
+         {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":1}},
+         {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":23}},
+         {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":97}},
+         {"DNPending":{"total":"3330","totalHuman":"33k","percentage":100}}
+        ],
+     "validContacts":"345",
+     "inValidContacts":"45",
+      "duplicateContacts":"45",
+      "failedContacts":"3",
+      "completedFile":3
+
+    },
+    {
+      "id": "7",
+      "c_Name": "OTM 2",
+      "c_Type": "otm",
+      "c_content":"WELCOME TO MY OFZ",
+      "file_group":"4",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"Inprogress",
+      "t_human":"45k",
+      "e_grp":"2",
+      "t_total":"4535",
+      "files":[{"file":"this_is_XLSX_file_for_marketing.xlsx","total":"23k","valid":"20k","inValid":"3k","failed":"1","status":"completed"},
+       {"file":"this_is_XLS_file_for_marketing.xls","total":"10k","valid":"9k","inValid":"1k","failed":"0","status":"Inprogress"},
+       {"file":"this_is_CSV_file_for_marketing.csv","total":"5k","valid":"4.9k","inValid":"100","failed":"2","status":"failed"}],
+
+        "progress":[{"total":"2.5m"},
+         {"submission":{"total":"6k","totalHuman":"6000","percentage":98}},
+         {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":1}},
+         {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":23}},
+         {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":97}},
+         {"DNPending":{"total":"3330","totalHuman":"33k","percentage":100}}
+        ],
+     "validContacts":"345",
+     "inValidContacts":"45",
+      "duplicateContacts":"45",
+      "failedContacts":"3",
+      "completedFile":3
+
+    },
+    {
+      "id": "8",
+      "c_Name": "GROUP 2",
+      "c_Type": "group",
+      "c_content":"HI WELCOME ",
+      "file_group":"3",
+      "createdDate":"Mar 11, 2020 16-30",
+      "status":"Inprogress",
+      "t_human":"45k",
+      "e_grp":"2",
+      "t_total":"4535",
+      "groups":[{"group":"group name 1","total":"23k","valid":"20k","inValid":"3k","failed":"1","status":"completed"},
+        {"group":"group name 2","total":"10k","valid":"9k","inValid":"1k","failed":"0","status":"Inprogress"},
+        {"group":"group name 3","total":"5k","valid":"4.9k","inValid":"100","failed":"2","status":"failed"}],
+    
+        "Egroups":[{"group":"group name 1","total":"23k","valid":"20k","inValid":"3k","failed":"1","status":"completed"},
+          {"group":"group name 2","total":"10k","valid":"9k","inValid":"1k","failed":"0","status":"Inprogress"},
+          {"group":"group name 3","total":"5k","valid":"4.9k","inValid":"100","failed":"2","status":"failed"}],
+   
+        "progress":[{"total":"2.5m"},
+         {"submission":{"total":"6k","totalHuman":"6000","percentage":75}},
+         {"platformFailures":{"total":"120","totalHuman":"1.2k","percentage":5}},
+         {"DNFailure":{"total":"3454","totalHuman":"3.4k","percentage":36}},
+         {"DNSuccess":{"total":"4989","totalHuman":"5k","percentage":48}},
+         {"DNPending":{"total":"3330","totalHuman":"33k","percentage":86}}
+        ],
+     "validContacts":"345",
+     "inValidContacts":"45",
+      "duplicateContacts":"45",
+      "failedContacts":"3",
+      "completedFile":3
+
+    }
+  
+  ]
+}

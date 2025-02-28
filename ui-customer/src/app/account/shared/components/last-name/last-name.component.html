@@ -1,0 +1,15 @@
+<form *ngIf="lastNameFormGroup" [formGroup]="lastNameFormGroup">	
+<input type="text"  name="lastName" formControlName = "lastName"
+id="lastName" 
+[ngClass]="{'border-red-300': lastName.touched && lastName.errors}" 
+class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md" placeholder="" value="" aria-invalid="true" aria-describedby="name-error" />
+<app-error-display
+[formGroup]="lastNameFormGroup"
+[fieldName] = "lastNameFieldName"
+[controlName]="'lastName'"
+[fieldInfoText] = "lastNameInfoText"
+[minimumLength] = "genericMinimalLength"
+[maximumLength] = "genericMaxLength"
+[pattern] = "alphabetsOnlyValidation"
+></app-error-display>
+</form>

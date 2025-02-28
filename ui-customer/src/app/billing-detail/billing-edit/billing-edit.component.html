@@ -1,0 +1,506 @@
+<div class="border-b border-gray-200 pt-2 bg-white">
+  <div class="flex justify-between">
+    <div class="lg:flex sm:items-baseline">
+      <h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r">
+        Manage Rate</h3>
+      <div class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400">
+        <span routerLink="/billing" class="hover:text-blue-500 cursor-pointer">Billing Rates</span>
+        <span class="text-xxs font-mono">/</span>
+        <span class="hover:text-blue-500 cursor-pointer">Edit Rate</span>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none">
+  <div class="py-6 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+      <!-- Replace with your content -->
+
+      <div class="bg-white p-5 md:p-10 rounded">
+        <div *ngIf="userName" class="text-lg font-medium">
+          <span class="bg-gray-100 p-2 text-gray-600">{{userName}}</span>
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between pt-2 space-y-2">
+            <!-- search -->
+            <div class="sm:w-1/2"></div>
+            <!-- icons section -->
+            <div class="pt-2 sm:pt-0 w-full flex sm:justify-end"></div>
+          </div>
+
+          <!-- table section -->
+          <div class="flex flex-col pt-1">
+            <div class="overflow-x-auto">
+              <div class="py-2 align-middle inline-block min-w-full pt-1">
+                <div class="">
+                  <!-- section to show on error -->
+
+                  <!-- india -->
+                  <form [formGroup]="indiaBillRateForm">
+                    <div class="text-base font-semibold text-gray-600 mt-2">Billing Rate (India)</div>
+                    <div class="text-xs font-normal text-gray-500 mt-1 md:w-2/3">{{india_rate_info_txt}}
+                    </div>
+                    <div class="mt-6 md:flex w-full items-center justify-between md:space-x-8">
+                      <div class="flex flex-col md:ml-0 md:mt-0 mt-8 md:w-1/2">
+                        <label class="mb-3 text-sm leading-none text-gray-600 w-full">Specify SMS Rate<span
+                            class="text-red-500">*</span></label>
+                        <!-- <input type="text" name="name" id="name" class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md" placeholder="" value="" aria-invalid="true" aria-describedby="name-error" /> -->
+                        <app-sms-rate [apiError]="indian_bill_api_error" [loading]="indianRateApiLoading">
+                        </app-sms-rate>
+                        <div *ngIf="indian_bill_api_error" class="flex items-center justify-start w-auto mt-2">
+                          <p class="text-xs text-rose-600 font-normal">
+                            Something went wrong
+                          </p>
+                          <p (click)="getIndianRates()"
+                            class="mt-3 text-xs md:mt-0 md:ml-6 cursor-pointer text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+                            <a class="whitespace-nowrap font-medium uppercase">Retry</a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-4 md:flex w-full items-center justify-between md:space-x-8">
+                      <div class="flex flex-col md:ml-0 md:mt-0 mt-8 md:w-1/2">
+                        <label class="mb-3 text-sm leading-none text-gray-600 w-full">Specify DLT Rate<span
+                            class="text-red-500">*</span></label>
+
+                        <app-dlt-rate [apiError]="indian_bill_api_error" [loading]="indianRateApiLoading">
+                        </app-dlt-rate>
+                        <div *ngIf="indian_bill_api_error" class="flex items-center justify-start w-auto mt-2">
+                          <p class="text-xs text-rose-600 font-normal">
+                            Something went wrong
+                          </p>
+                          <p (click)="getIndianRates()"
+                            class="mt-3 text-xs md:mt-0 md:ml-6 cursor-pointer text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+                            <a class="whitespace-nowrap font-medium uppercase">Retry</a>
+                          </p>
+                          <!-- <p class="mt-2 text-xxs sm:text-xs text-gray-400" id="name-error">error info</p> -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- button section -->
+                    <div class="flex justify-start md:justify-end mt-4 border-t pt-4 border-gray-200">
+                      <div>
+                        <button (click)="india_Discard()" type="button"
+                          [disabled]="!indiaBillRateForm.dirty || indian_bill_api_error"
+                          [ngClass]="[!indiaBillRateForm.dirty ||indian_bill_api_error ? 'bg-gray-100 text-gray-500 cursor-not-allowed':'bg-gray-500 text-white hover:bg-gray-600']"
+                          class="ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <span class="text-xs">Discard</span>
+                        </button>
+                        <button (click)="indiaSave()" type="button"
+                          [disabled]="!indiaBillRateForm.dirty || indian_bill_api_error"
+                          [ngClass]="[!indiaBillRateForm.dirty || indian_bill_api_error ? 'bg-blue-300 cursor-not-allowed':'bg-blue-500 hover:bg-blue-600']"
+                          class="ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <span class="text-xs">{{indiaSaveLoading ? 'Saving..':'Save Changes'}}</span>
+                          <svg class="animate-spin text-white" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24"
+                            version="1.1" *ngIf="indiaSaveLoading">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                              <g>
+                                <polygon points="0 0 24 0 24 24 0 24" />
+                              </g>
+                              <path class="opacity-15"
+                                d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                                fill="currentColor" fill-rule="nonzero"
+                                transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  <!-- other countries -->
+                  <form [formGroup]="editBillingForm" *ngIf="intl_en==1">
+                    <div class="flex flex-col justify-between items-start mt-8">
+                      <div class="text-base font-semibold text-gray-600 mt-2 block">Billing Rate (Other Countries)
+                      </div>
+                      <div class="text-xs font-normal text-gray-500 mt-1 md:w-2/3">Specify rates for each country.
+                        Supports upto max {{wholeNumTotLength}} digits before decimal and max 6 digits after decimal
+                      </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                      <div class="flex space-x-2 text-xs text-gray-500 font-medium justify-between items-center">
+                        <span class="tracking-wide leading-3">Total Countries:</span>
+                        <span>{{other_Rates.length}}</span>
+                      </div>
+                      <div>
+                        <button (click)="addButtonClicked()"
+                          class="flex items-center text-sm text-indigo-600 p-1 pr-2.5 mt-3 border-indigo-50 border bg-gray-100 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
+                          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+                            <rect fill="currentColor" x="4" y="11" width="16" height="2" rx="1"></rect>
+                            <rect fill="currentColor" opacity="0.5"
+                              transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)"
+                              x="4" y="11" width="16" height="2" rx="1"></rect>
+                          </svg>
+                          <span class="font-semibold text-xs ml-1">Add</span>
+                        </button>
+                      </div>
+                    </div>
+                    <table class="min-w-full divide-y-0 divide-gray-200 mt-2">
+                      <thead *ngIf=" !apiError && editBillingForm.get('otherCountriesBillRates')['controls']?.length >0"
+                        class="bg-gray-50 text-xxs font-medium text-gray-400">
+                        <tr class="">
+                          <th scope="col" class="px-2 py-2 flex items-center text-left uppercase tracking-wider">
+                            <span class="px-6 whitespace-nowrap"> Country </span>
+                          </th>
+                          <th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap">Custom
+                            Rate</th>
+                          <th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap">
+                            <div class="flex items-center space-x-1">
+                              <span>Rate in Euro</span>
+                              <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500"
+                                  viewBox="0 0 20 20" fill="currentColor" [tooltip]="tooltipText" [options]="myOptions">
+                                  <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                    clip-rule="evenodd" />
+                                </svg>
+                              </span>
+                            </div>
+                          </th>
+                          <th scope="col" class="px-6 py-2 text-left uppercase tracking-wider"></th>
+                        </tr>
+                      </thead>
+                      <!-- table data skeleton loader -->
+                      <tbody *ngIf="skeleton" class=" bg-white divide-y divide-gray-100 w-full">
+                        <!-- generate below content using for loop -->
+                        <tr *ngFor="let s  of skeletonRows" class="w-full pb-2 h-10">
+                          <td>
+                            <div class="bg-gray-200 h-5 my-3 w-full animate-pulse"></div>
+                          </td>
+                          <td>
+                            <div class="bg-gray-200 h-5 my-3 w-full animate-pulse"></div>
+                          </td>
+                          <td>
+                            <div class="bg-gray-200 h-5 my-3 w-full animate-pulse"></div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <!-- app-apierror -->
+                      <tbody>
+                        <app-apierror *ngIf="billingAPIerror && !skeleton" (Emitter)="getCountryList()"
+                          class="flex justify-center align-cener ml-6">
+                        </app-apierror>
+                      </tbody>
+                      <tbody *ngIf="!skeleton" class="bg-white divide-y divide-gray-100"
+                        formArrayName="otherCountriesBillRates">
+                        <tr
+                          *ngFor="let rates of editBillingForm.get('otherCountriesBillRates')['controls']; let i = index;"
+                          [formGroupName]="i" [ngClass]="[rates.controls.prepareToDelete.value? 'bg-rose-50':'']">
+                          <td class="px-2 py-2 whitespace-nowrap">
+                            <div class="flex items-center" *ngIf="rates.controls.isFromApi.value">
+                              <div class="ml-6 space-y-0.5">
+                                <span class="text-sm font-medium text-gray-600 ">
+                                  {{rates.controls.country.value}} </span>
+                              </div>
+                            </div>
+                            <ng-select *ngIf="! rates.controls.isFromApi.value" [items]="countryList"
+                              bindLabel="country" bindValue="country" formControlName="country" [loading]="spinner"
+                              placeholder="Select Country" [editableSearchTerm]="true"
+                              (change)="ngSelectChange($event,i)" class=" text-xs mt-2   shadow-sm text-gray-700 focus:ring-indigo-500
+                          focus:border-indigo-500 block w-full border-gray-300 rounded-md">
+
+                            </ng-select>
+                            <p class=" pt-2 pb-2 text-xxs sm:text-xs text-red-600 "
+                              *ngIf="rates.controls.country.touched && rates.controls.country.errors?.required">
+                              Country is required
+                            </p>
+                          </td>
+
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="mt-0 relative rounded-md shadow-sm w-44 md:w-60">
+                              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm">
+                                  {{symbolOfCurrency(rates.controls.billing_currency.value)}} </span>
+                              </div>
+                              <input type="text" name="dltrate" id="dltrate" formControlName="intlRate"
+                                (keyup)="change(i,rates.controls.intlRate.value,rates.controls.country.value)"
+                                [readonly]="rates.controls.prepareToDelete.value"
+                                [ngClass]="{'border-red-300 ': rates.controls.intlRate.touched && rates.controls.intlRate.errors}"
+                                class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-1.5 pl-7 pr-2 sm:text-sm placeholder-gray-400 text-gray-700 border-gray-300 rounded-md"
+                                placeholder="0.00" aria-describedby="dltrate-currency" />
+                              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm" id="dltrate-currency"> {{currencyType}} </span>
+                              </div>
+                            </div>
+                            <p class="mt-2 text-xxs sm:text-xs text-red-600"
+                              *ngIf="rates.controls.intlRate.touched && rates.controls.intlRate.errors?.required">
+                              Rate is required
+                            </p>
+                            <p class="mt-2 text-xxs sm:text-xs text-red-600 "
+                              *ngIf=" rates.controls.intlRate.errors?.decimalInvalid">
+                              {{decimalErrMsg}}
+                            </p>
+                            <p class="mt-2 text-xxs sm:text-xs text-red-600 "
+                              *ngIf=" rates.controls.intlRate.errors?.lessThanZero && !rates.controls.intlRate.errors?.required">
+                              {{ZeroErrMsg}}
+                            </p>
+                            <p class="mt-2 text-xxs sm:text-xs text-red-600 "
+                              *ngIf=" rates.controls.intlRate.errors?.min">
+                              Entered rate is lesser than pre-admin rate ({{rates.controls.intlRate.errors.min["min"]}})
+                            </p>
+                            <p class="mt-2 text-xxs sm:text-xs text-red-600 "
+                              *ngIf=" rates.controls.intlRate.errors?.negativeNum">
+                              negative rates are not allowed
+                            </p>
+                          </td>
+
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex space-x-1 items-center">
+                              <div class="text-xs text-gray-600">€</div>
+                              <div class="text-xs text-gray-600">{{rates.controls.euroValue.value | number:'0.1-6'}}
+                                <span class="text-xxs text-gray-400 uppercase mt-1">EUR</span>
+                              </div>
+
+                            </div>
+                          </td>
+                          <!-- delete button -->
+                          <td *ngIf="!rates.controls.prepareToDelete.value&& rates.controls.isFromApi.value"
+                            class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
+                            <div (click)="onRemove(i,rates)" class="flex items-center">
+                              <a class="text-red-600 p-2 ml-2 border-transparent border bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+                                href="javascript: void(0)" tooltip="Delete" [options]="myOptions">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                  stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                              </a>
+                            </div>
+                          </td>
+                          <!-- undo button -->
+                          <td *ngIf="rates.controls.prepareToDelete.value && rates.controls.isFromApi.value"
+                            class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
+                            <div (click)="removeFromDelete(i)" class="flex items-center">
+                              <a class="text-yellow-600 p-2 ml-2 border-transparent border bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+                                href="javascript: void(0)" tooltip="Undo" [options]="myOptions">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                  stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                                </svg>
+                              </a>
+                            </div>
+                          </td>
+                          <!-- minus button -->
+                          <td *ngIf="!rates.controls.isFromApi.value"
+                            class=" px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
+                            <div (click)="delete(i)" class="flex items-center">
+                              <a class="text-rose-600 p-2 ml-2 border-transparent border bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+                                href="javascript: void(0)" tooltip="Remove" [options]="myOptions">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 cursor-pointer"
+                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                  stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                        <!-- row marked for deletion -->
+
+
+                        <!-- More items... -->
+                      </tbody>
+                    </table>
+                    <!-- api error -->
+
+                    <!-- nodata -->
+                    <div *ngIf="noData && editBillingForm.get('otherCountriesBillRates')['controls']?.length == 0"
+                      class="flex h-96 flex-col items-center justify-center bg-white">
+                      <div class="mt-0">
+                        <svg class="text-gray-300 w-32 h-32" viewBox="0 0 24 24" version="1.1">
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <polygon points="0 0 24 0 24 24 0 24" />
+                            <path
+                              d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z"
+                              fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+                            <path
+                              d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z"
+                              fill="currentColor" fill-rule="nonzero" />
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="mt-8">
+                        <p class="text-md text-gray-800 font-semibold">No International rates</p>
+                      </div>
+                      <div class="mt-6 w-2/3 text-center">
+                        <p class="text-xs text-gray-400 font-medium">You don't have any International rates
+                          created yet. Please go ahead and create one</p>
+                      </div>
+                    </div>
+                    <!-- button section -->
+                    <div *ngIf=" !apiError && editBillingForm.get('otherCountriesBillRates')['controls']?.length >0"
+                      class="flex justify-start md:justify-end mt-8 border-t pt-4 border-gray-200">
+                      <div>
+                        <button type="button" (click)="otherCountriesDiscard()" [disabled]="!(isOthersEnable )"
+                          [ngClass]="[isOthersEnable  ? 'bg-gray-500 text-white hover:bg-gray-600':'bg-gray-100 text-gray-500 cursor-not-allowed']"
+                          class="ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <span class="text-xs">Discard </span>
+                        </button>
+                        <!-- <button type="button" 
+                          class="md:ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded  bg-gray-100  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <span class="text-xs">Discard</span>
+                        </button> -->
+                        <!-- <button (click)="otherCountriesDiscard()" type="button"
+                          class="md:ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded text-gray-500 bg-gray-100 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <span class="text-xs">Discard</span>
+                        </button> -->
+                        <button (click)="otherCountriesSave()" type="button" [disabled]="!(isOthersEnable )"
+                          [ngClass]="[isOthersEnable  ? 'bg-blue-500 hover:bg-blue-600':'bg-blue-300 cursor-not-allowed']"
+                          class="ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <span class="text-xs">{{otherSaveLoading ? 'Saving..':'Save Changes'}}</span>
+                          <svg class="animate-spin text-white" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24"
+                            version="1.1" *ngIf="otherSaveLoading">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                              <g>
+                                <polygon points="0 0 24 0 24 24 0 24" />
+                              </g>
+                              <path class="opacity-15"
+                                d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                                fill="currentColor" fill-rule="nonzero"
+                                transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- row section -->
+                <form [formGroup]="ROWForm" *ngIf="intl_en==1">
+                  <div class="text-base font-semibold text-gray-600 mt-12">Billing Rate (ROW)</div>
+                  <div class="text-xs font-normal text-gray-500 mt-1 md:w-2/3">Below rate is applicable for the rest of
+                    the countries. Supports upto max 4 digits before decimal and max 6 digits after decimal</div>
+
+                  <div>
+                    <div class="md:flex mt-6">
+                      <div class="md:flex-col ml-0 md:ml-0 md:mt-0 md:w-1/2">
+                        <!-- <div class="flex justify-between w-1/2 md:w-full">
+                          <label class="mb-3 text-sm leading-none text-gray-600">Enter Rate</label>
+                          <span class="text-xs leading-none text-gray-600"
+                            title="Billing rate equivallent in Euro">({{ROWForm.controls.euroValue.value}}€)</span>
+                        </div> -->
+                        <div class="flex justify-between w-1/2 md:w-full">
+                          <label class="mb-3 text-sm leading-none text-gray-600">Enter Rate</label>
+                          <div class="flex space-x-1 items-center">
+                            <span class="text-xs leading-none text-gray-600" tooltip="Billing rate equivallent in Euro"
+                              [options]="myOptions">({{ROWForm.controls.euroValue.value|number:'0.1-6'
+                              }}€)</span>
+                            <svg *ngIf="  ROWForm.controls.euroValue.value" xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor"
+                              [tooltip]="tooltipText" [options]="myOptions">
+                              <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd" />
+                            </svg>
+                          </div>
+                        </div>
+                        <!-- <input type="text" name="name" id="name" class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md" placeholder="" value="" aria-invalid="true" aria-describedby="name-error" /> -->
+                        <div class="flex flex-row">
+                          <div class="mt-2 relative rounded-md w-1/2 md:w-full">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <span class="text-gray-500 sm:text-sm">
+                                {{symbolOfCurrency(ROWForm.controls.RowPricingCurrency.value)}} </span>
+                            </div>
+                            <input type="text" name="dltrate" id="dltrate" formControlName="RowSMSRate"
+                              (keyup)="euroConverter(ROWForm.controls.RowSMSRate.value)"
+                              [ngClass]="{'border-red-300': RowRate.touched && RowRate.errors}"
+                              class="focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pl-7 pr-12 sm:text-sm placeholder-gray-400 text-gray-700 border-gray-300 rounded-md"
+                              placeholder="0.00" aria-describedby="dltrate-currency" />
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                              <svg *ngIf="rowLoading" class="animate-spin text-gray-900"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                  <g>
+                                    <polygon points="0 0 24 0 24 24 0 24" />
+                                  </g>
+                                  <path class="opacity-25"
+                                    d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                                    fill="currentColor" fill-rule="nonzero"
+                                    transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+                                </g>
+                              </svg>
+                            </div>
+                            <div *ngIf="!rowLoading"
+                              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                              <span class="text-gray-500 sm:text-sm" id="dltrate-currency">
+                                {{ROWForm.controls.RowPricingCurrency.value}} </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <app-error-display *ngIf="! ROWForm.controls.RowSMSRate.errors?.lessThanZero"
+                          [formGroup]="ROWForm" [controlName]="'RowSMSRate'" [fieldName]="'SMS Rate'"
+                          [fieldInfoText]="SMSRateInfoText">
+                        </app-error-display>
+                        <p class="mt-2 text-xxs sm:text-xs text-red-600 "
+                          *ngIf="ROWForm.controls.RowSMSRate.touched && ROWForm.controls.RowSMSRate.errors?.lessThanZero">
+                          {{ZeroErrMsg}}
+                        </p>
+                        <div *ngIf="rowApierr" class="flex items-center justify-start w-auto mt-2">
+                          <p class="text-xs text-rose-600 font-normal">
+                            Something went wrong
+                          </p>
+                          <p (click)="rowAPI()"
+                            class="mt-3 text-xs md:mt-0 md:ml-6 cursor-pointer text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+                            <a class="whitespace-nowrap font-medium uppercase">Retry</a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- button section -->
+                  <div class="flex justify-start md:justify-end mt-8 border-t pt-4 border-gray-200">
+                    <div>
+                      <button [disabled]="!ROWForm.dirty || rowApierr " type="button" (click)="RowDiacard()"
+                        [ngClass]="[!ROWForm.dirty || rowApierr ? 'bg-gray-100 text-gray-500 cursor-not-allowed':'bg-gray-500 text-white hover:bg-gray-600']"
+                        class="ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="text-xs">Discard</span>
+                      </button>
+                      <button (click)="ROWSave()" type="button" [disabled]="!ROWForm.dirty || rowApierr"
+                        [ngClass]="[!ROWForm.dirty || rowApierr ? 'bg-blue-300 cursor-not-allowed':'bg-blue-500 hover:bg-blue-600']"
+                        class="ml-3 inline-flex items-center space-x-2 justify-center py-1.5 px-3 border border-transparent shadow-sm text-xs font-semibold rounded text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="text-xs">{{RowSaveLoading ? 'Saving..':'Save Changes'}}</span>
+                        <svg class="animate-spin text-white" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24"
+                          version="1.1" *ngIf="RowSaveLoading">
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g>
+                              <polygon points="0 0 24 0 24 24 0 24" />
+                            </g>
+                            <path class="opacity-15"
+                              d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                              fill="currentColor" fill-rule="nonzero"
+                              transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+                          </g>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /End replace -->
+    </div>
+  </div>
+
+  <!-- modal for campaign preview -->
+
+
+  <!-- modal for Clear button -->
+
+  <!-- modal for Cancel button -->
+  <app-response-popup *ngIf="showPopUp" [currentCall]="currentApiCall" [Responce]="apiResponse"
+    (successPopUp)="modalContinue($event)" (closePopUp)="showPopUp=false" (tryAgainPopUp)="tryAgain($event)">
+  </app-response-popup>
+</main>

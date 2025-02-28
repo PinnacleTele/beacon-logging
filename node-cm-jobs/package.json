@@ -1,0 +1,39 @@
+{
+  "name": "cm-scheduler-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "dotenv": "^10.0.0",
+    "fastify": "^3.0.0",
+    "fastify-autoload": "^3.3.1",
+    "fastify-cli": "^2.11.0",
+    "fastify-plugin": "^3.0.0",
+    "fastify-sensible": "^3.1.0",
+    "gulp": "^4.0.2",
+    "gulp-bump": "^3.2.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-git": "^2.10.1",
+    "gulp-zip": "^5.1.0",
+    "ioredis": "^4.27.9",
+    "lodash": "^4.17.21",
+    "mariadb": "^2.5.4",
+    "node-schedule": "^2.0.0",
+    "nodemon": "^2.0.12",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "tap": "^14.11.0"
+  }
+}

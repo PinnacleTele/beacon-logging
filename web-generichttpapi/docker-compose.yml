@@ -1,0 +1,5 @@
+version: "3.1"
+services:
+  beacon-generichttpapi:
+    image: dk-reg.mas:5000/beacon-generichttpapi:2.0       
+    build: .

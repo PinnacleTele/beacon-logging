@@ -1,0 +1,18 @@
+# https://computingforgeeks.com/how-to-install-latest-redis-on-centos-7/
+---
+- hosts: redis
+  become: true
+  tasks:
+  - name: update packages
+    command: "sudo yum -y update"
+  - name: add REMI repo
+    command: "sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+
+  - name: install redis
+    yum:
+      name: redis
+      enablerepo: remi
+      state: latest
+
+
+

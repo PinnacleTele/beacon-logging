@@ -1,0 +1,430 @@
+<!-- new style design -->
+
+<!-- file upload section -->
+<div id="fileupload1" class="sm:col-span-6 text-xs pt-4">
+	<div class="sm:flex sm:justify-between items-center">
+		<label for="mobile" class="block font-semibold text-gray-700">{{fileContentOrder}}
+			<span class="text-red-600">*</span>
+			<span class="text-gray-400 ml-1 font-thin text-xxs">(max {{maxFilesAllowed}} files)</span>
+		</label>
+		<!-- to be work on that -->
+		<span
+			class="inline-flex items-center px-2.5 py-0.5 mt-2 md:mt-0 rounded-md text-xs font-medium bg-gray-100 text-gray-500"
+			*ngIf="mobileNumbersCount !== 0"> {{kFormatter(count)}} </span>
+	</div>
+	<div [disabled]="succeedFiles.length > maxFiles" id='fileupload' (click)="divClick()" [dropzone]="autoSubmitConfig"
+		(addedFiles)="onFilesAdded($event)" (uploadProgress)="uploadProgress($event)" (removedFile)="onFileRemoved($event)"
+		(error)="onUploadError($event)" (success)="onUploadSuccess($event)" (queueComplete)="onQueueCompleted()"
+		[ngClass]="succeedFiles.length > maxFiles? 'cursor-not-allowed' :borderStyle "
+		class="mt-2 flex justify-center cursor-pointer items-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+		<div *ngIf="succeedFiles.length > maxFiles"
+			class="space-y-1 cursor-not-allowed text-center flex flex-col items-center">
+			<svg class="mx-auto h-12 w-12 text-gray-400 opacity-50 cursor-not-allowed focus:outline-none" viewBox="0 0 24 24"
+				version="1.1">
+				<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+					<rect x="0" y="0" width="24" height="24" />
+					<path
+						d="M3.5,21 L20.5,21 C21.3284271,21 22,20.3284271 22,19.5 L22,8.5 C22,7.67157288 21.3284271,7 20.5,7 L10,7 L7.43933983,4.43933983 C7.15803526,4.15803526 6.77650439,4 6.37867966,4 L3.5,4 C2.67157288,4 2,4.67157288 2,5.5 L2,19.5 C2,20.3284271 2.67157288,21 3.5,21 Z"
+						fill="currentColor" opacity="0.8" />
+					<path
+						d="M8.54301601,14.4923287 L10.6661,14.4923287 L10.6661,16.5 C10.6661,16.7761424 10.8899576,17 11.1661,17 L12.33392,17 C12.6100624,17 12.83392,16.7761424 12.83392,16.5 L12.83392,14.4923287 L14.9570039,14.4923287 C15.2331463,14.4923287 15.4570039,14.2684711 15.4570039,13.9923287 C15.4570039,13.8681299 15.41078,13.7483766 15.3273331,13.6563877 L12.1203391,10.1211145 C11.934804,9.91658739 11.6185961,9.90119131 11.414069,10.0867264 C11.4020553,10.0976245 11.390579,10.1091008 11.3796809,10.1211145 L8.1726869,13.6563877 C7.98715181,13.8609148 8.00254789,14.1771227 8.20707501,14.3626578 C8.29906387,14.4461047 8.41881721,14.4923287 8.54301601,14.4923287 Z"
+						fill="#b38d55" opacity="0.5" />
+				</g>
+			</svg>
+			<div class="flex text-xs md:text-sm text-gray-600">
+				<label for="file-upload"
+					class="relative cursor-not-allowed bg-white rounded-md font-medium text-gray-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+					<span>Upload files</span>
+
+				</label>
+				<p class="pl-1">or drag and drop</p>
+			</div>
+			<p class="text-xs text-gray-500">CSV, XLS, XLSX, ZIP</p>
+			<!-- <p class="text-xs text-gray-500">CSV, XLS, XLSX, ZIP up to {{maxFilesize}}MB each</p> -->
+		</div>
+
+		<div (click)="openFileSelectionWindow()" *ngIf="!(succeedFiles.length >= contentShow)"
+			class="relative cursor-pointer  focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+			<button type="button"
+				class="space-y-1 cursor-pointer text-center flex flex-col items-center focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 "
+				tabindex="0">
+				<svg class="w-12 h-12 text-yellow-500" viewBox="0 0 24 24" version="1.1">
+					<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+						<rect x="0" y="0" width="24" height="24" />
+						<path
+							d="M3.5,21 L20.5,21 C21.3284271,21 22,20.3284271 22,19.5 L22,8.5 C22,7.67157288 21.3284271,7 20.5,7 L10,7 L7.43933983,4.43933983 C7.15803526,4.15803526 6.77650439,4 6.37867966,4 L3.5,4 C2.67157288,4 2,4.67157288 2,5.5 L2,19.5 C2,20.3284271 2.67157288,21 3.5,21 Z"
+							fill="currentColor" opacity="0.8" />
+						<path
+							d="M8.54301601,14.4923287 L10.6661,14.4923287 L10.6661,16.5 C10.6661,16.7761424 10.8899576,17 11.1661,17 L12.33392,17 C12.6100624,17 12.83392,16.7761424 12.83392,16.5 L12.83392,14.4923287 L14.9570039,14.4923287 C15.2331463,14.4923287 15.4570039,14.2684711 15.4570039,13.9923287 C15.4570039,13.8681299 15.41078,13.7483766 15.3273331,13.6563877 L12.1203391,10.1211145 C11.934804,9.91658739 11.6185961,9.90119131 11.414069,10.0867264 C11.4020553,10.0976245 11.390579,10.1091008 11.3796809,10.1211145 L8.1726869,13.6563877 C7.98715181,13.8609148 8.00254789,14.1771227 8.20707501,14.3626578 C8.29906387,14.4461047 8.41881721,14.4923287 8.54301601,14.4923287 Z"
+							fill="#b38d55" opacity="0.5" />
+					</g>
+				</svg>
+				<div>
+					<div class="flex text-xxs md:text-sm text-gray-600">
+						<label for="file-upload" class="cursor-pointer">
+							<span>Upload files</span>
+						</label>
+						<p class="pl-1">or drag and drop</p>
+					</div>
+					<p class="text-xs text-gray-500">CSV, XLS, XLSX, ZIP</p>
+				</div>
+			</button>
+		</div>
+	</div>
+
+
+	<div class="flex justify-between items-center mt-0.5">
+		<p class="mt-2 text-xxs sm:text-xs" [ngClass]="messageColor">{{message}}</p>
+		<!-- remove duplicates -->
+		<div *ngIf="!hideDublicate" class="flex items-center h-5 space-x-1">
+
+			<form [formGroup]="removeDuplicateForm">
+				<input v-model="removeDuplicateChecked" id="comments" name="comments" formControlName="removeDuplicates"
+					type="checkbox" (change)="onChange($event)" checked
+					class="h-3.5 w-3.5 text-blue-600 border-gray-300 rounded focus:ring-0" />
+			</form>
+			<span class="text-gray-600">Remove Duplicate</span>
+
+			<div tooltip="Enabling this option will remove duplicate mobiles from the selected files" [options]="myOptions">
+				<svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+					stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<!-- file uploaded info section -->
+	<!-- <form [formGroup]="vlshorternForm">
+		<div class="relative flex items-center mt-3 bg-gray-50 px-2 py-1"
+			*ngIf="(fromPage == 'campaigns') || (campaignType == 'MTM' || fromPage == 'CT') && shortner.vl_shortner === 1">
+			<div class="flex items-center h-5">
+				<input id="shortner" name="shortner" type="checkbox" formControlName="vlShortner"
+					(change)="onChanges($event)"
+					class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-1" />
+			</div>
+			<div class="ml-3 text-xs">
+				<label for="shortner" class="font-medium text-gray-700">Shorten URL</label>
+				<p class="text-gray-500 text-xxs">Enabling this will convert all the URL's in the message to a shortned
+					URL</p>
+			</div>
+		</div>
+	</form> -->
+	<div *ngIf="uploadStatus" class="items-center mt-4 bg-gray-0 p-2 px-4 text-xxs rounded space-y-0">
+		<div class="px-2.5 py-2.5 bg-gray-0 flex items-center justify-between rounded-sm border-b-2 border-gray-200">
+			<div class="flex space-x-1 items-center">
+				<div class="flex flex-col gap-y-1">
+					<span class="text-xs text-gray-700 font-bold tracking-wide mr-1.5">File Upload Status</span>
+					<div class="flex flex-row items-center space-x-1 mt-1">
+						<span
+							class="inline-flex items-center px-2 py-0.5 md:mt-0 rounded-sm text-xxs font-medium bg-gray-100 text-gray-500">
+							{{count |number}} rows </span>
+						<span class="text-green-600 px-1 py-0.5 bg-gray-100 rounded">{{succeedFiles?.length}}
+							success</span>
+						<span class="text-red-500 px-1 py-0.5 bg-gray-100 rounded"> {{failedFiles?.length}}
+							failed <span *ngIf="failedFiles?.length > 0"
+								class="text-red-500 border-red-600 cursor-pointer px-1 py-0.5 bg-gray-100 rounded "
+								(click)="clearFailedFiles()">
+								X
+							</span></span>
+						<!-- <span *ngIf="fromPage == 'dlttemplate' 
+							class="text-blue-500 border-blue-600 cursor-pointer px-1 py-0.5 bg-gray-100 rounded "
+							(click)="reValidate()">
+							Re-validate
+						</span> -->
+					</div>
+				</div>
+			</div>
+			<div class="mr-1 focus:outline-none focus:ring-2 rounded-md" tooltip="Delete all files" tabindex="0"
+				[options]="myOptions" (keydown.enter)="openModal()">
+				<a (click)="openModal()"
+					class="relative text-red-500 hover:text-red-400 border-transparent cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+					href="javascript: void(0)">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="1.5"
+						stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" />
+						<line x1="4" y1="7" x2="20" y2="7" />
+						<line x1="10" y1="11" x2="10" y2="17" />
+						<line x1="14" y1="11" x2="14" y2="17" />
+						<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+						<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+					</svg>
+					<span
+						class="absolute text-xxs -top-2 -right-7 bg-red-100 py-0.5 px-1 rounded-full font-thin text-red-600">{{succeedFiles?.length
+						+ failedFiles?.length}}</span>
+				</a>
+			</div>
+
+		</div>
+		<div class="divide-y pt-2">
+			<!-- file 1 -->
+			<div *ngFor="let file of succeedFiles; let i = index"
+				class="flex space-y-1 md:flex-row md:justify-between md:items-center py-3">
+				<div class="flex flex-col mt-1 w-full md:w-2/3 gap-y-1.5">
+					<!-- icon for xlsx -->
+					<div class="flex space-x-2 items-center">
+						<svg class="w-5 h-5" viewBox="0 0 96 96" fill="#FFF" stroke-miterlimit="10" stroke-width="2">
+							<path stroke="#979593"
+								d="M67.1716,7H27c-1.1046,0-2,0.8954-2,2v78 c0,1.1046,0.8954,2,2,2h58c1.1046,0,2-0.8954,2-2V26.8284c0-0.5304-0.2107-1.0391-0.5858-1.4142L68.5858,7.5858 C68.2107,7.2107,67.702,7,67.1716,7z" />
+							<path fill="none" stroke="#979593" d="M67,7v18c0,1.1046,0.8954,2,2,2h18" />
+							<path fill="#C8C6C4"
+								d="M51 61H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 60.5523 51.5523 61 51 61zM51 55H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 54.5523 51.5523 55 51 55zM51 49H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 48.5523 51.5523 49 51 49zM51 43H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 42.5523 51.5523 43 51 43zM51 67H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 66.5523 51.5523 67 51 67zM79 61H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 60.5523 79.5523 61 79 61zM79 67H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 66.5523 79.5523 67 79 67zM79 55H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 54.5523 79.5523 55 79 55zM79 49H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 48.5523 79.5523 49 79 49zM79 43H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 42.5523 79.5523 43 79 43zM65 61H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 60.5523 65.5523 61 65 61zM65 67H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 66.5523 65.5523 67 65 67zM65 55H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 54.5523 65.5523 55 65 55zM65 49H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 48.5523 65.5523 49 65 49zM65 43H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 42.5523 65.5523 43 65 43z" />
+							<path fill="#107C41"
+								d="M12,74h32c2.2091,0,4-1.7909,4-4V38c0-2.2091-1.7909-4-4-4H12c-2.2091,0-4,1.7909-4,4v32 C8,72.2091,9.7909,74,12,74z" />
+							<path
+								d="M16.9492,66l7.8848-12.0337L17.6123,42h5.8115l3.9424,7.6486c0.3623,0.7252,0.6113,1.2668,0.7471,1.6236 h0.0508c0.2617-0.58,0.5332-1.1436,0.8164-1.69L33.1943,42h5.335l-7.4082,11.9L38.7168,66H33.041l-4.5537-8.4017 c-0.1924-0.3116-0.374-0.6858-0.5439-1.1215H27.876c-0.0791,0.2684-0.2549,0.631-0.5264,1.0878L22.6592,66H16.9492z" />
+						</svg>
+						<p class="text-xs font-semibold leading-none text-gray-600 whitespace-wrap truncate"
+							tooltip="{{file.originalname}}" [options]="myOptions">{{file.originalname}}</p>
+					</div>
+					<!-- progress -->
+					<!-- <div class="flex space-x-1.5 ml-4 md:ml-6">
+															<div class="w-full bg-gray-50 h-1.5 mr-1 relative rounded mt-3">
+																<div class="h-1.5 bg-gray-400 rounded-sm" style="width: 19%"></div>
+															</div>
+														</div> -->
+					<!-- count -->
+					<div class="flex space-x-1 ml-4 md:ml-6">
+						<div class="flex items-center">
+							<p class="text-xs leading-none text-green-600 font-medium bg-gray-100 p-1 ml-0.5">success
+							</p>
+						</div>
+						<div class="flex items-center">
+							<span class="focus:outline-none text-sm font-medium leading-1 text-gray-500 pb-1">•</span>
+						</div>
+						<div class="flex items-center">
+							<p class="text-xs font-medium tracking-wide text-gray-400 ml-0.5"> {{file.size}}</p>
+						</div>
+						<div class="flex items-center">
+							<span class="focus:outline-none text-sm font-medium leading-1 text-gray-500 pb-1">•</span>
+						</div>
+						<div class="flex items-center">
+							<p class="text-xs font-medium tracking-wide text-gray-400 ml-1">{{file.no_of_contacts}}
+								({{file.total |number }}) total</p>
+						</div>
+					</div>
+				</div>
+				<!-- error reason -->
+				<div class="p-1 ml-2 md:ml-1">
+					<div class="flex">
+						<a (click)="onFileRemoved(file)"
+							class="text-red-500 border-transparent border hover:text-red-400 cursor-pointer rounded focus:outline-none  focus:ring-2 ml-2"
+							href="javascript: void(0)" tooltip="Delete" [options]="myOptions">
+							<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"
+								stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" />
+								<line x1="4" y1="7" x2="20" y2="7" />
+								<line x1="10" y1="11" x2="10" y2="17" />
+								<line x1="14" y1="11" x2="14" y2="17" />
+								<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+								<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+							</svg>
+						</a>
+					</div>
+					<!-- progress -->
+					<!-- <div class="flex space-x-1.5 ml-4 md:ml-6">
+															<div class="w-full bg-gray-50 h-1.5 mr-1 relative rounded mt-3">
+																<div class="h-1.5 bg-gray-400 rounded-sm" style="width: 19%"></div>
+															</div>
+														</div> -->
+				</div>
+			</div>
+			<!-- file 2 -->
+			<div *ngFor="let file of failedFiles; let i = index"
+				class="flex flex-col space-y-1 md:flex-row md:justify-between md:items-center py-3">
+				<div class="flex flex-col mt-1 w-full md:w-2/3 gap-y-1.5">
+					<!-- icon for xlsx -->
+					<div class="flex space-x-2 items-center">
+						<svg class="w-5 h-5" viewBox="0 0 96 96" fill="#FFF" stroke-miterlimit="10" stroke-width="2">
+							<path stroke="#979593"
+								d="M67.1716,7H27c-1.1046,0-2,0.8954-2,2v78 c0,1.1046,0.8954,2,2,2h58c1.1046,0,2-0.8954,2-2V26.8284c0-0.5304-0.2107-1.0391-0.5858-1.4142L68.5858,7.5858 C68.2107,7.2107,67.702,7,67.1716,7z" />
+							<path fill="none" stroke="#979593" d="M67,7v18c0,1.1046,0.8954,2,2,2h18" />
+							<path fill="#C8C6C4"
+								d="M51 61H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 60.5523 51.5523 61 51 61zM51 55H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 54.5523 51.5523 55 51 55zM51 49H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 48.5523 51.5523 49 51 49zM51 43H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 42.5523 51.5523 43 51 43zM51 67H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 66.5523 51.5523 67 51 67zM79 61H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 60.5523 79.5523 61 79 61zM79 67H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 66.5523 79.5523 67 79 67zM79 55H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 54.5523 79.5523 55 79 55zM79 49H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 48.5523 79.5523 49 79 49zM79 43H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 42.5523 79.5523 43 79 43zM65 61H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 60.5523 65.5523 61 65 61zM65 67H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 66.5523 65.5523 67 65 67zM65 55H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 54.5523 65.5523 55 65 55zM65 49H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 48.5523 65.5523 49 65 49zM65 43H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 42.5523 65.5523 43 65 43z" />
+							<path fill="#107C41"
+								d="M12,74h32c2.2091,0,4-1.7909,4-4V38c0-2.2091-1.7909-4-4-4H12c-2.2091,0-4,1.7909-4,4v32 C8,72.2091,9.7909,74,12,74z" />
+							<path
+								d="M16.9492,66l7.8848-12.0337L17.6123,42h5.8115l3.9424,7.6486c0.3623,0.7252,0.6113,1.2668,0.7471,1.6236 h0.0508c0.2617-0.58,0.5332-1.1436,0.8164-1.69L33.1943,42h5.335l-7.4082,11.9L38.7168,66H33.041l-4.5537-8.4017 c-0.1924-0.3116-0.374-0.6858-0.5439-1.1215H27.876c-0.0791,0.2684-0.2549,0.631-0.5264,1.0878L22.6592,66H16.9492z" />
+						</svg>
+						<p class="text-xs font-semibold leading-none text-gray-600 whitespace-wrap truncate" tooltip="{{file.name}}" [options]="myOptions">
+							{{file.name}}</p>
+					</div>
+					<!-- progress -->
+					<!-- <div class="flex space-x-1.5 ml-4 md:ml-6">
+															<div class="w-full bg-gray-50 h-1.5 mr-1 relative rounded mt-3">
+																<div class="h-1.5 bg-gray-400 rounded-sm" style="width: 19%"></div>
+															</div>
+														</div> -->
+					<!-- count -->
+					<div class="flex space-x-1.5 ml-4 md:ml-6">
+						<div class="flex items-center">
+							<p class="text-xs leading-none text-red-600 font-medium bg-gray-100 p-1 ml-0.5">upload
+								failed</p>
+						</div>
+					</div>
+				</div>
+				<!-- reason -->
+				<div>
+					<p *ngIf="fromPage == '!dlttemplate'" class="text-xs leading-none text-gray-500 font-thin p-1 ml-4 md:ml-1">
+						{{file.error}}</p>
+					<p *ngIf="fromPage == 'dlttemplate'" class="text-xs leading-none text-gray-500 font-thin p-1 ml-4 md:ml-1">
+						{{file.error}}</p>
+				</div>
+				<!-- error reason -->
+				<div class="p-1 ml-2 md:ml-1">
+					<div class="flex">
+						<a (click)="onFailedFileRemoved(file)"
+							class="text-red-500 border-transparent border hover:text-red-400 cursor-pointer rounded focus:outline-none  focus:ring-2 ml-2"
+							href="javascript: void(0)" tooltip="Delete" [options]= "myOptions">
+							<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"
+								stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" />
+								<line x1="4" y1="7" x2="20" y2="7" />
+								<line x1="10" y1="11" x2="10" y2="17" />
+								<line x1="14" y1="11" x2="14" y2="17" />
+								<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+								<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+							</svg>
+						</a>
+					</div>
+					<!-- progress -->
+					<!-- <div class="flex space-x-1.5 ml-4 md:ml-6">
+															<div class="w-full bg-gray-50 h-1.5 mr-1 relative rounded mt-3">
+																<div class="h-1.5 bg-gray-400 rounded-sm" style="width: 19%"></div>
+															</div>
+														</div> -->
+				</div>
+
+			</div>
+			<!-- file 3 -->
+			<div *ngFor="let file of progressingFiles; let i = index"
+				class="flex flex-col space-y-1 md:flex-row md:justify-between md:items-center py-3">
+				<div class="flex flex-col mt-1 w-full md:w-2/3 gap-y-1.5">
+
+					<div class="flex space-x-2 items-center">
+						<svg class="w-5 h-5" viewBox="0 0 96 96" fill="#FFF" stroke-miterlimit="10" stroke-width="2">
+							<path stroke="#979593"
+								d="M67.1716,7H27c-1.1046,0-2,0.8954-2,2v78 c0,1.1046,0.8954,2,2,2h58c1.1046,0,2-0.8954,2-2V26.8284c0-0.5304-0.2107-1.0391-0.5858-1.4142L68.5858,7.5858 C68.2107,7.2107,67.702,7,67.1716,7z" />
+							<path fill="none" stroke="#979593" d="M67,7v18c0,1.1046,0.8954,2,2,2h18" />
+							<path fill="#C8C6C4"
+								d="M51 61H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 60.5523 51.5523 61 51 61zM51 55H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 54.5523 51.5523 55 51 55zM51 49H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 48.5523 51.5523 49 51 49zM51 43H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 42.5523 51.5523 43 51 43zM51 67H41v-2h10c.5523 0 1 .4477 1 1l0 0C52 66.5523 51.5523 67 51 67zM79 61H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 60.5523 79.5523 61 79 61zM79 67H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 66.5523 79.5523 67 79 67zM79 55H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 54.5523 79.5523 55 79 55zM79 49H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 48.5523 79.5523 49 79 49zM79 43H69c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C80 42.5523 79.5523 43 79 43zM65 61H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 60.5523 65.5523 61 65 61zM65 67H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 66.5523 65.5523 67 65 67zM65 55H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 54.5523 65.5523 55 65 55zM65 49H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 48.5523 65.5523 49 65 49zM65 43H55c-.5523 0-1-.4477-1-1l0 0c0-.5523.4477-1 1-1h10c.5523 0 1 .4477 1 1l0 0C66 42.5523 65.5523 43 65 43z" />
+							<path fill="#107C41"
+								d="M12,74h32c2.2091,0,4-1.7909,4-4V38c0-2.2091-1.7909-4-4-4H12c-2.2091,0-4,1.7909-4,4v32 C8,72.2091,9.7909,74,12,74z" />
+							<path
+								d="M16.9492,66l7.8848-12.0337L17.6123,42h5.8115l3.9424,7.6486c0.3623,0.7252,0.6113,1.2668,0.7471,1.6236 h0.0508c0.2617-0.58,0.5332-1.1436,0.8164-1.69L33.1943,42h5.335l-7.4082,11.9L38.7168,66H33.041l-4.5537-8.4017 c-0.1924-0.3116-0.374-0.6858-0.5439-1.1215H27.876c-0.0791,0.2684-0.2549,0.631-0.5264,1.0878L22.6592,66H16.9492z" />
+						</svg>
+						<p class="text-xs font-semibold leading-none text-gray-600 whitespace-wrap truncate" tooltip="{{file.name}}" [options]="myOptions" >
+							{{file.name}}</p>
+					</div>
+					<!-- file processing -->
+					<div class="flex space-x-1.5 ml-4 md:ml-6">
+						<div class="w-full bg-gray-50 h-1.5 mr-1 relative rounded mt-3">
+							<div class="h-1.5 bg-gray-400 rounded-sm" [style.width.%]=file.progressBar></div>
+						</div>
+					</div>
+				</div>
+				<!-- error reason -->
+				<div class="p-1 ml-4 md:ml-1 flex items-center">
+					<span class="text-gray-600 text-sm font-semibold"> {{file.progressBar}}%</span>
+					<a (click)="cancel(file)"
+						class="text-rose-500 border-transparent hover:text-rose-400 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray ml-2"
+						href="javascript: void(0)" tooltip="Cancel" [options]="myOptions">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+							stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div
+			*ngIf="fromPage=='dlttemplate' && dltTemplateSelectionType == 'column' && succeedFiles.length <= 0 && failedFiles.length>0 "
+			class="rounded-md bg-red-50 p-1.5 w-auto ">
+			<div class="flex">
+				<div class="flex-shrink-0 mt-1">
+					<svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+							<path
+								d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+								fill="currentColor" />
+						</g>
+					</svg>
+				</div>
+				<div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+					<p class="text-xs text-rose-600  font-normal">No matching
+						<strong>{{dltTemplateSelectionMobileColumn}}</strong>
+						column in uploaded files. Try different file or change the mobile column
+					</p>
+
+				</div>
+			</div>
+		</div>
+		<div
+			*ngIf="fromPage=='dlttemplate' && dltTemplateSelectionType == 'index' && succeedFiles.length <= 0 && failedFiles.length>0 "
+			class="rounded-md bg-red-50 p-1.5 w-auto ">
+			<div class="flex">
+				<div class="flex-shrink-0 mt-1">
+					<svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+							<path
+								d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+								fill="currentColor" />
+						</g>
+					</svg>
+				</div>
+				<div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+					<p class="text-xs text-rose-600 font-normal"> Index <strong>{{dltTemplateSelectionMobileColumn}}</strong>
+						not found in uploaded files. Try different file or change the mobile column index </p>
+				</div>
+			</div>
+		</div>
+		<div
+			*ngIf="fromPage=='dlttemplate' && dltTemplateSelectionType == 'column' && succeedFiles.length > 0 && failedFiles.length>0 "
+			class="rounded-md bg-yellow-50 p-1.5 w-auto ">
+			<div class="flex items-center">
+				<div class="flex-shrink-0 mt-1">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" version="1.1">
+						<circle fill="currentColor" opacity="0.4" cx="12" cy="12" r="10"></circle>
+						<rect fill="currentColor" x="11" y="7" width="2" height="8" rx="1"></rect>
+						<rect fill="currentColor" x="11" y="16" width="2" height="2" rx="1"></rect>
+					</svg>
+				</div>
+				<div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+					<p class="text-xs text-yellow-600 font-normal">
+						Some of the uploaded files not having <strong>{{dltTemplateSelectionMobileColumn}}</strong> column </p>
+				</div>
+			</div>
+		</div>
+		<div
+			*ngIf="fromPage=='dlttemplate' && dltTemplateSelectionType == 'index' && succeedFiles.length > 0 && failedFiles.length>0 "
+			class="rounded-md bg-yellow-50 p-1.5 w-auto ">
+			<div class="flex items-center">
+				<div class="flex-shrink-0 mt-1">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" version="1.1">
+						<circle fill="currentColor" opacity="0.4" cx="12" cy="12" r="10"></circle>
+						<rect fill="currentColor" x="11" y="7" width="2" height="8" rx="1"></rect>
+						<rect fill="currentColor" x="11" y="16" width="2" height="2" rx="1"></rect>
+					</svg>
+				</div>
+				<div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+					<p class="text-xs text-yellow-600 font-normal">
+						Some of the uploaded files not having <strong>{{dltTemplateSelectionMobileColumn}}</strong> index </p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div id="previews" class=""></div>
+
+<app-clear-modal [title]="'Remove Files'" [confirmationMessage]="'Are you sure you want to remove all uploaded files?'"
+	[confirmLable]="'Remove'" (clearModalResponse)="clearModalResponse($event)" *ngIf="openClearModal">
+</app-clear-modal>

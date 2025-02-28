@@ -1,0 +1,192 @@
+<form [formGroup]="servicesFormGroup">
+	<div>
+		<div class="text-lg font-semibold text-gray-700 mt-0">
+			Assign Services
+		</div>
+		<!-- info section -->
+		<div class="rounded-md bg-light-blue-50 p-4 mt-4 border border-blue-400 border-dashed">
+			<div class="flex items-center">
+				<div class="flex-shrink-0">
+					<svg class="w-7 h-7 text-blue-400" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<path
+								d="M5,2 L19,2 C20.1045695,2 21,2.8954305 21,4 L21,6 C21,7.1045695 20.1045695,8 19,8 L5,8 C3.8954305,8 3,7.1045695 3,6 L3,4 C3,2.8954305 3.8954305,2 5,2 Z M11,4 C10.4477153,4 10,4.44771525 10,5 C10,5.55228475 10.4477153,6 11,6 L16,6 C16.5522847,6 17,5.55228475 17,5 C17,4.44771525 16.5522847,4 16,4 L11,4 Z M7,6 C7.55228475,6 8,5.55228475 8,5 C8,4.44771525 7.55228475,4 7,4 C6.44771525,4 6,4.44771525 6,5 C6,5.55228475 6.44771525,6 7,6 Z"
+								fill="currentColor" opacity="0.3" />
+							<path
+								d="M5,9 L19,9 C20.1045695,9 21,9.8954305 21,11 L21,13 C21,14.1045695 20.1045695,15 19,15 L5,15 C3.8954305,15 3,14.1045695 3,13 L3,11 C3,9.8954305 3.8954305,9 5,9 Z M11,11 C10.4477153,11 10,11.4477153 10,12 C10,12.5522847 10.4477153,13 11,13 L16,13 C16.5522847,13 17,12.5522847 17,12 C17,11.4477153 16.5522847,11 16,11 L11,11 Z M7,13 C7.55228475,13 8,12.5522847 8,12 C8,11.4477153 7.55228475,11 7,11 C6.44771525,11 6,11.4477153 6,12 C6,12.5522847 6.44771525,13 7,13 Z"
+								fill="currentColor" />
+							<path
+								d="M5,16 L19,16 C20.1045695,16 21,16.8954305 21,18 L21,20 C21,21.1045695 20.1045695,22 19,22 L5,22 C3.8954305,22 3,21.1045695 3,20 L3,18 C3,16.8954305 3.8954305,16 5,16 Z M11,18 C10.4477153,18 10,18.4477153 10,19 C10,19.5522847 10.4477153,20 11,20 L16,20 C16.5522847,20 17,19.5522847 17,19 C17,18.4477153 16.5522847,18 16,18 L11,18 Z M7,20 C7.55228475,20 8,19.5522847 8,19 C8,18.4477153 7.55228475,18 7,18 C6.44771525,18 6,18.4477153 6,19 C6,19.5522847 6.44771525,20 7,20 Z"
+								fill="currentColor" />
+						</g>
+					</svg>
+				</div>
+				<div class="ml-3 flex-1 md:flex md:justify-between">
+					<p class="text-xs text-gray-500 font-medium">
+						Services enables additional capabilities for messaging
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="space-y-5 mt-10">
+			<div *ngFor="let service of subServices; let i = index">
+				<div class="flex w-full items-center justify-between space-x-8">
+					<div class="flex w-full ml-0 mt-0 items-center justify-between">
+						<label
+							class="text-sm leading-none text-gray-700 font-medium w-full">{{service.sub_service_name}}</label>
+						<!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+						<button (click)="onClickService(i)" type="button" [ngClass]="{'bg-blue-500' : 
+                    (service.checked),'bg-gray-200' :  !service.checked}"
+							class="shadow-sm relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 outline:ring-2 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+							role="switch" aria-checked="false">
+							<span class="sr-only">svc</span>
+							<span aria-hidden="true"
+								[ngClass]="{'translate-x-5' : (service.checked),'translate-x-0' :  !service.checked}"
+								class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+						</button>
+					</div>
+				</div>
+				<p class="mt-0 text-xxs sm:text-xs text-gray-400" id="name-error">
+					{{service.sub_service_desc}}
+				</p>
+				<div class="mt-4 pb-2 mx-4" *ngIf="service.sub_service == 'smpp' && service.checked">
+					<label class="text-xs leading-none text-gray-600 w-2/3">Select your SMPP charset<span
+							class="text-red-500">*</span></label>
+					<app-smpp-charset (smppChanged)="handleSMPP()"></app-smpp-charset>
+				</div>
+				<div class="mt-4 pb-2 mx-4" *ngIf="service.sub_service == 'international' ">
+					<!-- info section to be shown when the international service is already enabled, and to be hidden when the service is disabled-->
+					<div class="rounded-md bg-light-blue-50 p-2 mt-4 border border-blue-400 border-dashed"
+						*ngIf="service.checked && showEditSection">
+						<div class="flex items-center">
+							<div class="flex-shrink-0"></div>
+							<div class="ml-3 flex-1 md:flex md:justify-between">
+								<p class="text-xs text-gray-500 font-medium">
+									Edit your billing rates
+								</p>
+							</div>
+							<button type="button" (click)="onClickEditRates()"
+								class="md:ml-3 inline-flex items-center space-x-2 justify-center py-1 px-2 border border-transparent shadow-sm font-medium rounded text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+								<span class="text-xs">Edit Rates</span>
+							</button>
+						</div>
+					</div>
+					<!-- ROW section -->
+					<div class="ml-1 md:ml-3" *ngIf="showROWSection">
+						<!-- info section -->
+						<div class="rounded-md bg-yellow-50 p-2 mt-4 border border-yellow-400 border-dashed">
+							<div class="flex items-center">
+								<div class="flex-shrink-0"></div>
+								<div class="ml-3 flex-1 md:flex md:justify-between">
+									<p class="text-xs text-gray-500 font-medium">
+										NOTE: Please provide billing rate for
+										Rest of World (ROW) to enable this
+										service. Country specific rates can be
+										defined via
+										<span class="mx-0.5 font-semibold italic">Billing Rate</span>
+										menu
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="text-sm font-medium text-gray-600 mt-5">
+							Billing Rate (ROW)<span class="text-red-500">*</span>
+						</div>
+						<div class="text-xs font-normal text-gray-500 mt-1.5">
+							Below rate is applicable for the rest of the
+							countries. Supports upto max 4 digits before decimal
+							and max 6 digits after decimal
+						</div>
+
+						<div>
+							<div class="md:flex mt-4">
+								<div class="md:flex-col ml-0 md:ml-0 md:mt-0 w-2/3 md:w-1/2">
+									<div class="flex justify-between md:w-full">
+										<label class="mb-3 text-sm leading-none text-gray-600">Enter Rate</label>
+										<span class="text-xs leading-none text-gray-600"
+											tooltip="Billing rate equivallent in Euro" [options] = "myOptions" *ngIf = "!spinner">({{rowConvRate}}€)</span>
+									</div>
+									<div class="mt-0 relative rounded-md md:w-full">
+										<div
+											class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+											<span class="text-gray-500 sm:text-sm">
+												{{currencySymbol}}
+											</span>
+										</div>
+
+										<input type="text" name="rowRate" formControlName="rowRate"
+										[ngClass]="{'border-red-400': rowRate.touched && rowRate.errors}"
+											class="focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pl-7 pr-12 sm:text-sm placeholder-gray-400 text-gray-700 border-gray-300 rounded-md"
+											placeholder="0.00" aria-describedby="dltrate-currency" value="" />
+										<div
+											class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+											<svg class="animate-spin text-gray-300 mr-2"
+												xmlns="http://www.w3.org/2000/svg"
+												xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+												viewBox="0 0 24 24" version="1.1" *ngIf="spinner">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<g>
+														<polygon points="0 0 24 0 24 24 0 24" />
+													</g>
+													<path class="opacity-15"
+														d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+														fill="currentColor" fill-rule="nonzero"
+														transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+												</g>
+											</svg>
+											<span class="text-gray-500 sm:text-sm">
+												{{currencyType}}
+											</span>
+										</div>
+									</div>
+
+									<p class="mt-2 text-xxs sm:text-xs text-red-500"
+										*ngIf="rowRate.dirty && rowRate.errors?.required">
+										Rate is required
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-red-500"
+										*ngIf=" (rowRate.errors?.ratelow || rowRate.errors?.min )">
+										Rate cannot be lesser than your parent
+										user's rate
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+										*ngIf="rowRate.errors?.lessThanZero && (!rowRate.errors?.required)">
+										Rate should be greater than zero
+									</p>
+
+									<p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+										*ngIf=" rowRate.errors?.negativeNum">
+										Negative numbers not accepted for this field
+									</p>
+									<p class="mt-2 text-xxs sm:text-xs text-red-500"
+										*ngIf=" rowRate.errors?.decimalInvalid">
+										{{deimalErrText}}
+									</p>
+								</div>
+							</div>
+							<div class="rounded bg-red-50 p-2 mt-4 md:mr-3 md:w-1/2" *ngIf="intlRatesApiError && !spinner">
+								<app-retry (retry)="handleRetryClick()"></app-retry>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<p class="mt-2 text-xxs sm:text-xs text-red-600"
+				*ngIf="subServicesCtrl.touched && subServicesCtrl.errors?.required">
+				Atleast one service has to be selected
+			</p>
+		</div>
+		<!-- button section -->
+		<div class="flex justify-end mt-10 border-t pt-6 border-gray-200">
+			<div class="flex space-x-4">
+				<app-discard-button [formGroup]="servicesFormGroup" [title]="'Services'" [formChanged]="formChanged"
+					(updated)="handleUpdate()"></app-discard-button>
+				<app-save-button [formGroup]="servicesFormGroup" [title]="'Services'" [formChanged]="formChanged"
+					(updated)="handleUpdate()"></app-save-button>
+			</div>
+		</div>
+	</div>
+</form>

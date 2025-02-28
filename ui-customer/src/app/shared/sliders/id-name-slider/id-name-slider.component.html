@@ -1,0 +1,159 @@
+<section
+class="fixed inset-0 overflow-hidden z-20"
+aria-labelledby="slide-over-title"
+role="dialog"
+aria-modal="true"
+@container1
+>
+<div class="absolute inset-0 overflow-hidden"
+@enterExitRight
+>
+  <!-- Background overlay, show/hide based on slide-over state. -->
+  <div
+    (click)="closeGroupSlider()"
+    class="absolute inset-0 bg-gray-300 opacity-50"
+    aria-hidden="true"
+  ></div>
+
+  <div class="absolute inset-y-0 right-0 pl-10 max-w-full flex sm:pl-16"
+  >
+
+    <!--
+  Slide-over panel, show/hide based on slide-over state.
+
+  Entering: "transform transition ease-in-out duration-500 sm:duration-700"
+    From: "translate-x-full"
+    To: "translate-x-0"
+  Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
+    From: "translate-x-0"
+    To: "translate-x-full"
+-->
+    <div class="w-screen max-w-sm">
+      <div
+        class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll"
+      >
+        <div class="p-6 pb-2">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2
+                class="text-lg font-medium text-gray-800"
+                id="slide-over-title"
+              >
+                Template Groups
+              </h2>
+              <div
+                class="flex text-xxs md:text-xs text-gray-400 space-x-1 items-center"
+              >
+                <span>{{groups.length}} total</span>
+              </div>
+            </div>
+            <div class="ml-3 h-7 flex items-center">
+              <button
+                (click)="closeGroupSlider()"
+                class="bg-gray-100 p-0.5 rounded-sm text-gray-400 hover:text-gray-500 focus:outline-none focus:bg-blue-500 focus:text-white"
+              >
+                <span class="sr-only">Close panel</span>
+                <!-- Heroicon name: outline/x -->
+                <svg
+                  class="h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="border-b border-gray-200 mt-1">
+          <div
+            class="px-6 pb-2 flex w-full justify-between items-center space-x-3"
+          >
+            <div class="h-5 mt-2" *ngIf = "!singleSelect">
+              <input
+                id="comments1"
+                name="comments1"
+                type="checkbox"
+                (click)="selectAll()"
+                [checked]="overall"
+                class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
+              />
+            </div>
+            <div class="mt-2 relative flex-1 rounded-md shadow-sm">
+              <div class="flex items-center space-x-3">
+                <input
+                  type="text"
+                  name="searchgroups"
+                  id="name"
+                  [(ngModel)]="searchElement"
+                  (ngModelChange)="changes()"
+                  class="block w-full text-xs py-2 pr-10 text-gray-800 placeholder-gray-300 place focus:outline-none border-gray-300 rounded"
+                  placeholder="Search groups"
+                  value=""
+                  aria-invalid="true"
+                  aria-describedby="name-error"
+                />
+              </div>
+              <div
+                class="absolute inset-y-0 right-0 pr-2 text-gray-400 hover:text-gray-700 flex items-center cursor-pointer"
+              >
+                <svg
+                *ngIf="searchElement"
+                  class="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  (click)="searchBarClear()"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+         
+        </div>
+        <ul class="divide-y divide-gray-200 overflow-y-auto">
+          <li
+            (click)="addGroupById(group.template_group_id)"
+            *ngFor="let group of groups  | filterGroup : searchElement"                 
+            class="px-6 py-5 relative hover:bg-gray-50 bg-white cursor-pointer"
+          >
+            <div class="relative flex items-center"
+            >
+            
+              <div class="flex items-center h-5" *ngIf = "!singleSelect">
+                <input
+                  id="group.template_group_name"
+                  name="group.template_group_name"
+                  type="checkbox"
+                  [checked]="group.checked"
+                  class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
+                />
+              </div>
+              <div class="ml-3 text-xs md:text-sm space-y-1">
+                <label  class="font-medium text-gray-900"
+                  >{{group.template_group_name}}</label
+                >
+               
+              </div>
+            </div>
+          </li>
+          <!-- More items... -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>   

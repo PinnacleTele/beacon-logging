@@ -1,0 +1,95 @@
+
+
+
+
+
+
+<!-- filter section -->
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-4">
+
+    <!-- <span  class=" text-gray-700 ml-1" *ngIf="!includeToday && (label !== 'today')">
+
+
+        Please note that last no.of days does not includes today
+
+        </span> -->
+    <!-- Code block starts -->
+    <div class="py-2 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white">
+        <div class="flex items-center mb-4 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0">
+            <div class="ml-4">
+                <h2  class="focus:outline-none text-gray-500 text-md font-semibold">Total</h2>
+                <span  class="focus:outline-none text-gray-500 text-lg font-bold">{{campaignCount}}</span>
+                <span class="text-xxs text-gray-400 ml-1">campaigns <span class="text-xxs text-indigo-700 ml-1"> for {{label | titlecase}}</span></span> 
+            </div>
+        </div>
+        <div  class="flex space-x-3 mr-4 ml-3">
+            <div class="flex justify-between space-x-2">
+                <div class="relative ">
+        
+        
+        <ejs-daterangepicker [format]="format" [min]="sixtyDays" [max]="today"  
+        width='180px' [allowEdit]="false"  [showClearButton] = "false"  
+        [startDate]='startDate' [endDate] = 'includeToday == true ? today:endDate' (change)="dateFilter($event)">
+            <e-presets  >
+                <e-preset  label="Today"  [start]='today' [end]='today'></e-preset>
+                <!-- <e-preset  label="Last 7 days"  [start]='sevendaysStart' [end]='today'></e-preset>
+                <e-preset  label="Last 15 days"  [start]='fifteenDays' [end]='today'></e-preset>
+                <e-preset  label="Last 30 days"  [start]='thirtyDays' [end]='today'></e-preset> -->
+
+                <e-preset  label="Last 7 days"  [start]='sevendaysStart' [end]='includeToday == true ? today:yesterday'></e-preset>
+                <e-preset  label="Last 15 days"  [start]='fifteenDays' [end]='includeToday == true ? today:yesterday'></e-preset>
+                <e-preset  label="Last 30 days"  [start]='thirtyDays' [end]='includeToday == true ? today:yesterday'></e-preset>
+                <!-- <e-preset label="last 60 days" [start]='sixtyDays' [end]='today'></e-preset> -->
+                <e-preset  label="This week"  [start]='weekStart' [end]='today'></e-preset>
+                <e-preset label="This month" [start]='monthStart' [end]='today'></e-preset>
+
+            </e-presets>
+        </ejs-daterangepicker>
+        </div>
+        <div class="flex">
+            <button 
+            [disabled] = "onLoading == true" 
+            (click)="submitDate()" 
+            
+            [ngClass]="onLoading == true ? 'bg-opacity-50 cursor-not-allowed': 'hover:bg-blue-500 cursor-pointer' " 
+            class="items-center justify-center  bg-blue-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2   flex border border-indigo-50 rounded " data-menu>
+                <span 
+                
+                class="px-2 py-2.5 leading-3 text-xs tracking-normal font-semibold">Submit</span>
+                <svg 
+                class="animate-spin text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                width="20px"
+                height="20px"
+                viewBox="0 0 24 24"
+                version="1.1"
+                *ngIf="onLoading"
+                >
+                <g
+                  stroke="none"
+                  stroke-width="1"
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <g>
+                    <polygon points="0 0 24 0 24 24 0 24" />
+                  </g>
+                  <path
+                    class="opacity-15"
+                    d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                    fill="currentColor"
+                    fill-rule="nonzero"
+                    transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) "
+                  />
+                </g>
+              </svg>
+            </button>
+        </div>
+        </div>
+        </div>
+
+    </div>
+    <!-- Code block ends -->
+</div>

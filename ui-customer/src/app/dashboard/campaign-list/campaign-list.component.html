@@ -1,0 +1,167 @@
+<div class="bg-white rounded-lg shadow-md">
+	<div class="flex flex-col sm:flex-row justify-between pt-6 px-5">
+		<div>
+			<h3 class="text-md tracking-wide font-semibold text-gray-800">
+				Campaign List
+			</h3>
+			<div class="flex space-x-2 items-center text-xxs text-gray-400">
+				<div class="">{{campaigns.data.total}} total</div>
+				<div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+				<div class="">{{campaigns.data.completed}} completed</div>
+			</div>
+		</div>
+		<div class="pt-2 sm:pt-0">
+			<div class="flex space-x-2 text-xs justify-end">
+				<button
+					[ngClass]="date ==='yesterday'?'bg-blue-500 text-white px-3 py-2 rounded focus:bg-blue-500 focus:outline-none':'text-gray-400 px-3 py-2 rounded hover:text-blue-600 focus:outline-none focus:bg-blue-500 focus:text-white'"
+					(click)="onDayChange('yesterday')"
+				>
+					Yesterday
+				</button>
+
+				<button
+					[ngClass]="date ==='today'? 'bg-blue-500 text-white px-3 py-2 rounded focus:bg-blue-500 focus:outline-none':'text-gray-400 px-3 py-2 rounded hover:text-blue-600 focus:outline-none focus:bg-blue-500 focus:text-white'"
+					(click)="onDayChange('today')"
+				>
+					Today
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="flex flex-col pt-1">
+		<div class="overflow-x-auto">
+			<div class="py-2 align-middle inline-block min-w-full pt-3">
+				<div class="overflow-auto max-h-96">
+					<table class="min-w-full divide-y-0 divide-gray-200">
+						<thead class="bg-gray-50 rounded hidden">
+							<tr class="">
+								<th
+									scope="col"
+									class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+								>
+									Name
+								</th>
+								<th
+									scope="col"
+									class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+								>
+									Message
+								</th>
+								<th
+									scope="col"
+									class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+								>
+									Status
+								</th>
+								<!-- <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Role
+              </th> -->
+								<th scope="col" class="relative px-6 py-3">
+									<span class="sr-only">Edit</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="bg-white divide-y divide-gray-100">
+							<tr
+								*ngFor="let campaign of campaigns.data.tabledata"
+							>
+								<td class="px-4 py-4 whitespace-nowrap">
+									<div
+										class="flex items-center border-l-4"
+										[ngClass]="getBorderShade(campaign)"
+									>
+										<div class="ml-5">
+											<div
+												class="text-sm font-semibold text-gray-600 pb-1"
+											>
+												{{campaign.name}}
+											</div>
+											<div
+												class="flex space-x-1 align-middle items-center text-xs"
+											>
+												<div class="text-gray-400">
+													{{campaign.total}}
+												</div>
+												<div
+													class="w-1 h-1 bg-blue-400 rounded-full"
+												></div>
+
+												<div class="text-gray-400">
+													{{campaign.type}}
+												</div>
+											</div>
+											<div class="text-gray-400 text-xxs">
+												On {{campaign.timestamp}}
+											</div>
+										</div>
+									</div>
+								</td>
+								<td class="px-6 py-4 whitespace-normal">
+									<div class="text-xs text-gray-600">
+										{{campaign.message}}
+									</div>
+									<!-- <div class="text-sm text-gray-500">Optimization</div> -->
+								</td>
+								<td class="px-6 py-4 whitespace-nowrap">
+									<span
+										class="px-2 inline-flex text-xs leading-5 font-normal rounded-full"
+										[ngClass]="getStatusColor(campaign)"
+									>
+										{{campaign.status}}
+									</span>
+								</td>
+
+								<td
+									class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+								>
+									<div class="text-blue-500 cursor-pointer">
+										<svg
+											class="h-8 w-8 bg-blue-50 hover:bg-blue-100 p-1 rounded-md"
+											xmlns="http://www.w3.org/2000/svg"
+											xmlns:xlink="http://www.w3.org/1999/xlink"
+											width="24px"
+											height="24px"
+											viewBox="0 0 24 24"
+											version="1.1"
+										>
+											<g
+												stroke="none"
+												stroke-width="1"
+												fill="none"
+												fill-rule="evenodd"
+											>
+												<polygon
+													points="0 0 24 0 24 24 0 24"
+												></polygon>
+												<rect
+													fill="currentColor"
+													opacity="0.3"
+													transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)"
+													x="11"
+													y="5"
+													width="2"
+													height="14"
+													rx="1"
+												></rect>
+												<path
+													d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z"
+													fill="currentColor"
+													fill-rule="nonzero"
+													transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"
+												></path>
+											</g>
+										</svg>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

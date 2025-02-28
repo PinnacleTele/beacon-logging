@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import './css/tailwind.css';
+
+@import './css/ngselect.default.theme.css';
+
+@import './css/custom.css';
+
+@import './css/syncfusion.style.css';
+
+.ngTemplateTips {
+    font-size: 9px !important;
+}

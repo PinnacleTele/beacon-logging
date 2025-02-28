@@ -1,0 +1,73 @@
+<form [formGroup]="MsgSettingsFormGroup">	
+<div>
+    <div class="text-lg font-semibold text-gray-700 mt-0">Messaging Settings</div>
+    <!-- Timezone section -->
+    <div class="mt-8 flex w-full items-center justify-between space-x-8">
+        <div class="flex flex-col ml-0 mt-0 w-3/4">
+            <label class="mb-3 text-sm leading-none text-gray-700 font-medium w-full">Select timezone<span class="text-red-500">*</span></label>
+            <app-timezone
+            [discarded] = "tzDiscarded"
+            [edit] = "'edit'"
+            (tzSelected) = "handleTZSelection()"
+            ></app-timezone>
+        </div>
+    </div>
+
+    <!-- Home country section 
+    <div class="mt-8 flex w-full items-center justify-between space-x-8">
+        <div class="flex flex-col ml-0 mt-0 w-3/4">
+            <label class="mb-3 text-sm leading-none text-gray-700 font-medium w-full">Select default country<span class="text-red-500">*</span></label>
+            <ng-select
+            #myselect
+            [items]="itemList"
+            bindLabel="country"
+            bindValue="country_code_iso_3"
+            placeholder="Select country"
+            formControlName = "country"
+            [hideSelected]="true"
+            (change) = "handleSelection()"
+            [editableSearchTerm]="true"
+            
+         class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-300 rounded-md">
+         </ng-select>
+         <p
+        class="mt-2 text-xxs sm:text-xs text-red-600"
+        *ngIf="country.touched && country.errors?.required">
+        Country is required
+        </p>
+        <p
+        class="mt-2 text-xxs sm:text-xs text-gray-400"
+        *ngIf="(!country.touched && country.errors?.required) || (!country.errors)"
+        >{{countryInfoText}}</p>
+        
+           
+        </div>
+    </div> -->
+
+    <!-- Newline char section -->
+    <div class="mt-8 flex w-full items-center justify-between space-x-8">
+        <div class="flex flex-col ml-0 mt-0 w-3/4">
+            <label class="mb-3 text-sm leading-none text-gray-700 font-medium w-full">Configure newline character</label>
+           <app-newline-char></app-newline-char>
+        </div>
+    </div>
+
+    <!-- button section -->
+    <div class="flex justify-end mt-10 border-t pt-6 border-gray-200">
+        <div class="flex space-x-4">
+            <app-discard-button
+            [formGroup] = "MsgSettingsFormGroup"
+            [title] = "'MsgSettings'"
+            [formChanged] = "formChanged"
+            (updated) = "handleDiscarded()"
+            ></app-discard-button>
+            <app-save-button
+            [formGroup] = "MsgSettingsFormGroup"
+            [title] = "'MsgSettings'"
+            [formChanged] = "formChanged"
+            (updated) = "handleUpdate()"
+            ></app-save-button>
+        </div>
+    </div>
+</div>
+</form>

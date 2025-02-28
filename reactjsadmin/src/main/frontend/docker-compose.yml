@@ -1,0 +1,7 @@
+version: "3.1"
+services:
+  beacon:
+    image: dk-reg.mas:5000/rjsadmin:14feb2024      
+    build: .
+    ports:
+      - "9090:80"

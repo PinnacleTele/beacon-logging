@@ -1,0 +1,43 @@
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="MSGTOOL" version="3.0">
+	<servlet>
+		<description></description>
+		<display-name>MessageInfo</display-name>
+		<servlet-name>MessageInfo</servlet-name>
+		<servlet-class>com.itextos.beacon.platform.msgtool.servlet.MessageInfo</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MessageInfo</servlet-name>
+		<url-pattern>/msginfo</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>ErrorServlet</display-name>
+		<servlet-name>ErrorServlet</servlet-name>
+		<servlet-class>com.itextos.beacon.commonlib.apperrorhandler.servlets.ErrorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ErrorServlet</servlet-name>
+		<url-pattern>/errorservlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>ExceptionServlet</display-name>
+		<servlet-name>ExceptionServlet</servlet-name>
+		<servlet-class>com.itextos.beacon.commonlib.apperrorhandler.servlets.ExceptionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ExceptionServlet</servlet-name>
+		<url-pattern>/exceptionservlet</url-pattern>
+	</servlet-mapping>
+
+	<error-page>
+		<location>/errorservlet</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/exceptionservlet</location>
+	</error-page>
+</web-app>

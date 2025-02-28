@@ -1,0 +1,5 @@
+<jboss-web>
+	<context-root>/migrationapi</context-root>
+	<server-instance>default-server</server-instance>
+	<virtual-host>default-host</virtual-host>
+</jboss-web>

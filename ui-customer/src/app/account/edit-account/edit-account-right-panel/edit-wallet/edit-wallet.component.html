@@ -1,0 +1,234 @@
+<form *ngIf="walletFormGroup" [formGroup]="walletFormGroup">
+    <div>
+        <div class="flex justify-between items-center">
+            <div class="text-lg font-semibold text-gray-700 mt-0">Wallet Balance</div>
+            <button type="button" (click)="showPopUp()"
+                [ngClass]="(!disabled) ? 'bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' : 'bg-blue-500 opacity-50 cursor-not-allowed focus:outline-none'"
+                class="ml-3 text-white inline-flex items-center space-x-2 hover:text-white 
+        justify-center py-1 px-2.5 border border-transparent shadow-sm text-xs font-medium rounded ">
+                <svg class="w-5 h-5 text-blue-300" viewBox="0 0 24 24" version="1.1">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect x="0" y="0" width="24" height="24" />
+                        <path
+                            d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z"
+                            fill="currentColor" opacity="0.3"
+                            transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) " />
+                        <path
+                            d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z M11.5,14 C12.6045695,14 13.5,13.1045695 13.5,12 C13.5,10.8954305 12.6045695,10 11.5,10 C10.3954305,10 9.5,10.8954305 9.5,12 C9.5,13.1045695 10.3954305,14 11.5,14 Z"
+                            fill="currentColor" />
+                    </g>
+                </svg>
+                <span class="text-xs">Adjust Balance</span>
+            </button>
+
+        </div>
+        <div class="flex items-center justify-center">
+            <div>
+                <svg class="animate-spin text-green-900" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="40px" height="40px" viewBox="0 0 24 24"
+                    version="1.1" *ngIf="editSpinner">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g>
+                            <polygon points="0 0 24 0 24 24 0 24" />
+                        </g>
+                        <path class="opacity-25"
+                            d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                            fill="currentColor" fill-rule="nonzero"
+                            transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+                    </g>
+                </svg>
+            </div>
+
+        </div>
+        <div class="space-y-5 mt-10">
+            <div *ngIf="!editSpinner && !editUserBalRetrievalErr">
+                <div class="flex w-full items-center justify-between space-x-8">
+                    <div class="flex w-full ml-0 mt-0 items-center">
+                        <div class="flex border border-dashed border-gray-300 items-center p-2.5">
+
+                            <span
+                                class="text-green-500 text-base md:text-lg lg:text-xl font-semibold">{{edittedUserWalletBal
+                                | currency:currencyType : 'symbol':currencyFormat}} &nbsp; <span
+                                    class="text-xs">{{currencyType}}</span></span>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-1 text-xxs sm:text-xs text-gray-400">Available Balance</p>
+
+            </div>
+
+            <div class="ml-2 flex-1 md:flex md:justify-between mt-1" *ngIf="editUserBalRetrievalErr">
+                <p class="text-xs text-rose-600 font-normal">Something went wrong. Please try again</p>
+                <p
+                    class="mt-3 text-xs md:mt-0 md:ml-6 text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+                    <a (click)="retryEditUserBal()" class="whitespace-nowrap font-medium uppercase">Retry</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+        @container1 *ngIf="showWallet">
+        <div class="absolute inset-0  overflow-y-auto" @enterExitRight>
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                <div (click)="closeWallet()" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                    aria-hidden="true"></div>
+
+                <!-- This element is to trick the browser into centering the modal contents. -->
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
+                    <div>
+                        <div class="mx-auto flex items-center justify-center">
+                            <h3 class="text-lg lg:text-xl leading-6 font-bold text-gray-900" id="modal-title">Adjust
+                                Wallet Amount</h3>
+                        </div>
+                        <div class="flex flex-col items-center justify-center mt-4 mb-4 space-y-1">
+                            <div class="flex items-center"><span class="text-sm text-gray-400">Choose your action
+                                    for</span> <span
+                                    class="bg-gray-100 text-xs text-purple-500 ml-1 px-1 py-0.5 rounded-sm">{{userName.value}}</span>
+                            </div>
+                            <div
+                                class="flex border border-gray-200 bg-opacity-60 items-center px-2 py-1 space-x-8 rounded mt-1">
+                                <label [ngClass]="(type == 'add') ? 'text-gray-600 bg-gray-200' : 'text-gray-400'"
+                                    class="text-sm lg:text-base font-semibold px-5 py-2 rounded cursor-pointer">
+                                    <input type="radio" (click)="onSelect('add')" name="gAdd" class="sr-only"
+                                        aria-labelledby="server-size-0-label"
+                                        aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+
+                                    <div
+                                        class="whitespace-nowrap text-sm lg:text-base font-medium rounded cursor-pointer">
+                                        Add</div>
+                                </label>
+
+                                <label [ngClass]="(type == 'deduct') ? 'text-gray-600 bg-gray-200' : 'text-gray-400'"
+                                    class="text-sm lg:text-base font-semibold px-5 py-2 rounded cursor-pointer">
+
+                                    <input type="radio" (click)="onSelect('deduct')" name="" class="sr-only"
+                                        aria-labelledby="server-size-0-label"
+                                        aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+
+                                    <div
+                                        class="whitespace-nowrap text-sm lg:text-base font-medium rounded cursor-pointer">
+                                        Deduct</div>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex  flex-col md:flex-row items-center justify-left w-full lg:w-2/3 space-y-1 md:space-y-0"
+                        *ngIf="!spinner">
+                        <span class="text-gray-400 text-sm  px-5 lg:text-base font-normal">Your Wallet Balance</span>
+                        <div class="flex border border-dashed border-gray-300 items-center p-1.5">
+
+                            <span
+                                class="text-green-500 text-base md:text-lg lg:text-lg font-semibold">{{loggedInUserWalletBal
+                                | currency:currencyType : 'symbol':currencyFormat}} &nbsp; <span
+                                    class="text-xs">{{currencyType}}</span></span>
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col md:flex-row items-center w-full lg:w-2/3 justify-between space-y-1 md:space-y-0">
+                        <div class="flex items-center justify-center">
+                            <div>
+                                <svg class="animate-spin text-green-900" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="40px" height="40px"
+                                    viewBox="0 0 24 24" version="1.1" *ngIf="spinner">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g>
+                                            <polygon points="0 0 24 0 24 24 0 24" />
+                                        </g>
+                                        <path class="opacity-25"
+                                            d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+                                            fill="currentColor" fill-rule="nonzero"
+                                            transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+                                    </g>
+                                </svg>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="mx-auto flex justify-start px-5 py-1 mt-2 md:mt-4">
+                        <div class="md:flex-col w-full" *ngIf="logUserBalRetrievalErr">
+                            <p class="text-xs text-rose-600 font-normal">Something went wrong. Please try again</p>
+                            <p
+                                class="mt-3 text-xs md:mt-0 md:ml-6 text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+                                <a (click)="retryLogUserBal()" class="whitespace-nowrap font-medium uppercase">Retry</a>
+                            </p>
+                        </div>
+                        <div class="md:flex-col w-full">
+
+                            <label for="wallet" class="block font-semibold text-gray-700">
+                                <span class="text-xs">Enter amount</span>
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" formControlName="patchAmount" (keyup)="checkBal()" name="name" id="name"
+                                class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md"
+                                placeholder="" value="" aria-invalid="true" aria-describedby="name-error">
+
+                            <app-error-display [formGroup]="walletFormGroup" [fieldName]="'Wallet Amount'"
+                                [controlName]="'patchAmount'" [fieldInfoText]=""></app-error-display>
+                            <p class="mt-2 text-xxs sm:text-xs text-red-500" *ngIf="insufficientBalErr">Not enough
+                                balance to {{type}}
+                            </p>
+                            <p class="mt-2 text-xxs sm:text-xs text-gray-500"
+                                *ngIf="(!amount.touched && amount.errors?.required) ||  (!amount.errors && !insufficientBalErr)">
+                                {{ walletAmountInfoText }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mx-auto flex justify-start px-5 py-1">
+                        <div class="md:flex-col w-full">
+                            <label for="wallet" class="block font-semibold text-gray-700">
+                                <span class="text-xs">Comments</span>
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <textarea name="name" formControlName="walletComments" id="name"
+                                class="block w-full mt-1 shadow-sm bg-[#f5f8fa] text-sm sm:py-2.5 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md"
+                                placeholder="" value="" aria-invalid="true" aria-describedby="name-error"></textarea>
+                            <app-error-display [formGroup]="walletFormGroup" [fieldName]="'Comment(s)'"
+                                [controlName]="'walletComments'" [minimumLength]="walletCommentsMinLength">
+                            </app-error-display>
+                        </div>
+                    </div>
+                    <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                        <button type="button" (click)="onSubmit()"
+                            [ngClass]=" (!disabled)  ? 'bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':'bg-blue-600 opacity-50 cursor-not-allowed focus:outline-none' "
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:col-start-2 sm:text-xs"
+                            *ngIf="type == 'add'">
+                            <span *ngIf="!submitSpinner">Add</span>
+                            <span *ngIf="submitSpinner">Adding</span>
+
+                            <app-spinner-on-button *ngIf="submitSpinner"></app-spinner-on-button>
+
+                        </button>
+                        <button type="button" (click)="onSubmit()"
+                            [ngClass]=" (!disabled)  ? 'bg-rose-600 hover:bg-rose-700 focus:ring-2 focus:ring-offset-2 focus:ring-rose-500':'bg-rose-600 opacity-50 cursor-not-allowed focus:outline-none' "
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-rose-600 text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 sm:col-start-2 sm:text-xs"
+                            *ngIf="type == 'deduct'">
+                            <span *ngIf="!submitSpinner">Deduct</span>
+                            <span *ngIf="submitSpinner">Deducting</span>
+
+                            <app-spinner-on-button *ngIf="submitSpinner"></app-spinner-on-button>
+
+                        </button>
+                        <button (click)="closeWallet()"
+                            [ngClass]=" (!submitSpinner)  ? 'bg-white text-gray-700 hover:bg-gray-50  focus:ring-2 focus:ring-offset-2 focus:ring-gray-500':'bg-white  opacity-50 cursor-not-allowed focus:outline-none' "
+                            type="button"
+                            class="mt-3 border border-gray-300 w-full inline-flex justify-center rounded-md shadow-sm px-3 py-2 text-sm font-medium sm:mt-0 sm:col-start-1 sm:text-xs">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+<app-create-popup *ngIf="popup" [inputForm]="walletFormGroup" [Responce]="response" [status]="status"
+    (closePopUp)="modalClose($event)" (successPopUp)="modalcontinue($event)" (tryAgainPopUp)="tryAgain($event)">
+</app-create-popup>

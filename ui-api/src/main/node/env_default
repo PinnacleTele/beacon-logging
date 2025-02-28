@@ -1,0 +1,166 @@
+HOST=0.0.0.0
+PORT=3000
+ENV=prod
+# token expiration
+ACCESS_TOKEN_EXPIRATION=5m
+REFRESH_TOKEN_EXPIRATION=1d
+REFRESH_TOKEN_INTERVAL_INSEC=90
+
+# maria db connection params
+#DB_URL_CM=mariadb://devuser:devuser@123@192.168.1.132:3310/cm
+#DB_URL_CM=mariadb://qauser:qauser@123@192.168.1.132:3320/accounts
+MARIA_DB_CM_HOST=192.168.1.136
+MARIA_DB_CM_PORT=3306
+MARIA_DB_CM_USER=appuser
+MARIA_DB_CM_DATABASE=cm
+MARIA_DB_CM_PASSWORD=appuser@123
+MARIA_DB_CM_CONNECTION_LIMIT=25
+MARIA_DB_CM_CONNECTION_LIMIT_FOR_OTHERS=5
+
+
+
+# postgres summary url
+#DB_URL_SUMMARY=postgres://appuser:appuser@123@192.168.1.140:5432/billing
+DB_URL_SUMMARY=postgres://rptuser:rptuser@123@192.168.1.154:5432/billing
+# namespace to use when registering pg (DO NOT CHANGE THIS!!!)
+PG_SUMMARY_NAMESPACE=summary
+# pool size for summary
+PG_SUMMARY_POOLSIZE=20
+
+# password service base uri for api & smpp
+PASSWORD_SERVICE_URL=http://192.168.1.245:9380/password/reset
+
+# stats (parts/char count/is unicode) for the message
+MSGINFO_SERVICE_URL=http://192.168.1.245:8980/msgtool/msginfo
+
+# request download log url
+LOG_DOWNLOAD_URL=http://192.168.1.142:8081/log_queue/initiate
+
+# EMAIL Configs
+EMAIL_URL=https://api.unifiedrml.com/v1.0/messages/sendMail
+EMAIL_OWNERID=99141915
+EMAIL_TOKEN=RaDzCbIP63Ctexeco7XqBXXo
+EMAIL_SMTP_USERNAME=smtp79522111
+
+CREATE_ACCOUNT_MAIL_SUBJECT=Welcome {{to_name}}! Your account information
+ADD_SERVICE_MAIL_SUBJECT=Hello {{to_fname}} {{to_lname}}, New service information
+FORGOT_PASSWORD_MAIL_SUBJECT=Hello {{to_fname}} {{to_lname}}, YOUR NEW PASSWORD
+
+FORGOT_PASS_FROM_NAME=Robot
+FORGOT_PASS_FROM_EMAIL=robot@malertservices.com
+EMAIL_FROM=robot@malertservices.com
+EMAIL_REPLYTO=robot@malertservices.com
+
+# elastic search node url (prod)
+ES_NODE_URL=http://192.168.1.137:9200
+# detailed log data url (prod)
+LOG_DATA_URL=http://192.168.1.142:8081/get_data
+# max record limit for view log
+MAX_LIMIT_VIEW_LOG=500
+
+# allowed max limit for telemetric in mem q size
+TELEMETRIC_Q_MAX_SIZE=500
+
+# allowed max limit for error in mem q size
+ERROR_Q_MAX_SIZE=500
+
+# scheduler interval for telemetric q consumer
+TELEMETRIC_Q_CONSUMER_INETRVAL_INSEC=10
+
+# scheduler interval for error q consumer
+ERROR_Q_CONSUMER_INETRVAL_INSEC=10
+
+# scheduler interval for download status check task
+DOWNLOAD_STATUS_CHECK_INETRVAL_INSEC=5
+
+
+# Redis Server - Telemetric
+REDIS_TELEMETRIC_HOST=192.168.1.221
+REDIS_TELEMETRIC_PORT=6379
+REDIS_TELEMETRIC_DB=2
+
+
+# Redis Server - General
+REDIS_GEN_HOST=192.168.1.221
+REDIS_GEN_PORT=6379
+REDIS_GEN_DB=1
+REDIS_GEN_NAMESPACE=GEN
+
+# Redis Server - Groups (normal)
+REDIS_GROUP_HOST=192.168.1.150
+REDIS_GROUP_PORT=6379
+REDIS_GROUP_DB=1
+REDIS_GROUP_NAMESPACE=GROUP
+
+# Redis Server - Groups (exclude)
+REDIS_EGROUP_HOST=192.168.1.214
+REDIS_EGROUP_PORT=6379
+REDIS_EGROUP_DB=1
+REDIS_EGROUP_NAMESPACE=EGROUP
+
+# Redis Server - wallet
+REDIS_WALLET_HOST=192.168.1.148
+REDIS_WALLET_PORT=6379
+REDIS_WALLET_DB=1
+REDIS_WALLET_NAMESPACE=WALLET
+
+# user types
+TYPE_SUPERADMIN=0
+TYPE_ADMIN=1
+TYPE_USER=2
+
+# the equivalant hex code for {#var#}
+DLT_TEMPLATE_VAR_HEX=007b00230076006100720023007d
+
+# IST Zone name
+IST_ZONE_NAME=Asia/Calcutta
+#IST_ZONE_NAME=America/Los_Angeles
+
+# max number of admins under a sa
+MAX_ADMINS_UNDER_SA=9999
+
+# max number of users under a admin
+MAX_USERS_UNDER_ADMIN=9999
+
+# max number of contacts to send
+MAX_CONTACTS_LIMIT=500
+
+# default logo in relative path
+LOGO_DEFAULT=/logos/default_logo.png
+
+# base currency
+BASE_CURRENCY=INR
+
+# intl base currency
+INTL_BASE_CURRENCY=EUR
+
+# Domestic Country name (name as per country_info table)
+DOMESTIC_COUNTRY_NAME=India
+
+#2FA Authentication
+OTP_MAIL_SUBJECT=Hello {{to_fname}} {{to_lname}}, YOUR OTP
+PLATFORMURL = http://192.168.1.193:8080/genericapi/QSGenericReceiver
+VERSION = 1.0
+OTP_HEADER=CLOADS
+DLT_ENTITY_ID =1001438220000011658
+DLT_TEMPLATE_ID=1407162079737386362
+OTP_TYPE =PM
+ACCESSKEY=ZMuPI7fnPHjJ
+DLR_REQ=0
+OTP_MSG=Dear user, kindly use the one time password, ACTUALOTP to login to the Beacon Campaign Manager application.
+OTP_EXPIRY=5
+OTP_RESEND_APPEAR=30
+EMAIL_URL_OTP=https://api.unifiedrml.com/v1.0/messages/sendMail
+EMAIL_OWNERID_OTP=99141915
+EMAIL_TOKEN_OTP=RaDzCbIP63Ctexeco7XqBXXo
+EMAIL_SMTP_USERNAME_OTP=smtp70948711
+
+# Page accessiblity changes #
+ACCOUNT_STATUS_ACTIVE=0
+ACCOUNT_STATUS_DEACTIVATED=1
+ACCOUNT_STATUS_EXPIRED=2
+ACCOUNT_STATUS_SUSPENDED=3
+PLATFORM_CLUSTER_OTP_DISABLED_LINKS = campaigns,groups,templates
+ACCOUNT_STATUS_SUSPENDED_MSG=Your account is suspended
+ACCOUNT_STATUS_DEACTIVATED_MSG=Your account is deactivated
+ACCOUNT_STATUS_EXPIRED_MSG=Your account is expired

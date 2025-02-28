@@ -1,0 +1,941 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 pt-2 bg-white">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3
+				class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r"
+			>
+				Account List 
+			</h3>
+			<div
+				class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400"
+			>
+				<span class="hover:text-blue-500 cursor-pointer">Accounts</span>
+				<span class="text-xxs font-mono">/</span>
+				<span class="hover:text-blue-500 cursor-pointer"
+					>Accounts List</span
+				>
+			</div>
+		</div>
+		<div></div>
+	</div>
+</div>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none" >
+	<div class="py-6 relative">
+		<!-- statistics section -->
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<div
+				class="rounded shadow bg-white dark:bg-gray-800 py-6 pl-6 pr-12"
+			>
+				<div class="flex items-center">
+					<p
+						class="focus:outline-none text-lg md:pr-96 font-semibold leading-4 text-gray-800 dark:text-gray-100"
+					>
+						Statistics
+					</p>
+					<!-- <p tabindex="0" class="focus:outline-none text-xs leading-3 pl-6 text-right text-gray-500 dark:text-gray-400">Updated 1 month ago</p> -->
+				</div>
+				<div class="lg:flex items-center justify-between pt-8 lg:px-4">
+					<div class="flex items-center" >
+						<div
+							role="img"
+							aria-label="graph"
+							
+							class="focus:outline-none flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-7 h-7 text-purple-400"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+								fill="none"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path
+									stroke="none"
+									d="M0 0h24v24H0z"
+									fill="none"
+								></path>
+								<circle cx="9" cy="7" r="4"></circle>
+								<path
+									d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"
+								></path>
+								<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+								<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+							</svg>
+						</div>
+						<div class="pl-4">
+							<p
+							
+								class="focus:outline-none w-11 text-lg font-semibold leading-none text-gray-800 dark:text-gray-100"
+							>
+								{{accounts}}
+							</p>
+							<a
+								
+								class="focus:outline-none text-gray-600"
+								><p class="w-8 mt-2 text-xs leading-3">
+									{{accounts > 1 ? 'Accounts' : 'Account'}}	
+								</p></a
+							>
+						</div>
+					</div>
+					<div
+						class="flex items-center lg:pt-0 pt-4 lg:pl-10"
+						
+						*ngIf="loginuser != 1"
+					>
+						<div
+							
+							role="img"
+							aria-label="user"
+							class="focus:outline-none flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-7 h-7 text-blue-400"
+								viewBox="0 0 24 24"
+								fill="none"
+							>
+								<path
+									d="M17 6C17 8.76142 14.7614 11 12 11C9.23858 11 7 8.76142 7 6C7 3.23858 9.23858 1 12 1C14.7614 1 17 3.23858 17 6Z"
+									fill="currentColor"
+								></path>
+								<path
+									opacity="0.25"
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M18.818 14.1248C18.2016 13.4101 17.1428 13.4469 16.3149 13.9001C15.0338 14.6013 13.5635 15 12 15C10.4365 15 8.96618 14.6013 7.68505 13.9001C6.85717 13.4469 5.79841 13.4101 5.182 14.1248C3.82222 15.7014 3 17.7547 3 20V21C3 22.1045 3.89543 23 5 23H19C20.1046 23 21 22.1045 21 21V20C21 17.7547 20.1778 15.7014 18.818 14.1248Z"
+									fill="currentColor"
+								></path>
+							</svg>
+						</div>
+						<div class="pl-4">
+							<p
+								
+								class="focus:outline-none w-11 text-lg font-semibold leading-none text-gray-800 dark:text-gray-100"
+							>
+								{{accountStat_List?.total_admins}}
+							</p>
+							<a
+								
+								class="focus:outline-none  focus:text-indigo-800 text-gray-500"
+								><p  class="w-8 text-xs leading-3 mt-2">
+									 {{accountStat_List?.total_admins > 1 ? 'Admins' : 'Admin'}}
+								</p></a
+							>
+						</div>
+					</div>
+					<div
+						class="flex items-center lg:pt-0 pt-4 lg:pl-10"
+						
+					>
+						<div
+							role="img"
+							aria-label="box"
+							
+							class="focus:outline-none flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-7 h-7 text-blue-400"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+								fill="none"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path
+									stroke="none"
+									d="M0 0h24v24H0z"
+									fill="none"
+								></path>
+								<circle cx="12" cy="7" r="4"></circle>
+								<path
+									d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"
+								></path>
+							</svg>
+						</div>
+						<div class="pl-4">
+							<p
+								
+								class="focus:outline-none w-11 text-lg font-semibold leading-none text-gray-800 dark:text-gray-100"
+							>
+								{{accountStat_List?.total_users}}
+							</p>
+							<a
+								
+								class="focus:outline-none focus:text-indigo-800 text-gray-500"
+								><p class="w-8 text-xs mt-2 leading-3">
+									{{accountStat_List?.total_users > 1 ? 'Users' : 'User'}}	
+								</p></a
+							>
+						</div>
+					</div>
+					<div
+						class="flex items-center lg:pt-0 pt-4 lg:pl-10"
+						
+					>
+						<div
+							aria-label="dollar"
+							role="img"
+							
+							class="focus:outline-none flex items-center justify-center w-12 h-12 bg-green-100 rounded-full"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-7 h-7 text-green-400"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+								fill="none"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path
+									stroke="none"
+									d="M0 0h24v24H0z"
+									fill="none"
+								></path>
+								<circle cx="9" cy="7" r="4"></circle>
+								<path
+									d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"
+								></path>
+								<path d="M16 11l2 2l4 -4"></path>
+							</svg>
+						</div>
+						<div class="pl-4">
+							<p
+								
+								class="focus:outline-none w-11 text-lg font-semibold leading-none text-gray-800 dark:text-gray-100"
+							>
+								{{accountStat_List?.total_active}}
+							</p>
+							<a
+								
+								class="focus:outline-none focus:text-indigo-800 text-gray-500"
+								><p class="w-8 text-xs leading-3 mt-2">
+									Active
+								</p></a
+							>
+						</div>
+					</div>
+					<div
+						class="flex items-center lg:pt-0 pt-4 lg:pl-10"
+					
+					>
+						<div
+							aria-label="dollar"
+							role="img"
+							
+							class="focus:outline-none flex items-center justify-center w-12 h-12 bg-red-100 rounded-full"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-7 h-7 text-red-400"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+								fill="none"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path
+									stroke="none"
+									d="M0 0h24v24H0z"
+									fill="none"
+								></path>
+								<path
+									d="M14.274 10.291a4 4 0 1 0 -5.554 -5.58m-.548 3.453a4.01 4.01 0 0 0 2.62 2.65"
+								></path>
+								<path
+									d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 1.147 .167m2.685 2.681a4 4 0 0 1 .168 1.152v2"
+								></path>
+								<line x1="3" y1="3" x2="21" y2="21"></line>
+							</svg>
+						</div>
+						<div class="pl-4">
+							<p
+								
+								class="focus:outline-none w-11 text-lg font-semibold leading-none text-gray-800 dark:text-gray-100"
+							>
+								{{accountStat_List?.total_inactive}}
+							</p>
+							<a
+								
+								class=" focus:outline-none focus:text-indigo-800 text-gray-500"
+								><p class="w-8 text-xs leading-3 mt-2">
+									Inactive
+								</p></a
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+			<!-- Replace with your content -->
+
+			<!-- table list section -->
+			<div class="bg-white p-5 md:px-10 md:py-2 rounded">
+				<div class="space-y-4">
+					<div
+						class="flex flex-col sm:flex-row justify-between pt-6 space-y-2"
+					>
+						<!-- search -->
+						<div *ngIf="!(apiError)" class="relative sm:w-1/2">
+							<input
+								[(ngModel)]="searchText"
+								(keyup)="getcount()"
+								type="text"
+								name="name"
+								id="name"
+								class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+								placeholder="Search Customers"
+								value=""
+								aria-invalid="true"
+								aria-describedby="name-error"
+							/>
+
+							<div
+								class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+							>
+								<svg
+									class="w-5 h-5 text-gray-400"
+									xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink"
+									viewBox="0 0 24 24"
+									version="1.1"
+								>
+									<g
+										stroke="none"
+										stroke-width="1"
+										fill="none"
+										fill-rule="evenodd"
+									>
+										<rect
+											x="0"
+											y="0"
+											width="24"
+											height="24"
+										></rect>
+										<path
+											d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+											fill="currentColor"
+											fill-rule="nonzero"
+											opacity="0.3"
+										></path>
+										<path
+											d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+											fill="currentColor"
+											fill-rule="nonzero"
+										></path>
+									</g>
+								</svg>
+							</div>
+						</div>
+						<!-- icons section -->
+						<div class="pt-2 sm:pt-0 w-full flex sm:justify-end">
+							<div
+								class="flex justify-between sm:justify-end space-x-2 text-xs w-full"
+							>
+								<div class="">
+									<div class="flex items-center mr-2"></div>
+								</div>
+								<div
+									class="flex"
+								>
+									<button
+										routerLink="/accounts/new"
+										class="text-white md:flex md:items-center p-2 pr-2.5 border-transparent border bg-blue-600 hover:bg-blue-500 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+									>
+										<svg
+											class="w-4 h-4"
+											xmlns="http://www.w3.org/2000/svg"
+											xmlns:xlink="http://www.w3.org/1999/xlink"
+											viewBox="0 0 24 24"
+											version="1.1"
+										>
+											<rect
+												fill="currentColor"
+												x="4"
+												y="11"
+												width="16"
+												height="2"
+												rx="1"
+											></rect>
+											<rect
+												fill="currentColor"
+												opacity="0.5"
+												transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)"
+												x="4"
+												y="11"
+												width="16"
+												height="2"
+												rx="1"
+											></rect>
+										</svg>
+										<span
+											class="ml-1.5 font-medium hidden md:flex"
+												>New Account</span
+										>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- table section -->
+					<div *ngIf="!(apiError   || noData  )" class="flex flex-col pt-1">
+						<div class="overflow-x-auto">
+							<div
+								class="py-2 align-middle inline-block min-w-full pt-3"
+							>
+								<div class="">
+									<table
+										class="min-w-full divide-y-0 divide-gray-200"
+									>
+										<thead
+										*ngIf="!(apiError  || noData || noRecords==0)"
+											class="bg-gray-50 text-xxs font-medium text-gray-400"
+										>
+											<tr class="">
+												<th
+													scope="col"
+													class="px-2 py-2 ml-4 flex items-center text-left uppercase tracking-wider"
+												>
+													<!-- <input id="selectall" name="selectall" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-0" /> -->
+													<!-- <span
+														class="px-10 whitespace-nowrap"
+													>
+														Username
+													</span> -->
+													<app-sorter
+													[colTitle]="'Username'"
+													[defaultProperty]="defaultProp"
+													[defaultOrder]="'asc'"
+														[icon]="usernameIcon"
+														[sortingProperty]="'user'"
+														(sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"
+													></app-sorter>
+												</th>
+												<th
+													scope="col"
+													class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap"
+												>
+													<!-- Customer Name -->
+													<app-sorter
+													[colTitle]="'Customer Name'"
+													[defaultProperty]="defaultProp"
+													[defaultOrder]="'asc'"
+														[icon]="custnameIcon"
+														[sortingProperty]="'fullName'"
+														(sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"
+													></app-sorter>
+												</th>
+												<th
+													scope="col"
+													class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap"
+												>
+													
+													<app-sorter
+													[colTitle]="'Email'"
+													[defaultProperty]="defaultProp"
+													[defaultOrder]="'asc'"
+														[icon]="emailIcon"
+														[sortingProperty]="'email'"
+														(sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"
+													></app-sorter>
+												</th>
+												<th
+													scope="col"
+													class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap"
+												>
+													
+													<app-sorter
+													[colTitle]="'Account Type'"
+													[defaultProperty]="defaultProp"
+													[defaultOrder]="'asc'"
+														[icon]="typeIcon"
+														[sortingProperty]="'user_type'"
+														(sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"
+													></app-sorter>
+												</th>
+												<th
+													scope="col"
+													class="px-6 py-2 text-center uppercase tracking-wider whitespace-nowrap"
+												>
+													<!-- Created Date <small>({{userZone}})</small> -->
+													<app-sorter
+													[colTitle]="createdTs"
+													[defaultProperty]="defaultProp"
+													[defaultOrder]="'asc'"
+														[icon]="createdTsIcon"
+														[sortingProperty]="'created_ts_unix'"
+														(sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"
+													></app-sorter>
+												</th>
+												<th
+													scope="col"
+													class="px-6 py-2 text-left uppercase tracking-wider"
+												></th>
+											</tr>
+										</thead>
+										<app-list-skeleton
+										*ngIf="accountLoading"
+										[colCount]=5
+										></app-list-skeleton>
+
+										<tbody
+										*ngIf=" !(noData  || accountLoading || apiError)"
+										
+											class="bg-white divide-y divide-gray-100"
+										>
+											<tr
+												*ngFor="let list of accountUserList | userListFilter :searchText |  sorter:order:searchprop   | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: total} "
+											>
+												<td
+													class="px-2 py-4 whitespace-nowrap"
+												>
+													<div
+														class="flex items-center"
+													>
+														<!-- <input id="g1" name="g1" type="checkbox" class="focus:ring-indigo-500 bg-gray-100 bg-opacity-70 h-4 w-4 text-blue-600 border-gray-200 rounded focus:ring-1" /> -->
+														<div
+														*ngIf="list.user_type == 2"
+															class="bg-indigo-100 text-indigo-400 rounded p-2 py-1 mt-2"
+														>
+															U
+														</div>
+														<div
+														*ngIf="list.user_type == 1"
+															class="bg-indigo-100 text-indigo-400 rounded p-2 py-1 mt-2"
+														>
+															A
+														</div>
+
+														<div
+															class="ml-3 space-y-0.5"
+														>
+															<a (click)="editAccount(list)"
+																class="text-xs font-semibold text-gray-600 cursor-pointer uppercase"
+																>{{list.user}}
+															</a>
+															<div
+																class="flex space-x-1 align-middle items-center text-xs"
+															>
+																<div
+																	class="items-center justify-center space-x-1"
+																>
+																	<span
+																		*ngIf="list.acc_status == 2"
+																		class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-rose-500"
+																	>
+																	{{list.userStatus}}
+																	</span>
+																	<span
+																		*ngIf="list.acc_status == 0"
+																		class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-green-500"
+																	>
+																	{{list.userStatus}}
+																	</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td
+													class="px-6 py-2 whitespace-normal"
+												>
+													<div
+														class="text-xs font-medium tracking-wider text-gray-500 ml-6"
+													>
+														{{list.firstname }}
+														{{list.lastname}}
+													</div>
+												</td>
+												<td
+													class="px-6 py-2 whitespace-normal"
+												>
+													<div
+														class="text-xs font-medium tracking-wider"
+													>
+														<div
+															class="items-center justify-center"
+														>
+															<span
+																class="inline-flex justify-center rounded-sm text-xs font-medium text-gray-500 ml-6"
+																>{{list.email}}</span
+															>
+														</div>
+													</div>
+												</td>
+												<td
+													class="px-6 py-2 whitespace-normal"
+												>
+													<div
+														class="text-xs font-medium tracking-wider"
+													>
+														<div
+															class="items-center justify-center"
+														>
+															<span
+																*ngIf="list.user_type == 2"
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-purple-500 ml-6"
+															>
+															{{list.userType}}
+															</span>
+
+															<span
+																*ngIf="list.user_type == 1"
+																class="inline-flex px-2 justify-center rounded-sm text-xxs font-medium bg-gray-100 text-blue-500 ml-6"
+															>
+															{{list.userType}}
+															</span>
+														</div>
+													</div>
+												</td>
+												<td
+													class="px-6 py-2 text-xs text-gray-700 leading-5 tracking-wide whitespace-nowrap"
+												>
+													<div
+														class="flex flex-col justify-center items-center"
+													>
+														<span class="px-2">
+															{{list.created_ts}}
+														</span>
+														<!-- <span>16:30</span> -->
+													</div>
+												</td>
+
+												<td
+													class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium"
+												>
+													<div
+														class="flex items-center"
+													>
+														<a
+															(click)="editAccount(list)"
+															class="text-gray-600 dark:text-gray-400 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+															href="javascript: void(0)"
+															tooltip="Edit" [options]= "myOptions"
+														>
+															<svg
+																xmlns="http://www.w3.org/2000/svg"
+																class="w-4 h-4"
+																viewBox="0 0 24 24"
+																stroke-width="1.5"
+																stroke="currentColor"
+																fill="none"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															>
+																<path
+																	stroke="none"
+																	d="M0 0h24v24H0z"
+																/>
+																<path
+																	d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
+																/>
+																<path
+																	d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3"
+																/>
+																<line
+																	x1="16"
+																	y1="5"
+																	x2="19"
+																	y2="8"
+																/>
+															</svg>
+														</a>
+
+														<!-- <a class="text-red-500 p-2 border-transparent border bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray ml-2" href="javascript: void(0)" title="Delete">
+																<app-common-delete-button
+																[confirmationMessage]="deleteMessage"
+																(deleteModalResponse) = "onDeletePreviewResp($event,list)"
+															   >
+																</app-common-delete-button>
+															</a> -->
+													</div>
+												</td>
+											</tr>
+
+											<!-- More items... -->
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- api error -->
+					<app-api-error 
+						*ngIf="apiError && !(noData || noRecords==0 || accountLoading)"
+						(tryAgain)="subscribeData()"
+					></app-api-error>
+
+					<!-- section to show on no records -->
+					
+					<!-- section to show on no records -->
+			<div *ngIf="noData && !(apiError || noRecords==0 || accountLoading)" >
+				<div class="w-full flex flex-col items-center justify-start bg-white">
+				
+					<div class="mt-8">
+						<p class="text-2xl text-gray-700 font-semibold">Welcome!</p>
+					</div>
+					<div class="mt-6 w-2/3 lg:w-2/5 text-center">
+						<p class="text-md text-gray-400 font-medium">There are no customers added yet. Kickstart by adding your first customer</p>
+					</div>
+					<svg  class="w-32 h-48 text-gray-300" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24"/>
+							<path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="currentColor" fill-rule="nonzero" opacity="0.3"/>
+							<path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="currentColor" fill-rule="nonzero"/>
+						</g>
+					</svg>
+					<div class="mt-10 text-center justify-center items-center">
+						<!-- <button 
+						routerLink="/accounts/new" 
+						class="text-white md:flex md:items-center p-2 px-3.5 border-transparent border bg-blue-500 hover:bg-blue-400 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
+							<span class="font-medium text-sm flex">Create Account</span>
+						</button> -->
+					</div>
+				</div>
+			</div>
+					
+
+			 <!-- nodataerror section -->
+			 <app-nodataerror *ngIf="noRecords == 0 && !accountLoading && !apiError && accountUserList.length > 0" [title]="'acconts'">
+			</app-nodataerror>
+
+					
+				</div>
+
+				<app-file-pagination
+				*ngIf="!(apiError  || noData || noRecords==0 || accountLoading) "
+				[total] ="total"
+				[totalRecord] ="totalRecord"
+				[p] = "p"
+				[pagesize] = "pagesize"
+				[itemsPerPage] = "itemsPerPage"
+				[perpageCount] ="perpageCount"
+				(paginationValueEmit)="ReceivedpaginateValue($event)"
+				>
+
+				</app-file-pagination>
+			</div>
+			<!-- /End replace -->
+		</div>
+	</div>
+
+	<!-- modal for Clear button -->
+	<section
+		*ngIf="false"
+		class="fixed z-50 inset-0 overflow-y-auto"
+		aria-labelledby="modal-title"
+		role="dialog"
+		aria-modal="true"
+	>
+		<div
+			class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+		>
+			<!--
+      Background overlay, show/hide based on modal state.
+
+      Entering: "ease-out duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+			<div
+				(click)="closeClearModal()"
+				class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+				aria-hidden="true"
+			></div>
+
+			<!-- This element is to trick the browser into centering the modal contents. -->
+			<span
+				class="hidden sm:inline-block sm:align-middle sm:h-screen"
+				aria-hidden="true"
+				>&#8203;</span
+			>
+
+			<!--
+      Modal panel, show/hide based on modal state.
+
+      Entering: "ease-out duration-300"
+        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        To: "opacity-100 translate-y-0 sm:scale-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100 translate-y-0 sm:scale-100"
+        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+    -->
+			<div
+				class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
+			>
+				<div class="sm:flex sm:items-start">
+					<div
+						class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+					>
+						<!-- Heroicon name: outline/exclamation -->
+						<svg
+							class="h-6 w-6 text-red-600"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							aria-hidden="true"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+							/>
+						</svg>
+					</div>
+					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+						<h3
+							class="text-sm md:text-lg leading-6 font-medium text-gray-900"
+							id="modal-title"
+						>
+							Delete Mobiles
+						</h3>
+						<div class="mt-2">
+							<p class="text-xs md:text-sm text-gray-500">
+								Are you sure you want to clear out all the
+								mobile numbers from the text area?
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+					<button
+						type="button"
+						class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-xs md:text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+					>
+						Clear
+					</button>
+					<button
+						(click)="closeClearModal()"
+						type="button"
+						class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-xs md:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+					>
+						Cancel
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- modal for Cancel button -->
+	<section
+		*ngIf="false"
+		class="fixed z-50 inset-0 overflow-y-auto"
+		aria-labelledby="modal-title"
+		role="dialog"
+		aria-modal="true"
+	>
+		<div
+			class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+		>
+			<!--
+      Background overlay, show/hide based on modal state.
+
+      Entering: "ease-out duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+			<div
+				(click)="closeCancelModal()"
+				class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+				aria-hidden="true"
+			></div>
+
+			<!-- This element is to trick the browser into centering the modal contents. -->
+			<span
+				class="hidden sm:inline-block sm:align-middle sm:h-screen"
+				aria-hidden="true"
+				>&#8203;</span
+			>
+
+			<!--
+      Modal panel, show/hide based on modal state.
+
+      Entering: "ease-out duration-300"
+        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        To: "opacity-100 translate-y-0 sm:scale-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100 translate-y-0 sm:scale-100"
+        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+    -->
+			<div
+				class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
+			>
+				<div class="sm:flex sm:items-start">
+					<div
+						class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+					>
+						<!-- Heroicon name: outline/exclamation -->
+						<svg
+							class="h-6 w-6 text-red-600"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							aria-hidden="true"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+							/>
+						</svg>
+					</div>
+					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+						<h3
+							class="text-sm md:text-lg leading-6 font-medium text-gray-900"
+							id="modal-title"
+						>
+							Cancel Campaign
+						</h3>
+						<div class="mt-2">
+							<p class="text-xs md:text-sm text-gray-500">
+								Are you sure you want to cancel this campaign?
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+					<button
+						type="button"
+						class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-xs md:text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+					>
+						Yes
+					</button>
+					<button
+						(click)="closeCancelModal()"
+						type="button"
+						class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-xs md:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+					>
+						No
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

@@ -1,0 +1,188 @@
+#FROM quay.io/wildfly/wildfly:latest-jdk21
+#FROM dk-reg.mas:5000/wildfly/wildfly:latest-jdk21
+
+# Use OpenJDK 21 as base image
+FROM openjdk:21-jdk-slim
+
+# Install necessary utilities
+RUN apt-get update && apt-get install -y curl tar
+
+RUN mkdir -p /opt/jboss/
+
+# Download and install Tomcat
+RUN curl -fsSL https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.78/bin/apache-tomcat-9.0.78.tar.gz -o /tmp/tomcat.tar.gz
+RUN mkdir /opt/tomcat 
+RUN tar -xvzf /tmp/tomcat.tar.gz -C /opt/tomcat --strip-components=1 
+RUN rm /tmp/tomcat.tar.gz
+RUN mkdir -p /opt/jboss/wildfly/logs
+
+
+
+
+
+
+
+
+ENV TZ="Asia/Kolkata"
+
+COPY ./target/beaconlib-1.0-jar-with-dependencies.jar /opt/tomcat/lib/
+
+RUN mkdir /opt/tomcat/webappsBKUP
+
+RUN mkdir -p /opt/jboss/wildfly/logs/topic
+RUN mkdir -p /opt/jboss/wildfly/logs/table2db
+RUN mkdir -p /opt/jboss/wildfly/logs/consumer
+RUN mkdir -p /opt/jboss/wildfly/logs/producer
+RUN mkdir -p /opt/jboss/wildfly/logs/kafkasender
+RUN mkdir -p /opt/jboss/wildfly/logs/executorlog1
+RUN mkdir -p /opt/jboss/wildfly/logs/executorlog2
+RUN mkdir -p /opt/jboss/wildfly/logs/application
+RUN mkdir -p /opt/jboss/wildfly/logs/kafkareceiver
+RUN mkdir -p /opt/jboss/wildfly/logs/timetaken
+RUN mkdir -p /opt/jboss/wildfly/logs/aux
+
+RUN cp -rp /opt/tomcat/webapps/* /opt/tomcat/webappsBKUP/.
+
+RUN rm -rf /opt/tomcat/webapps/*
+
+
+RUN rm -rf /opt/tomcat/conf/server.xml
+RUN rm -rf /opt/tomcat/conf/logging.properties
+
+COPY logging.properties /opt/tomcat/conf/logging.properties
+COPY logging.properties /opt/tomcat/conf/logging.properties_bkup
+
+COPY server.xml /opt/tomcat/conf/server.xml
+
+COPY ./target/fb-campaignfinisher-1.0.war /opt/tomcat/webapps/campaignfinisher.war
+COPY ./target/fb-cronjobs-1.0.war /opt/tomcat/webapps/cronjobs.war
+COPY ./target/fb-scheduleprocessor-1.0.war /opt/tomcat/webapps/scheduleprocessor.war
+COPY ./target/fb-initialstage-1.0.war /opt/tomcat/webapps/initialstage.war
+
+
+#COPY ./target/fb-dltfileprocessor-1.0.war /opt/tomcat/webapps/dltfileprocessor.war
+#COPY ./target/fb-downloadhandler-1.0.war /opt/tomcat/webapps/downloadhandler.war
+#COPY ./target/fb-excludeprocessor-1.0.war /opt/tomcat/webapps/excludeprocessor.war
+#COPY ./target/fb-fileupload-1.0.war /opt/tomcat/webapps/fileupload.war
+#COPY ./target/fb-groupsprocessor-1.0.war /opt/tomcat/webapps/groupsprocessor.war
+#COPY ./target/fb-handoverstage-1.0.war /opt/tomcat/webapps/handoverstage.war
+#COPY ./target/fb-splitstage-1.0.war /opt/tomcat/webapps/splitstage.war
+
+#COPY standalone.xml /opt/jboss/wildfly/standalone/configuration/standalone.xml
+
+RUN mkdir -p /fileprocessor/224
+RUN mkdir -p /fileprocessor/216
+
+COPY ./target/fileprocessor/global.properties_216 /fileprocessor/global.properties_216
+COPY ./target/fileprocessor/global.properties_224 /fileprocessor/global.properties_224
+
+
+COPY ./target/fileprocessor/224/campaignfinisher.properties /fileprocessor/224/campaignfinisher.properties
+COPY ./target/fileprocessor/224/dltprocessor.properties /fileprocessor/224/dltprocessor.properties
+COPY ./target/fileprocessor/224/downloadhandler.properties /fileprocessor/224/downloadhandler.properties
+COPY ./target/fileprocessor/224/excludeprocessor.properties /fileprocessor/224/excludeprocessor.properties
+COPY ./target/fileprocessor/224/groupsprocessor.properties /fileprocessor/224/groupsprocessor.properties
+COPY ./target/fileprocessor/224/handoverstage.properties /fileprocessor/224/handoverstage.properties
+COPY ./target/fileprocessor/224/initialstage.properties /fileprocessor/224/initialstage.properties
+COPY ./target/fileprocessor/224/jndi-list.properties /fileprocessor/224/jndi-list.properties
+COPY ./target/fileprocessor/224/scheduleprocessor.properties /fileprocessor/224/scheduleprocessor.properties
+COPY ./target/fileprocessor/224/splitstage.properties /fileprocessor/224/splitstage.properties
+COPY ./target/fileprocessor/224/utils.properties /fileprocessor/224/utils.properties
+
+
+COPY ./target/fileprocessor/216/campaignfinisher.properties /fileprocessor/216/campaignfinisher.properties
+COPY ./target/fileprocessor/216/dltprocessor.properties /fileprocessor/216/dltprocessor.properties
+COPY ./target/fileprocessor/216/downloadhandler.properties /fileprocessor/216/downloadhandler.properties
+COPY ./target/fileprocessor/216/excludeprocessor.properties /fileprocessor/216/excludeprocessor.properties
+COPY ./target/fileprocessor/216/groupsprocessor.properties /fileprocessor/216/groupsprocessor.properties
+COPY ./target/fileprocessor/216/handoverstage.properties /fileprocessor/216/handoverstage.properties
+COPY ./target/fileprocessor/216/initialstage.properties /fileprocessor/216/initialstage.properties
+COPY ./target/fileprocessor/216/jndi-list.properties /fileprocessor/216/jndi-list.properties
+COPY ./target/fileprocessor/216/scheduleprocessor.properties /fileprocessor/216/scheduleprocessor.properties
+COPY ./target/fileprocessor/216/splitstage.properties /fileprocessor/216/splitstage.properties
+COPY ./target/fileprocessor/216/utils.properties /fileprocessor/216/utils.properties
+
+
+COPY ./target/common/log4j2-common.xml /log4j2-common.xml
+COPY ./target/common/custom_hosts_production.properties /custom_hosts_production.properties
+COPY ./target/common/smpp-interface.properties /smpp-interface.properties
+COPY ./target/common/encrypt.properties /encrypt.properties
+COPY ./target/common/dnd.properties /dnd.properties
+COPY ./target/common/dlttemplateconfig.properties /dlttemplateconfig.properties
+COPY ./target/common/common.properties /common.properties
+COPY ./target/common/callback-params.properties /callback-params.properties
+COPY ./target/common/payload-params.properties /payload-params.properties
+COPY ./target/common/midconfig.properties /midconfig.properties
+COPY ./target/common/messageremove.properties /messageremove.properties
+COPY ./target/common/kafka-custom.properties /kafka-custom.properties
+COPY ./target/common/jndi.properties /jndi.properties
+COPY ./target/common/internal-ui.properties /internal-ui.properties
+COPY ./target/common/inmem-refresh-interval.properties /inmem-refresh-interval.properties
+COPY ./target/common/http-connector.properties /http-connector.properties
+COPY ./target/common/global.properties /global.properties
+COPY ./target/common/genericapi.properties /genericapi.properties
+COPY ./target/common/exception-case.properties /exception-case.properties
+COPY ./target/common/wallet-history.properties /wallet-history.properties
+COPY ./target/common/wallet-balance-reminder.properties /wallet-balance-reminder.properties
+COPY ./target/common/url_hitter.properties /url_hitter.properties
+COPY ./target/common/timezone.properties /timezone.properties
+COPY ./target/common/timer-procesor-interval.properties /timer-procesor-interval.properties
+COPY ./target/common/sms_request.xsd /sms_request.xsd
+COPY ./target/common/shortcode-provider.properties /shortcode-provider.properties
+COPY ./target/common/replace-iso.properties /replace-iso.properties
+COPY ./target/common/r3c_addinfo.properties /r3c_addinfo.properties
+COPY ./target/common/prometheus.control.properties /prometheus.control.properties
+COPY ./target/common/mcc-mnc-list.json /mcc-mnc-list.json
+
+
+COPY ./target/profile/default/kafka-producer.properties /kafka-producer.properties_default
+COPY ./target/profile/default/kafka-consumer.properties /kafka-consumer.properties_default
+COPY ./target/profile/default/common-db.properties /common-db.properties_default
+COPY ./target/profile/default/elasticsearch.properties /elasticsearch.properties_default
+
+
+COPY ./target/profile/cat/kafka-producer.properties_cat /kafka-producer.properties_cat
+COPY ./target/profile/cat/kafka-consumer.properties_cat /kafka-consumer.properties_cat
+COPY ./target/profile/cat/common-db.properties_cat /common-db.properties_cat
+COPY ./target/profile/cat/elasticsearch.properties_cat /elasticsearch.properties_cat
+
+
+
+
+COPY ./target/profile/horse/kafka-producer.properties_horse /kafka-producer.properties_horse
+COPY ./target/profile/horse/kafka-consumer.properties_horse /kafka-consumer.properties_horse
+COPY ./target/profile/horse/common-db.properties_horse /common-db.properties_horse
+COPY ./target/profile/horse/elasticsearch.properties_horse /elasticsearch.properties_horse
+
+
+
+COPY ./target/profile/digitalocean1/kafka-producer.properties_do1 /kafka-producer.properties_do1
+COPY ./target/profile/digitalocean1/kafka-consumer.properties_do1 /kafka-consumer.properties_do1
+COPY ./target/profile/digitalocean1/common-db.properties_do1 /common-db.properties_do1
+COPY ./target/profile/digitalocean1/elasticsearch.properties_do1 /elasticsearch.properties_do1
+
+#RUN rm -rf /opt/tomcat/webapps
+
+#RUN mkdir /opt/tomcat/webapps
+
+#RUN cp -rp /opt/tomcat/webappsBKUP/* /opt/tomcat/webapps/.
+
+VOLUME ["/logs"]
+
+# Copy the log rotation script into the container
+COPY rotate_logs.sh /opt/tomcat/rotate_logs.sh
+
+# Make the script executable
+RUN chmod +x /opt/tomcat/rotate_logs.sh
+
+# Install cron
+RUN apt-get update && apt-get install -y cron
+
+# Add the cron job to the crontab
+RUN echo "0 * * * * /opt/tomcat/rotate_logs.sh" | crontab -
+
+
+WORKDIR /opt/tomcat
+
+
+CMD ["bin/catalina.sh", "run"]

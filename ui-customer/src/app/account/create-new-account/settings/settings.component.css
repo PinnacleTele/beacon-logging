@@ -1,0 +1,4 @@
+:host { display: contents; }
+::ng-deep .ng-select .ng-select-container , ::ng-deep .ng-select.ng-select-single .ng-select-container{
+   height: 42px !important; 
+}

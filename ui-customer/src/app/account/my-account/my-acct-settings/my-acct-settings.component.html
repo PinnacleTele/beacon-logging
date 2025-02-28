@@ -1,0 +1,170 @@
+
+    <!-- Replace with your content -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <!-- account info card -->
+        <div class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-4">
+            <div class="w-full bg-white px-3 py-3 md:px-8 rounded-md pb-8">
+                <!-- account info -->
+                <app-edit-account-info></app-edit-account-info>
+            </div>
+        </div>
+        
+        <div class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-4">
+            <div class="w-full bg-white px-3 py-3 md:px-8 rounded-md pb-8">
+                <!-- account info -->
+                <app-myacc-settings-password></app-myacc-settings-password>
+            </div>
+        </div>
+        <div  class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-4">
+            <div >
+             
+            
+            <!-- new wallet section is added -->
+            <div
+            class="w-[18rem] md:w-full p-6 dark:bg-gray-800 sm:py-4 py-3 space-y-3">
+            
+            <!-- billing rate india -->
+            <div class="mt-2 w-full border-b pb-3">
+                <div class="px-4">
+                    <div class="flex items-center w-full mt-0">
+                        <p tabindex="0"
+                            class="focus:outline-none text-lg font-medium leading-4 text-gray-700 dark:text-gray-700 tracking-wider">
+                            Billing Rate (India)</p>
+                    </div>
+                    <!-- sms left -->
+                  
+                    <div *ngIf="billingRateLoading" class="px-0 sm:px-2 h-auto">
+                        <div class="bg-gray-200 h-3 my-1 w-9 animate-pulse"></div>
+                        <div class="bg-gray-200 h-3 my-1 w-full animate-pulse"></div>
+                        <div class="bg-gray-200 h-3 my-1 w-full animate-pulse"></div>
+                    </div>
+                    <div *ngIf="billingRateApiError && !billingRateLoading" 
+                    class=" mt-2 px-0 sm:px-2 h-auto">
+                        <app-dropdownfieldapierror
+                        (Emitter)="retryBillingRates()">
+
+
+                        </app-dropdownfieldapierror>
+                        
+                    
+                    </div>
+                    <div *ngIf="!billingRateLoading && !billingRateApiError">
+                        <div class="pt-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="pl-2">
+                                        <p tabindex="0"
+                                            class="focus:outline-none text-xs font-medium leading-none text-gray-700 tracking-wide dark:text-gray-700">
+                                            SMS Rate</p>
+                                    </div>
+                                </div>
+                                <p tabindex="0"
+                                    class="focus:outline-none text-xs font-medium leading-none text-right text-gray-600 tracking-widest">
+                                    {{getC_Symbol(billingCurrency)}}{{smsRate}} <span
+                                        class="text-gray-600 text-xxs">{{billingCurrency}}</span></p>
+                            </div>
+                        </div>
+                        <div class="pt-2.5">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="pl-2">
+                                        <p tabindex="0"
+                                            class="focus:outline-none text-xs font-medium leading-none text-gray-700 tracking-wide dark:text-gray-700">
+                                            DLT Rate</p>
+                                    </div>
+                                </div>
+                                <p tabindex="0"
+                                    class="focus:outline-none text-xs font-medium leading-none text-right text-gray-600 tracking-widest">
+                                    {{getC_Symbol(billingCurrency)}}{{dltRate}} <span
+                                        class="text-gray-600 text-xs">{{billingCurrency}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- billing rate others -->
+            <div class="mt-2 w-full">
+                <div class="px-4">
+                    <div class="flex items-center w-full mt-0 justify-between">
+                        <div class="flex space-x-1">
+                            <p tabindex="0"
+                                class="focus:outline-none text-lg font-medium leading-4 text-gray-700 dark:text-gay-700 tracking-wider">
+                                Billing Rate (Others)</p>
+                           
+                        </div>
+                        <span *ngIf="!walletLoading && !walletApiError"
+                            class="text-xs p-0.5 px-1 bg-gray-100 text-blue-600 font-medium"
+                            tooltip="Total countries with custom rates" [options] = "myOptions">{{totalCountry}}</span>
+                    </div>
+
+                    <div *ngIf="walletLoading" class="pt-4 flex-col space-y-3.5">
+                        <div class="px-0 sm:px-2 h-auto">
+                            <div class="bg-gray-200 h-3 my-1 w-full animate-pulse"></div>
+                            <div class="bg-gray-200 h-2 my-1 w-9 animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div *ngIf="walletApiError && !walletLoading" 
+                    class=" mt-2 flex-col space-y-3.5">
+                        <app-dropdownfieldapierror
+                        (Emitter)="retryOtherCountryRates()">
+
+
+                        </app-dropdownfieldapierror>
+                        
+                    
+                    </div>
+
+                    <div *ngIf="!walletLoading && !walletApiError" class="pt-4 flex-col space-y-3.5">
+
+                        <div *ngFor="let countryList of otherCountryBillingRate"
+                            class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="pl-2">
+                                    <p tabindex="0"
+                                        class="focus:outline-none text-xs font-medium leading-none text-gray-600 tracking-wide dark:text-gray-600">
+                                        {{countryList.country}}</p>
+                                    
+                                </div>
+                            </div>
+                            <p tabindex="0"
+                                class="focus:outline-none text-xs font-medium leading-none text-right text-gray-600 tracking-widest">
+                                {{getC_Symbol(billingCurrency)}}{{countryList.smsrate}} <span
+                                    class="text-gray-600 text-xs">{{billingCurrency}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+      
+        <!-- sign-in security settings card 
+        <div class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-2">
+            <div class="w-full bg-white px-3 py-3 md:px-8 rounded-md pb-8">
+               <app-edit-signin-securities></app-edit-signin-securities>
+            </div>
+        </div>-->
+        <!-- messaging settings card -->
+        <div class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-2">
+            <div class="w-full bg-white px-3 py-3 md:px-8 rounded-md pb-8">
+                <div>
+                    <app-edit-messaging-settings></app-edit-messaging-settings>
+                </div>
+            </div>
+        </div>
+        <!-- data security settings card 
+        <div class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-2">
+            <div class="w-full bg-white px-3 py-3 md:px-8 rounded-md pb-8">
+                <app-edit-data-securities-settings></app-edit-data-securities-settings>
+            </div>
+        </div>-->
+        <!-- assigned services card -->
+        <div class="rounded shadow p-4 relative bg-white lg:col-span-2 mt-2">
+            <div class="w-full bg-white px-3 py-3 md:px-8 rounded-md pb-8">
+                <app-my-services></app-my-services>
+            </div>
+        </div>
+    </div>
+
+    <!-- /End replace -->

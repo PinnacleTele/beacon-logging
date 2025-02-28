@@ -1,0 +1,5 @@
+version: "3.1"
+services:
+  beacon-ic:
+    image: dk-reg.mas:5000/beacon-ic:2.0       
+    build: .

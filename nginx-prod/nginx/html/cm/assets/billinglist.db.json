@@ -1,0 +1,131 @@
+{
+    "sampleList": [
+        {
+            "user": "user1",
+            "usertype": "1",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user2",
+            "usertype": "2",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "mexico",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user3",
+            "usertype": "1",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "maldives",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user4",
+            "usertype": "2",
+            "newrate": "0.987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user5",
+            "usertype": "1",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user6",
+            "usertype": "1",
+            "newrate": "0.987",
+            "oldrate": "0.87",
+            "country": "dubai",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user7",
+            "usertype": "2",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user8",
+            "usertype": "1",
+            "newrate": "0.987",
+            "oldrate": "0.87",
+            "country": "us",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user9",
+            "usertype": "1",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        
+        {
+            "user": "user10",
+            "usertype": "1",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user11",
+            "usertype": "1",
+            "newrate": "0.987",
+            "oldrate": "0.87",
+            "country": "uk",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user12",
+            "usertype": "2",
+            "newrate": "0.00987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user13",
+            "usertype": "2",
+            "newrate": "0.987",
+            "oldrate": "0.87",
+            "country": "india",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        },
+        {
+            "user": "user14",
+            "usertype": "1",
+            "newrate": "0.987",
+            "oldrate": "0.87",
+            "country": "germany",
+            "lastModified": "Mar 11, 2020 16:30",
+            "billingcurrency":"INR"
+        }
+    ]
+}

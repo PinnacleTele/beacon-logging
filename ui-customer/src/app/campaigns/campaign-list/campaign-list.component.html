@@ -1,0 +1,313 @@
+
+	
+<app-campaign-home
+[title]= "'Campaign List'"
+[openDropDown]= "openDropDown"
+(dropDown)= "dropdownclose($event)"
+>
+
+</app-campaign-home>
+
+	<main (click)="toggleProfileSlider()" class="flex-1 relative overflow-y-auto focus:outline-none  mt-12 lg:mt-0" >
+		<div  class="py-6 relative">
+			<!-- section to show on when there are no campaigns (globally) for this user -->
+			<div class="hidden flex items-start justify-between max-w-7xl min-h-screen mx-auto px-4 sm:px-6 md:px-8 mt-6">
+				<div class="w-full flex flex-col items-center justify-start bg-white">
+					<div class="mt-8">
+						<p class="text-2xl text-gray-700 font-semibold">Welcome!</p>
+					</div>
+					<div class="mt-6 w-2/3 lg:w-2/5 text-center">
+						<p class="text-md text-gray-400 font-medium">You have not created any campaigns yet. Start your campaign with New Campaign button on top</p>
+					</div>
+					<div class="mt-10 text-center justify-center items-center">
+						<!-- <button class="text-white md:flex md:items-center p-2 px-3.5 border-transparent border bg-blue-500 hover:bg-blue-400 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
+							<span class="font-medium text-sm flex">Create Account</span>
+						</button> -->
+					</div>
+					<div class="mt-14 text-center justify-center items-center md:w-1/2">
+						<img src="/cm/assets/login-visual-2.svg" class="object-cover w-auto h-auto md:w-full md:h-full" alt="" srcset="" />
+					</div>
+				</div>
+			</div>
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-10 lg:mt-2">
+				<span class="text-lg font-bold text-gray-600">Todays Count</span>
+			</div>
+			<!-- statistics section -->
+			<div *ngIf="!statsLoading" class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-2 lg:mt-2">
+				<div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-3">
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow">
+						<div class="absolute w-2 h-4 bg-indigo-700 left-0"></div>
+						<h3  class="focus:outline-none py-6 leading-4 text-gray-800 dark:text-gray-100 font-normal text-base">Total Campaigns</h3>
+						<h2  class="focus:outline-none text-gray-800 dark:text-gray-100 text-2xl leading-normal font-bold">{{c_Today_Stats?.total}}</h2>
+					</div>
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow">
+						<div class="absolute w-2 h-4 bg-green-500 left-0"></div>
+						<h3 class="focus:outline-none py-6 leading-4 text-gray-800 dark:text-gray-100 font-normal text-base">Completed</h3>
+						<h2 class="focus:outline-none text-gray-800 dark:text-gray-100 text-2xl leading-normal font-bold">{{c_Today_Stats?.completed}}</h2>
+					</div>
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow">
+						<div class="absolute w-2 h-4 bg-light-blue-500 left-0"></div>
+						<h3  class="focus:outline-none py-6 leading-4 text-gray-800 dark:text-gray-100 font-normal text-base">Running</h3>
+						<h2  class="focus:outline-none text-gray-800 dark:text-gray-100 text-2xl leading-normal font-bold">{{c_Today_Stats?.running}}</h2>
+					</div>
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow">
+						<div class="absolute w-2 h-4 bg-red-700 left-0"></div>
+						<h3  class="focus:outline-none py-6 leading-4 text-gray-800 dark:text-gray-100 font-normal text-base">Failed</h3>
+						<h2  class="focus:outline-none text-gray-800 dark:text-gray-100 text-2xl leading-normal font-bold">{{c_Today_Stats?.failed}}</h2>
+					</div>
+				</div>
+			</div>
+
+			<!-- statistics section skeleton loader -->
+			<div *ngIf="statsLoading" class=" max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-10 lg:mt-2">
+				<div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-3">
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow h-16">
+						<div class="bg-gray-200 h-8 w-full animate-pulse"></div>
+					</div>
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow h-16">
+						<div class="bg-gray-200 h-8 w-full animate-pulse"></div>
+					</div>
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow h-16">
+						<div class="bg-gray-200 h-8 w-full animate-pulse"></div>
+					</div>
+					<div class="bg-white dark:bg-gray-800 rounded flex items-center justify-between px-5 relative shadow h-16">
+						<div class="bg-gray-200 h-8 w-full animate-pulse"></div>
+					</div>
+				</div>
+			</div>
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-10 lg:mt-8">
+				<div class="flex flex-col space-y-1">
+					<span class="text-lg font-bold text-gray-600">Campaign List</span>
+				
+					<span *ngIf="!hideToday" class="text-xs text-gray-500">Please note that selected {{selectedLabel}} {{includesToday}} includes today</span>
+				</div>
+			</div>
+			<!-- <span class="text-xs text-gray-500">Please note that last no.of days does not includes today</span> -->
+
+			<!-- filter section -->
+				<!-- Code block starts -->
+
+
+						<!-- calender -->
+					<app-campaigncalender
+					[campaignCount]="campaignLists.length"
+					(searchClean) = "searchClean($event)"
+					(onLoad) = "subscribe($event)"
+					(filterEmit)= "listData($event)"
+					>
+					</app-campaigncalender>
+				<!-- Code block ends -->
+
+			<!-- filter section skeleton loader -->
+			<div  *ngIf="onLoading" class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-12">
+				<!-- Code block starts -->
+				<div class="py-2 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white">
+					<div class="flex items-center mb-4 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 w-full">
+						<div class="ml-4 w-full">
+							<div class="bg-gray-200 h-4 w-1/5 animate-pulse"></div>
+						</div>
+					</div>
+
+					<div class="flex space-x-3 mr-4 ml-3 w-full h-8">
+						<div class="flex space-x-2 w-full items-center">
+							<div class="relative w-full md:justify-end md:flex">
+								<div class="bg-gray-200 h-5 w-1/2 animate-pulse"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Code block ends -->
+			</div>
+			<!-- search section -->
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-4">
+				<div class="relative inline-flex">
+					<input  [(ngModel)]="searchText" (keyup)="getcount()"   type="text" name="name" id="name" class="text-xs w-56 py-3 pl-8 text-gray-800 placeholder-gray-400 focus:outline-none border-gray-100 bg-white rounded" placeholder="Search Campaigns" value="" aria-invalid="true" aria-describedby="name-error" />
+					<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+						<svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<rect x="0" y="0" width="24" height="24"></rect>
+								<path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+								<path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="currentColor" fill-rule="nonzero"></path>
+							</g>
+						</svg>
+					</div>
+				</div>
+			</div>
+
+			
+			
+			
+			<!-- campaign loading skeleton -->
+			<div *ngIf="onLoading" class=" max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-2">
+				<!-- Replace with your content -->
+				<!-- card section -->
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+					<!-- card 1 -->
+					<div class="rounded shadow p-4 relative bg-white">
+						<div class="sm:flex items-start">
+							<div class="ml-4 w-full">
+								<div class="sm:pt-0 pt-4">
+									<div class="bg-gray-200 h-5 w-1/2 animate-pulse"></div>
+									<!-- <p tabindex="0" class="focus:outline-none text-xl font-semibold leading-5 pt-1 text-gray-800 dark:text-gray-100">Campaign Name 1</p> -->
+									<div class="flex space-x-1 items-center mt-2">
+										<div class="bg-gray-200 h-4 w-1/5 animate-pulse"></div>
+									</div>
+								</div>
+
+								<div class="mt-4 pr-4 sm:pr-0 space-y-1">
+									<div class="bg-gray-200 h-5 animate-pulse"></div>
+									<div class="bg-gray-200 w-1/3 h-5 animate-pulse"></div>
+								</div>
+
+								<div class="sm:flex items-center mt-6 space-x-0 md:space-x-4">
+									<div tabindex="0" class="focus:outline-none flex items-center w-full space-x-2">
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- card 2 -->
+					<div class="rounded shadow p-4 relative bg-white">
+						<div class="sm:flex items-start">
+							<div class="ml-4 w-full">
+								<div class="sm:pt-0 pt-4">
+									<div class="bg-gray-200 h-5 w-1/2 animate-pulse"></div>
+									<!-- <p tabindex="0" class="focus:outline-none text-xl font-semibold leading-5 pt-1 text-gray-800 dark:text-gray-100">Campaign Name 1</p> -->
+									<div class="flex space-x-1 items-center mt-2">
+										<div class="bg-gray-200 h-4 w-1/5 animate-pulse"></div>
+									</div>
+								</div>
+
+								<div class="mt-4 pr-4 sm:pr-0 space-y-1">
+									<div class="bg-gray-200 h-5 animate-pulse"></div>
+									<div class="bg-gray-200 w-1/3 h-5 animate-pulse"></div>
+								</div>
+
+								<div class="sm:flex items-center mt-6 space-x-0 md:space-x-4">
+									<div tabindex="0" class="focus:outline-none flex items-center w-full space-x-2">
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- card 3 -->
+					<div class="rounded shadow p-4 relative bg-white">
+						<div class="sm:flex items-start">
+							<div class="ml-4 w-full">
+								<div class="sm:pt-0 pt-4">
+									<div class="bg-gray-200 h-5 w-1/2 animate-pulse"></div>
+									<!-- <p tabindex="0" class="focus:outline-none text-xl font-semibold leading-5 pt-1 text-gray-800 dark:text-gray-100">Campaign Name 1</p> -->
+									<div class="flex space-x-1 items-center mt-2">
+										<div class="bg-gray-200 h-4 w-1/5 animate-pulse"></div>
+									</div>
+								</div>
+
+								<div class="mt-4 pr-4 sm:pr-0 space-y-1">
+									<div class="bg-gray-200 h-5 animate-pulse"></div>
+									<div class="bg-gray-200 w-1/3 h-5 animate-pulse"></div>
+								</div>
+
+								<div class="sm:flex items-center mt-6 space-x-0 md:space-x-4">
+									<div tabindex="0" class="focus:outline-none flex items-center w-full space-x-2">
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- card 4 -->
+					<div class="rounded shadow p-4 relative bg-white">
+						<div class="sm:flex items-start">
+							<div class="ml-4 w-full">
+								<div class="sm:pt-0 pt-4">
+									<div class="bg-gray-200 h-5 w-1/2 animate-pulse"></div>
+									<!-- <p tabindex="0" class="focus:outline-none text-xl font-semibold leading-5 pt-1 text-gray-800 dark:text-gray-100">Campaign Name 1</p> -->
+									<div class="flex space-x-1 items-center mt-2">
+										<div class="bg-gray-200 h-4 w-1/5 animate-pulse"></div>
+									</div>
+								</div>
+
+								<div class="mt-4 pr-4 sm:pr-0 space-y-1">
+									<div class="bg-gray-200 h-5 animate-pulse"></div>
+									<div class="bg-gray-200 w-1/3 h-5 animate-pulse"></div>
+								</div>
+
+								<div class="sm:flex items-center mt-6 space-x-0 md:space-x-4">
+									<div tabindex="0" class="focus:outline-none flex items-center w-full space-x-2">
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+										<div class="bg-gray-200 w-1/4 h-5 animate-pulse"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- campaigns section -->
+			<div  class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-2" >
+				<!-- Replace with your content -->
+				<!-- card section -->
+				<!-- <div > -->
+					<!-- card  -->
+					<table class="grid grid-cols-1 lg:grid-cols-2 gap-5"
+					 *ngIf="!(apiError || onLoading || noData)" >
+						<!-- card 1 -->
+						<tr 
+						class="rounded shadow p-4 relative bg-white"
+						*ngFor="let campaign of campaignLists | Filter : searchText | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}" >
+							<app-campaigncard
+
+					[campaign] = "campaign"
+					[detail] ="false"
+
+					>
+
+					</app-campaigncard>
+						</tr>
+				
+					</table>
+
+				<!-- </div> -->
+				<!-- /End replace -->
+				<!-- section to show when error happens -->
+	<!-- section to show on no records -->
+		 <!-- api error section -->
+		  <!-- nodataerror section -->
+		  <app-nodataerror *ngIf="noRecords == 0 && !(noData)" [title]="'campaigns'">
+		</app-nodataerror>
+		
+		 <app-apierror  *ngIf="apiError" (Emitter)=" Retry()">
+		</app-apierror>
+			 
+				<app-file-pagination
+				*ngIf="!( noRecords == 0 || onLoading || apiError ||noData)"
+				[total] ="total"
+				[totalRecord] ="totalRecord"
+				[p] = "p"
+				[pagesize] = "pagesize"
+				[itemsPerPage] = "itemsPerPage"
+				[perpageCount] ="perpageCount"
+				(paginationValueEmit)="ReceivedpaginateValue($event)"
+				>
+				</app-file-pagination>
+			</div>
+			 <!-- no data for selected range -->
+			 <app-nodatafor-range *ngIf="noData" 
+			 [title]="'campaign'"
+			 [headContent]="NDHeadContent"
+			 [messageContent]="NDMessageCOntent">
+
+		 </app-nodatafor-range>
+		
+
+		
+			
+		</div>
+	</main>
+
+	<!--  new code -->

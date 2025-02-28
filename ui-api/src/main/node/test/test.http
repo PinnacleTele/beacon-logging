@@ -1,0 +1,81 @@
+### msginfo
+POST http://192.168.1.170:9280/msgtool/msginfo HTTP/1.1
+content-type: application/json
+
+{
+  "msg": "புர {#var#}"
+}
+###
+GET http://127.0.0.1:3000/cm/test/updateIsNumeric HTTP/1.1
+
+### get all the timezone
+GET http://testcm.unitiapro.com/campaigns/api/cm/utils/timezones HTTP/1.1
+
+###
+POST http://127.0.0.1:3000/cm/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "uname": "post_superadmin1",
+  "pass": "password"
+}
+
+###
+GET http://127.0.0.1:3000/cm/campaigns/ctodaysstats HTTP/1.1
+
+###
+POST http://192.168.1.142:8081/log_queue/status HTTP/1.1
+content-type: application/json
+
+{
+  "queue_id": "7dbc9158-0c51-447d-818a-74f6bb2455d6"
+}
+
+###
+
+POST http://192.168.1.229:8081/log_queue/initiate HTTP/1.1
+content-type: application/json
+
+{
+  "r_param": {
+    "recv_date_from": "2021-09-13 12:00:00",
+    "recv_date_to": "2021-09-13 13:00:00",
+    "zone_name": "Asia/Kolkata",
+    "cli_id": [
+      6000000200000000
+    ],
+    "full_message": false
+  },
+  "r_app_version": "v1.1.1",
+  "r_username": "guest",
+  "r_app": "dashboard"
+}
+
+###
+POST http://192.168.1.229:8081/get_data HTTP/1.1
+content-type: application/json
+
+{
+  "r_param": {
+    "recv_date_from": "2021-09-13 01:00:00",
+    "recv_date_to": "2021-09-15 19:00:00",
+    "zone_name": "Asia/Calcutta",
+    "cli_id": [
+      6000000200000000
+    ],
+    "columns": "s.carrier, s.circle, s.cli_id,s.route_id,s.recv_time,d.dly_time",
+    "limit": 100
+  }
+}
+
+###
+POST http://127.0.0.1:3000/cm/test/tes HTTP/1.1
+content-type: application/json
+
+{
+}
+
+###
+GET http://127.0.0.1:3000/cm/test/migrate HTTP/1.1
+
+###

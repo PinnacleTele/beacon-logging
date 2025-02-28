@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+        elementFormDefault="qualified"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:element name="messagerequest">
+                <xs:complexType>
+                        <xs:sequence>
+                                <xs:element type="xs:string" name="accesskey"
+                                        minOccurs="1" maxOccurs="1" />
+
+                                <xs:element type="xs:string" name="encrypt" minOccurs="0"
+                                        maxOccurs="1" />
+                                <xs:element type="xs:string" name="batchno" minOccurs="0"
+                                        maxOccurs="1" />
+                                <xs:element type="xs:string" name="schedule_time" minOccurs="0"
+                                        maxOccurs="1" />
+                                <xs:element name="messages" maxOccurs="unbounded"
+                                        minOccurs="1">
+                                        <xs:complexType>
+                                                <xs:sequence>
+                                                        <xs:element type="xs:string" name="msg" minOccurs="1"
+                                                                maxOccurs="1" />
+                                                        <xs:element name="destination" minOccurs="1"
+                                                                maxOccurs="1">
+                                                                <xs:complexType>
+                                                                        <xs:sequence>
+                                                                                <xs:element type="xs:string" name="dest"
+                                                                                        maxOccurs="unbounded" minOccurs="1" />
+                                                                        </xs:sequence>
+                                                                </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element type="xs:string" name="header" minOccurs="1"
+                                                                maxOccurs="1" />
+                                                        <xs:element name="msgtype" minOccurs="0" maxOccurs="1">
+                                                                <xs:simpleType>
+                                                                        <xs:restriction base="xs:string">
+                                                                                <xs:enumeration value="FL"></xs:enumeration>
+                                                                                <xs:enumeration value="PM"></xs:enumeration>
+                                                                                <xs:enumeration value="UC">
+                                                                                </xs:enumeration>
+                                                                                <xs:enumeration value="BM">
+                                                                                </xs:enumeration>
+                                                                                <xs:enumeration value="AD">
+                                                                                </xs:enumeration>
+                                                                                <xs:enumeration value="FU">
+                                                                                </xs:enumeration>
+                                                                                <xs:enumeration value="SP">
+                                                                                </xs:enumeration>
+                                                                        </xs:restriction>
+                                                                </xs:simpleType>
+                                                        </xs:element>
+                                                        <xs:element type="xs:string" name="dltentityid"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="dlttemplateid"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="dlttelemarketerid"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="dcs" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="udhi"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="port" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="dlr_req"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="expiry" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="app_country"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="country_cd"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="template_id"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element name="template_values" minOccurs="0"
+                                                                maxOccurs="1">
+                                                                <xs:complexType>
+                                                                        <xs:sequence>
+                                                                                <xs:element type="xs:string" name="values"
+                                                                                        maxOccurs="unbounded" minOccurs="1" />
+                                                                        </xs:sequence>
+                                                                </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element type="xs:string" name="urltrack"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="cust_ref"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="url_shortner"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="msgtag" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param1" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param2" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param3" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param4" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param5" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param6" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param7" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param8" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param9" minOccurs="0"
+                                                                maxOccurs="1" />
+                                                        <xs:element type="xs:string" name="param10"
+                                                                minOccurs="0" maxOccurs="1" />
+                                                </xs:sequence>
+                                        </xs:complexType>
+                                </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:string" name="version" />
+                </xs:complexType>
+        </xs:element>
+</xs:schema>

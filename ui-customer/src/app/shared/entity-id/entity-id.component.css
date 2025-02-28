@@ -1,0 +1,14 @@
+
+:host { display: contents; }
+
+::ng-deep
+.ng-dropdown-panel
+.ng-dropdown-panel-items
+.ng-option.ng-option-marked {
+background-color: rgba(99, 102, 241, 100) !important;
+color: rgb(255, 255, 255) !important;
+}
+
+::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+border-color: lightcoral;
+}

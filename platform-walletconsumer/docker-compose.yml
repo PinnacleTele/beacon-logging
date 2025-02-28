@@ -1,0 +1,5 @@
+version: "3.1"
+services:
+  beacon-wc:
+    image: dk-reg.mas:5000/beacon-wc:2.0       
+    build: .

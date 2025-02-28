@@ -1,0 +1,19 @@
+<form *ngIf="newlineCharFormGroup" [formGroup]="newlineCharFormGroup">
+    <input type="text" name="newlineChar" formControlName="newlineChar" id="newlineChar"
+        class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md"
+        placeholder="" value="" aria-invalid="true" aria-describedby="name-error" />
+    <span class="mt-1.5 text-xxs sm:text-xs text-gray-400" id="newline-error">If configured the matching
+        characters in the message gets replaced with a newline. <em class="text-gray-500">1 to 3 chars max.
+            Space and tilde (~) char are not allowed</em></span>
+    <p class="mt-2 text-xxs sm:text-xs text-red-600" *ngIf="name.touched && name.errors?.hasSpaceError">
+        {{noSpaceError}}
+    </p>
+    <p class="mt-2 text-xxs sm:text-xs text-red-600" *ngIf="name.touched && name.errors?.hasTildeError">
+        No tilde char allowed
+    </p>
+
+    <p class="mt-2 text-xxs sm:text-xs text-red-600" id="name-error"
+        *ngIf="name.dirty && name.errors?.maxLengthInvalid">
+        {{newLineMaxLimit}}
+    </p>
+</form>

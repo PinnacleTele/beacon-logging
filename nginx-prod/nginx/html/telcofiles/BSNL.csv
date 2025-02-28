@@ -1,0 +1,3 @@
+TEMPLATE ID,TELEMARKETER,TEMPLATE NAME,TYPE,HEADER,CATEGORY,REGISTERED DLT,REQUESTED ON,STATUS DATE,APPROVAL STATUS,STATUS,TEMPLATE MESSAGE,CONSENT TYPE,REJECTION REASON
+'1407162079737386362',--,OTP2,Service-Implicit,"CLOADS,WITRNS,WINNTR,WCONCT",--,BSNL,12-05-2021 10:59,12-05-2021 11:52,Approved,Active,"Dear {#var#}, kindly use the one time password, {#var#} to login to the {#var#}{#var#} application.",Implicit,--
+'1407161770016231374',--,fastag alert,Service-Implicit,"CLOADS,WITRNS,WINNTR,WCONCT,WINCNT",--,BSNL,06-04-2021 14:39,06-04-2021 15:14,Approved,Active,Your FasTag A/c wallet WXXXXXXX{#var#} has been debited by Rs. {#var#} for transaction by vehicle {#var#} at {#var#} on {#var#} . Balance amount in the account is Rs. {#var#} - {#var#},Implicit,--

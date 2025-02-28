@@ -1,0 +1,162 @@
+<form *ngIf="page3FormGroup" [formGroup]="page3FormGroup">
+	<div>
+		<div class="text-lg font-semibold text-gray-700">
+			Authentication details
+		</div>
+
+		<div class="rounded bg-red-50 p-2 mt-4">
+			<div class="flex items-center">
+				<div class="flex-shrink-0">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+						class="w-4 h-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<path
+								d="M5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,8 C3,6.8954305 3.8954305,6 5,6 Z M18.1444251,7.83964668 L12,11.1481833 L5.85557487,7.83964668 C5.4908718,7.6432681 5.03602525,7.77972206 4.83964668,8.14442513 C4.6432681,8.5091282 4.77972206,8.96397475 5.14442513,9.16035332 L11.6444251,12.6603533 C11.8664074,12.7798822 12.1335926,12.7798822 12.3555749,12.6603533 L18.8555749,9.16035332 C19.2202779,8.96397475 19.3567319,8.5091282 19.1603533,8.14442513 C18.9639747,7.77972206 18.5091282,7.6432681 18.1444251,7.83964668 Z"
+								fill="currentColor" />
+						</g>
+					</svg>
+				</div>
+				<div class="ml-3 flex-1">
+					<p class="text-xs text-rose-600 font-medium">
+						Password will be emailed to you
+					</p>
+				</div>
+			</div>
+		</div>
+		<!-- username section -->
+
+		<div class="mt-4 md:flex w-full items-center justify-between md:space-x-8">
+			<div class="flex flex-col md:ml-0 md:mt-0 mt-8 md:w-1/2 relative">
+				<label class="mb-3 text-sm leading-none text-gray-600 w-full">Username<span
+						class="text-red-500">*</span></label>
+				<div class="mt-1.5 relative rounded-md shadow-sm">
+
+					<input type="text" name="name" id="userName" formControlName="userName" (blur)="chkUniqueUserNameExists()"
+						[ngClass]="{'border-red-300': (userName.touched && userName.errors) }"
+						class="focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pl-5 pr-12 sm:text-sm placeholder-gray-400 text-gray-700 border-gray-300 rounded-md"
+						placeholder="" value="" aria-invalid="true" aria-describedby="name-error" />
+					<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+						<!-- loader icon 2 -->
+						<svg class="animate-spin text-gray-900" xmlns="http://www.w3.org/2000/svg"
+							xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" version="1.1"
+							*ngIf="spinner">
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<g>
+									<polygon points="0 0 20 0 20 20 0 20" />
+								</g>
+								<path class="opacity-25"
+									d="M12,4 L12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,10.9603196 17.7360885,9.96126435 17.2402578,9.07513926 L18.9856052,8.09853149 C19.6473536,9.28117708 20,10.6161442 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z"
+									fill="currentColor" fill-rule="nonzero"
+									transform="translate(12.000000, 12.000000) scale(-1, 1) translate(-12.000000, -12.000000) " />
+							</g>
+						</svg>
+					</div>
+				</div>
+				<div class="flex items-center justify-start w-auto mt-2" *ngIf="apiError">
+					<p class="text-xs text-rose-600 font-normal">
+						Something went wrong
+					</p>
+					<p
+						class="mt-3 text-xs md:mt-0 md:ml-6 cursor-pointer text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+						<a (click)="chkUniqueUserNameExists()" class="whitespace-nowrap font-medium uppercase">Retry</a>
+					</p>
+				</div>
+				<app-error-display [formGroup]="page3FormGroup" [fieldName]="userNameFieldName" [controlName]="'userName'"
+					[minimumLength]="genericMinLength" [maximumLength]="genericMaxLength" [pattern]="userNameValidation">
+				</app-error-display>
+
+				<p class="mt-2 text-xxs sm:text-xs text-gray-500"
+					*ngIf="(!userName.touched && userName.errors?.required) ||  (!userName.errors)">
+					{{ userNameInfoText }}
+				</p>
+
+				<p class="mt-2 text-xxs sm:text-xs text-red-500" *ngIf=" userName.errors?.userNameExists">
+					{{ uniqueNameError }}
+				</p>
+
+				<!-- <p
+            class="mt-2 text-xxs sm:text-xs text-red-500"
+            *ngIf = "spinner" >
+            Checking for the username uniqueness...
+            </p> -->
+			</div>
+		</div>
+
+		<!-- info section 
+        <div class="rounded-md bg-light-blue-50 p-4 mt-10 border border-blue-400 border-dashed">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="h-7 w-7 text-blue-500" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <path d="M6,8 L6,16 L18,16 L18,8 L6,8 Z M20,16 L21.381966,16 C21.7607381,16 22.1070012,16.2140024 22.2763932,16.5527864 L22.5,17 C22.6706654,17.3413307 22.5323138,17.7563856 22.190983,17.927051 C22.0950363,17.9750244 21.9892377,18 21.881966,18 L2.11803399,18 C1.73641461,18 1.42705098,17.6906364 1.42705098,17.309017 C1.42705098,17.2017453 1.45202663,17.0959467 1.5,17 L1.7236068,16.5527864 C1.89299881,16.2140024 2.23926193,16 2.61803399,16 L4,16 L4,8 C4,6.8954305 4.8954305,6 6,6 L18,6 C19.1045695,6 20,6.8954305 20,8 L20,16 Z" fill="currentColor" fill-rule="nonzero" />
+                            <polygon fill="currentColor" opacity="0.3" points="6 8 6 16 18 16 18 8" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="ml-3 flex-1 md:flex md:justify-between">
+                    <p class="text-xs text-gray-500 font-medium">The mobile and email provided will be used for Authentication and for future communications. You are required to verify mobile via OTP during your first login.</p>
+                </div>
+            </div>
+        </div>-->
+		<!-- moble and email section  -->
+		<div class="md:flex mt-4">
+			<div class="md:flex-col md:mr-4 md:w-1/2">
+				<label class="mb-3 text-sm leading-none text-gray-600 w-full">Contact Mobile<span
+						class="text-red-500">*</span></label>
+				<input type="text" name="contactMobile" formControlName="contactMobile" id="name"
+					[ngClass]="{'border-red-300': contactMobile.touched && contactMobile.errors}"
+					class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md"
+					placeholder="" value="" aria-invalid="true" aria-describedby="name-error" />
+				<app-error-display [formGroup]="page3FormGroup" [fieldName]="contactMobileFieldName"
+					[controlName]="'contactMobile'" [fieldInfoText]="contactMobileInfoText" [pattern]="mobileValidation">
+				</app-error-display>
+				<!--
+                    Mobile min max length  handled in pattern validation-->
+			</div>
+			<div class="md:flex-col ml-0 md:ml-4 md:mt-0 md:w-1/2">
+				<label class="mb-3 text-sm leading-none text-gray-600 w-full">Contact Email<span
+						class="text-red-500">*</span></label>
+				<input type="text" name="contactEmail" (blur)="onBlurEmailValidate()" formControlName="contactEmail" id="name"
+					[ngClass]="{'border-red-300': contactEmail.touched && contactEmail.errors}"
+					class="block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pr-10 text-gray-600 placeholder-gray-400 focus:outline-none border-gray-200 rounded-md"
+					placeholder="" value="" aria-invalid="true" aria-describedby="name-error" />
+				<app-error-display [formGroup]="page3FormGroup" [fieldName]="contactEmailFieldName"
+					[controlName]="'contactEmail'" [fieldInfoText]="contactEmailInfoText" [maximumLength]="emailMaxLength">
+				</app-error-display>
+				<p class="mt-2 text-xxs sm:text-xs text-red-600" id="email-error"
+					*ngIf="contactEmail.touched && contactEmail.errors?.invalidEmailError">
+					{{emailPatternMsg}}
+				</p>
+			</div>
+		</div>
+
+		<!-- 2fa section 
+        <div class="mt-10 md:flex w-full items-center justify-between md:space-x-8">
+            <div class="flex flex-col md:ml-0 md:mt-0 mt-8 md:w-1/2">
+                <label class="mb-3 text-sm leading-none text-gray-600 w-full">Enable Two factor Authentication (2fa)</label>
+                <app-toggle-button
+               [formGroup]="page3FormGroup"
+               [controlName]="'twofa'"
+              ></app-toggle-button>
+            </div>
+        </div>
+         
+        <div class="rounded-md bg-light-blue-50 p-4 mt-4 border border-blue-400 border-dashed">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-500" viewBox="0 0 24 24" version="1.1">
+                        <path d="M18.5,8 C17.1192881,8 16,6.88071187 16,5.5 C16,4.11928813 17.1192881,3 18.5,3 C19.8807119,3 21,4.11928813 21,5.5 C21,6.88071187 19.8807119,8 18.5,8 Z M18.5,21 C17.1192881,21 16,19.8807119 16,18.5 C16,17.1192881 17.1192881,16 18.5,16 C19.8807119,16 21,17.1192881 21,18.5 C21,19.8807119 19.8807119,21 18.5,21 Z M5.5,21 C4.11928813,21 3,19.8807119 3,18.5 C3,17.1192881 4.11928813,16 5.5,16 C6.88071187,16 8,17.1192881 8,18.5 C8,19.8807119 6.88071187,21 5.5,21 Z" fill="currentColor" opacity="0.3"></path>
+                        <path d="M5.5,8 C4.11928813,8 3,6.88071187 3,5.5 C3,4.11928813 4.11928813,3 5.5,3 C6.88071187,3 8,4.11928813 8,5.5 C8,6.88071187 6.88071187,8 5.5,8 Z M11,4 L13,4 C13.5522847,4 14,4.44771525 14,5 C14,5.55228475 13.5522847,6 13,6 L11,6 C10.4477153,6 10,5.55228475 10,5 C10,4.44771525 10.4477153,4 11,4 Z M11,18 L13,18 C13.5522847,18 14,18.4477153 14,19 C14,19.5522847 13.5522847,20 13,20 L11,20 C10.4477153,20 10,19.5522847 10,19 C10,18.4477153 10.4477153,18 11,18 Z M5,10 C5.55228475,10 6,10.4477153 6,11 L6,13 C6,13.5522847 5.55228475,14 5,14 C4.44771525,14 4,13.5522847 4,13 L4,11 C4,10.4477153 4.44771525,10 5,10 Z M19,10 C19.5522847,10 20,10.4477153 20,11 L20,13 C20,13.5522847 19.5522847,14 19,14 C18.4477153,14 18,13.5522847 18,13 L18,11 C18,10.4477153 18.4477153,10 19,10 Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <div class="ml-3 flex-1 md:flex md:justify-between">
+                    <p class="text-xs text-gray-500 font-medium">Two-factor authentication adds an extra layer of security to your account. To log in, in addition you'll need to provide a 6 digit code</p>
+                </div>
+            </div>
+        </div> -->
+	</div>
+</form>

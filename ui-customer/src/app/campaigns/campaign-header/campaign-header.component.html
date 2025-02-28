@@ -1,0 +1,13 @@
+<div class="border-b border-gray-200 pt-2 bg-white h-14">
+  <div class="flex justify-between">
+    <div class="lg:flex sm:items-baseline">
+      <h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r"> {{ pageTitle }}</h3>
+      <div class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400">
+        <span class="hover:text-blue-500 cursor-pointer focus:outline-none" routerLink="/campaigns" (keydown.enter)="backEnter($event)">Campaigns</span>
+        <span class="text-xxs font-mono">/</span>
+        <span class="hover:text-blue-500 cursor-pointer">{{ pageTitle }}</span>
+      </div>
+    </div>
+    <app-campaigns-dropdown></app-campaigns-dropdown>
+  </div>
+</div>

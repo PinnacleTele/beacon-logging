@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+        <Properties>
+                <Property name="basePath">/opt/jboss/wildfly/logs</Property>
+                <Property name="mainLog">k2es</Property>
+                <Property name="messagePattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5.5p] [%-25.25t] [%-30.30c{1.1}] [%-25.25M] %m%n</Property>
+        </Properties>
+
+        <Appenders>
+                <RollingFile name="mainLogger"
+                        fileName="${basePath}/${mainLog}.log"
+                        filePattern="${basePath}/${mainLog}-%i.log.gz">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <SizeBasedTriggeringPolicy size="10MB" />
+                        </Policies>
+                        <DefaultRolloverStrategy max="10000" />
+                </RollingFile>
+
+                <Console name="console" target="SYSTEM_OUT">
+                        <PatternLayout>
+                                <pattern>${messagePattern}</pattern>
+                        </PatternLayout>
+                </Console>
+        </Appenders>
+
+        <Loggers>
+                <Root level="INFO" additivity="true">
+                        <appender-ref ref="mainLogger" />
+                        <!-- <appender-ref ref="console" /> -->
+                </Root>
+        </Loggers>
+</Configuration>

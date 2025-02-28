@@ -1,0 +1,131 @@
+<!-- Narrow sidebar -->
+<div class="hidden w-28 overflow-y-auto md:block bg-gray-800">
+	<div class="w-full py-6 flex flex-col items-center">
+		<div class="flex-shrink-0 flex items-center">
+			
+			<img
+				class=" h-10 w-auto"
+				[src]="LOGO"
+				alt="Workflow"
+			/>
+		</div>
+		<div class="flex-1 mt-6 w-full px-2 space-y-1">
+			<!-- Current: "bg-indigo-800 text-white", Default: "group text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
+
+			<a 
+			routerLink="/accounts"
+			(click)="activeLink = 'accounts'"
+			[ngClass]="activeLink == 'accounts' ? activeLinkStyle : inActiveLinkStyle"
+				aria-current="page"
+			>
+				<!-- Heroicon name: outline/cog -->
+				<svg 
+				[ngClass]="activeLink == 'accounts' ? 'text-blue-500 group-hover:text-blue-500 h-6 w-6' : 'text-gray-500 group-hover:text-blue-500 h-6 w-6'"
+				 viewBox="0 0 24 24" version="1.1">
+					<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+						<polygon points="0 0 24 0 24 24 0 24" />
+						<path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+						<path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="currentColor" fill-rule="nonzero" />
+					</g>
+				</svg>
+
+				<span class="mt-2">Accounts</span>
+			</a>
+			
+
+		</div>
+	</div>
+</div>
+
+<!-- Mobile menu -->
+<!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+<div *ngIf="showSideMenu" class="md:hidden" >
+	<div class="fixed inset-0 z-40 flex" >
+		<div
+			(click)="closeSidebarNav()"
+			class="fixed inset-0"
+			aria-hidden="true"
+		>
+			<div class="absolute inset-0 bg-gray-600 opacity-75"></div>
+		</div>
+		
+		<div
+			class="relative max-w-xs w-full bg-gray-800 pt-5 pb-4 flex-1 flex flex-col"
+		>
+			<div class="absolute top-1 right-0 -mr-14 p-1">
+				<button
+					(click)="closeSidebarNav()"
+					class="h-12 w-12 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white"
+				>
+					<!-- Heroicon name: outline/x -->
+					<svg
+						class="h-6 w-6 text-white"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M6 18L18 6M6 6l12 12"
+						/>
+					</svg>
+					<span class="sr-only">Close sidebar</span>
+				</button>
+			</div>
+			<div class="flex-shrink-0 px-4 flex items-center">
+				<img
+					class="h-8 w-auto"
+					src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
+					alt="Workflow"
+				/>
+			</div>
+			<div class="mt-5 flex-1 h-0 px-2 overflow-y-auto">
+				<nav class="h-full flex flex-col">
+					<div class="space-y-1">
+						<!-- Current: "bg-indigo-800 text-white", Default: "group text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
+
+						
+						<a
+						
+							href="#"
+							
+							routerLink="/accounts"
+							[ngClass]=" activeLink == 'accounts'? activeLinkStyleForSmallResoltions : inActiveLinkStyleForSmallResoltions"
+
+							(click)=" closeSidebarNav()"
+							class="group text-indigo-100 hover:bg-indigo-800 hover:text-white py-2 px-3 rounded-md flex items-center text-sm font-medium"
+						>
+							<!-- Heroicon name: outline/collection -->
+							<svg
+								class="text-indigo-300 group-hover:text-white mr-3 h-6 w-6"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<polygon points="0 0 24 0 24 24 0 24" />
+								<path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+								<path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="currentColor" fill-rule="nonzero" />
+							</g>
+							</svg>
+							<span>Accounts</span>
+						</a>
+					
+
+
+
+					</div>
+				</nav>
+			</div>
+		</div>
+		<div class="flex-shrink-0 w-14" aria-hidden="true">
+			<!-- Dummy element to force sidebar to shrink to fit close icon -->
+		</div>
+	</div>
+</div>

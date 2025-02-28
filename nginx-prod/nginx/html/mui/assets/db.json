@@ -1,0 +1,87 @@
+{
+  "total_admins": 197,
+  "total_users": 38,
+  "firstname": "firstnam",
+  "lastname": "lastnamee",
+  "user_type": 0,
+  "bill_type": 0,
+  "msg_type": 1,
+  "acc_status": 0,
+  "company": "iTexTo",
+  "address": "Chennai IND",
+  "user": "itextosuser1",
+  "email": "itextos1@itextos.com",
+  "mobile": "9800098000",
+  "time_zone": "Asia/Calcutta",
+  "time_zone_abbr": "IST",
+  "time_offset": "+05:30",
+  "platform_cluster": "bulk",
+  "allocated_tgroups": [
+    {
+      "template_group_id": 1000000000,
+      "template_group_name": "Briant Template Group"
+    },
+    {
+      "template_group_id": 1000000001,
+      "template_group_name": "MSEDCL Temp Group"
+    },
+    {
+      "template_group_id": 1000000002,
+      "template_group_name": "ATMSBI Temp Grp"
+    }
+  ],
+  "dlt_templ_grp_id": 1000000000,
+  "dlt_templ_grp_name": "Briant Template Group",
+  "smpp_charset": "GSM8",
+  "smsrate": 0.09,
+  "dltrate": 0.01,
+  "billing_currency": "INR",
+  "sms_left": -1,
+  "newline_replace_char": "/n~",
+  "services": [
+    {
+      "service": "sms",
+      "sub_service": "api",
+      "sub_service_name": "API",
+      "sub_service_desc": "Messaging over HTTPS Protocol",
+      "enabled_yn": 1
+    },
+    {
+      "service": "sms",
+      "sub_service": "cm",
+      "sub_service_name": "Campaign UI",
+      "sub_service_desc": "UI for running campaigns and more",
+      "enabled_yn": 1
+    },
+    {
+      "service": "sms",
+      "sub_service": "international",
+      "sub_service_name": "INTL",
+      "sub_service_desc": "Support for international sms delivery",
+      "enabled_yn": 1
+    },
+    {
+      "service": "sms",
+      "sub_service": "smpp",
+      "sub_service_name": "SMPP",
+      "sub_service_desc": "Messaging over SMPP Protocol",
+      "enabled_yn": 1
+    }
+  ],
+  "intl_rates": [
+    {
+      "country": "Maldives"
+    },
+    {
+      "country": "ROW"
+    },
+    {
+      "country": "United States"
+    }
+  ],
+  "has_row_yn": 1,
+  "created_ts": "Jan 30, 2021 10:53:19 IST",
+  "modified_ts": "Dec 15, 2021 01:02:19 IST",
+  "created_ts_unix": 1611984199,
+  "modified_ts_unix": 1639510339
+}

@@ -1,0 +1,70 @@
+<span class="text-gray-400 text-xxs uppercase"
+                 >Mobile Numbers</span >
+<div class="text-xs space-y-2.5">
+    <div class="items-center py-1 text-xxs rounded">
+        <div
+        class="flex text-gray-600 lowercase tracking-wide justify-between space-x-2"
+        >
+        <!--<div>
+            <span
+            class="font-medium text-indigo-500 bg-graytrue-100 p-0.5 px-1 rounded"
+            >{{mobileStatistics.uniqueCount}}</span
+            >
+            <button
+            type="button"
+            class="ml-1 "
+            [ngClass]="toShowUniqueNumbers ? 'border-0 border-b border-gray-400': '' "
+            (click) = "onClickUnique()"
+            >
+                unique
+            </button>
+        </div>-->
+        <div>
+            <span
+            class="font-medium text-indigo-500 bg-graytrue-100 p-0.5 px-1 rounded"
+            >{{mobileStatistics.validCount }}</span
+            >
+            <span
+            class="ml-1 "
+            >
+                valid
+        </span>
+        </div>
+        
+        <!--<div>
+            <span
+            class="font-medium text-red-500 bg-graytrue-100 p-0.5 px-1 rounded"
+            >{{mobileStatistics.invalidCount}}</span
+            >
+            <button 
+            type="button" 
+            class="ml-1" 
+            [ngClass]="toShowInvalidNumbers ? 'border-0 border-b border-gray-400' : ''"
+            (click) = "onClickInvalid()"
+            >invalid</button>
+        </div> -->
+        </div>
+    </div>
+    
+    <div class="space-y-1 text-xxs md:text-xs"
+    >
+        <span
+        [ngClass]="toShowInvalidNumbers ? 'bg-rose-100 text-rose-500':'bg-blue-100 text-blue-500'"
+        class="inline-flex rounded-md items-center px-2 py-0.5 
+        font-normal mr-1.5"
+        *ngFor ="let mobileNumber of specificMobileNumbers;">
+        {{mobileNumber}}
+        </span> 
+        
+        <span class="inline-flex text-gray-700 text-xxs"
+        *ngIf ="specificMoreNumbers > 0">+ {{specificMoreNumbers}} more</span
+        >
+    </div>
+
+    <!-- <div class="flex items-center pt-1"> -->
+        <app-duplicate-modal 
+        [removeDuplicates] = "removeDuplicates"
+        [vlShortern]="vlShortern">
+        </app-duplicate-modal>
+    <!-- </div> -->
+</div>

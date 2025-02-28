@@ -1,0 +1,426 @@
+{
+	"generic": {
+		"dashboard": {
+			"visible": true,
+			"enabled": true,
+			"summary": true,
+			"hourlytrend": true,
+			"livecounts": true,
+			"daywisetrend": true,
+			"platformlatencydaywise": true,
+			"telcolatencydaywise": true,
+			"platformlatencyoverall": true,
+			"telcolatencyoverall": true
+		},
+		"campaigns": {
+			"visible": true,
+			"enabled": true,
+			"campaigns": {
+				"visible": true,
+				"enabled": true,
+				"todaycounts": true,
+				"campaignslist": true,
+				"campaigndetails": true
+			},
+			"scheduled": {
+				"visible": true,
+				"enabled": true,
+				"stats": true,
+				"scheduledlist": true,
+				"campaigndetails": true,
+				"edit": true,
+				"delete": true
+			},
+			"executecampaigns": true
+		},
+		"groups": {
+			"visible": true,
+			"enabled": true,
+			"groupslist": true,
+			"groupdetails": true,
+			"update": true,
+			"delete": true,
+			"bulkdelete": true,
+			"create": true
+		},
+		"templates": {
+			"visible": true,
+			"enabled": true,
+			"templateslist": true,
+			"templatedetails": true,
+			"update": true,
+			"delete": true,
+			"bulkdelete": true,
+			"create": true
+		},
+		"dlt": {
+			"visible": true,
+			"enabled": true,
+			"overview": {
+				"visible": true,
+				"enabled": true,
+				"summary": true,
+				"templates": true,
+				"senderids": true,
+				"entityids": true
+			},
+			"uploads": {
+				"visible": true,
+				"enabled": true,
+				"summary": true,
+				"uploadslist": true,
+				"newupload": true
+			}
+		},
+		"accounts": {
+			"visible": true,
+			"enabled": true,
+			"stats": true,
+			"accountslist": true,
+			"creation": true,
+			"accountdetails": true,
+			"cards": {
+				"info": {
+					"visible": true,
+					"statuschange": true
+				},
+				"accounts": {
+					"visible": true,
+					"info": {
+						"visible": true,
+						"update": true
+					},
+					"signinsecurity": {
+						"visible": true,
+						"update": true
+					},
+					"dltgroups": {
+						"visible": true,
+						"update": true
+					}
+				},
+				"settings": {
+					"visible": true,
+					"billingrates": {
+						"visible": true,
+						"update": true
+					},
+					"msgsettings": {
+						"visible": true,
+						"update": true
+					}
+				},
+				"services": {
+					"visible": true,
+					"assignservices": {
+						"visible": true,
+						"update": true
+					},
+					"allocategroups": {
+						"visible": true,
+						"update": true
+					}
+				},
+				"wallet": {
+					"visible": true,
+					"update": true
+				}
+			}
+		},
+		"billingrates": {
+			"visible": true,
+			"enabled": true,
+			"modifyuserrates": {
+				"visible": true,
+				"rateslist": true,
+				"ratesdetails": true,
+				"ratesupdate": true
+			},
+			"rateschangehistory": {
+				"visible": true
+			}
+		},
+		"reports": {
+			"visible": true,
+			"summary": {
+				"visible": true,
+				"download": true
+			},
+			"latency": {
+				"visible": true,
+				"platformlatencydaywisechart": true,
+				"telcolatencydaywisechart": true,
+				"platformlatencyoverall": true,
+				"telcolatencyoverall": true,
+				"platformlatencydaywisetable": true,
+				"telcolatencydaywisetable": true
+			},
+			"detailed": {
+				"visible": true,
+				"download": true,
+				"downloadcentre": true
+			},
+			"search": {
+				"visible": true,
+				"download": true
+			}
+		},
+		"myaccount": {
+			"overview": {
+				"visible": true,
+				"profile": true,
+				"dltgroups": true,
+				"sharedgroups": false
+			},
+			"accountsettings": {
+				"visible": true,
+				"accountinfo": {
+					"visible": true,
+					"update": true
+				},
+				"changepassword": {
+					"visible": true,
+					"update": true
+				},
+				"billingrates": true,
+				"singinsecurity": true,
+				"msgsettings": {
+					"visible": true,
+					"update": true
+				},
+				"services": {
+					"visible": true,
+					"update": true
+				}
+			},
+			"managewallet": {
+				"visible": true,
+				"update": true
+			},
+			"wallettransactions": {
+				"visible": true,
+				"own": true,
+				"users": true
+			},
+			"mysettings": {
+				"visible": true,
+				"quicklinks": {
+					"visible": true,
+					"update": true
+				}
+			}
+		}
+	},
+	"deactivated_expired": {
+		"dashboard": {
+			"visible": true,
+			"enabled": true,
+			"summary": true,
+			"hourlytrend": true,
+			"livecounts": true,
+			"daywisetrend": true,
+			"platformlatencydaywise": true,
+			"telcolatencydaywise": true,
+			"platformlatencyoverall": true,
+			"telcolatencyoverall": true
+		},
+		"campaigns": {
+			"visible": true,
+			"enabled": true,
+			"campaigns": {
+				"visible": true,
+				"enabled": true,
+				"todaycounts": true,
+				"campaignslist": true,
+				"campaigndetails": true
+			},
+			"scheduled": {
+				"visible": true,
+				"enabled": true,
+				"stats": true,
+				"scheduledlist": true,
+				"campaigndetails": true,
+				"edit": false,
+				"delete": false
+			},
+			"executecampaigns": false
+		},
+		"groups": {
+			"visible": true,
+			"enabled": true,
+			"groupslist": true,
+			"groupdetails": true,
+			"update": false,
+			"delete": false,
+			"bulkdelete": false,
+			"create": false
+		},
+		"templates": {
+			"visible": true,
+			"enabled": true,
+			"templateslist": true,
+			"templatedetails": true,
+			"update": false,
+			"delete": false,
+			"bulkdelete": false,
+			"create": false
+		},
+		"dlt": {
+			"visible": true,
+			"enabled": true,
+			"overview": {
+				"visible": true,
+				"enabled": true,
+				"summary": true,
+				"templates": true,
+				"senderids": true,
+				"entityids": true
+			},
+			"uploads": {
+				"visible": true,
+				"enabled": true,
+				"summary": true,
+				"uploadslist": true,
+				"newupload": false
+			}
+		},
+		"accounts": {
+			"visible": true,
+			"enabled": true,
+			"stats": true,
+			"accountslist": true,
+			"creation": false,
+			"accountdetails": true,
+			"cards": {
+				"info": {
+					"visible": true,
+					"statuschange": false
+				},
+				"accounts": {
+					"visible": true,
+					"info": {
+						"visible": true,
+						"update": false
+					},
+					"signinsecurity": {
+						"visible": true,
+						"update": false
+					},
+					"dltgroups": {
+						"visible": true,
+						"update": false
+					}
+				},
+				"settings": {
+					"visible": true,
+					"billingrates": {
+						"visible": true,
+						"update": false
+					},
+					"msgsettings": {
+						"visible": true,
+						"update": false
+					}
+				},
+				"services": {
+					"visible": true,
+					"assignservices": {
+						"visible": true,
+						"update": false
+					},
+					"allocategroups": {
+						"visible": true,
+						"update": false
+					}
+				},
+				"wallet": {
+					"visible": true,
+					"update": false
+				}
+			}
+		},
+		"billingrates": {
+			"visible": true,
+			"enabled": true,
+			"modifyuserrates": {
+				"visible": true,
+				"rateslist": true,
+				"ratesdetails": true,
+				"ratesupdate": false
+			},
+			"rateschangehistory": {
+				"visible": true
+			}
+		},
+		"reports": {
+			"visible": true,
+			"summary": {
+				"visible": true,
+				"download": true
+			},
+			"latency": {
+				"visible": true,
+				"platformlatencydaywisechart": true,
+				"telcolatencydaywisechart": true,
+				"platformlatencyoverall": true,
+				"telcolatencyoverall": true,
+				"platformlatencydaywisetable": true,
+				"telcolatencydaywisetable": true
+			},
+			"detailed": {
+				"visible": true,
+				"download": true,
+				"downloadcentre": true
+			},
+			"search": {
+				"visible": true,
+				"download": true
+			}
+		},
+		"myaccount": {
+			"overview": {
+				"visible": true,
+				"profile": true,
+				"dltgroups": true,
+				"sharedgroups": false
+			},
+			"accountsettings": {
+				"visible": true,
+				"accountinfo": {
+					"visible": true,
+					"update": false
+				},
+				"changepassword": {
+					"visible": true,
+					"update": false
+				},
+				"billingrates": true,
+				"singinsecurity": true,
+				"msgsettings": {
+					"visible": true,
+					"update": false
+				},
+				"services": {
+					"visible": true,
+					"update": false
+				}
+			},
+			"managewallet": {
+				"visible": true,
+				"update": false
+			},
+			"wallettransactions": {
+				"visible": true,
+				"own": true,
+				"users": true
+			},
+			"mysettings": {
+				"visible": true,
+				"quicklinks": {
+					"visible": true,
+					"update": false
+				}
+			}
+		}
+	}
+}

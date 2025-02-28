@@ -1,0 +1,14 @@
+<form *ngIf="contactEmailFormGroup" [formGroup]="contactEmailFormGroup">
+
+    <label for="email" class="block font-semibold text-gray-700">Email </label>
+
+    <div class="mt-2 relative rounded-md">
+        <input [ngClass]="{'border-red-300': email.touched && email.errors}" (blur)="blur()" formControlName="email"
+            type="text" name="email" id="email"
+            class="block w-full sm:w-1/2 text-xs sm:py-2.5 pr-10 text-gray-800 focus:outline-none border-gray-300 rounded bg-gray-50"
+            value="" aria-invalid="true" aria-describedby="name-error" />
+    </div>
+
+    <p *ngIf="email.touched && email.errors?.invalidEmailError" class="mt-2 text-xxs sm:text-xs text-red-600"
+        id="mobile-error">enter valid mail</p>
+</form>

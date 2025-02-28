@@ -1,0 +1,73 @@
+<div class="flex justify-between items-center">
+	<span class="text-gray-400 text-xxs uppercase">Template Details</span>
+	<!-- Existing or New -->
+</div>
+<div class=" py-2 text-xxs rounded">
+	<div
+		class=" text-gray-600 lowercase tracking-wide space-x-2"
+	>
+		<div class="flex justify-between items-center">
+			<span
+				class="text-xs font-medium text-indigo-500 bg-graytrue-100 p-0.5 px-1 rounded flex-wrap"
+			>
+				{{ tName }}
+			</span>
+			<span
+      class="text-xxs  text-gray-600 bg-yellow-100 p-0.5 px-1 rounded"
+      >{{ newLineCount }} newline char</span
+    >
+		</div>
+		<!-- show the below when the user chooses not to save the template under New template preference -->
+		<!-- <div class="">
+<span
+class="text-xs text-yellow-600 bg-yellow-100 p-0.5 px-1 rounded flex-wrap"
+>
+<svg
+xmlns="http://www.w3.org/2000/svg"
+class="h-4 w-4 inline-flex"
+viewBox="0 0 20 20"
+fill="currentColor"
+>
+<path
+fill-rule="evenodd"
+d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+clip-rule="evenodd"
+/>
+</svg>
+You have chosen not to save this template</span
+>
+</div> -->
+	</div>
+</div>
+
+<span class="text-gray-600 text-sm font-medium whitespace-pre-wrap"
+	>{{msgContent}}
+</span>
+
+
+<div class="flex justify-between pt-1">
+	<div class="flex items-center pt-1">
+		<span class="text-gray-700 text-xs" *ngIf="templateType === 'column'"
+			>Mobile Column:</span
+		>
+		<span class="text-gray-700 text-xs" *ngIf="templateType === 'index'"
+			>Mobile Position:</span
+		>
+		<span
+			class="text-xxs ml-1 font-medium text-indigo-500 bg-graytrue-100 p-0.5 rounded"
+			>{{mobileColumnName}}</span
+		>
+	</div>
+	<div>
+		<span
+			class="text-xxs font-medium text-indigo-500 bg-graytrue-100 p-0.5 px-1 rounded"
+			>{{textToDisplay}}</span
+		>
+	</div>
+	<div>
+		<span
+			class="text-xxs font-medium text-indigo-500 bg-graytrue-100 p-0.5 px-1 rounded"
+			>{{ templateType }} based</span
+		>
+	</div>
+</div>

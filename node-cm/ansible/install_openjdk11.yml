@@ -1,0 +1,13 @@
+# https://www.server-world.info/en/note?os=CentOS_7&p=jdk11&f=2
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install open-jdk11
+    yum:
+      name: java-11-openjdk
+      state: present
+
+
+

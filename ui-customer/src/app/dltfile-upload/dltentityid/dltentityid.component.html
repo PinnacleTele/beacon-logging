@@ -1,0 +1,110 @@
+<div class="my-2">
+    <label *ngIf="title" for="entityid" class="block font-semibold text-gray-700">Entity Id
+        <span class="text-red-600">*</span>
+    </label>
+    <!-- {{addTag}} -->
+  
+    <div class="my-2 block w-full sm:w-1/2">
+        <form *ngIf="entityIdFormGroup" [formGroup]="entityIdFormGroup">
+            <ng-select #selectFrom id="entityId" 
+            placeholder="Select entity id " 
+            name="entityId"
+                formControlName="entityId" 
+                [items]="tempItems" 
+                [loading]="spinner"
+                class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 border-red-500 focus:border-indigo-500 block w-full rounded-md"
+                bindLabel="entity_id"
+                bindValue="entity_id"
+                [hideSelected]="false" 
+                (change)="onItemChange($event)"
+                [editableSearchTerm]="true" 
+                (blur)="numberOnly($event)" 
+                autocomplete="entityid"
+                [(ngModel)]="selectedDltEntityId"
+                (focus)="customSearch()"
+                (keyup)="keyupcall()"
+              
+               >
+
+                <!-- <ng-template ng-tag-tmp let-search="searchTerm">
+                    <b>add entity id</b>: {{search}}
+                </ng-template> -->
+            </ng-select>
+         
+            <div>
+                <p class="mt-2 text-xxs sm:text-xs text-red-600" 
+                *ngIf="entityId.touched && entityId.errors?.required && entityIdFormGroup.controls.telco.value !== 'Custom'">
+                    Entity Id is required
+                </p>
+            </div>
+            <!-- <div>
+                <p class="mt-2 text-xxs sm:text-xs text-red-600" *ngIf="entityId.errors?.charNotAllow && !showValid">
+                    character not allowed
+                </p>
+            </div> -->
+
+            <p class="mt-2 text-xxs sm:text-xs text-gray-500"
+                *ngIf="(!entityId.touched && entityId.errors?.required) || (entityId.touched && !entityId.errors)">
+               Numerical only allowed (Length should be 5 to 19)
+            </p>
+           
+            <p class="mt-2 text-xxs sm:text-xs text-red-600"
+            *ngIf="entityId.errors?.pattern">
+           {{patternErrorMessage}}
+        </p>
+            <p class="mt-2 text-xxs sm:text-xs text-red-600" 
+            *ngIf="entityId.errors?.maxlength &&  !entityId.errors?.pattern">
+                {{maxErrorMessage}} {{maxValid}}
+            </p>
+            <p class="mt-2 text-xxs sm:text-xs text-red-600" 
+            *ngIf="entityId.errors?.minlength && !entityId.errors?.pattern">
+               {{minErrorMessage}} {{minimumLengthvalid}}
+            </p>
+            <p class="mt-2 text-xxs sm:text-xs text-red-500" id="entityId-error"
+                *ngIf="entityId.errors?.apiRequestError">
+
+            </p>
+        </form>
+        <div *ngIf="showRetry" class="rounded-md bg-red-50 p-1.5 w-full">
+            <div class="flex">
+                <div class="flex-shrink-0 mt-1">
+                    <svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+                            <path
+                                d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+                                fill="currentColor" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+                    <p class="text-xs text-rose-600 font-normal">Something went wrong. Please try again</p>
+                    <p
+                        class="mt-3 text-xs md:mt-0 md:ml-6 text-rose-500 hover:text-white bg-rose-50 hover:bg-rose-400 p-0.5 px-2 rounded border border-rose-500 border-solid w-14">
+                        <a (click)="entityIdGet()"
+                            class="whitespace-nowrap font-medium uppercase cursor-pointer">Retry</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngIf="noDataFound" class="rounded-md bg-red-50 p-1.5 w-full ">
+            <div class="flex">
+                <div class="flex-shrink-0 mt-1">
+                    <svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+                            <path
+                                d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+                                fill="currentColor" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="ml-2 flex-1 md:flex md:justify-between mt-1">
+                    <p class="text-xs text-rose-600 font-normal">Cannot proceed further as there are no Entity Id</p>
+                </div>
+            </div>
+        </div> -->
+
+    </div>

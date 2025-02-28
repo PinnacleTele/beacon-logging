@@ -1,0 +1,102 @@
+
+<!-- modal for schedule -->
+<section [hidden]="editPopup" class="fixed z-20 inset-0 overflow-y-scroll" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+	<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+	
+		<div  
+		
+		
+		class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+		<!-- This element is to trick the browser into centering the modal contents. -->
+		<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+		<div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-6 text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-sm sm:w-full divide-y divide-gray-300 space-y-3">
+			<div class="flex text-blue-700 text-sm font-semibold uppercase justify-center">
+			
+				Schedule
+			</div>
+			<div class="bg-white p-3">
+				<div class="space-y-5 divide-y divide-gray-200">
+					<!-- schedule section -->
+					<div class="pt-2">
+						
+
+						<div class="text-xs pt-2">
+							<div class="my-2">
+								<app-single-select-dropdown
+                                [itemsList]="timeZoneList"
+                                [placeHolder]="'Select Timezone'"
+                                [itemToBeSelected]="selectedTzOffSet"
+                                (selectedItem)="getSelectedTz($event)"
+
+								class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-300 rounded-md"
+							>
+							</app-single-select-dropdown>
+							</div>
+						</div>
+                        <div 
+                        class="text-xs pt-3">
+                            <div class="space-y-2">
+                                <div class="flex flex-row justify-between items-center my-2 space-x-2">
+                                    <ejs-datepicker
+									[format]="'MMM dd yyyy'"
+                                    [allowEdit]="false"
+                                    [value]="zoneDate"
+                                    [strictMode]="isStrictMode"
+                                    (change)="onDateChange($event)"
+                                    [min]="mindate"
+									[showClearButton]="false"
+                                    ></ejs-datepicker>
+                                    
+                                    <ejs-timepicker
+                                    
+                                    [format]="'hh:mm a'"
+                                    [step]="interval"
+                                    [(value)]="zoneTime"
+                                    [(min)]="minTime"
+                                    [strictMode]="isStrictMode"
+                                    (change)="onTimeChange($event)"
+									[showClearButton]="false"
+                                ></ejs-timepicker>
+                                  
+                                </div>
+                                <span class="flex justify-center text-gray-500 font-xxs">{{ISTdate }} {{zoneExe}}</span> 
+							
+                            </div>
+                        </div>
+                        
+
+
+					</div>
+                    
+				</div>
+			</div>
+			<!-- button section -->
+            <p
+            class="mt-2 text-xxs sm:text-xs text-red-500"
+            *ngIf = bufferTimeError >
+           too soon to schedule
+          </p> 
+			<div class="grid grid-cols-1 gap-y-2">
+				<button 
+                [ngClass]=" bufferTimeError || !sameTimeValidation()  ? 'opacity-50 cursor-not-allowed ' :'cursor-pointer' "
+				[disabled]="bufferTimeError || !sameTimeValidation() "
+                (click)="onContinue()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">Continue</button>
+
+                <button  (click)="onCancel()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">Cancel</button>
+			</div>
+			
+		</div>
+	</div>
+</section>
+
+<app-delete-res-popup 
+*ngIf="editPopup"
+[Responce]="editResponse"
+(closePopUp)="closeDeletePopup($event)"
+(successPopUp)="continueDeletePopup($event)"
+(tryAgainPopUp)="tryAgainEditPopup($event)"></app-delete-res-popup>
+
+
+

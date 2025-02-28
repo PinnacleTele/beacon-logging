@@ -1,0 +1,283 @@
+<app-headertab [routerAction]="'upload'">
+
+</app-headertab>
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none mt-10 lg:mt-0" >
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-10 md:mt-6">
+			<!-- Replace with your content -->
+			<!-- stats -->
+			<div class="w-full grid sm:grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4">
+				<div class="bg-white dark:bg-gray-800 rounded pt-4 pl-2 pr-2 pb-3 flex items-start shadow">
+					<div class="pl-2 mt-1">
+						<h3 class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">Total Templates
+						</h3>
+						<div class="flex items-center">
+							<h2 class="focus:outline-none text-gray-800 dark:text-gray-100 text-xl leading-normal font-bold">
+								{{statList?.total_templates}}</h2>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white dark:bg-gray-800 rounded pt-4 pl-2 pr-2 pb-3 flex items-start shadow">
+					<div class="pl-2 mt-1">
+						<h3 class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">Total Sender Id
+						</h3>
+						<div class="flex items-center">
+							<h2 class="focus:outline-none text-gray-800 dark:text-gray-100 text-xl leading-normal font-bold">
+								{{statList?.total_senderid}}</h2>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white dark:bg-gray-800 rounded pt-4 pl-2 pr-2 pb-3 flex items-start shadow">
+					<div class="pl-2 mt-1">
+						<h3 class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">Total Entity Id
+						</h3>
+						<div class="flex items-center">
+							<h2 class="focus:outline-none text-gray-800 dark:text-gray-100 text-xl leading-normal font-bold">
+								{{statList?.total_entityid}}</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- dlt templates -->
+
+			<!-- file uploads -->
+			<div class="bg-white px-5 py-5 md:px-10 md:py-6 mt-6 rounded">
+				<div class="text-lg font-medium text-gray-800">DLT Uploads
+
+				</div>
+
+				<div class="space-y-4">
+					<div class="flex flex-col md:flex-row justify-between md:items-center pt-3 space-y-3 md:space-y-0">
+						<!-- search -->
+						<div *ngIf="!( DLTapiError || noDLTData )" class="relative sm:w-1/2">
+							<input [(ngModel)]="searchText" (keyup)="getcount()" type="text" name="name" id="name"
+								class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+								placeholder="Search uploads" value="" aria-invalid="true" aria-describedby="name-error" />
+
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24"></rect>
+										<path
+											d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+										<path
+											d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+											fill="currentColor" fill-rule="nonzero"></path>
+									</g>
+								</svg>
+							</div>
+						</div>
+						<!-- filter section -->
+						<div class="pt-0 sm:pt-0 w-full">
+							<div class="flex justify-center md:justify-end items-center space-x-2 text-xs w-full">
+								<div class="relative">
+									<!-- This example requires Tailwind CSS v2.0+ -->
+									<span class="relative z-0 inline-flex shadow-sm rounded-md">
+										<!-- style to apply when selected  [bg-gray-200  shadow hover:bg-gray-100] -->
+										<button (click)="dltUploadRecords('this week')" type="button"
+											[ngClass]="recordSelection == 'this week' ? 'text-blue-500 bg-gray-100 shadow hover:bg-gray-200 text-xs font-semibold' : 'border-gray-300 bg-white' "
+											class="relative inline-flex items-center px-4 py-2 rounded-l-md border  text-gray-600 shadow focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">This
+											Week</button>
+										<button (click)="dltUploadRecords('this month')" type="button"
+											[ngClass]="recordSelection == 'this month' ? 'text-blue-500 bg-gray-100 shadow hover:bg-gray-200 text-xs font-semibold' : 'border-gray-300 bg-white' "
+											class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border text-gray-600 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">This
+											Month</button>
+									</span>
+								</div>
+
+								<!-- button section -->
+								<!-- <div class="pt-0 sm:pt-0 w-64">
+							<div class="flex justify-end items-center space-x-2 text-xs w-full"> -->
+								<div class="relative">
+									<!-- This example requires Tailwind CSS v2.0+ -->
+									<span class="relative z-0 inline-flex shadow-sm rounded-md">
+										<button
+											class="text-white md:flex md:items-center p-2 pr-2.5 border-transparent border bg-blue-600 hover:bg-blue-500 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+											routerLink="/dlt/fileupload">
+											<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+												viewBox="0 0 24 24" version="1.1">
+												<rect fill="currentColor" x="4" y="11" width="16" height="2" rx="1"></rect>
+												<rect fill="currentColor" opacity="0.5"
+													transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)"
+													x="4" y="11" width="16" height="2" rx="1"></rect>
+											</svg>
+											<span class="ml-1.5 hidden md:flex">Upload DLT</span>
+										</button>
+									</span>
+								</div>
+								<!-- </div>
+						</div> -->
+							</div>
+						</div>
+
+						<!-- <div class="flex">
+                            <button
+                                class="text-white md:flex md:items-center p-2 pr-2.5 border-transparent border bg-blue-600 hover:bg-blue-500 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50"
+                                routerLink="/dlt/fileupload"
+                            >
+                                <svg
+                                    class="w-4 h-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 0 24 24"
+                                    version="1.1"
+                                >
+                                    <rect
+                                        fill="currentColor"
+                                        x="4"
+                                        y="11"
+                                        width="16"
+                                        height="2"
+                                        rx="1"
+                                    ></rect>
+                                    <rect
+                                        fill="currentColor"
+                                        opacity="0.5"
+                                        transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)"
+                                        x="4"
+                                        y="11"
+                                        width="16"
+                                        height="2"
+                                        rx="1"
+                                    ></rect>
+                                </svg>
+                                <span class="ml-1.5 hidden md:flex"
+                                    >Upload DLT</span
+                                >
+                            </button>
+                        </div> -->
+					</div>
+
+					<!-- table section -->
+					<div class="flex flex-col pt-1">
+						<div class="overflow-x-auto">
+							<div class="py-2 align-middle inline-block min-w-full pt-3">
+								<div class="">
+									<table class="min-w-full divide-y-0 divide-gray-200">
+										<thead *ngIf="!( DLTapiError || noDLTData || noRecords)"
+											class="bg-gray-50 text-xxs font-medium text-gray-400">
+											<tr class="">
+												<th scope="col" class="px-2 py-2 flex items-center text-left uppercase tracking-wider">
+
+													<app-sorter [defaultProperty]="fileDefaultProp" [colTitle]="'From'" [icon]="fileFromIcon"
+														[defaultOrder]="'dsc'" [sortingProperty]="'telco'" (sortingEmitter)="fileSort($event)"
+														(iconEmitter)="fileIconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [defaultProperty]="fileDefaultProp" [colTitle]="'Total'" [icon]="fileTotalIcon"
+														[defaultOrder]="'dsc'" [sortingProperty]="'total'" (sortingEmitter)="fileSort($event)"
+														(iconEmitter)="fileIconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [defaultProperty]="fileDefaultProp" [colTitle]="'Status'" [icon]="fileStatusIcon"
+														[defaultOrder]="'dsc'" [sortingProperty]="'status'" (sortingEmitter)="fileSort($event)"
+														(iconEmitter)="fileIconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [defaultProperty]="fileDefaultProp" [colTitle]="'Entity Id'"
+														[icon]="fileEntityIdIcon" [defaultOrder]="'dsc'" [sortingProperty]="'dlt_entity_id'"
+														(sortingEmitter)="fileSort($event)" (iconEmitter)="fileIconChange($event)"></app-sorter>
+												</th>
+												<th scope="col" class="px-6 py-2 text-center uppercase tracking-wider whitespace-nowrap">
+													<app-sorter class="" [defaultProperty]="fileDefaultProp" [colTitle]="createdDateCol"
+														[icon]="fileCreatedTsIcon" [defaultOrder]="'dsc'" [sortingProperty]="'created_ts_unix'"
+														(sortingEmitter)="fileSort($event)" (iconEmitter)="fileIconChange($event)"></app-sorter>
+												</th>
+											</tr>
+										</thead>
+										<!-- table data skeleton loader -->
+										<app-list-skeleton *ngIf="dltuploadloader" [colCount]=5></app-list-skeleton>
+
+										<tbody *ngIf="!(dltuploadloader || DLTapiError || noDLTData)"
+											class="bg-white divide-y divide-gray-100">
+											<tr
+												*ngFor="let records of dltRecords | Filter : newSearchText()	| sorter:fileOrder:fileSearchprop | paginate: { itemsPerPage: dritemsPerPage, currentPage: drp, totalItems: drtotal}">
+												<td class="px-2 py-2 whitespace-nowrap">
+													<div class="flex items-center">
+														<div class="ml-6 space-y-0.5 whitespace-nowrap">
+															<a class="text-xs text-gray-600 cursor-pointer">{{records.telco}} </a>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-4 whitespace-nowrap">
+													<div class="text-xs text-gray-600 ml-6">{{records.total}}</div>
+												</td>
+												<td class="px-6 py-4 whitespace-nowrap">
+													<div class="text-xs font-medium tracking-wider text-gray-600">
+														<span
+															[ngClass]="records.status == 'completed' ? 'bg-green-100 text-green-800' : records.status == 'failed' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-600' "
+															class="inline-flex items-center px-1.5 py-0.5 justify-center rounded-sm text-xxs font-medium ml-6 ">
+															{{records.status}} </span>
+
+													</div>
+												</td>
+												<td class="px-6 py-2 whitespace-normal">
+													<div class="text-xs tracking-wider">
+														<div class="items-center justify-center">
+															<span class="inline-flex justify-center rounded text-xxs text-gray-600 ml-6">
+																{{records.dlt_entity_id}} </span>
+														</div>
+													</div>
+												</td>
+
+												<td class="px-10 py-2 text-xs text-gray-700 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-start">
+														<span class="px-2 "> {{records.created_ts}} </span>
+
+
+														<!-- <span>16:30</span> -->
+													</div>
+												</td>
+											</tr>
+
+											<!-- More items... -->
+										</tbody>
+									</table>
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- nodataerror section -->
+					<app-nodataerror *ngIf="noRecords && !( dltuploadloader)" [title]="'DLT uploads'">
+					</app-nodataerror>
+					<div *ngIf="noDLTData && !(apiError || dltuploadloader || noRecords)">
+						<app-nodatafor-range [title]="'dlt'" [headContent]="DLTNDHeadContent"
+							[messageContent]="DLTNDMessageCOntent">
+
+						</app-nodatafor-range>
+					</div>
+
+					<div *ngIf="DLTapiError && !(noDLTData || dltuploadloader || noRecords)">
+						<app-apierror (Emitter)="DLTretry()">
+
+						</app-apierror>
+					</div>
+				</div>
+
+				<app-file-pagination *ngIf="!(dltuploadloader || DLTapiError || noDLTData || noRecords)" [total]="drtotal"
+					[totalRecord]="drtotalRecord" [p]="drp" [pagesize]="pagesize" [itemsPerPage]="dritemsPerPage"
+					[perpageCount]="drperpageCount" (paginationValueEmit)="DRReceivedpaginateValue($event)">
+
+				</app-file-pagination>
+			</div>
+			<!-- sender id row -->
+
+
+
+			<!-- /End replace -->
+		</div>
+	</div>
+</main>

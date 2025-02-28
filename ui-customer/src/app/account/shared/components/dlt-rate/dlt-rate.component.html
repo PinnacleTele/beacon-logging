@@ -1,0 +1,25 @@
+<form *ngIf="DLTRateFormGroup" [formGroup]="DLTRateFormGroup">
+    <div class="mt-1 relative rounded-md shadow-sm">
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <span class="text-gray-500 sm:text-sm"> 
+           {{ currencySymbol }} </span>
+    </div>
+<input type="text" [readonly]="canEdit" name="DLTRate" formControlName = "DLTRate"
+id="name" 
+[ngClass]="{'border-red-300': DLTRate.touched && DLTRate.errors}" 
+class="focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm w-full bg-[#f5f8fa] text-sm sm:py-2.5 pl-7 pr-12 sm:text-sm placeholder-gray-400 text-gray-700 border-gray-300 rounded-md"
+placeholder="0.00" aria-describedby="dltrate-currency"  value="" aria-invalid="true" aria-describedby="name-error" />
+<div class="absolute inset-y-0 right-0 ml-2 pr-3 flex items-center pointer-events-none">
+    <span class="text-gray-500 sm:text-sm" id="dltrate-currency"> {{currencyType}} </span>
+</div>
+</div>
+<app-error-display
+*ngIf = "!canEdit"
+[formGroup]="DLTRateFormGroup"
+[fieldName] = "DLTRateFieldName"
+[controlName]="'DLTRate'"
+[fieldInfoText] = "DLTRateInfoText"
+[pattern] = "decimalValidation"       
+></app-error-display>
+</form>
+

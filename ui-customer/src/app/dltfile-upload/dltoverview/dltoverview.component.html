@@ -1,0 +1,513 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+
+
+<app-headertab [routerAction]="'overview'">
+
+</app-headertab>
+
+
+
+<main class="flex-1 relative overflow-y-auto focus:outline-none mt-10 lg:mt-0" >
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-10 md:mt-6">
+			<!-- Replace with your content -->
+			<!-- stats -->
+			<div class="w-full grid sm:grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4">
+				<div class="bg-white dark:bg-gray-800 rounded pt-4 pl-2 pr-2 pb-3 flex items-start shadow">
+					<div class="pl-2 mt-1">
+						<h3 class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">Total Templates
+						</h3>
+						<div class="flex items-center">
+							<h2 class="focus:outline-none text-gray-800 dark:text-gray-100 text-xl leading-normal font-bold">
+								{{statList?.total_templates}}</h2>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white dark:bg-gray-800 rounded pt-4 pl-2 pr-2 pb-3 flex items-start shadow">
+					<div class="pl-2 mt-1">
+						<h3 class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">Total Sender Id
+						</h3>
+						<div class="flex items-center">
+							<h2 class="focus:outline-none text-gray-800 dark:text-gray-100 text-xl leading-normal font-bold">
+								{{statList?.total_senderid}}</h2>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white dark:bg-gray-800 rounded pt-4 pl-2 pr-2 pb-3 flex items-start shadow">
+					<div class="pl-2 mt-1">
+						<h3 class="focus:outline-none mb-3 leading-4 text-gray-600 dark:text-gray-400 text-base">Total Entity Id
+						</h3>
+						<div class="flex items-center">
+							<h2 class="focus:outline-none text-gray-800 dark:text-gray-100 text-xl leading-normal font-bold">
+								{{statList?.total_entityid}}</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- dlt templates -->
+			<div class="bg-white px-5 py-5 md:px-10 md:py-6 mt-6 rounded">
+				<div class="text-lg font-medium text-gray-800">DLT Templates</div>
+				<div class="space-y-4">
+					<div class="flex flex-col lg:flex-row justify-between lg:items-center pt-3 space-y-2">
+						<!-- search -->
+						<div *ngIf="!(apiError || noData )" class="relative sm:w-1/2">
+							<input [(ngModel)]="searchText1" (keyup)="dTgetcount()" type="text" name="name" id="name"
+								class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+								placeholder="Search Template" value="" aria-invalid="true" aria-describedby="name-error" />
+
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24"></rect>
+										<path
+											d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+										<path
+											d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+											fill="currentColor" fill-rule="nonzero"></path>
+									</g>
+								</svg>
+							</div>
+						</div>
+						<!-- filter section -->
+						<div class="pt-2 sm:pt-0 w-full flex lg:justify-end">
+							<div class="flex justify-between lg:justify-end items-center space-x-2 text-xs w-full">
+								<div class="flex space-x-2">
+									<div class="my-2 block">
+
+										<ng-select #entity id="mobilecolumn"
+											class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 w-full border-gray-300 rounded-md"
+											#ngSelect1 
+											(change)="entityidpaylod($event)"
+											 [items]="tempentityItems" 
+											 [loading]="ei_loader"
+											bindLabel="entity_id" 
+											bindValue="entity_id" 
+											[(ngModel)]="entityidToBeSelected"
+											[hideSelected]="false" 
+											[editableSearchTerm]="true" 
+											[clearable]="false"
+											(focus)="customSearch()"
+											(keyup)="entityKeyup()"
+											(blur)="entityBlur()">
+										</ng-select>
+										<!-- error happens -->
+										<div id="senderId-error" *ngIf="ApiErrorEidFilter" class="rounded-md bg-red-50 p-0.5 w-full mt-1">
+											<div class="flex items-center">
+												<div class="hidden flex-shrink-0 mt-1">
+													<svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+
+															<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+
+															<path
+																d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+																fill="currentColor" />
+														</g>
+													</svg>
+												</div>
+
+												<div class="ml-1 flex-1 flex justify-between mt-0 items-center">
+													<p class="text-xs text-rose-600 font-normal">Something went wrong</p>
+													<p class="mt-0 text-xs md:mt-0 md:ml-1 text-rose-800 bg-rose-50 hover:text-rose-300 p-0.5 px-2 rounded hover:bg-rose-100 cursor-pointer"
+														tooltip="Retry" [options]="myOptions">
+														<!-- <a class="whitespace-nowrap font-medium uppercase">Retry</a> -->
+														<svg (click)="EntityRetry()" xmlns="http://www.w3.org/2000/svg"
+															xmlns:xlink="http://www.w3.org/1999/xlink" class="text-rose-500 w-6 h-6 font-bold"
+															viewBox="0 0 24 24" version="1.1">
+															<g stroke="none" stroke-width="2" fill="none" fill-rule="evenodd">
+																<rect x="0" y="0" width="24" height="24" />
+																<path
+																	d="M8.43296491,7.17429118 L9.40782327,7.85689436 C9.49616631,7.91875282 9.56214077,8.00751728 9.5959027,8.10994332 C9.68235021,8.37220548 9.53982427,8.65489052 9.27756211,8.74133803 L5.89079566,9.85769242 C5.84469033,9.87288977 5.79661753,9.8812917 5.74809064,9.88263369 C5.4720538,9.8902674 5.24209339,9.67268366 5.23445968,9.39664682 L5.13610134,5.83998177 C5.13313425,5.73269078 5.16477113,5.62729274 5.22633424,5.53937151 C5.384723,5.31316892 5.69649589,5.25819495 5.92269848,5.4165837 L6.72910242,5.98123382 C8.16546398,4.72182424 10.0239806,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 L6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,8.6862915 15.3137085,6 12,6 C10.6885336,6 9.44767246,6.42282109 8.43296491,7.17429118 Z"
+																	fill="currentColor" fill-rule="nonzero" />
+															</g>
+														</svg>
+													</p>
+												</div>
+											</div>
+										</div>
+										<div id="senderId-error" *ngIf="noEidFilter" class="rounded-md bg-red-50 p-0.5 w-full mt-1">
+											<div class="flex items-center">
+												<div class="hidden flex-shrink-0 mt-1">
+													<svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+
+															<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+
+															<path
+																d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+																fill="currentColor" />
+														</g>
+													</svg>
+												</div>
+
+												<div class="ml-1 flex-1 flex justify-between mt-0 items-center">
+													<p class="text-xs text-rose-600 font-normal">You don't have any entity id to select</p>
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="my-2 block">
+
+
+										<ng-select #template id="mobilecolumn"
+											class="shadow-sm text-xs text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 w-full border-gray-300 rounded-md"
+											#ngSelect1 
+											(change)="templateidpaylod($event)"
+											[items]="temptemplateItems" 
+											[loading]="ti_loader"
+											bindLabel="dlt_template_name"
+											 bindValue="dlt_template_name" 
+											 [(ngModel)]="templateidToBeSelected"
+											[hideSelected]="false" 
+											[editableSearchTerm]="true" 
+											[clearable]="false"
+											(focus)="customSearch1()"
+											(keyup)="templateKeyup()"
+											(blur)="templateBlur()">
+										</ng-select>
+
+										<div id="senderId-error" *ngIf="ApiErrorTidFilter" class="rounded-md bg-red-50 p-0.5 w-full mt-1">
+											<div class="flex items-center">
+												<div class="hidden flex-shrink-0 mt-1">
+													<svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+
+															<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+
+															<path
+																d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+																fill="currentColor" />
+														</g>
+													</svg>
+												</div>
+
+												<div class="ml-1 flex-1 flex justify-between mt-0 items-center">
+													<p class="text-xs text-rose-600 font-normal">Something went wrong</p>
+													<p class="mt-0 text-xs md:mt-0 md:ml-1 text-rose-800 bg-rose-50 hover:text-rose-300 p-0.5 px-2 rounded hover:bg-rose-100 cursor-pointer"
+														tooltip="Retry" [options]="myOptions">
+														<!-- <a class="whitespace-nowrap font-medium uppercase">Retry</a> -->
+														<svg click)="TemplateRetry()" xmlns="http://www.w3.org/2000/svg"
+															xmlns:xlink="http://www.w3.org/1999/xlink" class="text-rose-500 w-6 h-6 font-bold"
+															viewBox="0 0 24 24" version="1.1">
+															<g stroke="none" stroke-width="2" fill="none" fill-rule="evenodd">
+																<rect x="0" y="0" width="24" height="24" />
+																<path
+																	d="M8.43296491,7.17429118 L9.40782327,7.85689436 C9.49616631,7.91875282 9.56214077,8.00751728 9.5959027,8.10994332 C9.68235021,8.37220548 9.53982427,8.65489052 9.27756211,8.74133803 L5.89079566,9.85769242 C5.84469033,9.87288977 5.79661753,9.8812917 5.74809064,9.88263369 C5.4720538,9.8902674 5.24209339,9.67268366 5.23445968,9.39664682 L5.13610134,5.83998177 C5.13313425,5.73269078 5.16477113,5.62729274 5.22633424,5.53937151 C5.384723,5.31316892 5.69649589,5.25819495 5.92269848,5.4165837 L6.72910242,5.98123382 C8.16546398,4.72182424 10.0239806,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 L6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,8.6862915 15.3137085,6 12,6 C10.6885336,6 9.44767246,6.42282109 8.43296491,7.17429118 Z"
+																	fill="currentColor" fill-rule="nonzero" />
+															</g>
+														</svg>
+													</p>
+												</div>
+											</div>
+										</div>
+										<div id="senderId-error" *ngIf="noTidFilter" class="rounded-md bg-red-50 p-0.5 w-full mt-1">
+											<div class="flex items-center">
+												<div class="hidden flex-shrink-0 mt-1">
+													<svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+
+															<circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="10" />
+
+															<path
+																d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
+																fill="currentColor" />
+														</g>
+													</svg>
+												</div>
+
+												<div class="ml-1 flex-1 flex justify-between mt-0 items-center">
+													<p class="text-xs text-rose-600 font-normal">You don't have any entity id to select</p>
+
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="">
+									<button (click)="filterValueSubmit()" [disabled]="disableButton.value == true"
+										[ngClass]="disableButton.value == true ?  ' bg-gray-400 hover:bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500' "
+										class="text-white p-2 pr-2.5 border-transparent border cursor-pointer rounded focus:outline-none focus:ring-offset-2 focus:ring-2">
+										<span class="ml-1.5">Search</span>
+									</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- table section -->
+
+					<div class="flex flex-col pt-1">
+						<div class="overflow-x-auto">
+							<div class="py-2 align-middle inline-block min-w-full pt-3">
+								<div class="">
+									<table class="min-w-full divide-y-0 divide-gray-200">
+
+										<thead *ngIf="!(apiError || noData || dTnoRecords)"
+											class="bg-gray-50 text-xxs font-medium text-gray-400">
+											<tr class="">
+												<th scope="col" class="px-2 py-2 flex items-center text-left uppercase tracking-wider">
+
+													<app-sorter [defaultProperty]="defaultProp" [colTitle]="'sender id'" [icon]="senderIdIcon"
+														[defaultOrder]="'asc'" [sortingProperty]="'header'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap ">
+
+													<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Template Message'" [icon]="msgIcon"
+														[defaultOrder]="'asc'" [sortingProperty]="'dlt_template_content'"
+														(sortingEmitter)="sort($event)" (iconEmitter)="iconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap ">
+
+													<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Entity Id'" [icon]="entityIdIcon"
+														[defaultOrder]="'asc'" [sortingProperty]="'dlt_entity_id'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-left uppercase tracking-wider whitespace-nowrap ">
+
+													<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Template Id'" [icon]="templateIdIcon"
+														[defaultOrder]="'asc'" [sortingProperty]="'dlt_template_id'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+
+												</th>
+												<th scope="col" class="px-6 py-2 text-center uppercase tracking-wider whitespace-nowrap">
+
+													<app-sorter [defaultProperty]="defaultProp" [colTitle]="createdDateCol" [icon]="createdTsIcon"
+														[defaultOrder]="'asc'" [sortingProperty]="'created_ts_unix'" (sortingEmitter)="sort($event)"
+														(iconEmitter)="iconChange($event)"></app-sorter>
+
+												</th>
+											</tr>
+										</thead>
+										<!-- table data skeleton loader -->
+										<app-list-skeleton *ngIf="dlttemplateloader" [colCount]=6></app-list-skeleton>
+
+										<tbody *ngIf="!(dlttemplateloader || ei_loader || noData || apiError )"
+											class="bg-white divide-y divide-gray-100">
+											<tr
+												*ngFor="let dlist of dltTemplates | DTFilter : searchText1 | sorter:order:searchprop | paginate: { itemsPerPage: dTitemsPerPage, currentPage: dTp, totalItems: dTtotal}">
+												<td class="px-2 py-2 whitespace-nowrap">
+													<div class="flex items-center">
+														<div class="ml-6 space-y-0.5 whitespace-normal">
+															<a class="text-xs text-gray-600 cursor-pointer"> {{dlist.header}} </a>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-4 whitespace-normal ">
+													<div class="text-xs text-gray-600 w-64 whitespace-pre-wrap ml-6">
+														{{dlist.dlt_template_content}}</div>
+												</td>
+												<td class="px-6 py-2 whitespace-normal ">
+													<div class="text-xs tracking-wider">
+														<div class="items-center justify-center">
+															<span class="inline-flex justify-center rounded text-xxs text-gray-600 ml-6">
+																{{dlist.dlt_entity_id}} </span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-2 whitespace-normal ">
+													<div class="text-xs tracking-wider">
+														<div class="items-center justify-center">
+															<span class="inline-flex justify-center rounded text-xxs text-gray-600 ml-6">
+																{{dlist.dlt_template_id}} </span>
+														</div>
+													</div>
+												</td>
+												<td class="px-6 py-2 text-xs text-gray-700 leading-5 tracking-wide whitespace-nowrap">
+													<div class="flex flex-col justify-center items-center">
+														<span class="px-2 rounded-full">{{ dlist.created_ts}}</span>
+														<!-- <span>16:30</span> -->
+													</div>
+												</td>
+											</tr>
+
+											<!-- More items... -->
+										</tbody>
+									</table>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- nodataerror section -->
+					<app-nodataerror *ngIf="dTnoRecords && !( dlttemplateloader)" [title]="'templates'">
+					</app-nodataerror>
+
+					<div *ngIf="noData && !(apiError || dlttemplateloader || dTnoRecords)">
+						<app-nodatafor-range [title]="'dlt'" [headContent]="NDHeadContent" [messageContent]="NDMessageCOntent">
+
+						</app-nodatafor-range>
+					</div>
+
+					<div *ngIf="apiError  && !(noData || dlttemplateloader ||dTnoRecords)">
+						<app-apierror (Emitter)="retry()">
+
+						</app-apierror>
+					</div>
+				</div>
+
+				<app-file-pagination *ngIf="!(dlttemplateloader || ei_loader || ti_loader ||apiError || noData || dTnoRecords)"
+					[total]="dTtotal" [totalRecord]="dTtotalRecord" [p]="dTp" [pagesize]="pagesize"
+					[itemsPerPage]="dTitemsPerPage" [perpageCount]="dTperpageCount"
+					(paginationValueEmit)="DTReceivedpaginateValue($event)">
+
+				</app-file-pagination>
+			</div>
+			<!-- sender id row -->
+
+			<div class="container mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 pt-6 gap-8">
+				<!-- <div class="container  md:grid-cols-2 mx-auto"> -->
+
+				<!-- sender id -->
+				<div class="rounded bg-white shadow-sm px-5 py-6 lg:px-10 md:py-6 pb-10">
+					<div class="flex justify-between ">
+
+
+						<div class="flex flex-col space-y-1">
+							<p tabindex="0"
+								class="focus:outline-none text-lg font-semibold leading-6 text-gray-800 dark:text-gray-100">
+								Sender Ids</p>
+							<span *ngIf="!(nosenderId || senderIdApiError)" class="text-xs text-gray-400">{{senderEids}} total</span>
+						</div>
+
+						<div *ngIf="! senderIdApiError " class="relative sm:w-1/2">
+							<input [(ngModel)]="senderIdSearchText" (keyup)="getSenderIdcount()" type="text" name="name" id="name"
+								class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+								placeholder="Search ids" value="" aria-invalid="true" aria-describedby="name-error" />
+
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24"></rect>
+										<path
+											d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+										<path
+											d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+											fill="currentColor" fill-rule="nonzero"></path>
+									</g>
+								</svg>
+							</div>
+						</div>
+					</div>
+					<!-- sender id label -->
+					<div *ngIf="!(nosenderId || senderIdApiError)" class="flex flex-col lg:flex-row w-full"
+						class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 mt-5 gap-x-3 gap-y-5">
+						<span
+							*ngFor="let ids of senderIds |senderIdPipe:senderIdSearchText | paginate: { itemsPerPage: sIdItemsPerPage, currentPage: sIdPage, totalItems: sIdTotal}"
+							class="inline-flex rounded-md items-center justify-center py-1.5 pl-2.5 pr-2.5 text-sm font-medium bg-indigo-100 text-indigo-500 mr-1.5">
+							{{ids.header}} </span>
+					</div>
+
+					<app-file-pagination *ngIf="!(senderIdApiError || nosenderId ||noMatchingSenderids )" [total]="sIdTotal"
+						[totalRecord]="sIdTotal" [p]="sIdPage" [pagesize]="pagesize" [itemsPerPage]="sIdItemsPerPage"
+						[perpageCount]="sIdperpageCount" (paginationValueEmit)="senderIdReceivedpaginateValue($event)">
+
+					</app-file-pagination>
+					<div *ngIf="nosenderId && !senderIdApiError ">
+						<app-nodatafor-range [title]="'ids'" [headContent]="SIDNDHeadContent"
+							[messageContent]="SIDNDMessageCOntent">
+
+						</app-nodatafor-range>
+					</div>
+
+					<div *ngIf="senderIdApiError  && !nosenderId">
+						<app-apierror (Emitter)="senderIDRetry()">
+
+						</app-apierror>
+					</div>
+					<div *ngIf="noMatchingSenderids">
+						<app-nodataerror></app-nodataerror>
+					</div>
+				</div>
+				<!-- entity id -->
+				<div class="rounded bg-white shadow-sm px-5 py-6 lg:px-10 md:py-6 pb-10">
+					<div class="flex justify-between">
+						<div class="flex flex-col space-y-1">
+							<p tabindex="0"
+								class="focus:outline-none text-lg font-semibold leading-6 text-gray-800 dark:text-gray-100">
+								Entity Ids</p>
+							<span *ngIf=" !(noentityId || entityIdApiError ||noMatchingEntityid) "
+								class="text-xs text-gray-400">{{totalEids}} total</span>
+						</div>
+						<div *ngIf="!entityIdApiError" class="relative sm:w-1/2">
+							<input [(ngModel)]="entityIdSearchText" (keyup)="getEntityIdcount()" autocomplete="off" type="text"
+								name="name" id="name"
+								class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+								placeholder="Search ids" value="" aria-invalid="true" aria-describedby="name-error" />
+
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<rect x="0" y="0" width="24" height="24"></rect>
+										<path
+											d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+											fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+										<path
+											d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+											fill="currentColor" fill-rule="nonzero"></path>
+									</g>
+								</svg>
+							</div>
+						</div>
+					</div>
+					<!-- entity id table -->
+					<div *ngIf=" !(noentityId || entityIdApiError|| noMatchingEntityid) "
+						class="flex flex-row justify-between items-center mt-5 bg-gray-50 px-2 py-2 rounded">
+						<span class="inline-flex text-gray-400 text-xxs tracking-wide font-semibold uppercase"> Entity Id </span>
+						<span class="inline-flex text-gray-400 text-xxs tracking-wide font-semibold uppercase"> Total </span>
+					</div>
+					<div *ngIf=" !(noentityId || entityIdApiError ) " class="mt-1 space-y-3 divide-y">
+						<div
+							*ngFor="let eids of entityIds | entityIdFilter:entityIdSearchText | paginate: { itemsPerPage: eIdItemsPerPage, currentPage: eIdPage, totalItems: eIdTotal}"
+							class="flex flex-row justify-between items-center p-2 py-3">
+							<span class="inline-flex text-gray-500 text-sm font-medium"> {{eids.dlt_entity_id}} </span>
+							<span
+								class="inline-flex rounded-md items-center justify-center py-0 px-2 text-xs font-medium bg-gray-100 text-indigo-500 mr-1.5">
+								{{eids.total}} </span>
+						</div>
+
+					</div>
+					<app-file-pagination *ngIf="!(entityIdApiError || noentityId|| noMatchingEntityid )" [total]="eIdTotal"
+						[totalRecord]="eIdTotal" [p]="eIdPage" [pagesize]="pagesize" [itemsPerPage]="eIdItemsPerPage"
+						[perpageCount]="eIdperpageCount" (paginationValueEmit)="entityIdReceivedpaginateValue($event)">
+
+					</app-file-pagination>
+					<div *ngIf="noentityId && !entityIdApiError ">
+						<app-nodatafor-range [title]="'ids'" [headContent]="EIDNDHeadContent"
+							[messageContent]="EIDNDMessageCOntent">
+
+						</app-nodatafor-range>
+					</div>
+
+					<div *ngIf="entityIdApiError && !noentityId ">
+						<app-apierror (Emitter)="entityIDRetry()">
+
+						</app-apierror>
+					</div>
+					<div *ngIf="noMatchingEntityid">
+						<app-nodataerror></app-nodataerror>
+					</div>
+				</div>
+			</div>
+
+			<!-- /End replace -->
+		</div>
+	</div>
+</main>

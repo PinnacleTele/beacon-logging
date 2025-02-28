@@ -1,0 +1,46 @@
+# https://computingforgeeks.com/how-to-install-latest-redis-on-centos-7/
+---
+- hosts: redis
+  become: true
+  tasks:
+  - name: Change redis binding port to {{inventory_hostname}}
+    replace:
+      path: "/etc/redis/redis.conf"
+      regexp: "bind 127.0.0.1 -::1"
+      replace: "bind 127.0.0.1 {{inventory_hostname}}"
+
+  - name: Enable appendonly mode
+    replace:
+      path: "/etc/redis/redis.conf"
+      regexp: "appendonly no"
+      replace: "appendonly yes"
+
+  - name: Configuring net.core.somaxconn in OS
+    command: "sysctl -w net.core.somaxconn=65535"
+
+  - name: Configuring net.core.somaxconn in OS
+    command: "sysctl -p"
+
+  - name: Remove existing vm.overcommit_memory = 1 entry
+    replace:
+      path: "/etc/sysctl.conf"
+      regexp: "vm.overcommit_memory = 1"
+      replace: ""
+
+  - name: Configuring Overcommit memory in OS
+    shell: "sudo echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf"
+
+  - name: Disable Transparent Huge Page
+    shell: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+
+#  - name: Allowing port access in firewall
+#    shell: "firewall-cmd --zone=public --add-port=6379/tcp --permanent"
+#
+#  - name: Reload firewall
+#    shell: "firewall-cmd --reload"
+
+  - name: Enable Redis server
+    command: "systemctl enable redis"
+
+  - name: Restart Redis server
+    command: "systemctl restart redis"

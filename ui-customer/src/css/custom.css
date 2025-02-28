@@ -1,0 +1,9 @@
+.text-upload-progress {
+  font-size: .4rem !important;
+}
+
+.dz-max-files-reached {
+pointer-events: none;
+cursor: not-allowed;
+opacity: 0.5;
+}

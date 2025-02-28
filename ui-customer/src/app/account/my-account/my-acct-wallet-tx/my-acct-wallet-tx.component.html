@@ -1,0 +1,425 @@
+<main class="flex-1 relative overflow-y-auto focus:outline-none">
+	<div class="py-6 relative">
+		<!-- <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6"> -->
+		<div class="bg-white px-5 md:p-6 rounded">
+			<div class="text-lg font-medium text-gray-800">
+			Your Wallet Transactions
+			</div>
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row justify-between pt-6 space-y-2">
+					<!-- search -->
+					<div class="relative sm:w-1/2">
+						<input [(ngModel)]="searchText" (keyup)="getcount()" type="text" name="name" id="name"
+							class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded"
+							placeholder="Search Transactions" value="" aria-invalid="true" aria-describedby="name-error" />
+
+						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+							<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+								xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<rect x="0" y="0" width="24" height="24"></rect>
+									<path
+										d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+										fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+									<path
+										d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+										fill="currentColor" fill-rule="nonzero"></path>
+								</g>
+							</svg>
+						</div>
+					</div>
+					<!-- icons section -->
+					<div class="pt-2 sm:pt-0 w-full flex sm:justify-end">
+						<div class="flex justify-between sm:justify-end space-x-2 text-xs w-full">
+							<div class="">
+								<div class="flex items-center mr-2">
+									<!-- start of date selction -->
+									<div class="relative">
+										<app-tx-calendar (selectedDateEmitter)="receivedDateSelection($event)">
+										</app-tx-calendar>
+									</div>
+								</div>
+							</div>
+							<div class="flex">
+								<button
+									class="text-white md:flex md:items-center p-2 pr-2.5 border-transparent border bg-blue-600 hover:bg-blue-500 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+									(click)="OnSubmitClicked()">
+									<span class="ml-1.5 flex">Submit</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- table section -->
+				<div class="flex flex-col pt-1">
+					<div class="overflow-x-auto">
+						<div class="py-2 align-middle inline-block min-w-full pt-3">
+							<div class="">
+								<!-- section to show on error -->
+								<div class="flex h-96 flex-col items-center justify-center bg-white" *ngIf="apiError">
+									<app-apierror (Emitter)="subscribeData()"></app-apierror>
+								</div>
+
+								<!-- section to show on no records -->
+								<div class="flex flex-col items-center justify-center bg-white">
+									<div *ngIf="searchResultCount == 0 ">
+										<app-nodataerror [title]="'wallet transactions'">zero
+										</app-nodataerror>
+									</div>
+
+									<div *ngIf="noData && !(searchResultCount == 0 || txLoading || apiError)">
+										<app-nodatafor-range [title]="'wallet'" [headContent]="NDHeadContent"
+											[messageContent]="NDMessageCOntent">
+										</app-nodatafor-range>
+									</div>
+								</div>
+
+								<div class="flex bg-white text-xs" *ngIf="(txList.length > 0 && searchResultCount != 0)">
+									<span class="ml-1 text-gray-600 tracking-wider">Total
+										<span class="font-semibold">{{txList.length}}</span>
+										transactions for
+										<span class="font-semibold">
+											{{displayRange}}</span></span>
+								</div>	
+								<table class="min-w-full divide-y-0 divide-gray-200 mt-6">
+									<thead class="bg-gray-50 text-xxs font-medium text-gray-400"
+										*ngIf="((txList.length>0 || txLoading) && searchResultCount !== 0)">
+										<tr class="">
+											<th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+
+
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Transaction Date'" [icon]="txDateIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'created_ts_unix'" (sortingEmitter)="sort($event)"
+													(iconEmitter)="iconChange($event)"></app-sorter>
+											</th>
+
+											<!-- <th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Username'" [icon]="usernameIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'username'" (sortingEmitter)="sort($event)"
+													(iconEmitter)="iconChange($event)"></app-sorter>
+											</th> -->
+											<th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'amount'" [icon]="amountIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'amount'" (sortingEmitter)="sort($event)"
+													(iconEmitter)="iconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class=" py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'action'" [icon]="actionIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'action'" (sortingEmitter)="sort($event)"
+													(iconEmitter)="iconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'previous_balance'" [icon]="prev_balanceIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'old_bal'" (sortingEmitter)="sort($event)"
+													(iconEmitter)="iconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class=" py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'new_balance'" [icon]="new_balanceIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'new_bal'" (sortingEmitter)="sort($event)"
+													(iconEmitter)="iconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class=" py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Details'" [icon]="detailsIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'description'" (sortingEmitter)="sort($event)"
+													(iconEmitter)="iconChange($event)"></app-sorter>
+											</th>
+										</tr>
+									</thead>
+
+									<tbody class="bg-white divide-y divide-gray-100" *ngIf="txList.length>0">
+										<tr
+											*ngFor="let rowData of txList | walletTxListFilter :searchText  |  sorter:order:searchprop  | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: total} ">
+											<td class="px-2 py-2 text-sm text-gray-700 leading-5 tracking-wide whitespace-nowrap">
+												<div class="flex justify-left text-left ml-2 items-center">
+													<span class="px-2 rounded-full">
+														{{rowData.created_ts}}
+													</span>
+
+												</div>
+											</td>
+											<!-- <td class="px-2 py-2 text-sm text-gray-700 leading-5 tracking-wide whitespace-nowrap">
+												<div class="flex justify-left text-left ml-2 items-center">
+													<span class="px-2 rounded-full">
+														{{rowData.username}}</span>
+												</div>
+											</td> -->
+
+											<td class="px-6 py-4 whitespace-normal">
+												<div class="text-sm tracking-wider font-bold flex items-center"
+													[ngClass]=" (rowData.action=='add') ? 'text-green-600' :'text-rose-600' ">
+
+													<span class="text-rose-600" *ngIf="rowData.action=='deduct'">-</span>
+													<span>{{rowData.amount | currency:rowData.billing_currency : 'symbol':currencyFormat}}
+														<span class="text-xs">{{rowData.billing_currency}}</span></span>
+												</div>
+											</td>
+											<td class="px-6 py-2 whitespace-normal">
+												<div class="text-sm font-medium tracking-wider">
+													<div class="items-center justify-center">
+														<span class="inline-flex px-1 justify-left rounded text-xxs bg-gray-100"
+															[ngClass]=" (rowData.action=='add') ? 'text-green-600' :'text-rose-600' ">
+															{{rowData.action |
+															titlecase}}
+														</span>
+													</div>
+												</div>
+											</td>
+											<td class="px-6 py-4 whitespace-normal">
+												<div class="text-sm text-gray-500 tracking-wider font-normal flex items-center">
+
+													<span class="font-medium">{{ getCurrencySym(rowData.billing_currency) }}
+														<span class="text-xs">{{rowData.old_bal}}</span>
+														</span>
+												</div>
+											</td>
+											<td class="px-6 py-4 whitespace-normal">
+												<div class="text-sm text-gray-500 tracking-wider font-normal flex items-center">
+
+													<!-- <span class="text-rose-600" *ngIf="rowData.action=='deduct'">-</span> -->
+													<span class="font-medium">{{ getCurrencySym(rowData.billing_currency) }}
+														<span class="text-xs">{{rowData.new_bal}}</span>
+														</span>
+												</div>
+											</td>
+											<td class="px-6 py-2 whitespace-normal">
+												<div class="text-sm tracking-wider">
+													<div class="items-center justify-left">
+														<span class="inline-flex px-0 justify-left rounded text-gray-500">
+															{{rowData.description}}
+														</span>
+													</div>
+												</div>
+											</td>
+										</tr>
+
+										<!-- More items... -->
+									</tbody>
+									<!--skelton loading-->
+
+									<app-list-skeleton [colCount]=6 *ngIf="txLoading"></app-list-skeleton>
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- page navigation section -->
+
+			<app-file-pagination *ngIf="!(apiError  || noData || searchResultCount==0 || txLoading) " [total]="total"
+				[totalRecord]="totalRecord" [p]="p" [pagesize]="pagesize" [itemsPerPage]="itemsPerPage"
+				[perpageCount]="perpageCount" (paginationValueEmit)="ReceivedpaginateValue($event)">
+			</app-file-pagination>
+		</div>
+
+		<!-- /End replace -->
+	<!-- </div> -->
+	<!-- user wallet transaction section -->
+	<!-- <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6"> -->
+		<!-- Replace with your content -->
+		<div *ngIf="userType != 2" class="bg-white px-5 py-5 md:p-6 rounded sm:px-6 md:px-8 mt-6">
+			<div class="text-lg font-medium text-gray-800">User Wallet Transactions</div>
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row justify-between pt-6 space-y-2">
+					<!-- search -->
+					<div class="relative sm:w-1/2">
+						<input [(ngModel)]="usSearchText" (keyup)="userGetcount()" type="text" name="uname" id="name" class="sm:block flex w-full text-xs py-3 pl-10 text-gray-800 placeholder-gray-300 focus:outline-none border-gray-100 bg-opacity-60 bg-gray-100 rounded" placeholder="Search Transactions" value="" aria-invalid="true" aria-describedby="name-error" />
+
+						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+							<svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" version="1.1">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<rect x="0" y="0" width="24" height="24"></rect>
+									<path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="currentColor" fill-rule="nonzero" opacity="0.3"></path>
+									<path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="currentColor" fill-rule="nonzero"></path>
+								</g>
+							</svg>
+						</div>
+					</div>
+					<!-- icons section -->
+					<div class="pt-2 sm:pt-0 w-full flex sm:justify-end">
+						<div class="flex justify-between sm:justify-end space-x-2 text-xs w-full">
+							<div class="">
+								<div class="flex items-center mr-2">
+									<!-- start of date selction -->
+									<div class="relative">
+										<app-tx-calendar (selectedDateEmitter)="receivedUserDateSelection($event)">
+										</app-tx-calendar>
+									</div>
+								</div>
+							</div>
+							<div class="flex">
+								<button (click)="OnSubmitUserClicked()" class="text-white md:flex md:items-center p-2 pr-2.5 border-transparent border bg-blue-600 hover:bg-blue-500 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
+									<span class="ml-1.5 flex">Submit</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- table section -->
+				<div class="flex flex-col pt-1">
+					<div class="overflow-x-auto">
+						<div class="py-2 align-middle inline-block min-w-full pt-3">
+							<div class="">
+								<!-- section to show on error -->
+								<div class="flex h-96 flex-col items-center justify-center bg-white" 
+								*ngIf="usApiError">
+									<app-apierror (Emitter)="userSubscribeData()"></app-apierror>
+								</div>
+
+								<!-- section to show on no records -->
+								<div class="flex flex-col items-center justify-center bg-white">
+									<div *ngIf="userSearchResultCount && !usApiError">
+										<app-nodataerror [title]="'user wallet transactions'">zero
+										</app-nodataerror>
+									</div>
+
+									<div *ngIf="usNoData && !(userSearchResultCount || usTxLoading || usApiError)">
+										<app-nodatafor-range [title]="'wallet'" [headContent]="NDHeadContent"
+											[messageContent]="NDMessageCOntent">
+										</app-nodatafor-range>
+									</div>
+								</div>
+								<div class="flex bg-white text-xs"  *ngIf="(usTxList.length > 0 && !userSearchResultCount)">
+									<div class="flex bg-white text-xs">
+										<span class="ml-1 text-gray-600 tracking-wider">Total
+											<span class="font-semibold">{{usTxList?.length}}</span>
+											transactions for
+											<span class="font-semibold">
+												{{usdisplayRange}}</span></span>
+									</div>	
+								</div>
+								<table class="min-w-full divide-y-0 divide-gray-200 mt-6">
+									<thead class="bg-gray-50 text-xxs font-medium text-gray-400"
+									*ngIf="((usTxList.length > 0 || usTxLoading) && !userSearchResultCount)">
+										<tr class="">
+											<th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+
+
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Transaction Date'" [icon]="ustxDateIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'created_ts_unix'" (sortingEmitter)="usersort($event)"
+													(iconEmitter)="userIconChange($event)"></app-sorter>
+											</th>
+
+											<th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Username'" [icon]="usernameIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'username'" (sortingEmitter)="usersort($event)"
+													(iconEmitter)="userIconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'amount'" [icon]="usamountIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'amount'" (sortingEmitter)="usersort($event)"
+													(iconEmitter)="userIconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class=" py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'action'" [icon]="usactionIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'action'" (sortingEmitter)="usersort($event)"
+													(iconEmitter)="userIconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class="py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'user balance'" [icon]="userBalanceIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'new_bal'" (sortingEmitter)="usersort($event)"
+													(iconEmitter)="userIconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class=" py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Your balance'" [icon]="yourBalanceIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'loggedin_bal_after'" (sortingEmitter)="usersort($event)"
+													(iconEmitter)="userIconChange($event)"></app-sorter>
+											</th>
+											<th scope="col" class=" py-2 text-left uppercase tracking-wider whitespace-nowrap">
+												<app-sorter [defaultProperty]="defaultProp" [colTitle]="'Details'" [icon]="usdetailsIcon"
+													[defaultOrder]="'dce'" [sortingProperty]="'description'" (sortingEmitter)="usersort($event)"
+													(iconEmitter)="userIconChange($event)"></app-sorter>
+											</th>										</tr>
+									</thead>
+									
+									<tbody class="bg-white divide-y divide-gray-100"
+									*ngFor="let userRowData of usTxList | walletTxUserListFilter :usSearchText  |  sorter:userOrder:userSearchprop  | paginate: { itemsPerPage: usitemsPerPage, currentPage: usp, totalItems: ustotal} ">
+										<tr>
+											<td class="px-2 py-2 text-sm text-gray-700 leading-5 tracking-wide whitespace-nowrap">
+												<div class="flex justify-left text-left ml-2 items-center">
+													<span class="px-2 rounded-full"> {{userRowData.created_ts}} </span>
+												</div>
+											</td>
+											<td class="px-2 py-2 text-sm text-gray-700 leading-5 tracking-wide whitespace-nowrap">
+												<div class="flex justify-left text-left ml-2 items-center">
+													<span class="px-2 rounded-full"> {{userRowData.username}}</span>
+												</div>
+											</td>
+
+											<td class="px-6 py-4 whitespace-normal">
+												<div class="text-sm tracking-wider font-bold flex items-center"
+													[ngClass]=" (userRowData.action=='add') ? 'text-green-600' :'text-rose-600' ">
+
+													<span class="text-rose-600" *ngIf="userRowData.action=='deduct'">-</span>
+													<span>{{userRowData.amount | currency:userRowData.billing_currency : 'symbol':currencyFormat}}
+														<span class="text-xs">{{userRowData.billing_currency}}</span></span>
+												</div>
+											</td>
+											<td class="px-6 py-2 whitespace-normal">
+												<div class="text-sm font-medium tracking-wider">
+													<div class="items-center justify-center">
+														<span class="inline-flex px-1 justify-left rounded text-xxs bg-gray-100"
+															[ngClass]=" (userRowData.action=='add') ? 'text-green-600' :'text-rose-600' ">
+															{{userRowData.action |
+															titlecase}}
+														</span>
+													</div>
+												</div>
+											</td>
+											<td class="px-6 py-4 whitespace-normal">
+												<div class="text-sm text-gray-500 tracking-wider font-normal flex items-center">
+
+													<span class="font-medium">{{ getCurrencySym(userRowData.billing_currency) }}
+														<span class="text-xs">{{userRowData.new_bal}}</span>
+														</span>
+												</div>
+											</td>
+											<td class="px-6 py-4 whitespace-normal">
+												<div class="text-sm text-gray-500 tracking-wider font-normal flex items-center">
+
+													<!-- <span class="text-rose-600" *ngIf="rowData.action=='deduct'">-</span> -->
+													<span class="font-medium">{{ getCurrencySym(userRowData.billing_currency) }}
+														<span class="text-xs">{{userRowData.loggedin_bal_after}}</span>
+														</span>
+												</div>
+											</td>
+											<td class="px-6 py-2 whitespace-normal">
+												<div class="text-sm tracking-wider">
+													<div class="items-center justify-left">
+														<span class="inline-flex px-0 justify-left rounded text-gray-500">
+															{{userRowData.description}}
+														</span>
+													</div>
+												</div>
+											</td>
+										</tr>
+
+										<!-- More items... -->
+									</tbody>
+									<app-list-skeleton [colCount]=7 *ngIf="usTxLoading"></app-list-skeleton>
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- page navigation section -->
+	<!-- page navigation section -->
+	<app-file-pagination *ngIf="!(usApiError  || usNoData || userSearchResultCount || usTxLoading) " 
+	[total]="ustotal"
+	[totalRecord]="ustotalRecord" [p]="usp" [pagesize]="uspagesize" [itemsPerPage]="usitemsPerPage"
+	[perpageCount]="usperpageCount" (paginationValueEmit)="ReceivedUserPaginateValue($event)">
+</app-file-pagination>
+		</div>
+
+		<!-- /End replace -->
+	<!-- </div> -->
+	</div>
+</main>
+
+

@@ -1,0 +1,22 @@
+<!--Traffic type display-->
+<div class="sm:col-span-6 text-xs pt-4">
+    <div
+        class="flex justify-between items-center"
+    >
+        <label
+            class="block font-semibold text-gray-700"
+        >
+            Your selected preference type
+            <span
+                class="text-blue-700 uppercase"
+                >{{traffic_to}}
+            </span>
+        </label>
+        <nav class="flex space-x-1">
+            <button
+                (click)="changeTraffic()"
+                class="cursor-pointer text-blue-500"
+            > Change preference </button>
+        </nav>
+    </div>
+</div>

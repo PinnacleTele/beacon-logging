@@ -1,0 +1,44 @@
+<form *ngIf="templateFormGroup" [formGroup]="templateFormGroup">
+  <div class="flex justify-between items-center">
+    <label for="mobile" class="block font-semibold text-gray-700">Select DLT Template <span
+        class="text-red-600">*</span>
+
+    </label>
+    <input type="hidden" name="template" formControlName="dlt">
+    <!--<button class="inline-flex items-center px-1 py-1.5 leading-4 text-base font-small tracking-wide rounded-md text-blue-600 bg-white hover:underline focus:outline-none">normal</button>-->
+    <button [ngClass]="textcolor" type="button" (click)="showTemplateSlider()"
+      class="inline-flex items-center px-1 py-1.5 text-normal leading-4 font-small tracking-wide rounded-md text-blue-600 bg-white hover:underline focus:outline-none">
+      <!-- Heroicon name: solid/mail -->
+      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" stroke="none"
+        *ngIf="Action == 'Choose'">
+        <path fill-rule="evenodd"
+          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+          clip-rule="evenodd" />
+      </svg>
+
+      {{Action}}
+
+    </button>
+  </div>
+
+  <!-- <p
+			class="mt-2 text-xxs sm:text-xs text-red-600"
+			*ngIf="template.touched && template.errors?.required"
+			
+		>
+			DLT Template is required
+		</p>
+		<p
+			class="mt-2 text-xxs sm:text-xs text-gray-500"
+			*ngIf="(!dlt.touched && dlt.errors?.required) || (dlt.touched && !dlt.errors)"
+			
+		>
+		</p> -->
+
+</form>
+
+
+<app-existing-templates-slider *ngIf="!fileError && isShowTemplateSlider" (closeSlider)="closeSlider()"
+  (emitSelectedTemplate)="responseTemplate($event)" (changeEevent)="responseTemplate($event)"
+  [inTemplate]="'createTemp'" [entity_Id]="entityId" [choosen_dlt_id]="Dlt_template_ID">
+</app-existing-templates-slider>

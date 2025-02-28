@@ -1,0 +1,88 @@
+<!-- <div  class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-2"> -->
+
+<div >
+
+
+<!-- <div > -->
+    <div class="sm:flex items-start">
+        <div class="ml-4">
+            <div 
+            [ngClass]="campaign?.status == 'completed'? 'bg-green-100': campaign?.status == 'inprocess'? 'bg-yellow-100': 'bg-rose-100' "
+            class="py-1 px-2 sm:top-1 top-1 absolute right-0  flex items-center justify-center rounded-tl-sm rounded-bl-sm">
+                <p 
+                [ngClass]="campaign?.status=='completed' ? 'text-green-600 ': campaign?.status ? 'text-yellow-600':'text-red-600' "
+                class="focus:outline-none text-xxs font-semibold text-center">{{campaign?.status | titlecase}}</p>
+            </div>
+
+            <div class="sm:pt-0 pt-1">
+                <p  (click)="onClick(campaign?.id)" (keydown.enter)="backEnter($event,campaign?.id)"
+                 tabindex="0"
+                class="cursor-pointer focus:outline-none  border-indigo-50 rounded text-lg font-semibold leading-5 pt-2 text-gray-700 dark:text-gray-100">{{campaign?.c_name}}</p>
+                <div class="flex space-x-1 items-center mt-1.5">
+                    <span  class="focus:outline-none text-xs font-medium leading-4 text-indigo-600 pt-0">{{campaign?.c_type | uppercase}}</span>
+                    <span *ngIf="campaign?.header" class="focus:outline-none text-xs font-medium leading-4 text-gray-500 pt-0">•</span>
+                    <span *ngIf="campaign?.header" class="focus:outline-none text-xs font-medium leading-4 text-gray-600 px-1" tooltip="Domestic Header" [options]= "myOptions">{{campaign?.header}}</span>
+                    <span *ngIf="campaign?.intl_header" class="focus:outline-none text-xs font-medium leading-4 text-gray-500 pt-0">•</span>
+                    <span *ngIf="campaign?.intl_header" class="focus:outline-none text-xs font-medium leading-4 text-gray-600 px-1" tooltip="International Header" [options]= "myOptions">{{campaign?.intl_header}}</span>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <p  class="focus:outline-none text-xs leading-5 text-gray-500 dark:text-gray-400 whitespace-pre-wrap">{{campaign?.msg}}</p>
+            </div>
+
+            <div class="sm:flex items-center mt-6 space-x-0 md:space-x-4">
+                <div *ngIf="!(campaign?.c_type == 'quick' || campaign?.c_type =='group')"  class="focus:outline-none flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    <p  class="focus:outline-none text-xs leading-4 text-gray-500 ml-1.5 dark:text-gray-400">{{campaign?.count}} files</p>
+                </div>
+
+                <div *ngIf="campaign?.c_type == 'group'"   class="focus:outline-none flex items-center">
+									
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <p  class="focus:outline-none text-xs leading-4 text-gray-500 ml-1.5 dark:text-gray-400">{{campaign?.count }} groups</p>
+                </div>
+                <div  class="focus:outline-none flex items-center sm:ml-1 sm:mt-0 mt-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    <p  class="focus:outline-none text-xs leading-4 text-gray-500 ml-1.5 dark:text-gray-400">{{campaign?.total_human | uppercase}} total</p>
+                </div>
+              
+                <div *ngIf="campaign?.c_type == 'group'"   class="focus:outline-none flex items-center sm:ml-1 sm:mt-0 mt-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6" />
+                    </svg>
+
+                    <p  class="focus:outline-none text-xs leading-4 text-gray-700 ml-1.5 dark:text-gray-400"><span class="font-normal text-gray-700">{{campaign?.exclude_group_count}}</span> excl groups</p>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <!-- date time section -->
+    <div class="sm:flex items-center mt-4 ml-4 space-x-0 md:space-x-4 justify-between">
+        <div  class="focus:outline-none flex items-center sm:ml-0 sm:mt-0 mt-4">
+            <svg class="h-5 w-5 text-gray-600 font-bold" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></circle>
+                <path d="M10 5.83301V9.99967L12.5 12.4997" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div class="flex items-center justify-between w-full">
+                <p class="text-xs leading-none text-gray-600 dark:text-gray-100 ml-2">{{campaign?.created_ts}}</p>
+            </div>
+        </div>
+
+        <div  class="focus:outline-none flex items-center pl-1 sm:mt-0 mt-4">
+        	<span  class="focus:outline-none text-xs font-medium leading-2 text-rose-700 pt-0">{{campaign?.time_from_now}}</span>
+        </div>
+    </div>
+</div>
+
+<!-- </div> -->
+<!-- </div> -->
+
+

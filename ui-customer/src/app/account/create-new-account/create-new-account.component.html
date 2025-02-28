@@ -1,0 +1,163 @@
+
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="border-b border-gray-200 pt-2 bg-white">
+	<div class="flex justify-between">
+		<div class="lg:flex sm:items-baseline">
+			<h3 class="text-md leading-6 font-bold text-gray-900 lg:px-4 pl-2 lg:text-lg lg:border-gray-200 lg:border-r">Create Account</h3>
+			<div class="mb-2 sm:pb-1 space-x-1 ml-2 text-xxs lg:text-xs text-gray-400">
+				<span routerLink = "/accounts" (keydown.enter)="backEnter($event)" class="hover:text-blue-500 cursor-pointer rounded focus:outline-none focus:ring-2 focus:ring-offset-2 border-indigo-50">Accounts</span>
+				<span class="text-xxs font-mono">/</span>
+				<span class="hover:text-blue-500 cursor-pointer focus:outline-none" tabindex="0">New Account</span>
+				<span class="text-xxs font-mono">/</span>
+				<!-- <span (click) = "clickEditLink()"
+				class="hover:text-blue-500 cursor-pointer">Edit Account</span> -->
+			</div>
+		</div>
+		<div></div>
+	</div>
+</div>
+
+<form [formGroup]="createAcctForm"  class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+	
+	<div class="py-6 relative">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+	
+			<div class="bg-white p-5 md:p-8 rounded z-0">
+				<!-- wizard section -->
+				<div class="lg:flex items-center justify-around border-b pb-6 border-gray-200"
+				>
+					<div class="flex flex-row space-x-3 lg:space-x-0 lg:space-y-3 lg:flex-col items-center lg:mt-0 mt-4"
+					*ngFor ="let item of createAcctSections ; let i = index"
+				
+					>
+						<div 
+						[ngClass]="{ 'bg-blue-400 text-white':page >= i+1 , 'bg-gray-100 text-gray-500':page < i+1 }"
+						class="w-8 h-8 bg-blue-400 rounded flex items-center justify-center">
+							<p  
+							
+							class="focus:outline-none text-xs md:text-sm font-medium leading-none">{{item.key}}</p>
+						</div>
+						<p  
+						[ngClass]="{ 'text-blue-500':page >= i+1 , 'text-gray-500':page < i+1 ,'border-b-2 border-blue-400':page == (i+1)}"
+						class="focus:outline-none text-xs md:text-sm font-medium leading-6 text-gray-500 border-b-0 border-blue-400">{{item.value}}</p>
+					</div>
+					
+				</div>
+				
+				
+				<div class="lg:px-8 xl:px-20 2xl:px-20 xl:mx-24 mt-10">
+					
+					<div *ngIf ="page == 1">
+						<app-account-type></app-account-type>
+					</div>
+
+					<!--2. account info section -->
+					<div *ngIf ="page == 2">
+						<app-account-info ></app-account-info>
+					</div>
+
+					<!-- 3. auth section -->
+					<div *ngIf ="page == 3">
+						<app-auth-section 
+						[uniqueErr] = "userNameErr"
+						(pageError) = "userNameErr = $event"
+						></app-auth-section>
+					</div>
+
+					<!-- 4. settings section -->
+					<div *ngIf ="page == 4">
+						<app-other-services></app-other-services>
+						
+					</div>
+
+					<!-- 5. DLT section -->
+					<div *ngIf ="page == 5">
+						<app-settings 
+						(form4Error) = "pageErrorSet($event)"
+						(pageError) = "pageError = $event">
+						</app-settings>
+						
+					</div>
+
+					<!-- 5. services section -->
+					<div *ngIf ="page == 6">
+						<app-dlt-section ></app-dlt-section>
+					</div>
+				</div>
+
+				<!-- button section -->
+				<div class="pt-20 xl:mx-24">
+					<div class="md:flex md:justify-between grid grid-rows-1 gap-y-2">
+						<div class="grid grid-rows-1">
+							<button (click)="prevClicked()" type="button"
+							[ngClass]="(!disablePrev) ? 'hover:bg-indigo-100 ': 'text-blue-800 opacity-50 cursor-not-allowed '"
+							class="inline-flex items-center justify-center space-x-2 bg-blue-100 py-2 px-4 rounded shadow-sm text-xs uppercase font-normal text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 ">
+								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-4 h-4" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<polygon points="0 0 24 0 24 24 0 24" />
+										<rect fill="currentColor" opacity="0.3" transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) " x="14" y="7" width="2" height="10" rx="1" />
+										<path d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z" fill="currentColor" fill-rule="nonzero" transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) " />
+									</g>
+								</svg>
+								<span class="uppercase font-medium">Previous</span>
+							</button>
+						</div>
+						<div class="md:flex md:justify-end">
+							<div class="grid grid-rows-1 gap-y-2 md:grid-flow-col">
+								<button (click)="nextClicked()"
+								[disabled]="creating"
+								 type="button" class="md:ml-3 inline-flex items-center space-x-2 justify-center py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 ">
+									<span *ngIf="page !=6 " class="uppercase font-medium">Next</span>
+									<span *ngIf="page ==6 && !creating">Create Account</span>
+									<span *ngIf="page ==6 && creating">Creating</span>
+									<svg
+										class="animate-spin h-5 w-5 text-white ml-2"
+										xmlns="http://www.w3.org/2000/svg"
+										fill="currentColor"
+										viewBox="0 0 24 24"
+										*ngIf="page ==6 && creating"
+									>
+										<circle
+											class="opacity-25"
+											cx="12"
+											cy="12"
+											r="10"
+											stroke="currentColor"
+											stroke-width="4"
+										></circle>
+										<path
+											class="opacity-75"
+											fill="currentColor"
+											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+										></path>
+									</svg>
+									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-4 h-4 text-white" viewBox="0 0 24 24" version="1.1"
+									*ngIf = "page != 6">
+										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+											<polygon points="0 0 24 0 24 24 0 24"></polygon>
+											<rect fill="currentColor" opacity="0.5" transform="translate(8.500000, 12.000000) rotate(-90.000000) translate(-8.500000, -12.000000)" x="7.5" y="7.5" width="2" height="9" rx="1"></rect>
+											<path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="currentColor" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"></path>
+										</g>
+									</svg>
+
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /End replace -->
+	</div>
+</form>
+
+<app-create-popup
+*ngIf=" popup"
+[inputForm]="createAcctForm"
+[Responce]="response"
+[status]="status"
+(closePopUp)="modalClose($event)"
+(successPopUp)="modalcontinue($event)"
+(tryAgainPopUp)="tryAgain($event)"
+></app-create-popup>
+

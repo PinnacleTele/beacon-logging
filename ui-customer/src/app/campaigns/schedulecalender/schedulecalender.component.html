@@ -1,0 +1,30 @@
+
+   
+        <div class="flex justify-between sm:justify-end space-x-2 text-xs w-full">
+            <div class="">
+                <div class="flex items-center mr-2">
+                    <!-- start of date selction -->
+                    <div class="relative">
+                        <ejs-daterangepicker [format]="format" [min]="today" height='60px'  width='180px' 
+                         [startDate]='startDate' [endDate]='endDate'  (change)="dateFilter($event)" [allowEdit]="false"  [showClearButton] = "false" >
+                            <e-presets  >
+                                <e-preset  label="Today"  [start]='today' [end]='today'></e-preset>
+                                <e-preset  label="Next 7 days"  [start]='today' [end]='seventhday'></e-preset>
+                                <e-preset  label="Next 15 days"  [start]='today' [end]='fifteenDays'></e-preset>
+                                <e-preset  label="Next 30 days"  [start]='today' [end]='thirtyDays'></e-preset>
+                                <e-preset  label="This week"  [start]='today' [end]='weekEnd'></e-preset>
+                                <e-preset label="This month" [start]='today' [end]='monthEnd'></e-preset>
+                               
+                            </e-presets>
+                        </ejs-daterangepicker>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    
+
+
+<!-- </div> -->
+<!-- </div> -->
+

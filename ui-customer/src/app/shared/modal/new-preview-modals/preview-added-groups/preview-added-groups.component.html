@@ -1,0 +1,45 @@
+
+                  <!-- group section -->
+                  <!-- <div class="flex flex-col space-y-1.5 pt-2"> -->
+                    <span class="text-gray-400 text-xxs uppercase">Groups</span>
+
+                    <div class="text-xs space-y-2.5">
+                      <div class="items-center py-1 text-xxs rounded">
+                        <div
+                          class="flex text-gray-600 lowercase tracking-wide justify-between space-x-2"
+                        >
+                          <div>
+                            <span
+                              class="font-medium text-indigo-500 bg-graytrue-100 p-0.5 px-1 rounded"
+                              >{{noOfContacts| number}}</span
+                            >
+                            Contacts
+                          </div>
+
+                          <div>
+                            <span
+                              class="font-medium text-indigo-500 bg-graytrue-100 p-0.5 px-1 rounded"
+                              >{{addedGroups.length}}</span
+                            >
+                            groups
+                          </div>
+                        </div>
+                      </div>
+                      <div class="space-y-1.5 text-xxs md:text-xs">
+                        <div 
+                        *ngFor="let group of addedGroups;"
+                        class="whitespace-pre-wrap inline-flex" title="">
+                          <span
+                            class="inline-flex rounded-md items-center px-2 py-0.5 font-medium bg-blue-100 text-gray-500 mr-1.5"
+                            >{{group.g_name}}</span
+                          >
+                        </div>
+                      </div>
+                      <!-- <div class="flex items-center pt-1"> -->
+                        <app-duplicate-modal 
+                        [removeDuplicates] = "removeDuplicates"
+                        [vlShortern]="vlShortern">
+                        </app-duplicate-modal>
+                    <!-- </div> -->
+                    </div>
+                  <!-- </div> -->

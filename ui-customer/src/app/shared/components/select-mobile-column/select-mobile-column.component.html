@@ -1,0 +1,38 @@
+
+<form  *ngIf="mobileColFormGroup" [formGroup]="mobileColFormGroup">
+   
+    <label for="mobile" class="block font-semibold text-gray-700" *ngIf ="type === 'column'">Mobile Column <span class="text-red-600">*</span> </label>
+    <label for="mobile" class="block font-semibold text-gray-700" *ngIf ="type === 'index'">Mobile Position <span class="text-red-600">*</span> </label>
+    <p class="mt-1 text-xxs sm:text-xs text-gray-500">
+        Choose the {{type}} which represents
+        <i class=""> mobile number</i> in the uploaded file
+        <span class="text-red-600">*</span>
+    </p>
+
+    <div class="my-2  block w-full sm:w-1/2"
+    >
+        <ng-select #ngSelect
+        id="mobilecolumnId"
+        [placeholder]="placeholder"
+        [items] = "mobileColumns"
+        (change) = "onSelectMobCol($event)"
+        name="mobileColumn"
+        formControlName = "mobileColumn"
+        autocomplete="mobileColumn"
+        class="shadow-sm text-xs invalid:text-red-400 text-gray-700 focus:ring-indigo-500 focus:border-indigo-500 w-full border-gray-300 rounded-md"
+        >
+        </ng-select>
+        <p
+            class="mt-2 text-xxs sm:text-xs text-red-600"
+            *ngIf="mobileCol.touched && mobileCol.errors?.required "
+        > Mobile Column is required 
+        </p>
+        
+        <!--<p
+            class="mt-2 text-xxs sm:text-xs text-gray-500"
+            *ngIf="(!mobileCol.errors)"
+        > {{mobileColInfoTxt}}
+        </p>-->
+        
+    </div>
+</form>

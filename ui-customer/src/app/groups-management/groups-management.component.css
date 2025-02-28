@@ -1,0 +1,5 @@
+:host { display: contents; }
+
+.pagination /deep/ .ngx-pagination li:not(.pagination-previous):not(.pagination-next) {
+    display: none;
+  }

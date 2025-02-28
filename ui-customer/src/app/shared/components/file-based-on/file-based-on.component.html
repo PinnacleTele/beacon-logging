@@ -1,0 +1,49 @@
+<form  *ngIf="fileBasedOnFormGroup" [formGroup]="fileBasedOnFormGroup">
+<label for="mobile" class="block font-semibold text-gray-700"
+        >Choose your template type
+        <span class="text-red-600">*</span>
+    </label>
+    <p class="text-gray-500 text-xxs md:text-xs mt-1.5">Choose <em class="font-semibold">By Column</em> if your template file has column name header or Choose <em class="font-semibold">By Index</em> if you want to go by position in the file</p>
+    <!-- option buttons -->
+    <div class="mt-2">
+        <div class="flex justify-start space-x-6">
+            <div
+            (click) = "toggleColumnIndex('column')"
+             ngClass ="{basedOn == 'column' ? 'ring-0' : 'ring-0'}" 
+            class="relative flex items-center mt-3 cursor-pointer">
+                <div class="flex items-center h-5">
+                    <input 
+                    id="templatebycol"
+                    name="basedOn"
+                    (change) = "toggleColumnIndex('column')"
+                    formControlName = "basedOn"
+                    [checked]="basedOn =='column'"
+                    type="radio"
+                    value="column"
+                    class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-0" />
+                </div>
+                <div class="ml-3 text-xs">
+                    <label for="columnNameType" class="font-medium text-gray-700 cursor-pointer">By Column</label>
+                </div>
+            </div>
+            <div 
+            (click) = "toggleColumnIndex('index')"
+            (click)="basedOn = 'index'" ngClass="basedOn == 'index' ? 'ring-0' : 'ring-0'" class="relative flex items-center mt-3 cursor-pointer">
+                <div class="flex items-center h-5">
+                    <input  
+                    id="templatebyindex" 
+                    name="basedOn"
+                    formControlName = "basedOn"
+                    (change) = "toggleColumnIndex('index')"
+                    type="radio"
+                    value="index" 
+                    [checked]="basedOn =='index'"
+                    class="focus:ring-indigo-500 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-0" />
+                </div>
+                <div class="ml-3 text-xs">
+                    <label for="new_template" class="font-medium text-gray-700 cursor-pointer">By Index</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
