@@ -1,5 +1,6 @@
-bootstrap.servers=10.139.244.232:30091
+bootstrap.servers=sms-kafka-01:19192,sms-kafka-02:19192,sms-kafka-03:19192
 #bootstrap.servers=192.168.1.115:9092,192.168.1.116:9092,192.168.1.117:9092
+#bootstrap.servers=10.139.244.133:19192,10.139.40.206:19192,10.139.244.127:19192
 
 #fetch.min.bytes=100000
 auto.offset.reset=earliest

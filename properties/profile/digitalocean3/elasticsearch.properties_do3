@@ -1,5 +1,5 @@
-elasticsearch.host.list=10.139.244.160:31093
-#elasticsearch.port=9200
+elasticsearch.host.list=sms-elastic-01:19210,sms-elastic-02:19210,sms-elastic-03:19210
+#elasticsearch.port=19210
 elasticsearch.scheme=http
 elasticsearch.connection.timeout.sec=30
 elasticsearch.read.timeout.sec=30

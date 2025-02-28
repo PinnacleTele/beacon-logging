@@ -3,9 +3,9 @@
 ## password=appuser@123
 ## driverClassName=org.mariadb.jdbc.Driver
 
-url=jdbc:mysql://10.139.244.160:30001/
-username=cfguser
-password=N5mIleJjtYx2EFg8+cd3uFpGaUgxdEpKQjde+JBw9AjmsAX7iQEVAvlI
+url=jdbc:mysql://sms-mariadb-01:30001/
+username=appuser
+password=hL8oW4keHeVWLT2IEFfHIldoamdGdmRONzH0WssjX48IfTfUSGUjaqd5
 driverClassName=org.mariadb.jdbc.Driver
 
 

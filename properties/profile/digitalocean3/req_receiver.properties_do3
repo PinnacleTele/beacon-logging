@@ -2,11 +2,13 @@ server.port = 8081
 server.min.threads=2
 server.max.threads=8
 
-mysql.host=10.139.244.160
+mysql.host=sms-mariadb-01
 mysql.port=30001
 mysql.db=configuration
 mysql.user=appuser
-mysql.password=appuser@123
+mysql.password=Sy5Cf8@123
+
+
 
 mysql.db.type=mariadb
 mysql.jdbc.driver=org.mariadb.jdbc.Driver
